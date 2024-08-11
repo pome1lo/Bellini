@@ -2,6 +2,7 @@ import './assets/styles/App.css'
 import { Route, Routes } from 'react-router-dom';
 import {BasicLayout} from "./layouts/BasicLayout.tsx";
 import {MainPage} from "./views/pages/MainPage.tsx";
+import {ThemeProvider} from "@/components/theme-provider.tsx";
 
 function App() {
     return (
