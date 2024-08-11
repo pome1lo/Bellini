@@ -15,8 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{7774692B-6
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "client.react", "client.react\client.react.esproj", "{181A5BE5-4A18-494B-8283-9F959B16AC75}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "qweqwe", "QWEQWE\qweqwe.esproj", "{276236B0-183D-4F44-8E89-FBB7EDA60CA9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +27,6 @@ Global
 		{181A5BE5-4A18-494B-8283-9F959B16AC75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{181A5BE5-4A18-494B-8283-9F959B16AC75}.Release|Any CPU.Build.0 = Release|Any CPU
 		{181A5BE5-4A18-494B-8283-9F959B16AC75}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{276236B0-183D-4F44-8E89-FBB7EDA60CA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{276236B0-183D-4F44-8E89-FBB7EDA60CA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{276236B0-183D-4F44-8E89-FBB7EDA60CA9}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{276236B0-183D-4F44-8E89-FBB7EDA60CA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{276236B0-183D-4F44-8E89-FBB7EDA60CA9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{276236B0-183D-4F44-8E89-FBB7EDA60CA9}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,7 +34,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{75690B75-EDA8-4301-93CF-7CFDAF1CE390} = {15B2AF53-4256-4E26-B42D-D79659B87B3A}
 		{181A5BE5-4A18-494B-8283-9F959B16AC75} = {75690B75-EDA8-4301-93CF-7CFDAF1CE390}
-		{276236B0-183D-4F44-8E89-FBB7EDA60CA9} = {1F0F310E-067D-4E53-A0A4-F9B54532718D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9DED5AB8-6C4C-469F-B32C-67F026DE38F9}
