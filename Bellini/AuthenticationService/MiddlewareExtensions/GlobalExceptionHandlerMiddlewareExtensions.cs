@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using GlobalExceptionHandlerLibrary;
 
-namespace GlobalExceptionHandlerLibrary
+namespace AuthenticationService.MiddlewareExtensions
 {
     public static class GlobalExceptionHandlerMiddlewareExtensions
     {

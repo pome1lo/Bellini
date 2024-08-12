@@ -1,3 +1,4 @@
+using AuthenticationService.MiddlewareExtensions;
 using BusinessLogic.Services;
 using BusinessLogic.Services.DTOs;
 using BusinessLogic.Services.Interfaces;
@@ -70,8 +71,10 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
- 
- 
+
+// Configure global exception handler
+app.UseGlobalExceptionHandler();
+
 app.MapGet("/", () => "Hello world!");
 
 app.Run();
