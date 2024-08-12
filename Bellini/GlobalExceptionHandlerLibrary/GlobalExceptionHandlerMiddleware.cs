@@ -45,6 +45,11 @@ namespace GlobalExceptionHandlerLibrary
                     statusCode = HttpStatusCode.Conflict;
                     errorCode = "RepeatingName";
                 }
+                else if (ex is UnauthorizedAccessException)
+                {
+                    statusCode = HttpStatusCode.Unauthorized;
+                    errorCode = "Unauthorized";
+                }
 
                 context.Response.StatusCode = (int)statusCode;
                 context.Response.ContentType = "application/json";
