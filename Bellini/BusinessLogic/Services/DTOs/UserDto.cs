@@ -1,4 +1,4 @@
-﻿namespace BusinessLogic.DTO
+﻿namespace BusinessLogic.Services.DTOs
 {
     public class UserDto
     {
