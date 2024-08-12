@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DB.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240812204803_init")]
+    [Migration("20240812210053_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -40,7 +40,15 @@ namespace DB.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RegistrationCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VerificationCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

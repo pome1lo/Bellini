@@ -18,7 +18,9 @@ namespace DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RegistrationCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VerificationCode = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

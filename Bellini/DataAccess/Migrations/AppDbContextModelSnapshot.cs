@@ -37,7 +37,15 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RegistrationCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VerificationCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
