@@ -29,12 +29,7 @@ namespace GlobalExceptionHandlerLibrary
                 {
                     statusCode = HttpStatusCode.BadRequest;
                     errorCode = "BadRequest";
-                }
-                else if (ex is UnauthorizedAccessException)
-                {
-                    statusCode = HttpStatusCode.Unauthorized;
-                    errorCode = "Unauthorized";
-                }
+                } 
                 else if (ex is NotFoundException)
                 {
                     statusCode = HttpStatusCode.NotFound;

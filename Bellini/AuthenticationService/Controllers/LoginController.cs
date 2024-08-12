@@ -16,7 +16,7 @@ namespace AuthenticationService.Controllers
         }
 
         [HttpPost]
-        public async Task<TokenDto?> Login([FromBody] LoginDto loginDto, CancellationToken cancellationToken = default)
+        public async Task<TokenDto> Login([FromBody] LoginDto loginDto, CancellationToken cancellationToken = default)
         {
             return await _loginService.AuthenticateAsync(loginDto, cancellationToken);
         }
