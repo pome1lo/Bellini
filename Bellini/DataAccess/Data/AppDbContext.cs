@@ -1,11 +1,6 @@
 ﻿using DataAccess.Data.Configurations;
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Data
 {
@@ -13,19 +8,19 @@ namespace DataAccess.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-        } 
+        }
 
-        public DbSet<User> Users { get; set; } = null!; 
+        public DbSet<User> Users { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        { 
+        {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             base.OnModelCreating(modelBuilder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOPALX\\SQLEXPRESS;Database=MODSEN_PRACTICE_SHOP;User Id=sa;Password=sa;TrustServerCertificate=true;");
+            optionsBuilder.UseSqlServer(@"Server=DESKTOPALX\\SQLEXPRESS;Database=BELLINI;User Id=sa;Password=sa;TrustServerCertificate=true;");
         }
     }
 }
