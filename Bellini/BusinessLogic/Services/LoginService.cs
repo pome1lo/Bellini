@@ -77,5 +77,42 @@ namespace BusinessLogic.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+        public async Task<TokenDto> RefreshTokenAsync(string refreshToken, CancellationToken cancellationToken = default)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+            SecurityToken validatedToken;
+
+            try
+            {
+                var principal = tokenHandler.ValidateToken(refreshToken, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
+                }, out validatedToken);
+
+                var email = principal.FindFirst(ClaimTypes.Email)?.Value;
+                var user = (await _userRepository.GetElementsAsync(cancellationToken)).FirstOrDefault(u => u.Email == email);
+
+                if (user == null)
+                {
+                    throw new SecurityTokenException("Invalid token");
+                }
+
+                return new TokenDto
+                {
+                    AccessToken = GenerateAccessToken(user),
+                    RefreshToken = GenerateRefreshToken(user)
+                };
+            }
+            catch
+            {
+                throw new SecurityTokenException("Invalid token");
+            }
+        }
     }
 }
