@@ -2,7 +2,8 @@
 {
     public class ResetPasswordDto
     {
-        public string UserId { get; set; } = null!;
+        public int UserId { get; set; }
         public string NewPassword { get; set; } = null!;
+        public string VerificationCode { get; set; } = null!;
     }
 }

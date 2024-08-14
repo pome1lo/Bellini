@@ -26,11 +26,24 @@ namespace AuthenticationService.Controllers
             return Ok();
         }
 
-        [HttpPost("reset")] 
-        [Authorize]
-        public async Task<IActionResult> Reset([FromBody] ChangePasswordDto changePasswordDto, CancellationToken cancellationToken = default)
+        [HttpPost("reset")]
+        public async Task<IActionResult> Reset([FromBody] ResetPasswordDto resetPasswordDto, CancellationToken cancellationToken = default)
         {
-            await _passwordService.ResetPasswordAsync(changePasswordDto, cancellationToken);
+            await _passwordService.ResetPasswordAsync(resetPasswordDto, cancellationToken);
+            return Ok();
+        }
+
+        [HttpPost("forgot")]
+        public async Task<IActionResult> Forgot([FromBody] ForgotPasswordDto forgotPasswordDto, CancellationToken cancellationToken = default)
+        {
+            await _passwordService.ForgotPasswordAsync(forgotPasswordDto, cancellationToken);
+            return Ok();
+        }
+
+        [HttpPost("verify")]
+        public async Task<IActionResult> Verify([FromBody] VerifyCodeDto verifyCodeDto, CancellationToken cancellationToken = default)
+        {
+            await _passwordService.VerifyCodeAsync(verifyCodeDto, cancellationToken);
             return Ok();
         }
     }

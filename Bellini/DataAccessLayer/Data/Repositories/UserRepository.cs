@@ -33,16 +33,19 @@ namespace DataAccess.Data.Repositories
         public async Task UpdateAsync(int id, User item, CancellationToken cancellationToken = default)
         {
             await _context.Users.Where(e => e.Id == id)
-                .ExecuteUpdateAsync
-                (s =>
+                .ExecuteUpdateAsync(s =>
                     s
                         .SetProperty(e => e.Email, item.Email)
                         .SetProperty(e => e.Password, item.Password)
-                        .SetProperty(e => e.Username, item.Username),
+                        .SetProperty(e => e.Username, item.Username)
+                        .SetProperty(e => e.RegistrationCode, item.RegistrationCode)
+                        .SetProperty(e => e.VerificationCode, item.VerificationCode)
+                        .SetProperty(e => e.VerificationCodeExpiry, item.VerificationCodeExpiry),
                     cancellationToken
                 );
             await _context.SaveChangesAsync(cancellationToken);
         }
+
 
         public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
