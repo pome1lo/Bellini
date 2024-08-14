@@ -13,12 +13,7 @@ namespace BusinessLogicLayer
         {
             _notificationService = new NotificationService();
             _dto = new BaseEmailNotificationDto()
-            {
-                SmtpPort = 465,
-                SmtpServer = "smtp.mail.ru",
-                Username = "",
-                Password = "",
-                Email = "",
+            { 
                 Subject = "test",
                 Body = "test"
             };

@@ -27,10 +27,10 @@ namespace BusinessLogic.Services
         public async Task<TokenDto> AuthenticateAsync(LoginDto loginDto, CancellationToken cancellationToken = default)
         {
             var user = (await _userRepository
-                .GetElementsAsync(cancellationToken))
-                .FirstOrDefault(u => u.Email == loginDto.Email && u.Password == loginDto.Password);
+               .GetElementsAsync(cancellationToken))
+               .FirstOrDefault(u => u.Email == loginDto.Email);
 
-            if (user is null)
+            if (user is null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password))
             {
                 throw new UnauthorizedAccessException("Invalid username or password.");
             }

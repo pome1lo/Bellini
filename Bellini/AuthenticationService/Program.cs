@@ -2,6 +2,8 @@ using AuthenticationService.MiddlewareExtensions;
 using BusinessLogic.Services;
 using BusinessLogic.Services.DTOs;
 using BusinessLogic.Services.Interfaces;
+using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Services.Interfaces;
 using DataAccess.Data;
 using DataAccess.Data.Interfaces;
 using DataAccess.Data.Repositories;
@@ -23,6 +25,8 @@ builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IRegisterService, RegisterService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
 
 // Configure AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
@@ -40,13 +44,15 @@ builder.Services.AddAutoMapper(cfg =>
 builder.Services.AddControllers();
 
 // Configure JWT authentication
+
 var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
 
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
+})
+.AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
@@ -60,6 +66,8 @@ builder.Services.AddAuthentication(options =>
 });
 
 
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 // Configure global exception handler
@@ -68,15 +76,11 @@ app.UseGlobalExceptionHandler();
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
 
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseRouting();
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
+app.MapControllers();
 
 app.MapGet("/", () => "Hello world!");
 

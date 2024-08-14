@@ -13,7 +13,7 @@ namespace Libraries.Test
         }
 
         [Test]
-        public async Task SendEmail_ShouldSendEmail()
+        public async Task SendEmailAsyncTest()
         {
             try
             {

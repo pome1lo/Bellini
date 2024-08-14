@@ -20,35 +20,25 @@ namespace EmailSenderLibrary
             _password = password;
         }
 
-        public async Task SendEmailAsync(string fromName, string fromEmail, string toName, string toEmail, string subject, string body)
+        public async Task SendEmailAsync(string fromEmail, string toEmail, string subject, string body, string toName = "", string fromName = "Bellini")
         {
-            try
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(fromName, fromEmail));
+            message.To.Add(new MailboxAddress(toName, toEmail));
+            message.Subject = subject;
+
+            var bodyBuilder = new BodyBuilder { HtmlBody = body };
+            message.Body = bodyBuilder.ToMessageBody();
+
+
+            using (var client = new SmtpClient())
             {
+                await client.ConnectAsync(_smtpServer, _smtpPort, true);
+                await client.AuthenticateAsync(_username, _password);
 
-                var message = new MimeMessage();
-                message.From.Add(new MailboxAddress(fromName, fromEmail));
-                message.To.Add(new MailboxAddress(toName, toEmail));
-                message.Subject = subject;
-
-                var bodyBuilder = new BodyBuilder { HtmlBody = body };
-                message.Body = bodyBuilder.ToMessageBody();
-
-
-                using (var client = new SmtpClient())
-                {
-                    await client.ConnectAsync(_smtpServer, _smtpPort, true);
-                    await client.AuthenticateAsync(_username, _password);
-
-                    await client.SendAsync(message);
-                    await client.DisconnectAsync(true);
-                }
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
             }
-            catch (Exception ex)
-            {
-                throw new Exception(fromName + " " + fromEmail + " " + toName + " " + toEmail + " " + subject + " " + body + ex.Message);
-            }
-            
-
         }
     }
 }
