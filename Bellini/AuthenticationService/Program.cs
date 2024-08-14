@@ -44,13 +44,15 @@ builder.Services.AddAutoMapper(cfg =>
 builder.Services.AddControllers();
 
 // Configure JWT authentication
+
 var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
 
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
+})
+.AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
@@ -64,6 +66,8 @@ builder.Services.AddAuthentication(options =>
 });
 
 
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 // Configure global exception handler
@@ -72,15 +76,11 @@ app.UseGlobalExceptionHandler();
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
 
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseRouting();
-
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
+app.MapControllers();
 
 app.MapGet("/", () => "Hello world!");
 
