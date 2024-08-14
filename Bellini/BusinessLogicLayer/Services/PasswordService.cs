@@ -43,7 +43,7 @@ namespace BusinessLogicLayer.Services
             throw new NotImplementedException();
         }
 
-        public Task ResetPasswordAsync(string userId, string newPassword, CancellationToken cancellationToken = default)
+        public Task ResetPasswordAsync(ResetPasswordDto resetPasswordDto, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
