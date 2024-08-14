@@ -3,7 +3,7 @@ using BusinessLogicLayer.Services.DTOs;
 
 namespace BusinessLogicLayer
 {
-    public class NotificationServiceTest
+    public class NotificationServiceTests
     {
         private NotificationService _notificationService;
         private BaseEmailNotificationDto _dto;
