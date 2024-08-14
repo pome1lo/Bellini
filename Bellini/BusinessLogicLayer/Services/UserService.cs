@@ -4,6 +4,7 @@ using BusinessLogic.Services.DTOs;
 using BusinessLogic.Services.Interfaces;
 using DataAccess.Data.Interfaces;
 using DataAccess.Models;
+using Org.BouncyCastle.Crypto.Generators;
 
 namespace BusinessLogic.Services
 {
@@ -49,6 +50,8 @@ namespace BusinessLogic.Services
             {
                 throw new RepeatingNameException("Emails of several users cannot be equals to each other");
             }
+
+            newUser.Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
 
             var user = _mapper.Map<User>(newUser);
             await _userRepository.CreateAsync(user, cancellationToken);
