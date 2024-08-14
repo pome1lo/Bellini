@@ -2,17 +2,20 @@ using AuthenticationService.MiddlewareExtensions;
 using BusinessLogic.Services;
 using BusinessLogic.Services.DTOs;
 using BusinessLogic.Services.Interfaces;
+using DataAccess.Data;
 using DataAccess.Data.Interfaces;
 using DataAccess.Data.Repositories;
 using DataAccess.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString(nameof(AppDbContext))));
 
 // Configure the HTTP request pipeline.
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
