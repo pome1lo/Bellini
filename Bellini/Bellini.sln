@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationService", "Au
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GlobalExceptionHandlerLibrary", "GlobalExceptionHandlerLibrary\GlobalExceptionHandlerLibrary.csproj", "{0A21FE22-57B9-4C98-8A89-DB7C10FCB91F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{BBD76003-9297-4F65-B5B2-E915E02BC23C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{BBD76003-9297-4F65-B5B2-E915E02BC23C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationService", "NotificationService\NotificationService.csproj", "{D25C8B12-4C12-4B7B-A7BA-E770D4FE2FB7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{BBD76003-9297-4F65-B5B2-E915E02BC23C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBD76003-9297-4F65-B5B2-E915E02BC23C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBD76003-9297-4F65-B5B2-E915E02BC23C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D25C8B12-4C12-4B7B-A7BA-E770D4FE2FB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D25C8B12-4C12-4B7B-A7BA-E770D4FE2FB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D25C8B12-4C12-4B7B-A7BA-E770D4FE2FB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D25C8B12-4C12-4B7B-A7BA-E770D4FE2FB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{83071D49-6B50-4486-80AA-0F73A5559636} = {1F0F310E-067D-4E53-A0A4-F9B54532718D}
 		{0A21FE22-57B9-4C98-8A89-DB7C10FCB91F} = {7774692B-627E-465B-9662-C690629F61A4}
 		{BBD76003-9297-4F65-B5B2-E915E02BC23C} = {7774692B-627E-465B-9662-C690629F61A4}
+		{D25C8B12-4C12-4B7B-A7BA-E770D4FE2FB7} = {1F0F310E-067D-4E53-A0A4-F9B54532718D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9DED5AB8-6C4C-469F-B32C-67F026DE38F9}
