@@ -1,6 +1,7 @@
-﻿using MailKit.Net.Smtp;
-using MailKit.Security;
+﻿using System;
 using MimeKit;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 
 namespace EmailSenderLibrary
 {
@@ -19,7 +20,7 @@ namespace EmailSenderLibrary
             _password = password;
         }
 
-        public void SendEmail(string fromName, string fromEmail, string toName, string toEmail, string subject, string body)
+        public async Task SendEmailAsync(string fromName, string fromEmail, string toName, string toEmail, string subject, string body)
         {
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(fromName, fromEmail));
@@ -31,11 +32,11 @@ namespace EmailSenderLibrary
 
             using (var client = new SmtpClient())
             {
-                client.Connect(_smtpServer, _smtpPort, SecureSocketOptions.StartTls);
-                client.Authenticate(_username, _password);
+                await client.ConnectAsync(_smtpServer, _smtpPort, SecureSocketOptions.StartTls);
+                await client.AuthenticateAsync(_username, _password);
 
-                client.Send(message);
-                client.Disconnect(true);
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
             }
         }
     }
