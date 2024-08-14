@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Exceptions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Text.Json;
 
@@ -41,6 +42,11 @@ namespace GlobalExceptionHandlerLibrary
                     errorCode = "RepeatingName";
                 }
                 else if (ex is UnauthorizedAccessException)
+                {
+                    statusCode = HttpStatusCode.Unauthorized;
+                    errorCode = "Unauthorized";
+                }
+                else if (ex is SecurityTokenException)
                 {
                     statusCode = HttpStatusCode.Unauthorized;
                     errorCode = "Unauthorized";

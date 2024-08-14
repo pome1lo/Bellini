@@ -6,7 +6,7 @@ namespace AuthenticationService.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class RegisterController
+    public class RegisterController : ControllerBase
     {
         private readonly IRegisterService _registerService;
 
@@ -16,9 +16,11 @@ namespace AuthenticationService.Controllers
         }
 
         [HttpPost]
-        public async Task<UserDto> Register([FromBody] RegisterDto registerDto, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto, CancellationToken cancellationToken = default)
         {
-            return await _registerService.RegisterUserAsync(registerDto, cancellationToken);
+            return Ok(
+                await _registerService.RegisterUserAsync(registerDto, cancellationToken)
+            );
         }
     }
 }

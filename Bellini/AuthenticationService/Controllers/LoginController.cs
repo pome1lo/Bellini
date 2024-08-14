@@ -6,7 +6,7 @@ namespace AuthenticationService.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class LoginController
+    public class LoginController : ControllerBase
     {
         private readonly ILoginService _loginService;
 
@@ -16,9 +16,19 @@ namespace AuthenticationService.Controllers
         }
 
         [HttpPost]
-        public async Task<TokenDto> Login([FromBody] LoginDto loginDto, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto, CancellationToken cancellationToken = default)
         {
-            return await _loginService.AuthenticateAsync(loginDto, cancellationToken);
+            return Ok(
+                await _loginService.AuthenticateAsync(loginDto, cancellationToken)
+            );
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto, CancellationToken cancellationToken = default)
+        {
+            return Ok(
+                await _loginService.RefreshTokenAsync(tokenDto.RefreshToken, cancellationToken)
+            );
         }
     }
 }
