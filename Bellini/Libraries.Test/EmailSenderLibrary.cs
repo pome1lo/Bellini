@@ -2,7 +2,6 @@ using EmailSenderLibrary;
 
 namespace Libraries.Test
 {
-    [TestFixture]
     public class EmailSenderLibrary
     {
         private EmailSender _emailSender;
@@ -32,7 +31,7 @@ namespace Libraries.Test
             }
             catch
             {
-                Assert.Fail();
+                Assert.True(false);
             }
         }
     }

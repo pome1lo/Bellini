@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccessLayer.csproj" />
     <ProjectReference Include="..\EmailSenderLibrary\EmailSenderLibrary.csproj" />
   </ItemGroup>
