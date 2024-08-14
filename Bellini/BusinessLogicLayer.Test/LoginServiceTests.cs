@@ -54,11 +54,9 @@ namespace BusinessLogicLayer.Test
                 .ReturnsAsync(new List<User> { user });
 
             _configurationMock.Setup(x => x["Jwt:Key"]).Returns("supersecretkey");
-
-            // Act
+             
             var result = await _loginService.AuthenticateAsync(loginDto);
-
-            // Assert
+             
             Assert.IsNotNull(result);
             Assert.IsNotEmpty(result.AccessToken);
             Assert.IsNotEmpty(result.RefreshToken);
