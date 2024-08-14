@@ -3,6 +3,7 @@ using BusinessLogic.Services.DTOs;
 using BusinessLogic.Services.Interfaces;
 using DataAccess.Data.Interfaces;
 using DataAccess.Models;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,19 +17,26 @@ namespace BusinessLogic.Services
         private readonly IRepository<User> _userRepository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly IValidator<LoginDto> _loginValidator;
 
-        public LoginService(IRepository<User> userRepository, IMapper mapper, IConfiguration configuration)
+        public LoginService(IRepository<User> userRepository, IMapper mapper, IConfiguration configuration, IValidator<LoginDto> loginValidator)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _configuration = configuration;
+            _loginValidator = loginValidator;
         }
 
         public async Task<TokenDto> AuthenticateAsync(LoginDto loginDto, CancellationToken cancellationToken = default)
         {
-            var user = (await _userRepository
-               .GetElementsAsync(cancellationToken))
-               .FirstOrDefault(u => u.Email == loginDto.Email);
+            var validationResult = await _loginValidator.ValidateAsync(loginDto, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
+
+            var user = (await _userRepository.GetElementsAsync(cancellationToken))
+                .FirstOrDefault(u => u.Email == loginDto.Email);
 
             if (user is null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password))
             {

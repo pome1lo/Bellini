@@ -8,8 +8,8 @@ namespace BusinessLogicLayer.Services
     public class NotificationService : INotificationService
     {
         private readonly EmailSender _emailSender;
-        private readonly EmailSettingsDto _emailSettingsDto = ConfigurationHelper.GetEmailSettings();
-
+        private readonly EmailSettingsDto _emailSettingsDto;
+          
         public NotificationService()
         {
             _emailSettingsDto = ConfigurationHelper.GetEmailSettings();

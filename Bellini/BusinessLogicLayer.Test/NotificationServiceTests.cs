@@ -1,9 +1,9 @@
 using BusinessLogicLayer.Services;
 using BusinessLogicLayer.Services.DTOs;
 
-namespace BusinessLogicLayer
+namespace BusinessLogicLayer.Test
 {
-    public class NotificationServiceTest
+    public class NotificationServiceTests
     {
         private NotificationService _notificationService;
         private BaseEmailNotificationDto _dto;

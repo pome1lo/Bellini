@@ -2,13 +2,18 @@ using AuthenticationService.MiddlewareExtensions;
 using BusinessLogic.Services;
 using BusinessLogic.Services.DTOs;
 using BusinessLogic.Services.Interfaces;
+using BusinessLogic.Services.Validators;
 using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
+using BusinessLogicLayer.Services.Validators;
 using DataAccess.Data;
 using DataAccess.Data.Interfaces;
 using DataAccess.Data.Repositories;
 using DataAccess.Models;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -21,6 +26,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Configure the HTTP request pipeline.
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
+
+builder.Services.AddScoped<IValidator<UserDto>, UserDtoValidator>();
+builder.Services.AddScoped<IValidator<LoginDto>, LoginDtoValidator>();
+builder.Services.AddScoped<IValidator<RegisterDto>, RegisterDtoValidator>();
+builder.Services.AddScoped<IValidator<ResetPasswordDto>, ResetPasswordDtoValidator>();
+builder.Services.AddScoped<IValidator<ChangePasswordDto>, ChangePasswordDtoValidator>();
+builder.Services.AddScoped<IValidator<ForgotPasswordDto>, ForgotPasswordDtoValidator>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
