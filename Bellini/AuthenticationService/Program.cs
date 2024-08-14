@@ -62,6 +62,9 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
+// Configure global exception handler
+app.UseGlobalExceptionHandler();
+
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
 
@@ -74,9 +77,6 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
-
-// Configure global exception handler
-app.UseGlobalExceptionHandler();
 
 app.MapGet("/", () => "Hello world!");
 
