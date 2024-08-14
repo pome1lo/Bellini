@@ -25,5 +25,13 @@ namespace AuthenticationService.Controllers
             await _passwordService.ChangePasswordAsync(changePasswordDto, cancellationToken);
             return Ok();
         }
+
+        [HttpPost("reset")] 
+        [Authorize]
+        public async Task<IActionResult> Reset([FromBody] ChangePasswordDto changePasswordDto, CancellationToken cancellationToken = default)
+        {
+            await _passwordService.ResetPasswordAsync(changePasswordDto, cancellationToken);
+            return Ok();
+        }
     }
 }
