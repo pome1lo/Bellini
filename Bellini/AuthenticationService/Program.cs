@@ -2,6 +2,8 @@ using AuthenticationService.MiddlewareExtensions;
 using BusinessLogic.Services;
 using BusinessLogic.Services.DTOs;
 using BusinessLogic.Services.Interfaces;
+using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Services.Interfaces;
 using DataAccess.Data;
 using DataAccess.Data.Interfaces;
 using DataAccess.Data.Repositories;
@@ -23,6 +25,8 @@ builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IRegisterService, RegisterService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IPasswordService, PasswordService>();
 
 // Configure AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
