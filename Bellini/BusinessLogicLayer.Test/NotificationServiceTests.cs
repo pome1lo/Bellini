@@ -1,7 +1,7 @@
 using BusinessLogicLayer.Services;
 using BusinessLogicLayer.Services.DTOs;
 
-namespace BusinessLogicLayer
+namespace BusinessLogicLayer.Test
 {
     public class NotificationServiceTests
     {
