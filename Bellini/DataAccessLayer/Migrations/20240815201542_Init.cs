@@ -22,7 +22,11 @@ namespace DataAccessLayer.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RegistrationCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VerificationCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    VerificationCodeExpiry = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    VerificationCodeExpiry = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ProfileImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
