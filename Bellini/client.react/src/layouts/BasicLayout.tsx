@@ -5,7 +5,10 @@ export const BasicLayout = () => {
     return (
         <>
             <Header/>
-            <Outlet/>
+            <div className="container">
+                <Outlet/>
+
+            </div>
         </>
     )
 }
