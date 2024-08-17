@@ -32,8 +32,7 @@ namespace ProfileService.Controllers
             return Ok(profiles);
         }
 
-        [HttpPut("{id}")]
-        //[Authorize]
+        [HttpPut("{id}")] 
         [ProfileOwnerAuthorize]
         public async Task<IActionResult> UpdateProfile(int id, [FromBody] UpdateProfileDto updateProfileDto, CancellationToken cancellationToken)
         {
@@ -42,6 +41,7 @@ namespace ProfileService.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProfileOwnerAuthorize]
         public async Task<IActionResult> DeleteProfile(int id, CancellationToken cancellationToken)
         {
             await _profileService.DeleteProfileAsync(id, cancellationToken);

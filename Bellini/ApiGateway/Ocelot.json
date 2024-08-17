@@ -46,7 +46,7 @@
     "BaseUrl": "https://localhost:7888",
     "RateLimitOptions": {
       "QuotaExceededMessage": "Request not allowed",
-      "HttpStatusCode": 909
+      "HttpStatusCode": 429
     }
   }
 }
