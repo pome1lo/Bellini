@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthenticationService.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/auth/[controller]")]
     public class RegisterController : ControllerBase
     {
         private readonly IRegisterService _registerService;

@@ -9,7 +9,10 @@ using DataAccess.Data.Interfaces;
 using DataAccess.Data.Repositories;
 using DataAccess.Models;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,10 +37,14 @@ builder.Services.AddAutoMapper(cfg =>
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 }, typeof(Program));
 
+builder.Services.AddJwtAuthentication(builder.Configuration);
+
 var app = builder.Build();
 
 app.UseGlobalExceptionHandler();
 
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseHttpsRedirection();
 
