@@ -19,6 +19,18 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 
 app.UseRouting();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost5173",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 

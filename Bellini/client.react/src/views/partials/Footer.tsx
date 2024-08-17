@@ -3,7 +3,7 @@ import {Button} from "@/components/ui/button.tsx";
 export const Footer = () => {
     return (
         <>
-            <footer className="bg-black text-white py-8">
+            <footer className="bg-black text-white py-8 mt-5">
                 <div className="container mx-auto px-4">
                     <div className="flex flex-col md:flex-row justify-between items-center">
                         <div className="mb-4 order-2 md:mb-0 md:order-1">

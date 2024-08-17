@@ -1,13 +1,11 @@
-import * as process from "process";
-
 export const serverFetch  = async (endpoint: string, options?: RequestInit): Promise<Response> => {
-    const baseUrl = process.env.REACT_APP_SERVER_URL;
-
+    const baseUrl = "https://localhost:7292";
     if (!baseUrl) {
         throw new Error("REACT_APP_SERVER_URL is not defined in the environment variables.");
     }
 
     const url = `${baseUrl}${endpoint}`;
+    console.log(url);
     const response = await fetch(url, options);
 
     if (!response.ok) {
