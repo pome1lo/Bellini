@@ -1,0 +1,12 @@
+﻿{
+  "Routes": [
+    // AuthenticationService
+    
+    // NotificationService
+
+    // ProfileService
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7888"
+  }
+}
