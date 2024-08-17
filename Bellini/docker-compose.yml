@@ -13,7 +13,10 @@ services:
     networks:
       - backend
       - frontend
-
+    ports:
+      - "59101:59101"
+      - "59102:59102"
+    
   authenticationservice:
     image: ${DOCKER_REGISTRY-}authenticationservice
     build:
@@ -21,6 +24,9 @@ services:
       dockerfile: AuthenticationService/Dockerfile
     networks:
       - backend
+    ports:
+      - "59103:59103"
+      - "59104:59104"
 
   notificationservice:
     image: ${DOCKER_REGISTRY-}notificationservice
@@ -29,6 +35,9 @@ services:
       dockerfile: NotificationService/Dockerfile
     networks:
       - backend
+    ports:
+      - "59105:59105"
+      - "59106:59106"
 
   profileservice:
     image: ${DOCKER_REGISTRY-}profileservice
@@ -37,6 +46,9 @@ services:
       dockerfile: ProfileService/Dockerfile
     networks:
       - backend
+    ports:
+      - "59107:59107"
+      - "59108:59108"
 
   redis:
     container_name: Redis

@@ -5,11 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-//builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
-//    .AddJsonFile("Ocelot.json", optional: false, reloadOnChange: true)
-//    .AddEnvironmentVariables();
+builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
+    .AddJsonFile("Ocelot.json", optional: false, reloadOnChange: true)
+    .AddEnvironmentVariables();
 
-//builder.Services.AddOcelot(builder.Configuration);
+builder.Services.AddOcelot(builder.Configuration);
 
 var app = builder.Build();
   
@@ -21,7 +21,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//await app.UseOcelot();
+await app.UseOcelot();
 
 app.MapGet("/", () => "The ApiGateway is working.");
 

@@ -2,11 +2,11 @@
   "Routes": [
     {
       "DownstreamPathTemplate": "/api/auth/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "authenticationservice",
-          "Port": 80
+          "Port": 59104
         }
       ],
       "UpstreamPathTemplate": "/auth/{everything}",
@@ -14,11 +14,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/profile",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "profileservice",
-          "Port": 80
+          "Port": 59108
         }
       ],
       "UpstreamPathTemplate": "/profile",
@@ -26,11 +26,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/profile/{id}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "profileservice",
-          "Port": 80
+          "Port": 59108
         }
       ],
       "UpstreamPathTemplate": "/profile/{id}",
