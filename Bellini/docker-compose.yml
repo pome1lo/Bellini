@@ -1,33 +1,48 @@
 version: '3.4'
 
+networks:
+  backend:
+  frontend:
+
 services:
   apigateway:
     image: ${DOCKER_REGISTRY-}apigateway
     build:
       context: .
       dockerfile: ApiGateway/Dockerfile
+    networks:
+      - backend
+      - frontend
 
   authenticationservice:
     image: ${DOCKER_REGISTRY-}authenticationservice
     build:
       context: .
       dockerfile: AuthenticationService/Dockerfile
+    networks:
+      - backend
 
   notificationservice:
     image: ${DOCKER_REGISTRY-}notificationservice
     build:
       context: .
       dockerfile: NotificationService/Dockerfile
+    networks:
+      - backend
 
   profileservice:
     image: ${DOCKER_REGISTRY-}profileservice
     build:
       context: .
       dockerfile: ProfileService/Dockerfile
+    networks:
+      - backend
 
   redis:
     container_name: Redis
     image: redis:latest
     ports:
-      - "6379:6379" 
+      - "6379:6379"
+    networks:
+      - backend
 
