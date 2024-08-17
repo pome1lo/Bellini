@@ -70,6 +70,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGet("/", () => "Hello world!");
+app.MapGet("/", () => "The AuthenticationService is working.");
 
 app.Run();

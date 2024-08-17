@@ -9,7 +9,7 @@ services:
     image: ${DOCKER_REGISTRY-}apigateway
     build:
       context: .
-      dockerfile: ApiGateway/Dockerfile
+      dockerfile: ApiGateway/Dockerfile 
     networks:
       - backend
       - frontend

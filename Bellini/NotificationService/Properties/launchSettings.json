@@ -33,8 +33,8 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/weatherforecast",
       "environmentVariables": {
-        "ASPNETCORE_HTTPS_PORTS": "8081",
-        "ASPNETCORE_HTTP_PORTS": "8080"
+        "ASPNETCORE_HTTPS_PORTS": "59106",
+        "ASPNETCORE_HTTP_PORTS": "59105"
       },
       "publishAllPorts": true,
       "useSSL": true
