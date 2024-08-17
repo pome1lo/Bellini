@@ -50,6 +50,6 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
-app.MapGet("/", () => "Hello world!");
-
+app.MapGet("/", () => "The ProfileService is working.");
+ 
 app.Run();

@@ -22,6 +22,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
 });
 
-app.MapGet("/", () => "Hello world!");
+app.MapGet("/", () => "The NotificationService is working.");
 
 app.Run();
