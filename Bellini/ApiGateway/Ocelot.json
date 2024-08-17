@@ -1,12 +1,52 @@
 ﻿{
   "Routes": [
     // AuthenticationService
-    
+    {
+      "DownstreamPathTemplate": "/api/auth/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7200
+        }
+      ],
+      "UpstreamPathTemplate": "/auth/{everything}",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+
     // NotificationService
+    //{
+    //  "DownstreamPathTemplate": "/api/notifications/{everything}",
+    //  "DownstreamScheme": "https",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 7230
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/notifications/{everything}",
+    //  "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+    //},
 
     // ProfileService
+    {
+      "DownstreamPathTemplate": "/api/profile/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7256
+        }
+      ],
+      "UpstreamPathTemplate": "/profile/{everything}",
+      "UpstreamHttpMethod": [ "GET", "PUT", "DELETE" ]
+    }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:7888"
+    "BaseUrl": "https://localhost:7888",
+    "RateLimitOptions": {
+      "QuotaExceededMessage": "Request not allowed",
+      "HttpStatusCode": 909
+    }
   }
 }

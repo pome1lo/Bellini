@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthenticationService.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/auth/[controller]")]
     public class PasswordController : ControllerBase
     {
         private readonly IPasswordService _passwordService;

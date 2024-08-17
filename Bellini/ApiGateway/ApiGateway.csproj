@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Ocelot.json" />
+    <None Include="Ocelot.json" />
   </ItemGroup>
 
   <ItemGroup>
