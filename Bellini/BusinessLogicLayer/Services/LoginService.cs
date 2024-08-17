@@ -4,8 +4,10 @@ using BusinessLogic.Services.Interfaces;
 using DataAccess.Data.Interfaces;
 using DataAccess.Models;
 using FluentValidation;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -18,13 +20,15 @@ namespace BusinessLogic.Services
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IValidator<LoginDto> _loginValidator;
+        private readonly IDistributedCache _cache;
 
-        public LoginService(IRepository<User> userRepository, IMapper mapper, IConfiguration configuration, IValidator<LoginDto> loginValidator)
+        public LoginService(IRepository<User> userRepository, IMapper mapper, IConfiguration configuration, IValidator<LoginDto> loginValidator, IDistributedCache cache)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _configuration = configuration;
             _loginValidator = loginValidator;
+            _cache = cache;
         }
 
         public async Task<TokenDto> AuthenticateAsync(LoginDto loginDto, CancellationToken cancellationToken = default)
@@ -35,8 +39,25 @@ namespace BusinessLogic.Services
                 throw new ValidationException(validationResult.Errors);
             }
 
-            var user = (await _userRepository.GetElementsAsync(cancellationToken))
-                .FirstOrDefault(u => u.Email == loginDto.Email);
+            var cacheKey = $"User_{loginDto.Email}";
+            var cachedUser = await _cache.GetStringAsync(cacheKey, cancellationToken);
+            User? user;
+
+            if (string.IsNullOrEmpty(cachedUser))
+            {
+                user = (await _userRepository.GetElementsAsync(cancellationToken)).FirstOrDefault(u => u.Email == loginDto.Email);
+                if (user != null)
+                {
+                    await _cache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(user), new DistributedCacheEntryOptions
+                    {
+                        AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
+                    }, cancellationToken);
+                }
+            }
+            else
+            {
+                user = JsonConvert.DeserializeObject<User>(cachedUser);
+            }
 
             if (user is null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password))
             {
@@ -49,6 +70,7 @@ namespace BusinessLogic.Services
                 RefreshToken = GenerateRefreshToken(user)
             };
         }
+
 
         public string GenerateAccessToken(User user)
         {
