@@ -24,6 +24,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString(nameof(AppDbContext))));
 
+builder.Services.AddStackExchangeRedisCache(options => {
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = "local";
+});
+
 // Configure the HTTP request pipeline.
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
 
