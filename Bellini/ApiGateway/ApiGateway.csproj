@@ -10,11 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="ocelot.json" />
+    <Content Remove="ocelot.docker.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Ocelot.json" />
+    <None Include="ocelot.docker.json" />
   </ItemGroup>
 
   <ItemGroup>

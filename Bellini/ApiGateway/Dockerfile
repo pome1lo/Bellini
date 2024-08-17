@@ -6,6 +6,8 @@ WORKDIR /app
 EXPOSE 59102
 EXPOSE 59101
 
+ENV DOTNET_RUNNING_IN_CONTAINER=true
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
