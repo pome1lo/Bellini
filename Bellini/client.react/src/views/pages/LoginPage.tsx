@@ -52,7 +52,7 @@ export const LoginPage = () => {
                 <div className="w-96 m-auto">
                     <Form {...form}>
                         <p className="font-bold text-2xl text-center">Login to your account</p>
-                        <p className="text-center ">Enter your login details in the our system.</p>
+                        <p className="text-center ">Enter your login details in the our system</p>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-2">
                             <FormField
                                 control={form.control}

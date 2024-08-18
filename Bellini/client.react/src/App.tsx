@@ -4,6 +4,7 @@ import {BasicLayout} from "./layouts/BasicLayout.tsx";
 import {MainPage} from "./views/pages/MainPage.tsx";
 import {ThemeProvider} from "@/components/theme-provider.tsx";
 import {LoginPage} from "@/views/pages/LoginPage.tsx";
+import {RegisterPage} from "@/views/pages/RegisterPage.tsx";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                     <Route path='/' element={<BasicLayout/>}>
                         <Route index element={<MainPage/>}/>
                         <Route path='login' element={<LoginPage/>}/>
+                        <Route path='register' element={<RegisterPage/>}/>
                     </Route>
                 </Routes>
             </ThemeProvider>
