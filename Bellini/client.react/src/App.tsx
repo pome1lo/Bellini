@@ -5,6 +5,7 @@ import {MainPage} from "./views/pages/MainPage.tsx";
 import {ThemeProvider} from "@/components/theme-provider.tsx";
 import {LoginPage} from "@/views/pages/LoginPage.tsx";
 import {RegisterPage} from "@/views/pages/RegisterPage.tsx";
+import {NotFoundPage} from "@/views/pages/NotFoundPage.tsx";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                         <Route path='login' element={<LoginPage/>}/>
                         <Route path='register' element={<RegisterPage/>}/>
                     </Route>
+                    <Route path="*" element={<NotFoundPage/>}/>
                 </Routes>
             </ThemeProvider>
         </>

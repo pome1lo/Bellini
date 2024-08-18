@@ -2,16 +2,9 @@ import {z} from "zod"
 import {zodResolver} from "@hookform/resolvers/zod"
 import {Controller, useForm} from "react-hook-form"
 import {Button} from "@/components/ui/button"
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form"
 import {Input} from "@/components/ui/input"
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {serverFetch} from "@/utilds/fetch's/fetchServer.ts";
 import {DiGithubBadge} from "react-icons/di";
 import {useState} from "react";
@@ -137,7 +130,7 @@ export const RegisterPage = () => {
                                                 <Controller
                                                     name="code"
                                                     control={codeForm.control}
-                                                    render={({field, fieldState }) => (
+                                                    render={({field, fieldState}) => (
                                                         <>
                                                             <InputOTP maxLength={6} required value={field.value}
                                                                       onChange={field.onChange}>
@@ -175,8 +168,10 @@ export const RegisterPage = () => {
                                 <>
                                     <Form {...registerForm}>
                                         <p className="font-bold text-2xl text-center">Create an account</p>
-                                        <p className="text-center ">Enter your username and password below to create your personal account</p>
-                                        <form onSubmit={registerForm.handleSubmit(onSubmitRegisterForm)} className="space-y-4 mt-2">
+                                        <p className="text-center ">Enter your username and password below to create
+                                            your personal account</p>
+                                        <form onSubmit={registerForm.handleSubmit(onSubmitRegisterForm)}
+                                              className="space-y-4 mt-2">
                                             <FormField
                                                 control={registerForm.control}
                                                 name="username"
@@ -218,7 +213,8 @@ export const RegisterPage = () => {
                                             </Button>
                                             <p className="px-8 text-center text-sm text-muted-foreground">
                                                 By clicking continue, you agree to our
-                                                <a className="underline hover:text-primary" href=""> Terms of Service </a>
+                                                <a className="underline hover:text-primary" href=""> Terms of
+                                                    Service </a>
                                                 and
                                                 <a className="underline hover:text-primary" href=""> Privacy Policy</a>.
                                             </p>
