@@ -17,6 +17,11 @@ function App() {
                         <Route index element={<MainPage/>}/>
                         <Route path='login' element={<LoginPage/>}/>
                         <Route path='register' element={<RegisterPage/>}/>
+                        {/*<Route path='profile' element={</ProfilePage>}/>*/}
+                        {/*<Route path='profile/edit' element={</>}/>*/}
+                        {/*<Route path='profile/settings' element={</>}/>*/}
+                        {/*<Route path='about' element={</AboutPage>}/>*/}
+                        {/*<Route path='contacts' element={</ContactsPage>}/>*/}
                     </Route>
                     <Route path="500" element={<InternalServerErrorPage/>}/>
                     <Route path="404" element={<NotFoundPage/>}/>
