@@ -20,9 +20,11 @@ import {
 } from "@/components/ui/dropdown-menu.tsx";
 import {BreadcrumbLink} from "@/components/ui/breadcrumb.tsx";
 import {IoNotificationsOutline} from "react-icons/io5";
+import {useNavigate} from "react-router-dom";
 
 export const Header = () => {
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
     return (
         <>
             <header className="sticky top-0 w-full shadow-md backdrop-blur">
@@ -54,10 +56,10 @@ export const Header = () => {
                         </NavigationMenuList>
                     </NavigationMenu>
                     <div className="flex items-center space-x-4">
-                        <ModeToggle/>
-                        <Button variant="outline">
-                            <IoNotificationsOutline  className="text-xl"/>
+                        <Button variant="outline" onClick={() => navigate("profile/notifications")}>
+                            <IoNotificationsOutline className="text-xl"/>
                         </Button>
+                        <ModeToggle/>
                         <DropdownMenu>
                             <DropdownMenuTrigger className="flex items-center gap-1">
                                 <Avatar>
