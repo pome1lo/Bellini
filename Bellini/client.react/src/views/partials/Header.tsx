@@ -9,7 +9,7 @@ export const Header = () => {
     const [open, setOpen] = useState(false);
     return (
         <> 
-            <header className="sticky top-0 w-full shadow-md mb-5 backdrop-blur">
+            <header className="sticky top-0 w-full shadow-md backdrop-blur">
                 <div className="flex items-center justify-between p-4">
                     <div className="text-xl font-bold">My Logo</div>
                     <div className="hidden md:flex space-x-4">
