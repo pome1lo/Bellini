@@ -51,33 +51,9 @@ export const LoginPage = () => {
 
     return (
         <>
-            <div className="flex align-middle h-[74dvh] rounded-md">
+            <div className="flex align-middle h-[78dvh] rounded-md">
                 <div className="w-1/2">
-                    <div className="">
-                        <Carousel
-                            opts={{
-                                align: "start",
-                            }}
-                            orientation="vertical"
-                            className="w-full"
-                        >
-                            <CarouselContent className="-mt-1 h-[200px]">
-                                {Array.from({ length: 5 }).map((_, index) => (
-                                    <CarouselItem key={index} className="pt-1 md:basis-1/2">
-                                        <div className="p-1">
-                                            <Card>
-                                                <CardContent className="flex items-center justify-center p-6">
-                                                    <span className="text-3xl font-semibold">{index + 1}</span>
-                                                </CardContent>
-                                            </Card>
-                                        </div>
-                                    </CarouselItem>
-                                ))}
-                            </CarouselContent>
-                            <CarouselPrevious />
-                            <CarouselNext />
-                        </Carousel>
-                    </div>
+
                 </div>
                 <div className="w-1/2">
                     <div className="w-96 m-auto">

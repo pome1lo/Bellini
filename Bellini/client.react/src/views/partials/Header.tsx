@@ -4,6 +4,14 @@ import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet";
 import {useState} from "react";
 import {ModeToggle} from "@/components/ui/mode-toggle.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
+import {
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu"
 
 export const Header = () => {
     const [open, setOpen] = useState(false);
@@ -12,11 +20,36 @@ export const Header = () => {
             <header className="sticky top-0 w-full shadow-md backdrop-blur">
                 <div className="flex items-center justify-between p-4">
                     <div className="text-xl font-bold">My Logo</div>
-                    <div className="hidden md:flex space-x-4">
-                        <Button variant="link">Home</Button>
-                        <Button variant="link">About</Button>
-                        <Button variant="link">Contact</Button>
-                    </div>
+                    {/*<div className="hidden md:flex space-x-4">*/}
+                    {/*    <Button variant="link">Home</Button>*/}
+                    {/*    <Button variant="link">About</Button>*/}
+                    {/*    <Button variant="link">Contact</Button>*/}
+                    {/*</div>*/}
+                    <NavigationMenu>
+                        <NavigationMenuList>
+                            <NavigationMenuItem>
+                                <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
+                                <NavigationMenuContent>
+                                    <NavigationMenuLink>Link</NavigationMenuLink>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
+                                <NavigationMenuContent>
+                                    <NavigationMenuLink>Link</NavigationMenuLink>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
+                                <NavigationMenuContent>
+                                    <div className="p-2">
+                                        <p>asdassadasd</p>
+                                        <NavigationMenuLink>asdas</NavigationMenuLink>
+                                    </div>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                        </NavigationMenuList>
+                    </NavigationMenu>
                     <div className="flex items-center space-x-4">
                         <ModeToggle/>
                         <Avatar>
