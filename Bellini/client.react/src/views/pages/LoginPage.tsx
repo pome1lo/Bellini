@@ -45,9 +45,13 @@ export const LoginPage = () => {
                 }),
             });
             const data = await response.json();
+            console.log(data);
+            alert("stop")
             if (response.ok) {
                 sessionStorage.setItem('__access-token', data.accessToken);
                 sessionStorage.setItem('__refresh-token', data.refreshToken);
+                sessionStorage.setItem('__username', data.username);
+                sessionStorage.setItem('__email', values.email);
                 navigate('/profile');
             } else {
                 setErrorMessage(data.Message || 'An error occurred');
@@ -83,7 +87,10 @@ export const LoginPage = () => {
                                 name="password"
                                 render={({field,fieldState}) => (
                                     <FormItem>
-                                        <FormLabel>Password</FormLabel>
+                                        <div className="flex justify-between items-center">
+                                            <FormLabel>Password</FormLabel>
+                                            <Link to='/forgot-password'>Forgot password?</Link>
+                                        </div>
                                         <FormControl>
                                             <Input type="password" {...field} required/>
                                         </FormControl>
@@ -92,9 +99,6 @@ export const LoginPage = () => {
                                 )}
                             />
                             <FormMessage>{errorMessage}</FormMessage>
-                            <div className="text-end" style={{marginTop: '0.25rem'}}>
-                                <Link to='/forgot-password'>Forgot password?</Link>
-                            </div>
                             <Button type="submit" className="w-full">Login</Button>
                             <div className="relative">
                                 <div className="absolute inset-0 flex items-center"><span

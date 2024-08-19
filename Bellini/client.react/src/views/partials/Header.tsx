@@ -1,9 +1,8 @@
 import {Button} from "@/components/ui/button";
-import {Menu as MenuIcon} from 'lucide-react';
+import {CircleUser, Menu as MenuIcon} from 'lucide-react';
 import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet";
 import React, {useState} from "react";
 import {ModeToggle} from "@/components/ui/mode-toggle.tsx";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -15,19 +14,22 @@ import {
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem, DropdownMenuSeparator,
+    DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.tsx";
-import {BreadcrumbLink} from "@/components/ui/breadcrumb.tsx";
 import {IoNotificationsOutline} from "react-icons/io5";
 import {useNavigate} from "react-router-dom";
 
 export const Header = () => {
     const [open, setOpen] = useState(false);
+    const email= useState(sessionStorage.getItem('__email'));
+    const username = useState(sessionStorage.getItem('__username'));
+
+
     const navigate = useNavigate();
     return (
         <>
-            <header className="sticky top-0 w-full shadow-md backdrop-blur">
+            <header className="sticky top-0 z-50 w-full shadow-md backdrop-blur">
                 <div className="flex items-center justify-between p-4">
                     <div className="text-xl font-bold">My Logo</div>
                     <NavigationMenu className="hidden md:flex ">
@@ -61,26 +63,22 @@ export const Header = () => {
                         </Button>
                         <ModeToggle/>
                         <DropdownMenu>
-                            <DropdownMenuTrigger className="flex items-center gap-1">
-                                <Avatar>
-                                    <AvatarImage src="https://github.com/shadcn.png"/>
-                                    <AvatarFallback>Ava</AvatarFallback>
-                                </Avatar>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="secondary" size="icon" className="rounded-full">
+                                    <CircleUser className="h-5 w-5"/>
+                                    <span className="sr-only">Toggle user menu</span>
+                                </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start" className="me-2">
-                                <DropdownMenuItem>
-                                    <BreadcrumbLink href="profile">Profile</BreadcrumbLink>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <BreadcrumbLink href="profile/edit">Edit</BreadcrumbLink>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <BreadcrumbLink href="profile/settings">Settings</BreadcrumbLink>
-                                </DropdownMenuItem>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>
+                                    <p className="text-sm font-medium leading-none">{username}</p>
+                                    <p className="text-xs leading-none text-muted-foreground">{email}</p>
+                                </DropdownMenuLabel>
                                 <DropdownMenuSeparator/>
-                                <DropdownMenuItem>
-                                    <BreadcrumbLink href="">Log out</BreadcrumbLink>
-                                </DropdownMenuItem>
+                                <DropdownMenuItem>Settings</DropdownMenuItem>
+                                <DropdownMenuItem>Support</DropdownMenuItem>
+                                <DropdownMenuSeparator/>
+                                <DropdownMenuItem>Logout</DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                         <div className="md:hidden">

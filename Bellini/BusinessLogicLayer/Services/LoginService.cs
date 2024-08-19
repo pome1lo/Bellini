@@ -67,7 +67,8 @@ namespace BusinessLogic.Services
             return new TokenDto()
             {
                 AccessToken = GenerateAccessToken(user),
-                RefreshToken = GenerateRefreshToken(user)
+                RefreshToken = GenerateRefreshToken(user),
+                Username = user.Username
             };
         }
 
