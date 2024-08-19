@@ -61,7 +61,7 @@ namespace BusinessLogic.Services
 
             if (user is null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password))
             {
-                throw new UnauthorizedAccessException("Invalid username or password.");
+                throw new ValidationException("Invalid username or password.");
             }
 
             return new TokenDto()

@@ -100,9 +100,9 @@ namespace BusinessLogic.Services
             var users = await _repository.GetElementsAsync(cancellationToken);
             var user = users.FirstOrDefault(u => u.Email == registerDto.Email);
 
-            if (user?.RegistrationCode != registerDto.RegistrationCode)
+            if (user?.RegistrationCode != registerDto.RegistrationCode || user.VerificationCodeExpiry < DateTime.UtcNow)
             {
-                throw new UnauthorizedAccessException("Invalid or expired registration code.");
+                throw new ValidationException("Invalid or expired registration code.");
             }
 
             var userDto = _mapper.Map<UserDto>(registerDto);
@@ -117,7 +117,7 @@ namespace BusinessLogic.Services
             var user = users.FirstOrDefault(u => u.Email == verifyCodeDto.Email);
             if (user == null || user.RegistrationCode != verifyCodeDto.VerificationCode || user.VerificationCodeExpiry < DateTime.UtcNow)
             {
-                throw new UnauthorizedAccessException("Invalid or expired registration code.");
+                throw new ValidationException("Invalid or expired registration code.");
             }
         }
 
