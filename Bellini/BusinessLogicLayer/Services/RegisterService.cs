@@ -4,11 +4,10 @@ using BusinessLogic.Services.DTOs;
 using BusinessLogic.Services.Interfaces;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
-using BusinessLogicLayer.Services.Validators;
+using BusinessLogicLayer.Utils;
 using DataAccess.Data.Interfaces;
 using DataAccess.Models;
 using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
 
 namespace BusinessLogic.Services
 {
@@ -51,7 +50,7 @@ namespace BusinessLogic.Services
             var users = await _repository.GetElementsAsync(cancellationToken);
             var user = users.FirstOrDefault(u => u.Email == checkEmailDto.Email);
 
-            var registrationCode = GenerateRegistrationCode();
+            var registrationCode = VerificationCodeGenerator.GenerateRegistrationCode();
             if (user is not null)
             {
                 if (user.Username is not null && user.Password is not null)
@@ -100,7 +99,7 @@ namespace BusinessLogic.Services
 
             var users = await _repository.GetElementsAsync(cancellationToken);
             var user = users.FirstOrDefault(u => u.Email == registerDto.Email);
-            
+
             if (user?.RegistrationCode != registerDto.RegistrationCode)
             {
                 throw new UnauthorizedAccessException("Invalid or expired registration code.");
@@ -135,11 +134,6 @@ namespace BusinessLogic.Services
             {
                 throw new RepeatingNameException("Email already exists");
             }
-        }
-
-        private string GenerateRegistrationCode()
-        {
-            return new Random().Next(100000, 999999).ToString();
         }
     }
 }
