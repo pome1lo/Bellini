@@ -3,7 +3,11 @@ using BusinessLogic.Exceptions;
 using BusinessLogic.Services;
 using BusinessLogic.Services.DTOs;
 using BusinessLogic.Services.Interfaces;
+using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
 using BusinessLogicLayer.Services.Validators;
+using DataAccess.Data.Interfaces;
+using DataAccess.Models;
 using FluentValidation;
 using Moq;
 
@@ -15,6 +19,11 @@ namespace BusinessLogicLayer.Test
         private Mock<IMapper> _mapperMock;
         private IValidator<RegisterDto> _registerValidator;
         private RegisterService _registerService;
+        private Mock<IRepository<User>> _repository;
+        private Mock<INotificationService> _emailService;
+        private Mock<IValidator<CodeVerificationDto>> _codeVerificationValidator;
+        private Mock<IValidator<CheckEmailDto>> _checkEmailDtoValidator;
+
 
         [SetUp]
         public void SetUp()
@@ -22,7 +31,11 @@ namespace BusinessLogicLayer.Test
             _userServiceMock = new Mock<IUserService>();
             _mapperMock = new Mock<IMapper>();
             _registerValidator = new RegisterDtoValidator();
-            _registerService = new RegisterService(_userServiceMock.Object, _mapperMock.Object, _registerValidator);
+            _repository = new Mock<IRepository<User>>();
+            _emailService = new Mock<INotificationService>();
+            _codeVerificationValidator = new Mock<IValidator<CodeVerificationDto>>();
+            _checkEmailDtoValidator = new Mock<IValidator<CheckEmailDto>>();
+            _registerService = new RegisterService(_userServiceMock.Object, _mapperMock.Object, _repository.Object, _emailService.Object, _registerValidator, _checkEmailDtoValidator.Object, _codeVerificationValidator.Object);
         }
 
         [Test]
@@ -52,7 +65,7 @@ namespace BusinessLogicLayer.Test
                 .ReturnsAsync(userDto);
 
             var result = await _registerService.RegisterUserAsync(registerDto);
-             
+
             Assert.IsNotNull(result);
             Assert.AreEqual(userDto.Username, result.Username);
             Assert.AreEqual(userDto.Email, result.Email);

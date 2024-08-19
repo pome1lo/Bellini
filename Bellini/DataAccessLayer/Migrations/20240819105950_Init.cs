@@ -17,9 +17,9 @@ namespace DataAccessLayer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RegistrationCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VerificationCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VerificationCodeExpiry = table.Column<DateTime>(type: "datetime2", nullable: true),

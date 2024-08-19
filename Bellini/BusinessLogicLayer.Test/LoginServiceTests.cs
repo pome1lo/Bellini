@@ -5,6 +5,7 @@ using BusinessLogicLayer.Services.Validators;
 using DataAccess.Data.Interfaces;
 using DataAccess.Models;
 using FluentValidation;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
@@ -20,6 +21,7 @@ namespace BusinessLogicLayer.Test
         private Mock<IRepository<User>> _userRepositoryMock;
         private Mock<IMapper> _mapperMock;
         private Mock<IConfiguration> _configurationMock;
+        private Mock<IDistributedCache> _cache;
         private IValidator<LoginDto> _loginValidator;
         private LoginService _loginService;
 
@@ -30,12 +32,13 @@ namespace BusinessLogicLayer.Test
             _mapperMock = new Mock<IMapper>();
             _configurationMock = new Mock<IConfiguration>();
             _loginValidator = new LoginDtoValidator();
-            _loginService = new LoginService(_userRepositoryMock.Object, _mapperMock.Object, _configurationMock.Object, _loginValidator);
+            _cache = new Mock<IDistributedCache>();
+            _loginService = new LoginService(_userRepositoryMock.Object, _mapperMock.Object, _configurationMock.Object, _loginValidator, _cache.Object);
         }
 
         [Test]
         public async Task AuthenticateAsync_ValidCredentials_ShouldReturnTokenDto()
-        { 
+        {
             var loginDto = new LoginDto
             {
                 Email = "valid@example.com",
@@ -54,9 +57,9 @@ namespace BusinessLogicLayer.Test
                 .ReturnsAsync(new List<User> { user });
 
             _configurationMock.Setup(x => x["Jwt:Key"]).Returns("supersecretkey");
-             
+
             var result = await _loginService.AuthenticateAsync(loginDto);
-             
+
             Assert.IsNotNull(result);
             Assert.IsNotEmpty(result.AccessToken);
             Assert.IsNotEmpty(result.RefreshToken);
@@ -91,7 +94,7 @@ namespace BusinessLogicLayer.Test
 
         [Test]
         public async Task RefreshTokenAsync_ValidToken_ShouldReturnTokenDto()
-        { 
+        {
             var refreshToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InBvbWUxbG8iLCJlbWFpbCI6InBhYXdvcmtlckBnbWFpbC5jb20iLCJuYmYiOjE3MjM2NzM2NzAsImV4cCI6MTcyNDI3ODQ3MCwiaWF0IjoxNzIzNjczNjcwfQ.L4YmsOC7oDQhEZ2NYU0_u1n3XZcVMpzZAdHH5bIcU5c";
             var user = new User
             {
@@ -118,9 +121,9 @@ namespace BusinessLogicLayer.Test
                 .ReturnsAsync(new List<User> { user });
 
             _configurationMock.Setup(x => x["Jwt:Key"]).Returns("supersecretkey");
-             
+
             var result = await _loginService.RefreshTokenAsync(validRefreshToken);
-             
+
             Assert.IsNotNull(result);
             Assert.IsNotEmpty(result.AccessToken);
             Assert.IsNotEmpty(result.RefreshToken);
@@ -128,11 +131,11 @@ namespace BusinessLogicLayer.Test
 
         [Test]
         public void RefreshTokenAsync_InvalidToken_ShouldThrowSecurityTokenException()
-        { 
+        {
             var invalidRefreshToken = "invalidRefreshToken";
 
             _configurationMock.Setup(x => x["Jwt:Key"]).Returns("supersecretkey");
-             
+
             Assert.ThrowsAsync<SecurityTokenException>(() => _loginService.RefreshTokenAsync(invalidRefreshToken));
         }
     }
