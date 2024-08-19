@@ -22,4 +22,8 @@
     <PackageReference Include="Ocelot" Version="23.3.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj" />
+  </ItemGroup>
+
 </Project>

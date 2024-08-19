@@ -1,6 +1,7 @@
 using AuthenticationService.MiddlewareExtensions;
 using BusinessLogic.Services.DTOs;
 using BusinessLogic.Services.Validators;
+using BusinessLogicLayer.Services.Configs;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using BusinessLogicLayer.Services.Validators;
@@ -38,8 +39,12 @@ builder.Services.AddAutoMapper(cfg =>
 }, typeof(Program));
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
+builder.Services.AddCorsClient(builder.Configuration);
+
 
 var app = builder.Build();
+
+app.UseCors("AllowLocalhost5173");
 
 app.UseGlobalExceptionHandler();
 

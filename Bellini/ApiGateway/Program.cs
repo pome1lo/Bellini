@@ -1,3 +1,4 @@
+using BusinessLogicLayer.Services.Configs;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
@@ -13,24 +14,15 @@ builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
     .AddEnvironmentVariables();
 
 builder.Services.AddOcelot(builder.Configuration);
+builder.Services.AddCorsClient(builder.Configuration);
 
 var app = builder.Build();
-  
+app.UseCors("AllowLocalhost5173");
 app.UseHttpsRedirection();
 
 app.UseRouting();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowLocalhost5173",
-        builder =>
-        {
-            builder.WithOrigins("http://localhost:5173")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
-});
-
+ 
 app.UseAuthentication();
 app.UseAuthorization();
 
