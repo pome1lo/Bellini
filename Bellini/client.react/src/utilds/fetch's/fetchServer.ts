@@ -5,11 +5,12 @@ export const serverFetch  = async (endpoint: string, options?: RequestInit): Pro
     }
 
     const url = `${baseUrl}${endpoint}`;
-    console.log(url);
     const response = await fetch(url, options);
 
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+    switch (response.status) {
+        case 401: window.location.href = '/login'; return response;
+        case 404: window.location.href = '/404'; return response;
+        case 500: window.location.href = '/500'; return response;
     }
 
     return response;

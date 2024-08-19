@@ -4,6 +4,7 @@ using BusinessLogic.Services.DTOs;
 using BusinessLogic.Services.Interfaces;
 using BusinessLogic.Services.Validators;
 using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Services.Configs;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using BusinessLogicLayer.Services.Validators;
@@ -33,9 +34,11 @@ builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IValidator<UserDto>, UserDtoValidator>();
 builder.Services.AddScoped<IValidator<LoginDto>, LoginDtoValidator>();
 builder.Services.AddScoped<IValidator<RegisterDto>, RegisterDtoValidator>();
+builder.Services.AddScoped<IValidator<CheckEmailDto>, CheckEmailDtoValidator>();
 builder.Services.AddScoped<IValidator<ResetPasswordDto>, ResetPasswordDtoValidator>();
 builder.Services.AddScoped<IValidator<ChangePasswordDto>, ChangePasswordDtoValidator>();
 builder.Services.AddScoped<IValidator<ForgotPasswordDto>, ForgotPasswordDtoValidator>();
+builder.Services.AddScoped<IValidator<CodeVerificationDto>, CodeVerificationDtoValidator>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
@@ -52,14 +55,14 @@ builder.Services.AddAutoMapper(cfg =>
         .ForMember(dest => dest.Id, opt => opt.Ignore());
     cfg.CreateMap<UserDto, User>();
 }, typeof(Program));
-
  
 builder.Services.AddControllers();
  
 builder.Services.AddJwtAuthentication(builder.Configuration);
+builder.Services.AddCorsClient(builder.Configuration);
 
 var app = builder.Build();
- 
+app.UseCors("AllowLocalhost5173");
 app.UseGlobalExceptionHandler();
  
 app.UseHttpsRedirection();

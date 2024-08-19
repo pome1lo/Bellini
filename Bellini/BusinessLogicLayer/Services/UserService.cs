@@ -66,7 +66,7 @@ namespace BusinessLogic.Services
                 throw new NotFoundException("Cannot update non-existent user");
             }
 
-            if (existingUsers.Any(x => x.Username == updatedUser.Username && x.Id != updatedUser.Id))
+            if (existingUsers.Any(x => x.Username == updatedUser.Username && x.Id != updatedUser.Id && x.Username is not null && updatedUser.Username is not null))
             {
                 throw new RepeatingNameException("Names of several users cannot be equals to each other");
             }

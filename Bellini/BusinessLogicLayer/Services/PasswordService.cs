@@ -1,6 +1,7 @@
 ﻿using BusinessLogic.Exceptions;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
+using BusinessLogicLayer.Utils;
 using DataAccess.Data.Interfaces;
 using DataAccess.Models;
 using FluentValidation;
@@ -67,7 +68,7 @@ namespace BusinessLogicLayer.Services
                 throw new NotFoundException("User not found.");
             }
 
-            var verificationCode = GenerateVerificationCode();
+            var verificationCode = VerificationCodeGenerator.GenerateVerificationCode();
             user.VerificationCode = verificationCode;
             user.VerificationCodeExpiry = DateTime.UtcNow.AddMinutes(15);
             await _repository.UpdateAsync(user.Id, user, cancellationToken);
@@ -114,11 +115,6 @@ namespace BusinessLogicLayer.Services
             user.VerificationCode = null;
             user.VerificationCodeExpiry = DateTime.MinValue;
             await _repository.UpdateAsync(user.Id, user, cancellationToken);
-        }
-
-        private string GenerateVerificationCode()
-        {
-            return new Random().Next(100000, 999999).ToString();
         }
     }
 }
