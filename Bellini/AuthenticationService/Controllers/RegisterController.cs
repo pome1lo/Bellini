@@ -33,9 +33,8 @@ namespace AuthenticationService.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto, CancellationToken cancellationToken = default)
         {
-            return Ok(
-                await _registerService.RegisterUserAsync(registerDto, cancellationToken)
-            );
+            await _registerService.RegisterUserAsync(registerDto, cancellationToken);
+            return Ok();
         }
     }
 }

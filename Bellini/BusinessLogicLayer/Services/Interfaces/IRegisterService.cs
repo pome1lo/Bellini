@@ -7,6 +7,6 @@ namespace BusinessLogic.Services.Interfaces
     {
         Task CheckEmailAsync(CheckEmailDto checkEmailDto, CancellationToken cancellationToken = default);
         Task VerifyCodeAsync(VerifyCodeDto verifyCodeDto, CancellationToken cancellationToken = default);
-        Task<UserDto> RegisterUserAsync(RegisterDto registerDto, CancellationToken cancellationToken = default);
+        Task RegisterUserAsync(RegisterDto registerDto, CancellationToken cancellationToken = default);
     }
 }

@@ -89,19 +89,27 @@ namespace BusinessLogic.Services
             await _emailService.SendEmailNotificationAsync(notificationDto, cancellationToken);
         }
 
-
-        public async Task<UserDto> RegisterUserAsync(RegisterDto registerDto, CancellationToken cancellationToken = default)
+        public async Task RegisterUserAsync(RegisterDto registerDto, CancellationToken cancellationToken = default)
         {
             var validationResult = await _registerValidator.ValidateAsync(registerDto, cancellationToken);
             if (!validationResult.IsValid)
             {
                 throw new ValidationException(validationResult.Errors);
             }
-
             await ValidateUserAsync(registerDto, cancellationToken);
 
+            var users = await _repository.GetElementsAsync(cancellationToken);
+            var user = users.FirstOrDefault(u => u.Email == registerDto.Email);
+            
+            if (user?.RegistrationCode != registerDto.RegistrationCode)
+            {
+                throw new UnauthorizedAccessException("Invalid or expired registration code.");
+            }
+
             var userDto = _mapper.Map<UserDto>(registerDto);
-            return await _userService.CreateUserAsync(userDto, cancellationToken);
+            userDto.Id = user.Id;
+            userDto.Password = BCrypt.Net.BCrypt.HashPassword(registerDto.Password);
+            await _userService.UpdateUserAsync(user.Id, userDto, cancellationToken);
         }
 
         public async Task VerifyCodeAsync(VerifyCodeDto verifyCodeDto, CancellationToken cancellationToken = default)
@@ -123,7 +131,7 @@ namespace BusinessLogic.Services
                 throw new RepeatingNameException("Username already exists");
             }
 
-            if (existingUsers.Any(u => u.Email == registerDto.Email))
+            if (existingUsers.Any(u => u.Email == registerDto.Email && u.Username is not null))
             {
                 throw new RepeatingNameException("Email already exists");
             }
