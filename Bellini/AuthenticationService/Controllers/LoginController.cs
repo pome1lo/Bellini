@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Services.DTOs;
 using BusinessLogic.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthenticationService.Controllers
@@ -15,8 +16,15 @@ namespace AuthenticationService.Controllers
             _loginService = authService;
         }
 
+        [HttpGet("protected")]
+        [Authorize]
+        public IActionResult Prtotected()
+        {
+            return Ok();
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto, CancellationToken cancellationToken = default)
+        public async Task<ActionResult<TokenDto>> Login([FromBody] LoginDto loginDto, CancellationToken cancellationToken = default)
         {
             return Ok(
                 await _loginService.AuthenticateAsync(loginDto, cancellationToken)

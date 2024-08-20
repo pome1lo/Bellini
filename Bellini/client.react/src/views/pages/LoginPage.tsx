@@ -12,16 +12,18 @@ import {
 } from "@/components/ui/form"
 import {Input} from "@/components/ui/input"
 import {Link, useNavigate} from "react-router-dom";
-import {serverFetch} from "@/utilds/fetch's/fetchServer.ts";
+import {serverFetch} from "@/utilds/fetch\'s/serverFetch.ts";
+import {useState} from "react";
 
 export const LoginPage = () => {
     const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const formSchema = z.object({
         email: z.string().email(),
-        password: z.string().min(5, {
-            message: "Password must be at least 5 characters."
-        })
+        password: z.string().min(8, {
+            message: "Password must be at least 8 characters."
+        }).max(60)
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -33,17 +35,29 @@ export const LoginPage = () => {
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        const data = await serverFetch('/auth/login', {
-            method: 'POST', headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                email: values.email,
-                password: values.password,
-            }),
-        }).then(r => r.json())
-        console.log(data);
-        sessionStorage.setItem('__access-token', data.accessToken);
-        sessionStorage.setItem('__refresh-token', data.refreshToken);
-        navigate('/profile');
+        try {
+            setErrorMessage(null);
+            const response = await serverFetch('/auth/login', {
+                method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    Email: values.email,
+                    Password: values.password,
+                }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                sessionStorage.setItem('__access-token', data.accessToken);
+                sessionStorage.setItem('__refresh-token', data.refreshToken);
+                sessionStorage.setItem('__username', data.username);
+                sessionStorage.setItem('__email', values.email);
+                sessionStorage.setItem('__user-id', values.userId);
+                navigate('/profile');
+            } else {
+                setErrorMessage(data.Message || 'An error occurred');
+            }
+        } catch (ex) {
+            setErrorMessage(ex.Message || 'An unexpected error occurred');
+        }
     }
 
     return (
@@ -57,34 +71,35 @@ export const LoginPage = () => {
                             <FormField
                                 control={form.control}
                                 name="email"
-                                render={({field}) => (
+                                render={({field, fieldState}) => (
                                     <FormItem>
                                         <FormLabel>Email</FormLabel>
                                         <FormControl>
                                             <Input type="email" {...field} required/>
                                         </FormControl>
-                                        <FormMessage/>
+                                        <FormMessage>{fieldState.error?.message}</FormMessage>
                                     </FormItem>
                                 )}
                             />
                             <FormField
                                 control={form.control}
                                 name="password"
-                                render={({field}) => (
+                                render={({field,fieldState}) => (
                                     <FormItem>
-                                        <FormLabel>Password</FormLabel>
+                                        <div className="flex justify-between items-center">
+                                            <FormLabel>Password</FormLabel>
+                                            <Link to='/forgot-password'>Forgot password?</Link>
+                                        </div>
                                         <FormControl>
                                             <Input type="password" {...field} required/>
                                         </FormControl>
-                                        <FormMessage/>
+                                        <FormMessage>{fieldState.error?.message}</FormMessage>
                                     </FormItem>
                                 )}
                             />
-                            <div className="text-end" style={{marginTop: '0.25rem'}}>
-                                <Link to='/forgot-password'>Forgot password?</Link>
-                            </div>
                             <Button type="submit" className="w-full">Login</Button>
                             <div className="relative">
+                                <FormMessage>{errorMessage}</FormMessage>
                                 <div className="absolute inset-0 flex items-center"><span
                                     className="w-full border-t"></span></div>
                                 <div className="relative flex justify-center text-xs uppercase"><span

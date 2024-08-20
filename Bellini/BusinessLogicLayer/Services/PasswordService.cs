@@ -46,7 +46,7 @@ namespace BusinessLogicLayer.Services
 
             if (!BCrypt.Net.BCrypt.Verify(changePasswordDto.CurrentPassword, user.Password))
             {
-                throw new UnauthorizedAccessException("Invalid current password.");
+                throw new ValidationException("Invalid current password.");
             }
 
             user.Password = BCrypt.Net.BCrypt.HashPassword(changePasswordDto.NewPassword);
@@ -108,7 +108,7 @@ namespace BusinessLogicLayer.Services
 
             if (user.VerificationCode != resetPasswordDto.VerificationCode || user.VerificationCodeExpiry < DateTime.UtcNow)
             {
-                throw new UnauthorizedAccessException("Invalid or expired verification code.");
+                throw new ValidationException("Invalid or expired verification code.");
             }
 
             user.Password = BCrypt.Net.BCrypt.HashPassword(resetPasswordDto.NewPassword);

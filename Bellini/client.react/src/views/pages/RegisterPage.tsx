@@ -5,7 +5,7 @@ import {Button} from "@/components/ui/button"
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form"
 import {Input} from "@/components/ui/input"
 import {useNavigate} from "react-router-dom";
-import {serverFetch} from "@/utilds/fetch's/fetchServer.ts";
+import {serverFetch} from "@/utilds/fetch\'s/serverFetch.ts";
 import {DiGithubBadge} from "react-icons/di";
 import {useState} from "react";
 import {InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot} from "@/components/ui/input-otp.tsx";
@@ -13,8 +13,12 @@ import {InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot} from "@/compon
 export const RegisterPage = () => {
     const navigate = useNavigate();
     const [emailFormSchemaValues, setEmailFormSchemaValues] = useState<z.infer<typeof emailFormSchema>>();
+    const [codeFormSchemaValues, setCodeFormSchemaValues] = useState<z.infer<typeof codeFormSchema>>();
     const [showCodeForm, setShowCodeForm] = useState(false);
     const [showPasswordForm, setShowPasswordForm] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string[] }>({});
+
 
     const emailFormSchema = z.object({
         email: z.string().email()
@@ -26,9 +30,9 @@ export const RegisterPage = () => {
 
     const registerFormSchema = z.object({
         username: z.string().min(4).max(20),
-        password: z.string().min(5, {
-            message: "Password must be at least 5 characters."
-        })
+        password: z.string().min(8, {
+            message: "Password must be at least 8 characters."
+        }).max(60)
     });
 
     const emailForm = useForm<z.infer<typeof emailFormSchema>>({
@@ -54,22 +58,83 @@ export const RegisterPage = () => {
     });
 
     async function onSubmitEmailForm(values: z.infer<typeof emailFormSchema>) {
-        setEmailFormSchemaValues(values);
-        setShowCodeForm(true);
+        try {
+            setErrorMessage(null);
+
+            const response = await serverFetch('/auth/register/check-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ Email: values.email }),
+            });
+
+            if (response.ok) {
+                setShowCodeForm(true);
+                setErrorMessage(null);
+                setEmailFormSchemaValues(values);
+            } else {
+                const data = await response.json();
+                setErrorMessage(data.Message || 'An error occurred');
+            }
+        } catch (ex) {
+            setErrorMessage(ex.Message || 'An unexpected error occurred');
+        }
     }
 
     async function onSubmitCodeForm(values: z.infer<typeof codeFormSchema>) {
-        // serverFetch();
-        console.log('Form submitted');
-        console.log(values.code);
-        setShowPasswordForm(true);
+        try {
+            setErrorMessage(null);
+            const response = await serverFetch('/auth/register/verify-code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    Email: emailFormSchemaValues?.email,
+                    VerificationCode: values.code
+                }),
+            });
+
+            if (response.ok) {
+                setShowPasswordForm(true);
+                setErrorMessage(null);
+                setCodeFormSchemaValues(values);
+            } else {
+                const data = await response.json();
+                setErrorMessage(data.Message || 'An error occurred');
+            }
+        } catch (ex) {
+            setErrorMessage(ex.Message || 'An unexpected error occurred');
+        }
     }
 
-    async function onSubmitRegisterForm(values: z.infer<typeof codeFormSchema>) {
-        // serverFetch();
-        console.log('Form submitted');
-        console.log(values.code);
-        setShowPasswordForm(true);
+    async function onSubmitRegisterForm(values: z.infer<typeof registerFormSchema>) {
+        try {
+            setErrorMessage(null);
+            setFieldErrors({});
+            const response = await serverFetch('/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    Email: emailFormSchemaValues?.email,
+                    RegistrationCode: codeFormSchemaValues?.code,
+                    Username: values.username,
+                    Password: values.password,
+                }),
+            });
+
+            if (response.ok) {
+                navigate('/login')
+                ///todo add toast notification
+            } else {
+                const data = await response.json();
+                if (data.errors) {
+                    setFieldErrors(data.errors);
+                    console.log(data.errors);
+                } else {
+                    setErrorMessage(data.Message || 'An error occurred');
+                }
+            }
+        } catch (ex) {
+            setErrorMessage(ex.Message || 'An unexpected error occurred');
+        }
     }
 
     return (
@@ -91,7 +156,7 @@ export const RegisterPage = () => {
                                                     <Input placeholder="name@example.com" type="email" {...field}
                                                            required/>
                                                 </FormControl>
-                                                <FormMessage/>
+                                                <FormMessage>{errorMessage}</FormMessage>
                                             </FormItem>
                                         )}
                                     />
@@ -146,6 +211,7 @@ export const RegisterPage = () => {
                                                                     <InputOTPSlot index={5}/>
                                                                 </InputOTPGroup>
                                                             </InputOTP>
+                                                            <FormMessage>{errorMessage}</FormMessage>
                                                             {fieldState.error && (
                                                                 <p className="text-red-500 text-sm">{fieldState.error.message}</p>
                                                             )}
@@ -181,7 +247,7 @@ export const RegisterPage = () => {
                                                         <FormControl>
                                                             <Input type="text" {...field} required/>
                                                         </FormControl>
-                                                        <FormMessage/>
+                                                        <FormMessage>{fieldErrors.Username && fieldErrors.Username[0]}</FormMessage>
                                                     </FormItem>
                                                 )}
                                             />
@@ -194,10 +260,11 @@ export const RegisterPage = () => {
                                                         <FormControl>
                                                             <Input type="password" {...field} required/>
                                                         </FormControl>
-                                                        <FormMessage/>
+                                                        <FormMessage>{fieldErrors.Password && fieldErrors.Password[0]}</FormMessage>
                                                     </FormItem>
                                                 )}
                                             />
+                                            <FormMessage>{errorMessage}</FormMessage>
                                             <Button type="submit" className="w-full">Register</Button>
                                             <div className="relative">
                                                 <div className="absolute inset-0 flex items-center"><span

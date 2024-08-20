@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Exceptions;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
@@ -50,6 +51,11 @@ namespace GlobalExceptionHandlerLibrary
                 {
                     statusCode = HttpStatusCode.Unauthorized;
                     errorCode = "Unauthorized";
+                }
+                else if (ex is ValidationException)
+                {
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorCode = "ValidationException";
                 }
 
                 context.Response.StatusCode = (int)statusCode;
