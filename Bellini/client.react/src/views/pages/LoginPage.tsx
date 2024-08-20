@@ -45,8 +45,6 @@ export const LoginPage = () => {
                 }),
             });
             const data = await response.json();
-            console.log(data);
-            alert("stop")
             if (response.ok) {
                 sessionStorage.setItem('__access-token', data.accessToken);
                 sessionStorage.setItem('__refresh-token', data.refreshToken);

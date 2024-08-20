@@ -22,9 +22,10 @@ import {useNavigate} from "react-router-dom";
 
 export const Header = () => {
     const [open, setOpen] = useState(false);
-    const email= useState(sessionStorage.getItem('__email'));
+    const email = useState(sessionStorage.getItem('__email'));
     const username = useState(sessionStorage.getItem('__username'));
 
+    const isAuthenticated = useState<boolean>(sessionStorage.getItem('__email') == null);
 
     const navigate = useNavigate();
     return (
@@ -62,25 +63,32 @@ export const Header = () => {
                             <IoNotificationsOutline className="text-xl"/>
                         </Button>
                         <ModeToggle/>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="secondary" size="icon" className="rounded-full">
-                                    <CircleUser className="h-5 w-5"/>
-                                    <span className="sr-only">Toggle user menu</span>
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>
-                                    <p className="text-sm font-medium leading-none">{username}</p>
-                                    <p className="text-xs leading-none text-muted-foreground">{email}</p>
-                                </DropdownMenuLabel>
-                                <DropdownMenuSeparator/>
-                                <DropdownMenuItem>Settings</DropdownMenuItem>
-                                <DropdownMenuItem>Support</DropdownMenuItem>
-                                <DropdownMenuSeparator/>
-                                <DropdownMenuItem>Logout</DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                        {!isAuthenticated ?
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="secondary" size="icon" className="rounded-full">
+                                        <CircleUser className="h-5 w-5"/>
+                                        <span className="sr-only">Toggle user menu</span>
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuLabel>
+                                        <p className="text-sm font-medium leading-none">{username}</p>
+                                        <p className="text-xs leading-none text-muted-foreground">{email}</p>
+                                    </DropdownMenuLabel>
+                                    <DropdownMenuSeparator/>
+                                    <DropdownMenuItem>Settings</DropdownMenuItem>
+                                    <DropdownMenuItem>Support</DropdownMenuItem>
+                                    <DropdownMenuSeparator/>
+                                    <DropdownMenuItem>Logout</DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                            :
+                            <>
+                                <Button variant="outline" onClick={() => navigate('/login')}>Login</Button>
+                            </>
+                        }
+
                         <div className="md:hidden">
                             <Sheet open={open} onOpenChange={setOpen}>
                                 <SheetTrigger asChild>
