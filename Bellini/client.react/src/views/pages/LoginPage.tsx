@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form"
 import {Input} from "@/components/ui/input"
 import {Link, useNavigate} from "react-router-dom";
-import {serverFetch} from "@/utilds/fetch's/fetchServer.ts";
+import {serverFetch} from "@/utilds/fetch\'s/serverFetch.ts";
 import {useState} from "react";
 
 export const LoginPage = () => {

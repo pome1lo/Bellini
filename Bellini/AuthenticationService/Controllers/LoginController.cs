@@ -1,5 +1,6 @@
 ﻿using BusinessLogic.Services.DTOs;
 using BusinessLogic.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthenticationService.Controllers
@@ -13,6 +14,13 @@ namespace AuthenticationService.Controllers
         public LoginController(ILoginService authService)
         {
             _loginService = authService;
+        }
+
+        [HttpGet("protected")]
+        [Authorize]
+        public IActionResult Prtotected()
+        {
+            return Ok();
         }
 
         [HttpPost]

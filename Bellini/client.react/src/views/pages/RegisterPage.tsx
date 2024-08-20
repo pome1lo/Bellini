@@ -5,7 +5,7 @@ import {Button} from "@/components/ui/button"
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form"
 import {Input} from "@/components/ui/input"
 import {useNavigate} from "react-router-dom";
-import {serverFetch} from "@/utilds/fetch's/fetchServer.ts";
+import {serverFetch} from "@/utilds/fetch\'s/serverFetch.ts";
 import {DiGithubBadge} from "react-icons/di";
 import {useState} from "react";
 import {InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot} from "@/components/ui/input-otp.tsx";
