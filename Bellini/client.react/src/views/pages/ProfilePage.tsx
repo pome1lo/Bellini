@@ -14,13 +14,15 @@ import {Link} from "react-router-dom";
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
-import React from 'react';
+import React, {useState} from 'react';
 import {format} from "date-fns";
 import {cn} from "@/lib/utils";
 import {useForm, Controller} from 'react-hook-form';
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
 import {CalendarIcon} from "@radix-ui/react-icons";
 import {Calendar} from "@/components/ui/calendar.tsx";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
+import {serverFetch} from "@/utilds/fetch's/serverFetch.ts";
 
 const breadcrumbItems = [
     {path: '/', name: 'Home'},
@@ -28,15 +30,17 @@ const breadcrumbItems = [
 ];
 
 const profileSchema = z.object({
-    firstName: z.string().min(1, "First name is required"),
-    lastName: z.string().min(1, "Last name is required"),
+    firstName: z.string().min(3).max(20),
+    lastName: z.string().min(3).max(20),
     dateOfBirth: z.date().refine(date => date <= new Date(), "Date of birth cannot be in the future")
 });
 
 
 export const ProfilePage = () => {
+    const currentUserId = useState(sessionStorage.getItem('__user-id'));
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const {control, handleSubmit, formState: {errors}} = useForm<z.infer<typeof profileSchema>>({
+    const form = useForm<z.infer<typeof profileSchema>>({
         resolver: zodResolver(profileSchema),
         defaultValues: {
             firstName: '',
@@ -45,9 +49,27 @@ export const ProfilePage = () => {
         }
     });
 
-    const onSubmit = (data: z.infer<typeof profileSchema>) => {
-        console.log('Form submitted:', data);
-        // Handle form submission
+    const onSubmit = async (values: z.infer<typeof profileSchema>) => {
+        try {
+            setErrorMessage(null);
+            const response = await serverFetch('/profile', {
+                method: 'PUT', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    id: currentUserId,
+                    FirstName: values.firstName,
+                    LastName: values.lastName,
+                    DateOfBirth: values.dateOfBirth
+                }),
+            });
+            const data = await response.json();
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                setErrorMessage(data.Message || 'An error occurred');
+            }
+        } catch (ex) {
+            setErrorMessage(ex.Message || 'An unexpected error occurred');
+        }
     };
     return (
         <>
@@ -144,89 +166,99 @@ export const ProfilePage = () => {
                             <Link to="#">Advanced</Link>
                         </nav>
                         <div className="grid gap-6">
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Profile Information</CardTitle>
-                                    <CardDescription>Update your personal information</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                                        <div>
-                                            <label htmlFor="firstName">First Name</label>
-                                            <Controller
-                                                name="firstName"
-                                                control={control}
-                                                render={({field}) => <Input {...field} placeholder="First Name"/>}
-                                            />
-                                            {errors.firstName &&
-                                                <p className="text-red-500">{errors.firstName.message}</p>}
-                                        </div>
-                                        <div>
-                                            <label htmlFor="lastName">Last Name</label>
-                                            <Controller
-                                                name="lastName"
-                                                control={control}
-                                                render={({field}) => <Input {...field} placeholder="Last Name"/>}
-                                            />
-                                            {errors.lastName &&
-                                                <p className="text-red-500">{errors.lastName.message}</p>}
-                                        </div>
-                                        <div>
-                                            <label htmlFor="dateOfBirth">Date of Birth</label>
-                                            <Controller
-                                                name="dateOfBirth"
-                                                control={control}
-                                                render={({field}) => (
-                                                    <Popover>
-                                                        <PopoverTrigger asChild>
-                                                            <Button
-                                                                variant={"outline"}
-                                                                className={cn(
-                                                                    "w-full justify-start text-left font-normal",
-                                                                    !field.value && "text-muted-foreground"
-                                                                )}
-                                                            >
-                                                                <CalendarIcon className="mr-2 h-4 w-4"/>
-                                                                {field.value ? format(field.value, "PPP") :
-                                                                    <span>Pick a date</span>}
-                                                            </Button>
-                                                        </PopoverTrigger>
-                                                        <PopoverContent className="w-auto p-0" align="start">
-                                                            <Calendar
-                                                                mode="single"
-                                                                selected={field.value}
-                                                                onSelect={field.onChange}
-                                                                initialFocus
-                                                            />
-                                                        </PopoverContent>
-                                                    </Popover>
-                                                )}
-                                            />
-                                            {errors.dateOfBirth &&
-                                                <p className="text-red-500">{errors.dateOfBirth.message}</p>}
-                                        </div>
-                                    </form>
-                                </CardContent>
-                                <CardFooter className="border-t px-6 py-4">
-                                    <Button type="submit">Save</Button>
-                                </CardFooter>
-                            </Card>
+                            <Form {...form}>
+                                <form onSubmit={form.handleSubmit(onSubmit)}>
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle>Profile Information</CardTitle>
+                                            <CardDescription>Update your personal information</CardDescription>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <label htmlFor="firstName">First Name</label>
+                                                    <Controller
+                                                        name="firstName"
+                                                        control={(form.control)}
+                                                        render={({field}) => <Input {...field} placeholder="First Name"/>}
+                                                    />
+
+                                                    <FormField
+                                                        control={form.control}
+                                                        name="firstName"
+                                                        render={({field, fieldState}) => (
+                                                            <FormItem>
+                                                                <FormLabel>First Name</FormLabel>
+                                                                <FormControl>
+                                                                    <Input {...field} required/>
+                                                                </FormControl>
+                                                                <FormMessage>{fieldState.error?.message}</FormMessage>
+                                                            </FormItem>
+                                                        )}
+                                                    />
+
+
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="lastName">Last Name</label>
+                                                    <Controller
+                                                        name="lastName"
+                                                        control={form.control}
+                                                        render={({field}) => <Input {...field} placeholder="Last Name"/>}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="dateOfBirth">Date of Birth</label>
+                                                    <Controller
+                                                        name="dateOfBirth"
+                                                        control={form.control}
+                                                        render={({field}) => (
+                                                            <Popover>
+                                                                <PopoverTrigger asChild>
+                                                                    <Button
+                                                                        variant={"outline"}
+                                                                        className={cn(
+                                                                            "w-full justify-start text-left font-normal",
+                                                                            !field.value && "text-muted-foreground"
+                                                                        )}
+                                                                    >
+                                                                        <CalendarIcon className="mr-2 h-4 w-4"/>
+                                                                        {field.value ? format(field.value, "PPP") :
+                                                                            <span>Pick a date</span>}
+                                                                    </Button>
+                                                                </PopoverTrigger>
+                                                                <PopoverContent className="w-auto p-0" align="start">
+                                                                    <Calendar
+                                                                        mode="single"
+                                                                        selected={field.value}
+                                                                        onSelect={field.onChange}
+                                                                        initialFocus
+                                                                    />
+                                                                </PopoverContent>
+                                                            </Popover>
+                                                        )}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </CardContent>
+                                        <FormMessage>{errorMessage}</FormMessage>
+                                        <CardFooter className="border-t px-6 py-4">
+                                            <Button type="submit">Save</Button>
+                                        </CardFooter>
+                                    </Card>
+                                </form>
+                            </Form>
 
 
                             <Card x-chunk="dashboard-04-chunk-1">
                                 <CardHeader>
-                                    <CardTitle>Store Name</CardTitle>
+                                    <CardTitle>Logout</CardTitle>
                                     <CardDescription>
-                                        Used to identify your store in the marketplace.
+                                        Log out of your account.
                                     </CardDescription>
                                 </CardHeader>
-                                <CardContent>
-                                    <form>
-                                        <Input placeholder="Store Name"/>
-                                    </form>
-                                </CardContent>
                                 <CardFooter className="border-t px-6 py-4">
-                                    <Button>Save</Button>
+                                    <Button>Logout</Button>
                                 </CardFooter>
                             </Card>
 

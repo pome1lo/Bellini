@@ -19,8 +19,8 @@ function App() {
                         <Route index element={<MainPage/>}/>
                         <Route path='login' element={<LoginPage/>}/>
                         <Route path='register' element={<RegisterPage/>}/>
-                        <Route element={<PrivateRoute/>}>
                             <Route path='profile' element={<ProfilePage/>}/>
+                        <Route element={<PrivateRoute/>}>
                             {/*<Route path='profile/edit' element={</>}/>*/}
                             {/*<Route path='profile/settings' element={</>}/>*/}
                             {/*<Route path='about' element={</AboutPage>}/>*/}

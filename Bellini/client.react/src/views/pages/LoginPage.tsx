@@ -50,6 +50,7 @@ export const LoginPage = () => {
                 sessionStorage.setItem('__refresh-token', data.refreshToken);
                 sessionStorage.setItem('__username', data.username);
                 sessionStorage.setItem('__email', values.email);
+                sessionStorage.setItem('__user-id', values.userId);
                 navigate('/profile');
             } else {
                 setErrorMessage(data.Message || 'An error occurred');
@@ -96,9 +97,9 @@ export const LoginPage = () => {
                                     </FormItem>
                                 )}
                             />
-                            <FormMessage>{errorMessage}</FormMessage>
                             <Button type="submit" className="w-full">Login</Button>
                             <div className="relative">
+                                <FormMessage>{errorMessage}</FormMessage>
                                 <div className="absolute inset-0 flex items-center"><span
                                     className="w-full border-t"></span></div>
                                 <div className="relative flex justify-center text-xs uppercase"><span

@@ -68,7 +68,8 @@ namespace BusinessLogic.Services
             {
                 AccessToken = GenerateAccessToken(user),
                 RefreshToken = GenerateRefreshToken(user),
-                Username = user.Username
+                Username = user.Username,
+                UserId = user.Id
             };
         }
 
