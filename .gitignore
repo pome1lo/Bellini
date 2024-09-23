@@ -7,6 +7,7 @@ obj/
 *.userosscache
 *.sln.docstates
 *.env
+appsettings.json
 
 # Nginx
 logs/
@@ -28,8 +29,6 @@ dist/
 # General
 .DS_Store
 Thumbs.db
-.vscode/
-.idea/
 *.log
 *.lock
 *.bak
@@ -39,3 +38,19 @@ Thumbs.db
 *.pid
 *.seed
 *.pid.lock
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# Visual Studio
+.vs/
+*.csproj.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# WebStorm
+.idea/
+*.iml
+*/package-lock.json

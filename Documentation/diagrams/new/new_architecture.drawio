@@ -1,0 +1,46 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0" version="24.7.16">
+  <diagram name="Page-1" id="-ow4DpQ6KdscyZ0m3crN">
+    <mxGraphModel dx="1103" dy="-471" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="oQ-cfwCFF4_QNjiHJktd-1" value="HTTPS/1.1" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Times New Roman;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="420" y="1520" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="oQ-cfwCFF4_QNjiHJktd-2" value="TCP" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontFamily=Times New Roman;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="260" y="1680" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="oQ-cfwCFF4_QNjiHJktd-3" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0;exitY=0;exitDx=85;exitDy=0;exitPerimeter=0;entryX=0.486;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="oQ-cfwCFF4_QNjiHJktd-4" target="oQ-cfwCFF4_QNjiHJktd-9">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="450" y="1080" as="sourcePoint" />
+            <mxPoint x="580" y="1080" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="oQ-cfwCFF4_QNjiHJktd-4" value="WebServer&lt;br&gt;Docker&amp;nbsp;27.1.1&lt;br&gt;{OS: Linux}" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="124" y="1470" width="270" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="oQ-cfwCFF4_QNjiHJktd-5" value=".NET&lt;br&gt;8.0.400" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="140" y="1550" width="210" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="oQ-cfwCFF4_QNjiHJktd-6" value="Database Server&lt;br&gt;Docker&amp;nbsp;27.1.1&lt;br&gt;{OS: Linux}" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="120" y="1720" width="280" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="oQ-cfwCFF4_QNjiHJktd-7" value="&lt;span style=&quot;font-family: &amp;quot;Times New Roman&amp;quot;; font-size: 14px;&quot;&gt;MS SQL Server&lt;/span&gt;&lt;div&gt;&lt;font face=&quot;Times New Roman&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;16.0.1000.6 (X64)&lt;/span&gt;&lt;/font&gt;&lt;br&gt;&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="170" y="1800" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="oQ-cfwCFF4_QNjiHJktd-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=0;exitDy=135;exitPerimeter=0;entryX=0.993;entryY=0.478;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=classicThin;endFill=1;startArrow=classicThin;startFill=1;" edge="1" parent="1" source="oQ-cfwCFF4_QNjiHJktd-6" target="oQ-cfwCFF4_QNjiHJktd-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="oQ-cfwCFF4_QNjiHJktd-9" value="WebClient&lt;br&gt;Microsoft Edge 128.0.2739.79" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="500" y="1470" width="270" height="175" as="geometry" />
+        </mxCell>
+        <mxCell id="oQ-cfwCFF4_QNjiHJktd-10" value="React&lt;br&gt;18.3.1" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="530" y="1560" width="140" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="oQ-cfwCFF4_QNjiHJktd-11" value="ASP.NET Core&lt;br&gt;8.0" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="190" y="1600" width="130" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
