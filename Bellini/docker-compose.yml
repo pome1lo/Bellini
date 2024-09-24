@@ -58,14 +58,14 @@ services:
     networks:
       - backend
 
-  proxy:
-    image: nginx:latest
-    container_name: nginx
-    ports:
-      - "59201:80"
-      - "59202:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    networks:
-      - frontend
-      - backend
+  # proxy:
+  #   image: nginx:latest
+  #   container_name: nginx
+  #   ports:
+  #     - "59201:80"
+  #     - "59202:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf
+  #   networks:
+  #     - frontend
+  #     - backend
