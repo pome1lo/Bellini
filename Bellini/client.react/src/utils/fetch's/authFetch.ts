@@ -5,7 +5,7 @@ export const authFetch = async (endpoint: string, options?: RequestInit): Promis
     const refreshToken = sessionStorage.getItem('__refresh-token');
 
     if (!accessToken || !refreshToken) {
-        window.location.href = '/login';
+        window.location.href = '/login';g
         return Promise.reject(new Error("Tokens are missing, redirecting to login."));
     }
 
