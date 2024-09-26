@@ -1,11 +1,12 @@
 import {Button} from "@/components/ui/button.tsx";
 import React from "react";
+import {Link} from "react-router-dom";
 
 export const Footer = () => {
     return (
         <>
             <footer className="bg-black text-white py-8">
-                <div className="container mx-auto px-4">
+                <div className="mx-auto px-4">
                     <div className="flex flex-col md:flex-row justify-between items-center">
                         <div className="mb-4 order-2 md:mb-0 md:order-1">
                             <h2 className="text-3xl text-shrikhand">Bellini</h2>
@@ -13,9 +14,9 @@ export const Footer = () => {
                         </div>
                         <div
                             className="flex md:order-2 order-1 sm:space-x-4 flex-col sm:flex-row">
-                            <Button variant="link" className="text-start text-white">Privacy Policy</Button>
-                            <Button variant="link" className="text-white">Terms of Service</Button>
-                            <Button variant="link" className="text-white">Contact Us</Button>
+                            <Button variant="link" className="text-start text-white">Contacts</Button>
+                            <Button variant="link" className="text-white">About</Button>
+                            <Button variant="link" className="text-white">Support</Button>
                         </div>
                     </div>
                 </div>

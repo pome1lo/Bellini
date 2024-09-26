@@ -12,6 +12,7 @@ import {PrivateRoute} from "@/utils/routers/PrivateRoute.tsx";
 import {ContactsPage} from "@/views/pages/ContactsPage.tsx";
 import {AboutPage} from "@/views/pages/AboutPage.tsx";
 import {ProfilePage} from "@/views/pages/ProfilePage.tsx";
+import {SupportPage} from "@/views/pages/SupportPage.tsx";
 
 function App() {
     return (
@@ -27,6 +28,7 @@ function App() {
                         <Route path='profile' element={<ProfilePage/>}/>
                         <Route path='contacts' element={<ContactsPage/>}/>
                         <Route path='about' element={<AboutPage/>}/>
+                        <Route path='support' element={<SupportPage/>}/>
 
                         <Route element={<PrivateRoute/>}>
 
