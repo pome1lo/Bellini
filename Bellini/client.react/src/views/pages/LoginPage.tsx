@@ -46,12 +46,13 @@ export const LoginPage = () => {
             });
             const data = await response.json();
             if (response.ok) {
+                sessionStorage.setItem('__user-id', data.userId);
                 sessionStorage.setItem('__access-token', data.accessToken);
                 sessionStorage.setItem('__refresh-token', data.refreshToken);
                 sessionStorage.setItem('__username', data.username);
                 sessionStorage.setItem('__email', values.email);
-                sessionStorage.setItem('__user-id', values.userId);
                 navigate('/profile');
+                window.location.reload();
             } else {
                 setErrorMessage(data.Message || 'An error occurred');
             }

@@ -1,3 +1,9 @@
 .text-roboto {
     font-family: "Russo One", sans-serif;
 }
+
+.text-shrikhand {
+    font-family: "Shrikhand", serif;
+    font-weight: 400;
+    font-style: normal;
+}

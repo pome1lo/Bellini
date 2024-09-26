@@ -8,9 +8,20 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import {Input} from "@/components/ui/input"
 import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet"
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
@@ -23,6 +34,7 @@ import {CalendarIcon} from "@radix-ui/react-icons";
 import {Calendar} from "@/components/ui/calendar.tsx";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
 import {serverFetch} from "@/utilds/fetch's/serverFetch.ts";
+import {authFetch} from "@/utilds/fetch's/authFetch.ts";
 
 const breadcrumbItems = [
     {path: '/', name: 'Home'},
@@ -36,9 +48,11 @@ const profileSchema = z.object({
 });
 
 
+
 export const ProfilePage = () => {
-    const currentUserId = useState(sessionStorage.getItem('__user-id'));
+    const [currentUserId] = useState(sessionStorage.getItem('__user-id'));
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     const form = useForm<z.infer<typeof profileSchema>>({
         resolver: zodResolver(profileSchema),
@@ -71,6 +85,32 @@ export const ProfilePage = () => {
             setErrorMessage(ex.Message || 'An unexpected error occurred');
         }
     };
+
+    const onDeleteSubmit = async () => {
+        try {
+            const response = await authFetch(`/profile/${currentUserId}`, {
+                method: 'DELETE'
+            });
+
+            if (response.status == 204) {
+                sessionStorage.clear()
+                navigate('/');
+                window.location.reload();
+            } else {
+                const data = await response.json();
+                setErrorMessage(data.Message || 'An error occurred');
+            }
+        } catch (ex) {
+            setErrorMessage(ex.Message || 'An unexpected error occurred');
+        }
+    };
+
+    function logout() {
+        sessionStorage.clear()
+        navigate('/');
+        window.location.reload();
+    }
+
     return (
         <>
             <div className="flex min-h-screen w-full flex-col">
@@ -258,7 +298,7 @@ export const ProfilePage = () => {
                                     </CardDescription>
                                 </CardHeader>
                                 <CardFooter className="border-t px-6 py-4">
-                                    <Button>Logout</Button>
+                                    <Button onClick={logout}>Logout</Button>
                                 </CardFooter>
                             </Card>
 
@@ -275,7 +315,24 @@ export const ProfilePage = () => {
                                     </form>
                                 </CardContent>
                                 <CardFooter className="border-t px-6 py-4">
-                                    <Button variant="destructive">Delete an account</Button>
+                                    <AlertDialog>
+                                        <AlertDialogTrigger>
+                                            <Button variant="destructive">Delete an account</Button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    This action cannot be undone. This will permanently delete your account
+                                                    and remove your data from our servers.
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                <AlertDialogAction onClick={onDeleteSubmit}>Delete</AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
                                 </CardFooter>
                             </Card>
                         </div>

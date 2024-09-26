@@ -22,17 +22,24 @@ import {useNavigate} from "react-router-dom";
 
 export const Header = () => {
     const [open, setOpen] = useState(false);
-    const email = useState(sessionStorage.getItem('__email'));
-    const username = useState(sessionStorage.getItem('__username'));
+    const email = sessionStorage.getItem('__email');
+    const username = sessionStorage.getItem('__username');
 
-    const isAuthenticated = useState<boolean>(sessionStorage.getItem('__email') == null);
+    const [isAuthenticated] = useState<boolean>(!!email);
 
     const navigate = useNavigate();
+
+    function logout() {
+        sessionStorage.clear()
+        navigate('/');
+        window.location.reload();
+    }
+
     return (
         <>
             <header className="sticky top-0 z-50 w-full shadow-md backdrop-blur">
                 <div className="flex items-center justify-between p-4">
-                    <div className="text-xl font-bold">My Logo</div>
+                    <div className="text-3xl text-shrikhand">Bellini</div>
                     <NavigationMenu className="hidden md:flex ">
                         <NavigationMenuList>
                             <NavigationMenuItem>
@@ -63,7 +70,7 @@ export const Header = () => {
                             <IoNotificationsOutline className="text-xl"/>
                         </Button>
                         <ModeToggle/>
-                        {!isAuthenticated ?
+                        {isAuthenticated ?
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="secondary" size="icon" className="rounded-full">
@@ -80,7 +87,7 @@ export const Header = () => {
                                     <DropdownMenuItem>Settings</DropdownMenuItem>
                                     <DropdownMenuItem>Support</DropdownMenuItem>
                                     <DropdownMenuSeparator/>
-                                    <DropdownMenuItem>Logout</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                             :
