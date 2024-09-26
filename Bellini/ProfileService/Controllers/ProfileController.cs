@@ -1,9 +1,7 @@
 ﻿using BusinessLogicLayer.Attribute;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace ProfileService.Controllers
 {
@@ -32,7 +30,7 @@ namespace ProfileService.Controllers
             return Ok(profiles);
         }
 
-        [HttpPut("{id}")] 
+        [HttpPut("{id}")]
         [ProfileOwnerAuthorize]
         public async Task<IActionResult> UpdateProfile(int id, [FromBody] UpdateProfileDto updateProfileDto, CancellationToken cancellationToken)
         {
