@@ -7,8 +7,11 @@ import {LoginPage} from "@/views/pages/LoginPage.tsx";
 import {RegisterPage} from "@/views/pages/RegisterPage.tsx";
 import {NotFoundPage} from "@/views/pages/NotFoundPage.tsx";
 import {InternalServerErrorPage} from "@/views/pages/InternalServerErrorPage.tsx";
-import {ProfilePage} from "@/views/pages/ProfilePage.tsx";
+import {SettingsPage} from "@/views/pages/SettingsPage.tsx";
 import {PrivateRoute} from "@/utils/routers/PrivateRoute.tsx";
+import {ContactsPage} from "@/views/pages/ContactsPage.tsx";
+import {AboutPage} from "@/views/pages/AboutPage.tsx";
+import {ProfilePage} from "@/views/pages/ProfilePage.tsx";
 
 function App() {
     return (
@@ -19,12 +22,14 @@ function App() {
                         <Route index element={<MainPage/>}/>
                         <Route path='login' element={<LoginPage/>}/>
                         <Route path='register' element={<RegisterPage/>}/>
+
+                        <Route path='settings' element={<SettingsPage/>}/>
                         <Route path='profile' element={<ProfilePage/>}/>
+                        <Route path='contacts' element={<ContactsPage/>}/>
+                        <Route path='about' element={<AboutPage/>}/>
+
                         <Route element={<PrivateRoute/>}>
-                            {/*<Route path='profile/edit' element={</>}/>*/}
-                            {/*<Route path='profile/settings' element={</>}/>*/}
-                            {/*<Route path='about' element={</AboutPage>}/>*/}
-                            {/*<Route path='contacts' element={</ContactsPage>}/>*/}
+
                         </Route>
                     </Route>
                     <Route path="500" element={<InternalServerErrorPage/>}/>
