@@ -1,14 +1,14 @@
-import {z} from "zod"
-import {zodResolver} from "@hookform/resolvers/zod"
-import {Controller, useForm} from "react-hook-form"
-import {Button} from "@/components/ui/button"
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form"
-import {Input} from "@/components/ui/input"
-import {useNavigate} from "react-router-dom";
-import {serverFetch} from "@/utilds/fetch\'s/serverFetch.ts";
-import {DiGithubBadge} from "react-icons/di";
-import {useState} from "react";
-import {InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot} from "@/components/ui/input-otp.tsx";
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Controller, useForm } from "react-hook-form"
+import { Button } from "@/components/ui/button"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { useNavigate } from "react-router-dom";
+import { serverFetch } from "@/utils/fetch\'s/serverFetch.ts";
+import { DiGithubBadge } from "react-icons/di";
+import { useState } from "react";
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp.tsx";
 
 export const RegisterPage = () => {
     const navigate = useNavigate();
@@ -150,11 +150,11 @@ export const RegisterPage = () => {
                                     <FormField
                                         control={emailForm.control}
                                         name="email"
-                                        render={({field}) => (
+                                        render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
                                                     <Input placeholder="name@example.com" type="email" {...field}
-                                                           required/>
+                                                        required />
                                                 </FormControl>
                                                 <FormMessage>{errorMessage}</FormMessage>
                                             </FormItem>
@@ -169,8 +169,8 @@ export const RegisterPage = () => {
                                         </div>
                                     </div>
                                     <Button onClick={() => navigate('/register')} variant="outline"
-                                            className="w-full">
-                                        <DiGithubBadge className="text-2xl me-1"/>
+                                        className="w-full">
+                                        <DiGithubBadge className="text-2xl me-1" />
                                         GitHub
                                     </Button>
                                     <p className="px-8 text-center text-sm text-muted-foreground">
@@ -190,25 +190,25 @@ export const RegisterPage = () => {
                                         <p className="font-bold text-2xl text-center">Confirm your email</p>
                                         <p className="text-center">We want to make sure that it's really you.</p>
                                         <form onSubmit={codeForm.handleSubmit(onSubmitCodeForm)}
-                                              className="space-y-4 mt-2 text-center">
+                                            className="space-y-4 mt-2 text-center">
                                             <div className="flex items-center flex-col">
                                                 <Controller
                                                     name="code"
                                                     control={codeForm.control}
-                                                    render={({field, fieldState}) => (
+                                                    render={({ field, fieldState }) => (
                                                         <>
                                                             <InputOTP maxLength={6} required value={field.value}
-                                                                      onChange={field.onChange}>
+                                                                onChange={field.onChange}>
                                                                 <InputOTPGroup className="p-2">
-                                                                    <InputOTPSlot index={0}/>
-                                                                    <InputOTPSlot index={1}/>
-                                                                    <InputOTPSlot index={2}/>
+                                                                    <InputOTPSlot index={0} />
+                                                                    <InputOTPSlot index={1} />
+                                                                    <InputOTPSlot index={2} />
                                                                 </InputOTPGroup>
-                                                                <InputOTPSeparator/>
+                                                                <InputOTPSeparator />
                                                                 <InputOTPGroup>
-                                                                    <InputOTPSlot index={3}/>
-                                                                    <InputOTPSlot index={4}/>
-                                                                    <InputOTPSlot index={5}/>
+                                                                    <InputOTPSlot index={3} />
+                                                                    <InputOTPSlot index={4} />
+                                                                    <InputOTPSlot index={5} />
                                                                 </InputOTPGroup>
                                                             </InputOTP>
                                                             <FormMessage>{errorMessage}</FormMessage>
@@ -237,15 +237,15 @@ export const RegisterPage = () => {
                                         <p className="text-center ">Enter your username and password below to create
                                             your personal account</p>
                                         <form onSubmit={registerForm.handleSubmit(onSubmitRegisterForm)}
-                                              className="space-y-4 mt-2">
+                                            className="space-y-4 mt-2">
                                             <FormField
                                                 control={registerForm.control}
                                                 name="username"
-                                                render={({field}) => (
+                                                render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel>Username</FormLabel>
                                                         <FormControl>
-                                                            <Input type="text" {...field} required/>
+                                                            <Input type="text" {...field} required />
                                                         </FormControl>
                                                         <FormMessage>{fieldErrors.Username && fieldErrors.Username[0]}</FormMessage>
                                                     </FormItem>
@@ -254,11 +254,11 @@ export const RegisterPage = () => {
                                             <FormField
                                                 control={registerForm.control}
                                                 name="password"
-                                                render={({field}) => (
+                                                render={({ field }) => (
                                                     <FormItem>
                                                         <FormLabel>Password</FormLabel>
                                                         <FormControl>
-                                                            <Input type="password" {...field} required/>
+                                                            <Input type="password" {...field} required />
                                                         </FormControl>
                                                         <FormMessage>{fieldErrors.Password && fieldErrors.Password[0]}</FormMessage>
                                                     </FormItem>
@@ -274,8 +274,8 @@ export const RegisterPage = () => {
                                                 </div>
                                             </div>
                                             <Button onClick={() => navigate('/register')} variant="outline"
-                                                    className="w-full">
-                                                <DiGithubBadge className="text-2xl me-1"/>
+                                                className="w-full">
+                                                <DiGithubBadge className="text-2xl me-1" />
                                                 GitHub
                                             </Button>
                                             <p className="px-8 text-center text-sm text-muted-foreground">

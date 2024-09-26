@@ -1,7 +1,7 @@
-import {z} from "zod"
-import {zodResolver} from "@hookform/resolvers/zod"
-import {useForm} from "react-hook-form"
-import {Button} from "@/components/ui/button"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
@@ -10,10 +10,10 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import {Input} from "@/components/ui/input"
-import {Link, useNavigate} from "react-router-dom";
-import {serverFetch} from "@/utilds/fetch\'s/serverFetch.ts";
-import {useState} from "react";
+import { Input } from "@/components/ui/input"
+import { Link, useNavigate } from "react-router-dom";
+import { serverFetch } from "@/utils/fetch\'s/serverFetch.ts";
+import { useState } from "react";
 
 export const LoginPage = () => {
     const navigate = useNavigate();
@@ -38,7 +38,7 @@ export const LoginPage = () => {
         try {
             setErrorMessage(null);
             const response = await serverFetch('/auth/login', {
-                method: 'POST', headers: {'Content-Type': 'application/json'},
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     Email: values.email,
                     Password: values.password,
@@ -72,11 +72,11 @@ export const LoginPage = () => {
                             <FormField
                                 control={form.control}
                                 name="email"
-                                render={({field, fieldState}) => (
+                                render={({ field, fieldState }) => (
                                     <FormItem>
                                         <FormLabel>Email</FormLabel>
                                         <FormControl>
-                                            <Input type="email" {...field} required/>
+                                            <Input type="email" {...field} required />
                                         </FormControl>
                                         <FormMessage>{fieldState.error?.message}</FormMessage>
                                     </FormItem>
@@ -85,14 +85,14 @@ export const LoginPage = () => {
                             <FormField
                                 control={form.control}
                                 name="password"
-                                render={({field,fieldState}) => (
+                                render={({ field, fieldState }) => (
                                     <FormItem>
                                         <div className="flex justify-between items-center">
                                             <FormLabel>Password</FormLabel>
                                             <Link to='/forgot-password'>Forgot password?</Link>
                                         </div>
                                         <FormControl>
-                                            <Input type="password" {...field} required/>
+                                            <Input type="password" {...field} required />
                                         </FormControl>
                                         <FormMessage>{fieldState.error?.message}</FormMessage>
                                     </FormItem>
@@ -107,7 +107,7 @@ export const LoginPage = () => {
                                     className="bg-background px-2 text-muted-foreground">Or continue with</span></div>
                             </div>
                             <Button onClick={() => navigate('/register')} variant="outline"
-                                    className="w-full">Register</Button>
+                                className="w-full">Register</Button>
                             <p className="px-8 text-center text-sm text-muted-foreground">
                                 By clicking continue, you agree to our
                                 <a className="underline hover:text-primary" href=""> Terms of Service </a>

@@ -1,4 +1,4 @@
-import { serverFetch } from "@/utilds/fetch's/serverFetch.ts";
+import { serverFetch } from "@/utils/fetch's/serverFetch.ts";
 
 export const authFetch = async (endpoint: string, options?: RequestInit): Promise<Response> => {
     const accessToken = sessionStorage.getItem('__access-token');

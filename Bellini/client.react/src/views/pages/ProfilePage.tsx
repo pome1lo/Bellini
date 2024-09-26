@@ -1,5 +1,5 @@
-import {Menu, Package2, Search} from "lucide-react"
-import {Button} from "@/components/ui/button"
+import { Menu, Package2, Search } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import {
     Card,
     CardContent,
@@ -19,26 +19,26 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import {Input} from "@/components/ui/input"
-import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet"
-import {Link, useNavigate} from "react-router-dom";
-import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {z} from "zod";
-import React, {useState} from 'react';
-import {format} from "date-fns";
-import {cn} from "@/lib/utils";
-import {useForm, Controller} from 'react-hook-form';
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
-import {CalendarIcon} from "@radix-ui/react-icons";
-import {Calendar} from "@/components/ui/calendar.tsx";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
-import {serverFetch} from "@/utilds/fetch's/serverFetch.ts";
-import {authFetch} from "@/utilds/fetch's/authFetch.ts";
+import { Input } from "@/components/ui/input"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Link, useNavigate } from "react-router-dom";
+import { Breadcrumbs } from "@/views/partials/Breadcrumbs.tsx";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import React, { useState } from 'react';
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { useForm, Controller } from 'react-hook-form';
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover.tsx";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { Calendar } from "@/components/ui/calendar.tsx";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form.tsx";
+import { serverFetch } from "@/utils/fetch's/serverFetch.ts";
+import { authFetch } from "@/utils/fetch's/authFetch.ts";
 
 const breadcrumbItems = [
-    {path: '/', name: 'Home'},
-    {path: '/profile', name: 'Profile'},
+    { path: '/', name: 'Home' },
+    { path: '/profile', name: 'Profile' },
 ];
 
 const profileSchema = z.object({
@@ -67,7 +67,7 @@ export const ProfilePage = () => {
         try {
             setErrorMessage(null);
             const response = await serverFetch('/profile', {
-                method: 'PUT', headers: {'Content-Type': 'application/json'},
+                method: 'PUT', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     id: currentUserId,
                     FirstName: values.firstName,
@@ -119,7 +119,7 @@ export const ProfilePage = () => {
                     <nav
                         className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
                         <Link to="#" className="flex items-center gap-2 text-lg font-semibold md:text-base">
-                            <Package2 className="h-6 w-6"/>
+                            <Package2 className="h-6 w-6" />
                             <span className="sr-only">Acme Inc</span>
                         </Link>
                         <Link to="#" className="text-muted-foreground transition-colors hover:text-foreground">
@@ -145,14 +145,14 @@ export const ProfilePage = () => {
                                 size="icon"
                                 className="shrink-0 md:hidden"
                             >
-                                <Menu className="h-5 w-5"/>
+                                <Menu className="h-5 w-5" />
                                 <span className="sr-only">Toggle navigation menu</span>
                             </Button>
                         </SheetTrigger>
                         <SheetContent side="left">
                             <nav className="grid gap-6 text-lg font-medium">
                                 <Link to="#" className="flex items-center gap-2 text-lg font-semibold">
-                                    <Package2 className="h-6 w-6"/>
+                                    <Package2 className="h-6 w-6" />
                                     <span className="sr-only">Acme Inc</span>
                                 </Link>
                                 <Link to="#" className="text-muted-foreground hover:text-foreground">
@@ -176,7 +176,7 @@ export const ProfilePage = () => {
                     <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
                         <form className="ml-auto flex-1 sm:flex-initial">
                             <div className="relative">
-                                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground"/>
+                                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                                 <Input
                                     type="search"
                                     placeholder="Search products..."
@@ -189,7 +189,7 @@ export const ProfilePage = () => {
                 </header>
                 <main
                     className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
-                    <Breadcrumbs items={breadcrumbItems}/>
+                    <Breadcrumbs items={breadcrumbItems} />
                     <div className="mx-auto grid w-full max-w-6xl gap-2">
                         <h1 className="text-3xl font-semibold">Settings</h1>
                     </div>
@@ -220,17 +220,17 @@ export const ProfilePage = () => {
                                                     <Controller
                                                         name="firstName"
                                                         control={(form.control)}
-                                                        render={({field}) => <Input {...field} placeholder="First Name"/>}
+                                                        render={({ field }) => <Input {...field} placeholder="First Name" />}
                                                     />
 
                                                     <FormField
                                                         control={form.control}
                                                         name="firstName"
-                                                        render={({field, fieldState}) => (
+                                                        render={({ field, fieldState }) => (
                                                             <FormItem>
                                                                 <FormLabel>First Name</FormLabel>
                                                                 <FormControl>
-                                                                    <Input {...field} required/>
+                                                                    <Input {...field} required />
                                                                 </FormControl>
                                                                 <FormMessage>{fieldState.error?.message}</FormMessage>
                                                             </FormItem>
@@ -244,7 +244,7 @@ export const ProfilePage = () => {
                                                     <Controller
                                                         name="lastName"
                                                         control={form.control}
-                                                        render={({field}) => <Input {...field} placeholder="Last Name"/>}
+                                                        render={({ field }) => <Input {...field} placeholder="Last Name" />}
                                                     />
                                                 </div>
                                                 <div>
@@ -252,7 +252,7 @@ export const ProfilePage = () => {
                                                     <Controller
                                                         name="dateOfBirth"
                                                         control={form.control}
-                                                        render={({field}) => (
+                                                        render={({ field }) => (
                                                             <Popover>
                                                                 <PopoverTrigger asChild>
                                                                     <Button
@@ -262,7 +262,7 @@ export const ProfilePage = () => {
                                                                             !field.value && "text-muted-foreground"
                                                                         )}
                                                                     >
-                                                                        <CalendarIcon className="mr-2 h-4 w-4"/>
+                                                                        <CalendarIcon className="mr-2 h-4 w-4" />
                                                                         {field.value ? format(field.value, "PPP") :
                                                                             <span>Pick a date</span>}
                                                                     </Button>
@@ -311,7 +311,7 @@ export const ProfilePage = () => {
                                 </CardHeader>
                                 <CardContent>
                                     <form>
-                                        <Input placeholder="Reason"/>
+                                        <Input placeholder="Reason" />
                                     </form>
                                 </CardContent>
                                 <CardFooter className="border-t px-6 py-4">
