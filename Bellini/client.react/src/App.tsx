@@ -13,6 +13,7 @@ import {ContactsPage} from "@/views/pages/ContactsPage.tsx";
 import {AboutPage} from "@/views/pages/AboutPage.tsx";
 import {ProfilePage} from "@/views/pages/ProfilePage.tsx";
 import {SupportPage} from "@/views/pages/SupportPage.tsx";
+import {GameListPage} from "@/views/pages/GameListPage.tsx";
 
 function App() {
     return (
@@ -29,6 +30,7 @@ function App() {
                         <Route path='contacts' element={<ContactsPage/>}/>
                         <Route path='about' element={<AboutPage/>}/>
                         <Route path='support' element={<SupportPage/>}/>
+                        <Route path='games' element={<GameListPage/>}/>
 
                         <Route element={<PrivateRoute/>}>
 
