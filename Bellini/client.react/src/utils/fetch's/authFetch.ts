@@ -1,11 +1,11 @@
-import { serverFetch } from "@/utils/fetch's/serverFetch.ts";
+import {serverFetch} from "@/utils/fetch's/serverFetch.ts";
 
 export const authFetch = async (endpoint: string, options?: RequestInit): Promise<Response> => {
     const accessToken = sessionStorage.getItem('__access-token');
     const refreshToken = sessionStorage.getItem('__refresh-token');
 
     if (!accessToken || !refreshToken) {
-        window.location.href = '/login';g
+        window.location.href = '/login';
         return Promise.reject(new Error("Tokens are missing, redirecting to login."));
     }
 
@@ -19,7 +19,5 @@ export const authFetch = async (endpoint: string, options?: RequestInit): Promis
         headers: authHeaders,
     };
 
-    const response = await serverFetch(endpoint, authOptions);
-
-    return response;
+    return await serverFetch(endpoint, authOptions);
 };
