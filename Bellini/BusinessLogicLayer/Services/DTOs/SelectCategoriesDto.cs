@@ -2,7 +2,7 @@
 {
     public class SelectCategoriesDto
     {
-        public IEnumerable<string> Categories { get; set; } = null!;
+        public List<int> CategoryIds { get; set; } = new List<int>();
         public string DifficultyLevel { get; set; } = null!;
     }
 }

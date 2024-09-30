@@ -2,8 +2,8 @@
 {
     public class PlayerDto
     {
-        public int PlayerId { get; set; }
-        public string PlayerName { get; set; } = null!;
-        public int Score { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
+        public int GameId { get; set; }
     }
 }

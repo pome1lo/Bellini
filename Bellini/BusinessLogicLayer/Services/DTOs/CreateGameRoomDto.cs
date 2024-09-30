@@ -6,5 +6,6 @@
         public int HostId { get; set; }
         public DateTime StartTime { get; set; }
         public int MaxPlayers { get; set; }
+        public string DifficultyLevel { get; set; } = null!;
     }
 }
