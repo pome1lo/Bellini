@@ -1,0 +1,169 @@
+﻿using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
+using DataAccess.Data.Interfaces;
+using DataAccess.Models;
+using DataAccessLayer.Models;
+
+namespace BusinessLogicLayer.Services
+{
+    public class GameService : IGameService
+    {
+        private readonly IRepository<Game> _gameRepository;
+        private readonly IRepository<Player> _playerRepository;
+        private readonly IRepository<Comment> _commentRepository;
+        private readonly IRepository<Category> _categoryRepository;
+
+        public GameService(
+            IRepository<Game> gameRepository,
+            IRepository<Player> playerRepository,
+            IRepository<Comment> commentRepository,
+            IRepository<Category> categoryRepository)
+        {
+            _gameRepository = gameRepository;
+            _playerRepository = playerRepository;
+            _commentRepository = commentRepository;
+            _categoryRepository = categoryRepository;
+        }
+
+        public async Task<int> CreateGameRoomAsync(CreateGameRoomDto createGameRoomDto, CancellationToken cancellationToken = default)
+        {
+            var game = new Game
+            {
+                GameName = createGameRoomDto.GameName,
+                HostId = createGameRoomDto.HostId,
+                StartTime = createGameRoomDto.StartTime,
+                MaxPlayers = createGameRoomDto.MaxPlayers,
+                IsActive = true,
+                DifficultyLevel = createGameRoomDto.DifficultyLevel
+            };
+
+            await _gameRepository.CreateAsync(game, cancellationToken);
+            return game.Id;
+        }
+
+        public async Task<GameDto> GetGameByIdAsync(int gameId, CancellationToken cancellationToken = default)
+        {
+            var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+            return new GameDto
+            {
+                Id = game.Id,
+                GameName = game.GameName,
+                HostId = game.HostId,
+                StartTime = game.StartTime,
+                MaxPlayers = game.MaxPlayers,
+                IsActive = game.IsActive,
+                DifficultyLevel = game.DifficultyLevel
+            };
+        }
+
+        public async Task<IEnumerable<GameDto>> GetAllActiveGamesAsync(CancellationToken cancellationToken = default)
+        {
+            var games = await _gameRepository.GetElementsAsync(cancellationToken);
+            return games.Where(g => g.IsActive)
+                        .Select(g => new GameDto
+                        {
+                            Id = g.Id,
+                            GameName = g.GameName,
+                            HostId = g.HostId,
+                            StartTime = g.StartTime,
+                            MaxPlayers = g.MaxPlayers,
+                            IsActive = g.IsActive,
+                            DifficultyLevel = g.DifficultyLevel
+                        });
+        }
+
+        public async Task UpdateGameAsync(int gameId, UpdateGameDto updateGameDto, CancellationToken cancellationToken = default)
+        {
+            var game = new Game
+            {
+                GameName = updateGameDto.GameName,
+                MaxPlayers = updateGameDto.MaxPlayers,
+                DifficultyLevel = updateGameDto.DifficultyLevel,
+                IsActive = updateGameDto.IsActive
+            };
+
+            await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
+        }
+
+        public async Task EndGameAsync(int gameId, CancellationToken cancellationToken = default)
+        {
+            var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+            game.IsActive = false;
+            await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
+        }
+
+        public async Task JoinGameAsync(int gameId, int playerId, CancellationToken cancellationToken = default)
+        {
+            var player = new Player
+            {
+                GameId = gameId,
+                Id = playerId // Or additional details
+            };
+
+            await _playerRepository.CreateAsync(player, cancellationToken);
+        }
+
+        public async Task LeaveGameAsync(int gameId, int playerId, CancellationToken cancellationToken = default)
+        {
+            var player = await _playerRepository.GetItemAsync(playerId, cancellationToken);
+            if (player.GameId == gameId)
+            {
+                await _playerRepository.DeleteAsync(playerId, cancellationToken);
+            }
+        }
+
+        public async Task<IEnumerable<PlayerDto>> GetPlayersInGameAsync(int gameId, CancellationToken cancellationToken = default)
+        {
+            var players = await _playerRepository.GetElementsAsync(cancellationToken);
+            return players.Where(p => p.GameId == gameId)
+                          .Select(p => new PlayerDto
+                          {
+                              Id = p.Id,
+                              Name = p.Name,
+                              GameId = p.GameId
+                          });
+        }
+
+        public async Task SelectCategoriesAndDifficultyAsync(int gameId, SelectCategoriesDto selectCategoriesDto, CancellationToken cancellationToken = default)
+        {
+            var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+            game.DifficultyLevel = selectCategoriesDto.DifficultyLevel;
+
+            // Assuming the game has a collection of categories
+            var categories = await _categoryRepository.GetElementsAsync(cancellationToken);
+            var selectedCategories = categories.Where(c => selectCategoriesDto.CategoryIds.Contains(c.Id)).ToList();
+
+            // Assign selected categories to the game (pseudo-code for demo purposes)
+            // game.Categories = selectedCategories;
+
+            await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
+        }
+
+        public async Task AddCommentToGameAsync(int gameId, AddCommentDto addCommentDto, CancellationToken cancellationToken = default)
+        {
+            var comment = new Comment
+            {
+                GameId = gameId,
+                Content = addCommentDto.Content,
+                UserId = addCommentDto.CreatedBy,
+                CommentDate = addCommentDto.CreatedAt
+            };
+
+            await _commentRepository.CreateAsync(comment, cancellationToken);
+        }
+
+        public async Task<IEnumerable<CommentDto>> GetCommentsForGameAsync(int gameId, CancellationToken cancellationToken = default)
+        {
+            var comments = await _commentRepository.GetElementsAsync(cancellationToken);
+            return comments.Where(c => c.GameId == gameId)
+                           .Select(c => new CommentDto
+                           {
+                               Id = c.Id,
+                               GameId = c.GameId,
+                               Content = c.Content,
+                               CreatedBy = c.UserId,
+                               CreatedAt = c.CommentDate
+                           });
+        }
+    }
+}
