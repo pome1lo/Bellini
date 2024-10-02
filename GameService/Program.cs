@@ -1,3 +1,4 @@
+using BusinessLogicLayer.Hubs;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccess.Data;
 using DataAccess.Data.Interfaces;
@@ -13,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString(nameof(AppDbContext))));
 
+builder.Services.AddSignalR();
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IRepository<Game>, GameRepository>();
@@ -39,6 +41,7 @@ app.UseRouting();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
+    endpoints.MapHub<GameHub>("/gameHub");  // Настройка маршрута хаба
 });
 
 app.MapGet("/", () => "The GameService is working.");
