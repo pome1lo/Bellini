@@ -6,6 +6,7 @@ import { Card,  CardContent,  CardDescription,  CardFooter,  CardHeader,  CardTi
 import {Button} from "@/components/ui/button.tsx";
 import { DropdownMenu, DropdownMenuCheckboxItem,  DropdownMenuContent, DropdownMenuItem,  DropdownMenuLabel, DropdownMenuSeparator,  DropdownMenuTrigger } from "@/components/ui/dropdown-menu.tsx";
 import {Badge} from "@/components/ui/badge.tsx";
+import {DialogCreateGame} from "@/views/partials/DialogCreateGame.tsx";
 
 const breadcrumbItems = [
     {path: '/', name: 'Home'},
@@ -55,12 +56,7 @@ export const GameListPage = () => {
                     Export
                   </span>
                             </Button>
-                            <Button size="sm" className="h-8 gap-1">
-                                <PlusCircle className="h-3.5 w-3.5"/>
-                                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Add Product
-                  </span>
-                            </Button>
+                            <DialogCreateGame/>
                         </div>
                     </div>
                     <TabsContent value="all">
