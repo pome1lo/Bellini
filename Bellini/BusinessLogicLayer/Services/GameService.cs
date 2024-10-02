@@ -1,8 +1,10 @@
-﻿using BusinessLogicLayer.Services.DTOs;
+﻿using BusinessLogicLayer.Hubs;
+using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccess.Data.Interfaces;
 using DataAccess.Models;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.SignalR;
 
 namespace BusinessLogicLayer.Services
 {
@@ -12,17 +14,20 @@ namespace BusinessLogicLayer.Services
         private readonly IRepository<Player> _playerRepository;
         private readonly IRepository<Comment> _commentRepository;
         private readonly IRepository<Category> _categoryRepository;
+        private readonly IHubContext<GameHub> _gameHub;
 
         public GameService(
             IRepository<Game> gameRepository,
             IRepository<Player> playerRepository,
             IRepository<Comment> commentRepository,
-            IRepository<Category> categoryRepository)
+            IRepository<Category> categoryRepository,
+            IHubContext<GameHub> gameHub)
         {
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
             _commentRepository = commentRepository;
             _categoryRepository = categoryRepository;
+            _gameHub = gameHub;
         }
 
         public async Task<int> CreateGameRoomAsync(CreateGameRoomDto createGameRoomDto, CancellationToken cancellationToken = default)
@@ -38,6 +43,10 @@ namespace BusinessLogicLayer.Services
             };
 
             await _gameRepository.CreateAsync(game, cancellationToken);
+
+            // Уведомление пользователей о создании новой игры
+            await _gameHub.Clients.All.SendAsync("GameCreated", game.GameName, cancellationToken);
+
             return game.Id;
         }
 
@@ -89,7 +98,11 @@ namespace BusinessLogicLayer.Services
         {
             var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
             game.IsActive = false;
+
             await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
+
+            // Уведомление игроков об окончании игры
+            await _gameHub.Clients.Group($"game-{gameId}").SendAsync("GameEnded", gameId, cancellationToken);
         }
 
         public async Task JoinGameAsync(int gameId, int playerId, CancellationToken cancellationToken = default)
@@ -97,10 +110,13 @@ namespace BusinessLogicLayer.Services
             var player = new Player
             {
                 GameId = gameId,
-                Id = playerId // Or additional details
+                Id = playerId
             };
 
             await _playerRepository.CreateAsync(player, cancellationToken);
+
+            // Присоединение игрока к группе (игровой комнате)
+            await _gameHub.Clients.Group($"game-{gameId}").SendAsync("PlayerJoined", playerId, cancellationToken);
         }
 
         public async Task LeaveGameAsync(int gameId, int playerId, CancellationToken cancellationToken = default)
@@ -109,6 +125,9 @@ namespace BusinessLogicLayer.Services
             if (player.GameId == gameId)
             {
                 await _playerRepository.DeleteAsync(playerId, cancellationToken);
+
+                // Уведомление об уходе игрока из игры
+                await _gameHub.Clients.Group($"game-{gameId}").SendAsync("PlayerLeft", playerId, cancellationToken);
             }
         }
 
