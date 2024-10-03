@@ -29,6 +29,19 @@
       ],
       "UpstreamPathTemplate": "/profile/{everything}",
       "UpstreamHttpMethod": [ "GET", "PUT", "DELETE" ]
+    },
+    // GameService
+    {
+      "DownstreamPathTemplate": "/api/game/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/game/{everything}",
+      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
     }
   ],
   "GlobalConfiguration": {
