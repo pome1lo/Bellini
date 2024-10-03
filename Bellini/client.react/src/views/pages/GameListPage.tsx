@@ -10,6 +10,7 @@ import {DialogCreateGame} from "@/views/partials/DialogCreateGame.tsx";
 import {useEffect, useState} from "react";
 import {serverFetch} from "@/utils/fetch's/serverFetch.ts";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
+import {GameListItem} from "@/views/partials/GameListItem.tsx";
 
 const breadcrumbItems = [
     {path: '/', name: 'Home'},
@@ -429,9 +430,12 @@ export const GameListPage = () => {
                                 <CardTitle>Games</CardTitle>
                                 <CardDescription>
                                     {games.map((item, index) => (
-                                        <div key={index}>
-                                            <p>{new Date(item.startTime).toLocaleString()}</p>
-                                        </div>
+                                        <GameListItem
+                                            key={item.id}
+                                            id={item.id}
+                                            gameName={item.gameName}
+                                            startTime={item.startTime}
+                                        />
                                     ))}
                                 </CardDescription>
                             </CardHeader>
