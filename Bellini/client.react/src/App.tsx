@@ -14,8 +14,12 @@ import {AboutPage} from "@/views/pages/AboutPage.tsx";
 import {ProfilePage} from "@/views/pages/ProfilePage.tsx";
 import {SupportPage} from "@/views/pages/SupportPage.tsx";
 import {GameListPage} from "@/views/pages/GameListPage.tsx";
+import {useEffect} from "react";
+import AOS from 'aos';
 
 function App() {
+    useEffect(() => AOS.init , []);
+
     return (
         <>
             <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
