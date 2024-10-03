@@ -7,13 +7,68 @@ import {Button} from "@/components/ui/button.tsx";
 import { DropdownMenu, DropdownMenuCheckboxItem,  DropdownMenuContent, DropdownMenuItem,  DropdownMenuLabel, DropdownMenuSeparator,  DropdownMenuTrigger } from "@/components/ui/dropdown-menu.tsx";
 import {Badge} from "@/components/ui/badge.tsx";
 import {DialogCreateGame} from "@/views/partials/DialogCreateGame.tsx";
+import {useEffect, useState} from "react";
+import {serverFetch} from "@/utils/fetch's/serverFetch.ts";
+import {Skeleton} from "@/components/ui/skeleton.tsx";
 
 const breadcrumbItems = [
     {path: '/', name: 'Home'},
     {path: '/games', name: 'Games'},
 ];
 
+interface ActiveGame {
+    id: number;
+    gameName: string;
+    hostId: number;
+    startTime: Date;
+    maxPlayers: number;
+    isActive: boolean;
+    difficultyLevel: string;
+}
+
 export const GameListPage = () => {
+    const [games, setGames] = useState<ActiveGame[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        serverFetch('/game/active')
+            .then(response => {
+                if (response.status === 204) {
+                    return [];
+                }
+                return response.json();
+            })
+            .then(data => {
+                const gamesList = Array.isArray(data) ? data : [];
+                console.log("games list:", gamesList);
+                setGames(gamesList);
+            })
+            .catch(error => {
+                console.error('Error fetching games:', error.message);
+                setGames([]);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
+    }, []);
+
+    if (isLoading) {
+        return (
+            <>
+                <Skeleton/>
+            </>
+        );
+    }
+
+    if (games.length === 0) {
+        return (
+            <>
+                We didn't find anything
+                <span>😪</span>
+            </>
+        );
+    }
+
     return (
         <>
             <Breadcrumbs items={breadcrumbItems}/>
@@ -33,9 +88,7 @@ export const GameListPage = () => {
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="outline" size="sm" className="h-8 gap-1">
                                         <ListFilter className="h-3.5 w-3.5"/>
-                                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                        Filter
-                      </span>
+                                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Filter</span>
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
@@ -52,9 +105,7 @@ export const GameListPage = () => {
                             </DropdownMenu>
                             <Button size="sm" variant="outline" className="h-8 gap-1">
                                 <File className="h-3.5 w-3.5"/>
-                                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                    Export
-                  </span>
+                                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Export</span>
                             </Button>
                             <DialogCreateGame/>
                         </div>
@@ -377,7 +428,11 @@ export const GameListPage = () => {
                             <CardHeader>
                                 <CardTitle>Games</CardTitle>
                                 <CardDescription>
-                                    tab 2
+                                    {games.map((item, index) => (
+                                        <div key={index}>
+                                            <p>{new Date(item.startTime).toLocaleString()}</p>
+                                        </div>
+                                    ))}
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
