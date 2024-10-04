@@ -21,5 +21,14 @@ namespace BusinessLogicLayer.Hubs
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
         }
+
+        public async Task JoinGame(string gameId)
+        {
+            // Логика добавления пользователя в игру
+            Console.BackgroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("JOIN GAME ");
+            Console.BackgroundColor = ConsoleColor.White;
+            await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
+        }
     }
 }

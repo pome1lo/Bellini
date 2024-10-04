@@ -13,10 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddCorsClient(builder.Configuration);
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString(nameof(AppDbContext))));
 
-builder.Services.AddSignalR();
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IRepository<Game>, GameRepository>();
@@ -27,12 +28,13 @@ builder.Services.AddScoped<IRepository<Category>, CategoryRepository>();
 
 builder.Services.AddScoped<IGameService, BusinessLogicLayer.Services.GameService>();
 
-
 builder.Services.AddJwtAuthentication(builder.Configuration);
-builder.Services.AddCorsClient(builder.Configuration);
+builder.Services.AddSignalR();
 
 var app = builder.Build();
+
 app.UseCors("AllowLocalhost5173");
+app.UseRouting();
 app.UseGlobalExceptionHandler();
 
 // Configure the HTTP request pipeline.
@@ -44,12 +46,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseRouting();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllers();
-    endpoints.MapHub<GameHub>("/gameHub");  // Настройка маршрута хаба
+    endpoints.MapHub<GameHub>("/gameHub");
+    app.MapControllers();
 });
 
 app.MapGet("/", () => "The GameService is working.");

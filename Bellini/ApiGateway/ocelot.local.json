@@ -42,6 +42,60 @@
       ],
       "UpstreamPathTemplate": "/game/{everything}",
       "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+    },
+
+    // SignalR Hub for GameService
+
+    //{
+    //  "DownstreamPathTemplate": "/gameHub/{everything}",
+    //  "DownstreamScheme": "https",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 7035
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/gameHub/{everything}",
+    //  "UpstreamHttpMethod": [ "GET", "POST", "OPTIONS" ],
+    //  "EnableWebSockets": true,
+    //  "AddHeadersToRequest": {
+    //    "Access-Control-Allow-Origin": "http://localhost:5173",
+    //    "Access-Control-Allow-Credentials": "true"
+    //  }
+    //}
+    {
+      "DownstreamPathTemplate": "/gameHub/negotiate",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/gameHub/negotiate",
+      "UpstreamHttpMethod": [ "GET", "POST", "OPTIONS" ],
+      "EnableWebSockets": true,
+      "AddHeadersToRequest": {
+        "Access-Control-Allow-Origin": "http://localhost:5173",
+        "Access-Control-Allow-Credentials": "true"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/gameHub/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/gameHub/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "OPTIONS" ],
+      "EnableWebSockets": true,
+      "AddHeadersToRequest": {
+        "Access-Control-Allow-Origin": "http://localhost:5173",
+        "Access-Control-Allow-Credentials": "true"
+      }
     }
   ],
   "GlobalConfiguration": {

@@ -56,6 +56,7 @@ export const GameListPage = () => {
     if (isLoading) {
         return (
             <>
+                ЗАГРУЗОЧКА
                 <Skeleton/>
             </>
         );

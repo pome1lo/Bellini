@@ -4,6 +4,7 @@ using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCorsClient(builder.Configuration);
 builder.Services.AddControllers();
 
 var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
@@ -13,8 +14,8 @@ builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
     .AddJsonFile(ocelotConfigFile, optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
 
+
 builder.Services.AddOcelot(builder.Configuration);
-builder.Services.AddCorsClient(builder.Configuration);
 
 var app = builder.Build();
 app.UseCors("AllowLocalhost5173");
@@ -22,7 +23,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
- 
+
 app.UseAuthentication();
 app.UseAuthorization();
 

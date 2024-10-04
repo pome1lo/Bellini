@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Bellini\BusinessLogicLayer\BusinessLogicLayer.csproj" />
-    <ProjectReference Include="..\Bellini\GlobalExceptionHandlerLibrary\GlobalExceptionHandlerLibrary.csproj" />
+    <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj" />
+    <ProjectReference Include="..\GlobalExceptionHandlerLibrary\GlobalExceptionHandlerLibrary.csproj" />
   </ItemGroup>
 
 </Project>

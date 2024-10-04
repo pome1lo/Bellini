@@ -14,7 +14,8 @@ namespace BusinessLogicLayer.Services.Configs
                     {
                         builder.WithOrigins("http://localhost:5173")
                             .AllowAnyHeader()
-                            .AllowAnyMethod();
+                            .AllowAnyMethod()
+                            .AllowCredentials();
                     });
             });
         }
