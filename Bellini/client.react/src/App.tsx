@@ -16,12 +16,14 @@ import {SupportPage} from "@/views/pages/SupportPage.tsx";
 import {GameListPage} from "@/views/pages/GameListPage.tsx";
 import {useEffect} from "react";
 import AOS from 'aos';
+import {Toaster} from "@/components/ui/toaster.tsx";
 
 function App() {
     useEffect(() => AOS.init , []);
 
     return (
         <>
+            <Toaster />
             <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
                 <Routes>
                     <Route path='/' element={<BasicLayout/>}>
