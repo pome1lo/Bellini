@@ -17,36 +17,41 @@ import {GameListPage} from "@/views/pages/GameListPage.tsx";
 import {useEffect} from "react";
 import AOS from 'aos';
 import {Toaster} from "@/components/ui/toaster.tsx";
+import {AuthProvider} from "@/utils/context/authContext.tsx";
 
 function App() {
     useEffect(() => AOS.init , []);
 
     return (
         <>
-            <Toaster />
-            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-                <Routes>
-                    <Route path='/' element={<BasicLayout/>}>
-                        <Route index element={<MainPage/>}/>
-                        <Route path='login' element={<LoginPage/>}/>
-                        <Route path='register' element={<RegisterPage/>}/>
+            <AuthProvider>
+                <Toaster />
+                <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+                    <Routes>
+                        <Route path='/' element={<BasicLayout/>}>
+                            <Route index element={<MainPage/>}/>
+                            <Route path='login' element={<LoginPage/>}/>
+                            <Route path='register' element={<RegisterPage/>}/>
 
-                        <Route path='settings' element={<SettingsPage/>}/>
-                        <Route path='profile' element={<ProfilePage/>}/>
-                        <Route path='contacts' element={<ContactsPage/>}/>
-                        <Route path='about' element={<AboutPage/>}/>
-                        <Route path='support' element={<SupportPage/>}/>
-                        <Route path='games' element={<GameListPage/>}/>
+                            <Route path='settings' element={<SettingsPage/>}/>
+                            <Route path='profile' element={<ProfilePage/>}/>
+                            <Route path='contacts' element={<ContactsPage/>}/>
+                            <Route path='about' element={<AboutPage/>}/>
+                            <Route path='support' element={<SupportPage/>}/>
 
-                        <Route element={<PrivateRoute/>}>
+                            <Route path='games' element={<GameListPage/>}/>
+                            {/*<Route path='games/rooms/:id' element={<GameRoomPage/>}/>*/}
 
+                            <Route element={<PrivateRoute/>}>
+
+                            </Route>
                         </Route>
-                    </Route>
-                    <Route path="500" element={<InternalServerErrorPage/>}/>
-                    <Route path="404" element={<NotFoundPage/>}/>
-                    <Route path="*" element={<NotFoundPage/>}/>
-                </Routes>
-            </ThemeProvider>
+                        <Route path="500" element={<InternalServerErrorPage/>}/>
+                        <Route path="404" element={<NotFoundPage/>}/>
+                        <Route path="*" element={<NotFoundPage/>}/>
+                    </Routes>
+                </ThemeProvider>
+            </AuthProvider>
         </>
     )
 }
