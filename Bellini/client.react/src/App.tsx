@@ -18,6 +18,7 @@ import {useEffect} from "react";
 import AOS from 'aos';
 import {Toaster} from "@/components/ui/toaster.tsx";
 import {AuthProvider} from "@/utils/context/authContext.tsx";
+import {GameRoomPage} from "@/views/pages/GameRoomPage.tsx";
 
 function App() {
     useEffect(() => AOS.init , []);
@@ -40,7 +41,8 @@ function App() {
                             <Route path='support' element={<SupportPage/>}/>
 
                             <Route path='games' element={<GameListPage/>}/>
-                            {/*<Route path='games/rooms/:id' element={<GameRoomPage/>}/>*/}
+
+                            <Route path='games/rooms/:id' element={<GameRoomPage/>}/>
 
                             <Route element={<PrivateRoute/>}>
 

@@ -21,6 +21,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [user, setUser] = useState<User | null>(null);
     const [accessToken, setAccessToken] = useState<string | null>(null);
     const [refreshToken, setRefreshToken] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true); // Состояние загрузки
 
     useEffect(() => {
         const storedUser = sessionStorage.getItem('user');
@@ -32,6 +33,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setAccessToken(storedAccessToken);
             setRefreshToken(storedRefreshToken);
         }
+
+        setLoading(false); // Завершаем загрузку
     }, []);
 
     const login = (userData: User, accessToken: string, refreshToken: string) => {
@@ -53,7 +56,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         sessionStorage.removeItem('access-token');
         sessionStorage.removeItem('refresh-token');
     };
-
 
     const getAccessToken = async (): Promise<string | null> => {
         if (!accessToken || !refreshToken) {
@@ -78,12 +80,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const isAuthenticated = !!user;
 
+    if (loading) {
+        return <div>Loading...</div>; // Можно добавить индикатор загрузки
+    }
+
     return (
         <AuthContext.Provider value={{ user, isAuthenticated, login, logout, getAccessToken }}>
             {children}
         </AuthContext.Provider>
     );
 };
+
 
 export const useAuth = (): AuthContextType => {
     const context = useContext(AuthContext);
