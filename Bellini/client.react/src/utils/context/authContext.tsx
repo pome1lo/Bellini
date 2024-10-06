@@ -23,9 +23,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [refreshToken, setRefreshToken] = useState<string | null>(null);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        const storedAccessToken = localStorage.getItem('access-token');
-        const storedRefreshToken = localStorage.getItem('refresh-token');
+        const storedUser = sessionStorage.getItem('user');
+        const storedAccessToken = sessionStorage.getItem('access-token');
+        const storedRefreshToken = sessionStorage.getItem('refresh-token');
 
         if (storedUser && storedAccessToken && storedRefreshToken) {
             setUser(JSON.parse(storedUser));
@@ -39,9 +39,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
 
-        localStorage.setItem('user', JSON.stringify(userData));
-        localStorage.setItem('access-token', accessToken);
-        localStorage.setItem('refresh-token', refreshToken);
+        sessionStorage.setItem('user', JSON.stringify(userData));
+        sessionStorage.setItem('access-token', accessToken);
+        sessionStorage.setItem('refresh-token', refreshToken);
     };
 
     const logout = () => {
@@ -49,9 +49,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setAccessToken(null);
         setRefreshToken(null);
 
-        localStorage.removeItem('user');
-        localStorage.removeItem('access-token');
-        localStorage.removeItem('refresh-token');
+        sessionStorage.removeItem('user');
+        sessionStorage.removeItem('access-token');
+        sessionStorage.removeItem('refresh-token');
     };
 
 
@@ -66,10 +66,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 const response = await axios.post('/api/auth/refresh', { token: refreshToken });
                 const newAccessToken = response.data.accessToken;
                 setAccessToken(newAccessToken);
-                localStorage.setItem('access-token', newAccessToken);
+                sessionStorage.setItem('access-token', newAccessToken);
                 return newAccessToken;
             } catch (error) {
-                logout(); // Если рефреш не сработал, то выходим из системы
+                logout();
                 return null;
             }
         }
