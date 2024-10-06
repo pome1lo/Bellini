@@ -24,12 +24,19 @@ namespace BusinessLogicLayer.Hubs
 
         public async Task JoinGame(string gameId, string userId, string username)
         {
-            // Логика добавления пользователя в игру
-            Console.BackgroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("JOIN GAME " + userId);
-            Console.BackgroundColor = ConsoleColor.White;
-            await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
-            await Clients.Group(gameId).SendAsync("ReceiveMessage", username + " joined the game");
+            try
+            {
+                Console.BackgroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("JOIN GAME " + userId);
+                Console.BackgroundColor = ConsoleColor.White;
+                await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
+                await Clients.Group(gameId).SendAsync("ReceiveMessage", username + " joined the game");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in JoinGame: {ex.Message}");
+                throw;
+            }
         }
     }
 }

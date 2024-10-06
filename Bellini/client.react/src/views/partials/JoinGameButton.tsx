@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button.tsx";
 import {useNavigate} from "react-router-dom";
 import {ToastAction} from "@/components/ui/toast.tsx";
 import {useToast} from "@/components/ui/use-toast.ts";
+import {useAuth} from "@/utils/context/authContext.tsx";
 
 interface JoinGameButtonProps {
     gameId: number; // ID игры, к которой нужно подключиться
@@ -11,25 +12,25 @@ interface JoinGameButtonProps {
 
 export const JoinGameButton: React.FC<JoinGameButtonProps> = ({ gameId }) => {
     const [connection, setConnection] = useState<signalR.HubConnection | null>(null);
-    const [currentUserId] = useState(sessionStorage.getItem('__user-id'));
-    const [currentUsername] = useState(sessionStorage.getItem('__username'));
     const [isConnected, setIsConnected] = useState(false);
+    const { user, isAuthenticated } = useAuth();
     const navigate = useNavigate();
     const { toast } = useToast()
 
     const connectToGame = async () => {
         try {
-            if(!currentUserId || !currentUsername) {
+            if (!isAuthenticated || !user) {
                navigate('/login');
             } else {
-                // Создаем новое подключение к хабу
                 const newConnection = new signalR.HubConnectionBuilder()
-                    .withUrl("https://localhost:7292/gameHub", { withCredentials: true })
-                    .configureLogging(signalR.LogLevel.Information) // Настройка логирования
+                    .withUrl("https://localhost:7292/gameHub", {
+                        transport: signalR.HttpTransportType.ServerSentEvents,
+                        withCredentials: true
+                    })
+                    .configureLogging(signalR.LogLevel.Information)
                     .withAutomaticReconnect()
                     .build();
 
-                // Устанавливаем события подключения и отключения
                 newConnection.onclose(() => {
                     setIsConnected(false);
                     toast({ title: "Disconnected from the game." });
@@ -46,7 +47,6 @@ export const JoinGameButton: React.FC<JoinGameButtonProps> = ({ gameId }) => {
                     })
                 });
 
-                // Подключаемся к хабу
                 await newConnection.start()
                     .then(() => console.log("Connected to SignalR hub"))
                     .catch(err => console.error("Connection error: ", err));
@@ -54,12 +54,10 @@ export const JoinGameButton: React.FC<JoinGameButtonProps> = ({ gameId }) => {
                 setIsConnected(true);
                 toast({ title: "Connected to the game!" });
 
-                // Отправляем сообщение о присоединении к игре
                 await newConnection.invoke("JoinGame",
                     gameId.toString(),
-                    currentUserId.toString(),
-                    currentUsername.toString()
-                );
+                    user.id.toString(),
+                    user.username.toString());
 
                 toast({ title: "You have successfully joined the game!" });
             }
