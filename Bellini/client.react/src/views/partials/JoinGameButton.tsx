@@ -22,44 +22,45 @@ export const JoinGameButton: React.FC<JoinGameButtonProps> = ({ gameId }) => {
             if (!isAuthenticated || !user) {
                navigate('/login');
             } else {
-                const newConnection = new signalR.HubConnectionBuilder()
-                    .withUrl("https://localhost:7292/gameHub", {
-                        transport: signalR.HttpTransportType.ServerSentEvents,
-                        withCredentials: true
-                    })
-                    .configureLogging(signalR.LogLevel.Information)
-                    .withAutomaticReconnect()
-                    .build();
-
-                newConnection.onclose(() => {
-                    setIsConnected(false);
-                    toast({ title: "Disconnected from the game." });
-                });
-
-                newConnection.on("ReceiveMessage", (message) => {
-                    console.log("Message received: ", message);
-                    toast({
-                        title: "Scheduled: Catch up ",
-                        description: message,
-                        action: (
-                            <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
-                        ),
-                    })
-                });
-
-                await newConnection.start()
-                    .then(() => console.log("Connected to SignalR hub"))
-                    .catch(err => console.error("Connection error: ", err));
-                setConnection(newConnection);
-                setIsConnected(true);
-                toast({ title: "Connected to the game!" });
-
-                await newConnection.invoke("JoinGame",
-                    gameId.toString(),
-                    user.id.toString(),
-                    user.username.toString());
-
-                toast({ title: "You have successfully joined the game!" });
+                navigate(`/games/rooms/${gameId}`);
+                // const newConnection = new signalR.HubConnectionBuilder()
+                //     .withUrl("https://localhost:7292/gameHub", {
+                //         transport: signalR.HttpTransportType.ServerSentEvents,
+                //         withCredentials: true
+                //     })
+                //     .configureLogging(signalR.LogLevel.Information)
+                //     .withAutomaticReconnect()
+                //     .build();
+                //
+                // newConnection.onclose(() => {
+                //     setIsConnected(false);
+                //     toast({ title: "Disconnected from the game." });
+                // });
+                //
+                // newConnection.on("ReceiveMessage", (message) => {
+                //     console.log("Message received: ", message);
+                //     toast({
+                //         title: "Scheduled: Catch up ",
+                //         description: message,
+                //         action: (
+                //             <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
+                //         ),
+                //     })
+                // });
+                //
+                // await newConnection.start()
+                //     .then(() => console.log("Connected to SignalR hub"))
+                //     .catch(err => console.error("Connection error: ", err));
+                // setConnection(newConnection);
+                // setIsConnected(true);
+                // toast({ title: "Connected to the game!" });
+                //
+                // await newConnection.invoke("JoinGame",
+                //     gameId.toString(),
+                //     user.id.toString(),
+                //     user.username.toString());
+                //
+                // toast({ title: "You have successfully joined the game!" });
             }
         } catch (error) {
             console.error('Connection failed: ', error);

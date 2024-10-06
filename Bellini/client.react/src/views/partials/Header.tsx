@@ -21,6 +21,7 @@ import {IoNotificationsOutline} from "react-icons/io5";
 import {Link, useNavigate} from "react-router-dom";
 
 import { cn } from "@/lib/utils"
+import {useAuth} from "@/utils/context/authContext.tsx";
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -61,19 +62,9 @@ const components: { title: string; href: string; description: string }[] = [
 ]
 
 export const Header = () => {
+    const { user, isAuthenticated, logout } = useAuth();
     const [open, setOpen] = useState(false);
-    const email = sessionStorage.getItem('__email');
-    const username = sessionStorage.getItem('__username');
-
-    const [isAuthenticated] = useState<boolean>(!!email);
-
     const navigate = useNavigate();
-
-    function logout() {
-        sessionStorage.clear()
-        navigate('/');
-        window.location.reload();
-    }
 
     return (
         <>
@@ -142,40 +133,38 @@ export const Header = () => {
                     </NavigationMenu>
                     <div className="flex items-center space-x-4">
                         <Button variant="outline" onClick={() => navigate("profile/notifications")}>
-                            <IoNotificationsOutline className="text-xl"/>
+                            <IoNotificationsOutline className="text-xl" />
                         </Button>
-                        <ModeToggle/>
-                        {isAuthenticated ?
+                        <ModeToggle />
+                        {isAuthenticated ? (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="secondary" size="icon" className="rounded-full">
-                                        <CircleUser className="h-5 w-5"/>
+                                        <CircleUser className="h-5 w-5" />
                                         <span className="sr-only">Toggle user menu</span>
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuLabel>
-                                        <p className="text-sm font-medium leading-none">{username}</p>
-                                        <p className="text-xs leading-none text-muted-foreground">{email}</p>
+                                        <p className="text-sm font-medium leading-none">{user?.username}</p>
+                                        <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
                                     </DropdownMenuLabel>
-                                    <DropdownMenuSeparator/>
+                                    <DropdownMenuSeparator />
                                     <DropdownMenuItem>Settings</DropdownMenuItem>
                                     <DropdownMenuItem>Support</DropdownMenuItem>
-                                    <DropdownMenuSeparator/>
+                                    <DropdownMenuSeparator />
                                     <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
-                            :
-                            <>
-                                <Button variant="outline" onClick={() => navigate('/login')}>Login</Button>
-                            </>
-                        }
+                        ) : (
+                            <Button variant="outline" onClick={() => navigate('/login')}>Login</Button>
+                        )}
 
                         <div className="md:hidden">
                             <Sheet open={open} onOpenChange={setOpen}>
                                 <SheetTrigger asChild>
                                     <Button variant="ghost" size="icon">
-                                        <MenuIcon/>
+                                        <MenuIcon />
                                     </Button>
                                 </SheetTrigger>
                                 <SheetContent side="left">
@@ -191,8 +180,8 @@ export const Header = () => {
                 </div>
             </header>
         </>
-    )
-}
+    );
+};
 
 const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a">>(({ className, title, children, ...props }, ref) => {
     return (

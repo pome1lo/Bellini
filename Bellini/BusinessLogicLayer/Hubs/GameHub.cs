@@ -38,5 +38,22 @@ namespace BusinessLogicLayer.Hubs
                 throw;
             }
         }
+
+        public async Task LeaveGame(string gameId)
+        {
+            try
+            {
+                Console.BackgroundColor = ConsoleColor.Magenta;
+                Console.WriteLine("LEAVE GAME " + Context.ConnectionId);
+                Console.BackgroundColor = ConsoleColor.White;
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, gameId);
+                await Clients.Group(gameId).SendAsync("ReceiveMessage", "A player has left the game");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in LeaveGame: {ex.Message}");
+                throw;
+            }
+        }
     }
 }
