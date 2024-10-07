@@ -31,6 +31,7 @@ builder.Services.AddScoped<IValidator<ProfileDto>, ProfileDtoValidator>();
 builder.Services.AddScoped<IValidator<UpdateProfileDto>, UpdateProfileDtoValidator>();
 
 builder.Services.AddScoped<IProfileService, BusinessLogicLayer.Services.ProfileService>();
+builder.Services.AddScoped<IFileService, BusinessLogicLayer.Services.FileService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddAutoMapper(cfg =>

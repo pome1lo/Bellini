@@ -10,10 +10,12 @@ namespace ProfileService.Controllers
     public class ProfileController : ControllerBase
     {
         private readonly IProfileService _profileService;
+        private readonly IFileService _fileService;
 
-        public ProfileController(IProfileService profileService)
+        public ProfileController(IProfileService profileService, IFileService fileService)
         {
             _profileService = profileService;
+            _fileService = fileService;
         }
 
         [HttpGet("{id}")]
@@ -32,8 +34,14 @@ namespace ProfileService.Controllers
 
         [HttpPut("{id}")]
         [ProfileOwnerAuthorize]
-        public async Task<IActionResult> UpdateProfile(int id, [FromBody] UpdateProfileDto updateProfileDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateProfile(int id, [FromForm] UpdateProfileDto updateProfileDto, [FromForm] IFormFile? profileImage, CancellationToken cancellationToken)
         {
+            if (profileImage != null)
+            {
+                var profileImageUrl = await _fileService.UploadFileAsync(profileImage, cancellationToken);
+                updateProfileDto.ProfileImageUrl = profileImageUrl;
+            }
+
             await _profileService.UpdateProfileAsync(id, updateProfileDto, cancellationToken);
             return NoContent();
         }
