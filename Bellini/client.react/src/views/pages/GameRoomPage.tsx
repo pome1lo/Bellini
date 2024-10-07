@@ -1,15 +1,46 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { HubConnectionBuilder } from "@microsoft/signalr";
-import { useAuth } from "@/utils/context/authContext.tsx";
-import { useEffect, useState } from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {HubConnectionBuilder} from "@microsoft/signalr";
+import {useAuth} from "@/utils/context/authContext.tsx";
+import {useEffect, useState} from "react";
 import * as signalR from "@microsoft/signalr";
-import { toast } from "@/components/ui/use-toast.ts";
+import {toast} from "@/components/ui/use-toast.ts";
+import {serverFetch} from "@/utils/fetch's/serverFetch.ts";
+
+interface CurrentGame {
+    id: number;
+    gameName: string;
+    hostId: number;
+    startTime: Date;
+    maxPlayers: number;
+    isActive: boolean;
+    difficultyLevel: string;
+}
 
 export const GameRoomPage = () => {
-    const { id } = useParams();
+    const {id} = useParams();
     const navigate = useNavigate();
-    const { isAuthenticated, user } = useAuth();
+    const {isAuthenticated, user} = useAuth();
+    const [isCurrentUserHost, setIsCurrentUserHost] = useState(false);
+    const [currentGame, setCurrentGame] = useState<CurrentGame>();
     const [connection, setConnection] = useState<signalR.HubConnection | null>(null);
+
+    useEffect(() => {
+        if (!isAuthenticated || !user || !id) {
+            navigate('/login');
+            return;
+        }
+        serverFetch(`/game/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                console.log(user.id);
+                setCurrentGame(data);
+                setIsCurrentUserHost(user.id === data.hostId)
+            })
+            .catch(error => {
+                console.error('Error fetching games:', error.message);
+            });
+    }, [id, isAuthenticated, user, navigate]);
 
     useEffect(() => {
         if (!isAuthenticated || !user || !id) {
@@ -32,7 +63,7 @@ export const GameRoomPage = () => {
 
             newConnection.on("ReceiveMessage", (message: string) => {
                 if (!message.includes(user.username)) {
-                    toast({ title: message });
+                    toast({title: message});
                 }
             });
 
@@ -43,7 +74,7 @@ export const GameRoomPage = () => {
                     user.id.toString(),
                     user.username.toString());
 
-                toast({ title: "You have successfully joined the game!" });
+                toast({title: "You have successfully joined the game!"});
                 setConnection(newConnection);
             } catch (error) {
                 console.error('Connection failed:', error);
@@ -57,7 +88,7 @@ export const GameRoomPage = () => {
                 try {
                     await connection.invoke("LeaveGame", id.toString());
                     await connection.stop();
-                    toast({ title: "You have left the game." });
+                    toast({title: "You have left the game."});
                 } catch (error) {
                     console.error('Error while leaving the game:', error);
                 }
@@ -88,6 +119,17 @@ export const GameRoomPage = () => {
     }, [id, isAuthenticated, user, connection, navigate]);
 
     return (
-        <div>Game Room {id}</div>
+        <>
+            {isCurrentUserHost ?
+                <>
+                    HOST
+                </>
+                :
+                <>
+                    user
+                </>
+            }
+            <div>Game Room {id}</div>
+        </>
     );
 };

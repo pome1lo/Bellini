@@ -11,8 +11,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddCorsClient(builder.Configuration);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -37,7 +35,6 @@ app.UseCors("AllowLocalhost5173");
 app.UseRouting();
 app.UseGlobalExceptionHandler();
 
-// Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
 
