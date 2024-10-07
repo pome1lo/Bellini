@@ -1,5 +1,5 @@
 import {
-    Dialog,
+    Dialog, DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -14,6 +14,11 @@ import {PlusCircle} from "lucide-react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
+import {serverFetch} from "@/utils/fetch's/serverFetch.ts";
+import {toast} from "@/components/ui/use-toast.ts";
+import {useAuth} from "@/utils/context/authContext.tsx";
+import {useNavigate} from "react-router-dom";
+import {useState} from "react"; 
 
 const createGameSchema = z.object({
     gameName: z.string().min(1, "Game name is required"),
@@ -27,25 +32,65 @@ type CreateGameFormData = z.infer<typeof createGameSchema>;
 
 
 export const DialogCreateGame = () => {
+    const {isAuthenticated, user} = useAuth();
+    const navigate = useNavigate();
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        reset,
+        formState: {errors},
     } = useForm<CreateGameFormData>({
         resolver: zodResolver(createGameSchema),
     });
 
-    const onSubmit = (data: CreateGameFormData) => {
-        alert("Form Data:", data);
-        
+    const onSubmit = async (data: CreateGameFormData) => {
+        try {
+            if (!isAuthenticated || !user) {
+                navigate('/login');
+                return;
+            }
+            const response = await serverFetch("/game/create", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    GameName: data.gameName,
+                    HostId: user.id,
+                    MaxPlayers: data.maxPlayers,
+                    DifficultyLevel: ''
+                }),
+            });
+
+            const responseData = await response.json();
+
+            if (response.ok) {
+                toast({title: "Game Created", description: "The game was successfully created."});
+                setIsDialogOpen(false);
+            } else {
+                toast({
+                    title: "Error",
+                    description: responseData.message || "An error occurred.",
+                    variant: "destructive"
+                });
+            }
+        } catch (ex) {
+            toast({title: "Error", description: ex.message || "An unexpected error occurred.", variant: "destructive"});
+        }
+    };
+
+    const handleDialogOpenChange = (open: boolean) => {
+        setIsDialogOpen(open);
+        if (open) {
+            reset();
+        }
     };
 
     return (
-        <Dialog>
+        <Dialog open={isDialogOpen} onOpenChange={handleDialogOpenChange}>
             <DialogTrigger asChild>
                 <Button size="sm" className="h-8 gap-1">
-                    <PlusCircle className="h-3.5 w-3.5" />
+                    <PlusCircle className="h-3.5 w-3.5"/>
                     <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Create game</span>
                 </Button>
             </DialogTrigger>
@@ -76,13 +121,17 @@ export const DialogCreateGame = () => {
                             <Input
                                 id="maxPlayers"
                                 type="number"
-                                {...register("maxPlayers", { valueAsNumber: true })}
+                                {...register("maxPlayers", {valueAsNumber: true})}
                                 className="col-span-3"
                             />
-                            {errors.maxPlayers && <p className="col-span-4 text-red-500">{errors.maxPlayers.message}</p>}
+                            {errors.maxPlayers &&
+                                <p className="col-span-4 text-red-500">{errors.maxPlayers.message}</p>}
                         </div>
                     </div>
                     <DialogFooter>
+                        <DialogClose asChild>
+                            <Button variant="ghost">Cancel</Button>
+                        </DialogClose>
                         <Button type="submit">Create game</Button>
                     </DialogFooter>
                 </form>
