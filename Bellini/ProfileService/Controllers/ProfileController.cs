@@ -39,7 +39,7 @@ namespace ProfileService.Controllers
             if (profileImage != null)
             {
                 var profileImageUrl = await _fileService.UploadFileAsync(profileImage, cancellationToken);
-                updateProfileDto.ProfileImageUrl = profileImageUrl;
+                updateProfileDto.ProfileImageUrl = "https://localhost:7292" + profileImageUrl;
             }
 
             await _profileService.UpdateProfileAsync(id, updateProfileDto, cancellationToken);
