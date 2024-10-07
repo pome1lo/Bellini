@@ -35,11 +35,11 @@ function App() {
                             <Route path='register' element={<RegisterPage/>}/>
 
                             <Route path='settings' element={<SettingsPage/>}/>
-                            <Route path='profile' element={<ProfilePage/>}/>
                             <Route path='contacts' element={<ContactsPage/>}/>
                             <Route path='about' element={<AboutPage/>}/>
                             <Route path='support' element={<SupportPage/>}/>
 
+                            <Route path='profile/:id' element={<ProfilePage/>}/>
                             <Route path='games' element={<GameListPage/>}/>
 
                             <Route path='games/rooms/:id' element={<GameRoomPage/>}/>
