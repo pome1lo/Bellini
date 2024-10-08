@@ -21,26 +21,30 @@ namespace BusinessLogicLayer.Hubs
                 var db = _redis.GetDatabase();
                 string gameKey = $"game:{joinGameDto.GameId}:players";
 
-                // Добавляем игрока в Redis
-                var playerInfo = JsonSerializer.Serialize(new
-                {
-                    joinGameDto.UserId,
-                    joinGameDto.Username,
-                    joinGameDto.Email,
-                    joinGameDto.ProfileImageUrl
-                });
-
-                // Добавляем игрока в список игроков игровой комнаты
-                await db.ListRightPushAsync(gameKey, playerInfo);
-
-                // Получаем всех подключенных игроков в игровой комнате
                 var playersInGame = await db.ListRangeAsync(gameKey);
+                var existingPlayers = playersInGame.Select(p => JsonSerializer.Deserialize<PlayerDto>(p)).ToList();
+
+                if (existingPlayers.Any(p => p.UserId == joinGameDto.UserId))
+                {
+                    return;
+                }
+
+                var playerInfo = new PlayerDto
+                {
+                    UserId = joinGameDto.UserId,
+                    Username = joinGameDto.Username,
+                    Email = joinGameDto.Email,
+                    ProfileImageUrl = joinGameDto.ProfileImageUrl
+                };
+
+                var serializedPlayer = JsonSerializer.Serialize(playerInfo);
+                await db.ListRightPushAsync(gameKey, serializedPlayer);
+
+                playersInGame = await db.ListRangeAsync(gameKey);
                 var playerList = playersInGame.Select(p => JsonSerializer.Deserialize<PlayerDto>(p)).ToList();
 
-                // Присоединяем игрока к группе в SignalR
                 await Groups.AddToGroupAsync(Context.ConnectionId, joinGameDto.GameId);
 
-                // Отправляем всем игрокам список подключенных игроков и информацию о новом игроке
                 await Clients.Group(joinGameDto.GameId).SendAsync("PlayerJoined", playerList, joinGameDto);
             }
             catch (Exception ex)
@@ -50,25 +54,28 @@ namespace BusinessLogicLayer.Hubs
             }
         }
 
-        public async Task LeaveGame(string gameId)
+        public async Task LeaveGame(string gameId, string userId)
         {
             try
             {
                 var db = _redis.GetDatabase();
                 string gameKey = $"game:{gameId}:players";
 
-                // Удаляем игрока из Redis по ConnectionId
-                // (в реальной системе можно добавить привязку ConnectionId к UserId для корректного удаления)
-                await db.ListRemoveAsync(gameKey, Context.ConnectionId);
-
-                // Обновляем список игроков
                 var playersInGame = await db.ListRangeAsync(gameKey);
                 var playerList = playersInGame.Select(p => JsonSerializer.Deserialize<PlayerDto>(p)).ToList();
 
-                // Удаляем игрока из группы SignalR
+                var playerToRemove = playerList.FirstOrDefault(p => p.UserId == userId);
+                if (playerToRemove != null)
+                {
+                    var serializedPlayer = JsonSerializer.Serialize(playerToRemove);
+                    await db.ListRemoveAsync(gameKey, serializedPlayer);
+                }
+
                 await Groups.RemoveFromGroupAsync(Context.ConnectionId, gameId);
 
-                // Уведомляем остальных игроков о выходе
+                playersInGame = await db.ListRangeAsync(gameKey);
+                playerList = playersInGame.Select(p => JsonSerializer.Deserialize<PlayerDto>(p)).ToList();
+
                 await Clients.Group(gameId).SendAsync("PlayerLeft", playerList);
             }
             catch (Exception ex)
@@ -76,6 +83,17 @@ namespace BusinessLogicLayer.Hubs
                 Console.WriteLine($"Error in LeaveGame: {ex.Message}");
                 throw;
             }
+        }
+
+        public async Task<List<PlayerDto>> GetPlayers(string gameId)
+        {
+            var db = _redis.GetDatabase();
+            string gameKey = $"game:{gameId}:players";
+
+            var playersInGame = await db.ListRangeAsync(gameKey);
+            var playerList = playersInGame.Select(p => JsonSerializer.Deserialize<PlayerDto>(p)).ToList();
+
+            return playerList;
         }
     }
 }
