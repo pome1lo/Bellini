@@ -9,6 +9,7 @@ import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
+import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
 
 interface CurrentGame {
     id: number;
@@ -36,6 +37,12 @@ export const GameRoomPage = () => {
     const [connection, setConnection] = useState<signalR.HubConnection | null>(null);
     const [players, setPlayers] = useState<Player[]>([]);
     const [isUserJoined, setIsUserJoined] = useState(false);
+
+    const breadcrumbItems = [
+        {path: '/', name: 'Home'},
+        {path: '/games', name: 'Games'},
+        {path: `/games/room/${id}`, name: currentGame?.gameName},
+    ];
 
     useEffect(() => {
         if (!isAuthenticated || !user || !id) {
@@ -154,39 +161,51 @@ export const GameRoomPage = () => {
 
     return (
         <>
-            <DialogShareButton link={window.location.href}/>
-            <div>Game Room {id}</div>
-            {isCurrentUserHost ? <span>HOST</span> : <span>USER</span>}
-            <Button variant="destructive" onClick={disconnect}>Disconnect</Button>
+            {
+                currentGame
+                ?
+                     <>
+                        <Breadcrumbs items={breadcrumbItems}/>
 
-            {!isUserJoined && (
-                <Button onClick={connect}>Connect</Button>
-            )}
+                        <DialogShareButton link={window.location.href}/>
+                        <div>Game Room {id}</div>
+                        {isCurrentUserHost ? <span>HOST</span> : <span>USER</span>}
+                        <Button variant="destructive" onClick={disconnect}>Disconnect</Button>
 
-            <Card x-chunk="dashboard-01-chunk-5">
-                <CardHeader>
-                    <CardTitle>Connected Users</CardTitle>
-                </CardHeader>
-                <CardContent className="grid gap-8">
-                    {players.map((player) => (
-                        <div key={player.userId} className="flex items-center gap-4">
-                            <Avatar className="hidden h-9 w-9 sm:flex">
-                                <AvatarImage
-                                    src={player.profileImageUrl}
-                                    alt={`${player.username}'s profile`}
-                                />
-                                <AvatarFallback>
-                                    {(player.username.charAt(0) + player.email.charAt(0)).toUpperCase()}
-                                </AvatarFallback>
-                            </Avatar>
-                            <div className="grid gap-1">
-                                <p className="text-sm font-medium leading-none">{player.username}</p>
-                                <p className="text-sm text-muted-foreground">{player.email}</p>
-                            </div>
-                        </div>
-                    ))}
-                </CardContent>
-            </Card>
+                        {!isUserJoined && (
+                            <Button onClick={connect}>Connect</Button>
+                        )}
+
+                        <Card x-chunk="dashboard-01-chunk-5">
+                            <CardHeader>
+                                <CardTitle>Connected Users</CardTitle>
+                            </CardHeader>
+                            <CardContent className="grid gap-8">
+                                {players.map((player) => (
+                                    <div key={player.userId} className="flex items-center gap-4">
+                                        <Avatar className="hidden h-9 w-9 sm:flex">
+                                            <AvatarImage
+                                                src={player.profileImageUrl}
+                                                alt={`${player.username}'s profile`}
+                                            />
+                                            <AvatarFallback>
+                                                {(player.username.charAt(0) + player.email.charAt(0)).toUpperCase()}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <div className="grid gap-1">
+                                            <p className="text-sm font-medium leading-none">{player.username}</p>
+                                            <p className="text-sm text-muted-foreground">{player.email}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </CardContent>
+                        </Card>
+                    </>
+                :
+                    <>
+                    ЗАГРУЗОЧКА
+                    </>
+            }
         </>
     );
 };
