@@ -11,6 +11,7 @@ namespace BusinessLogicLayer.Hubs
 
         public GameHub(IConnectionMultiplexer redis)
         {
+         
             _redis = redis;
         }
 

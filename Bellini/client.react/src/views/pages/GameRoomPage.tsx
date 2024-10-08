@@ -1,14 +1,14 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { HubConnectionBuilder } from "@microsoft/signalr";
-import { useAuth } from "@/utils/context/authContext.tsx";
-import { useEffect, useState } from "react";
+import {useNavigate, useParams} from "react-router-dom";
+import {HubConnectionBuilder} from "@microsoft/signalr";
+import {useAuth} from "@/utils/context/authContext.tsx";
+import {useEffect, useState} from "react";
 import * as signalR from "@microsoft/signalr";
-import { toast } from "@/components/ui/use-toast.ts";
-import { DialogShareButton } from "@/views/partials/DialogShareButton.tsx";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card.tsx";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar.tsx";
-import { Button } from "@/components/ui/button.tsx";
-import { serverFetch } from "@/utils/fetchs/serverFetch.ts";
+import {toast} from "@/components/ui/use-toast.ts";
+import {DialogShareButton} from "@/views/partials/DialogShareButton.tsx";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
+import {Button} from "@/components/ui/button.tsx";
+import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 
 interface CurrentGame {
     id: number;
@@ -28,9 +28,9 @@ interface Player {
 }
 
 export const GameRoomPage = () => {
-    const { id } = useParams();
+    const {id} = useParams();
     const navigate = useNavigate();
-    const { isAuthenticated, user } = useAuth();
+    const {isAuthenticated, user} = useAuth();
     const [isCurrentUserHost, setIsCurrentUserHost] = useState(false);
     const [currentGame, setCurrentGame] = useState<CurrentGame>();
     const [connection, setConnection] = useState<signalR.HubConnection | null>(null);
@@ -81,7 +81,6 @@ export const GameRoomPage = () => {
         newConnection.start()
             .then(() => {
                 console.log('Connected to SignalR');
-                // После подключения запрашиваем список игроков
                 newConnection.invoke("GetPlayers", id.toString())
                     .then((playerList: Player[]) => {
                         setPlayers(playerList);
@@ -91,12 +90,31 @@ export const GameRoomPage = () => {
 
         setConnection(newConnection);
 
+        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+            event.preventDefault();
+            event.returnValue = "Are you sure you want to leave the game?";
+            return "Are you sure you want to leave the game?";
+        };
+
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
         return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
             if (connection) {
+                disconnect();
                 connection.stop();
             }
         };
     }, [id, isAuthenticated, user, navigate]);
+
+
+    useEffect(() => {
+        return () => {
+            if (connection) {
+                disconnect();
+            }
+        };
+    }, [connection]);
 
     async function connect() {
         if (!connection || isUserJoined) return;
@@ -111,7 +129,7 @@ export const GameRoomPage = () => {
             });
 
             setIsUserJoined(true);
-            toast({ title: "You have successfully joined the game!" });
+            toast({title: "You have successfully joined the game!"});
         } catch (error) {
             console.error('Error joining game:', error);
         }
@@ -122,7 +140,7 @@ export const GameRoomPage = () => {
             try {
                 if (connection.state === signalR.HubConnectionState.Connected) {
                     await connection.invoke("LeaveGame", id.toString(), user.id.toString());
-                    toast({ title: "You have left the game." });
+                    toast({title: "You have left the game."});
                 }
             } catch (error) {
                 console.error('Error while disconnecting:', error);
@@ -136,7 +154,7 @@ export const GameRoomPage = () => {
 
     return (
         <>
-            <DialogShareButton link={window.location.href} />
+            <DialogShareButton link={window.location.href}/>
             <div>Game Room {id}</div>
             {isCurrentUserHost ? <span>HOST</span> : <span>USER</span>}
             <Button variant="destructive" onClick={disconnect}>Disconnect</Button>

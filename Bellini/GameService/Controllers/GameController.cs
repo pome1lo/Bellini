@@ -27,7 +27,7 @@ namespace GameService.Controllers
         }
 
         // Получение игры по ID
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetGameById(int id, CancellationToken cancellationToken)
         {
             var game = await _gameService.GetGameByIdAsync(id, cancellationToken);
