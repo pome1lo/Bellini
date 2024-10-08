@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Hubs;
+﻿using BusinessLogic.Exceptions; // Добавлено для исключений
+using BusinessLogicLayer.Hubs;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccess.Data.Interfaces;
@@ -53,6 +54,12 @@ namespace BusinessLogicLayer.Services
         public async Task<GameDto> GetGameByIdAsync(int gameId, CancellationToken cancellationToken = default)
         {
             var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+
+            if (game == null)
+            {
+                throw new NotFoundException($"Game with ID {gameId} not found.");
+            }
+
             return new GameDto
             {
                 Id = game.Id,
@@ -83,13 +90,17 @@ namespace BusinessLogicLayer.Services
 
         public async Task UpdateGameAsync(int gameId, UpdateGameDto updateGameDto, CancellationToken cancellationToken = default)
         {
-            var game = new Game
+            var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+
+            if (game == null)
             {
-                GameName = updateGameDto.GameName,
-                MaxPlayers = updateGameDto.MaxPlayers,
-                DifficultyLevel = updateGameDto.DifficultyLevel,
-                IsActive = updateGameDto.IsActive
-            };
+                throw new NotFoundException($"Game with ID {gameId} not found.");
+            }
+
+            game.GameName = updateGameDto.GameName;
+            game.MaxPlayers = updateGameDto.MaxPlayers;
+            game.DifficultyLevel = updateGameDto.DifficultyLevel;
+            game.IsActive = updateGameDto.IsActive;
 
             await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
         }
@@ -97,6 +108,12 @@ namespace BusinessLogicLayer.Services
         public async Task EndGameAsync(int gameId, CancellationToken cancellationToken = default)
         {
             var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+
+            if (game == null)
+            {
+                throw new NotFoundException($"Game with ID {gameId} not found.");
+            }
+
             game.IsActive = false;
 
             await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
@@ -107,6 +124,13 @@ namespace BusinessLogicLayer.Services
 
         public async Task JoinGameAsync(int gameId, int playerId, CancellationToken cancellationToken = default)
         {
+            var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+
+            if (game == null)
+            {
+                throw new NotFoundException($"Game with ID {gameId} not found.");
+            }
+
             var player = new Player
             {
                 GameId = gameId,
@@ -122,6 +146,12 @@ namespace BusinessLogicLayer.Services
         public async Task LeaveGameAsync(int gameId, int playerId, CancellationToken cancellationToken = default)
         {
             var player = await _playerRepository.GetItemAsync(playerId, cancellationToken);
+
+            if (player == null)
+            {
+                throw new NotFoundException($"Player with ID {playerId} not found.");
+            }
+
             if (player.GameId == gameId)
             {
                 await _playerRepository.DeleteAsync(playerId, cancellationToken);
@@ -131,21 +161,15 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        //public async Task<IEnumerable<PlayerDto>> GetPlayersInGameAsync(int gameId, CancellationToken cancellationToken = default)
-        //{
-        //    var players = await _playerRepository.GetElementsAsync(cancellationToken);
-        //    return players.Where(p => p.GameId == gameId)
-        //                  .Select(p => new PlayerDto
-        //                  {
-        //                      Id = p.Id,
-        //                      Name = p.Name,
-        //                      GameId = p.GameId
-        //                  });
-        //}
-
         public async Task SelectCategoriesAndDifficultyAsync(int gameId, SelectCategoriesDto selectCategoriesDto, CancellationToken cancellationToken = default)
         {
             var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+
+            if (game == null)
+            {
+                throw new NotFoundException($"Game with ID {gameId} not found.");
+            }
+
             game.DifficultyLevel = selectCategoriesDto.DifficultyLevel;
 
             // Assuming the game has a collection of categories
@@ -160,6 +184,13 @@ namespace BusinessLogicLayer.Services
 
         public async Task AddCommentToGameAsync(int gameId, AddCommentDto addCommentDto, CancellationToken cancellationToken = default)
         {
+            var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+
+            if (game == null)
+            {
+                throw new NotFoundException($"Game with ID {gameId} not found.");
+            }
+
             var comment = new Comment
             {
                 GameId = gameId,
