@@ -21,15 +21,17 @@ namespace ProfileService.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProfileById(int id, CancellationToken cancellationToken)
         {
-            var profile = await _profileService.GetProfileByIdAsync(id, cancellationToken);
-            return Ok(profile);
+            return Ok(
+                await _profileService.GetProfileByIdAsync(id, cancellationToken)
+            );
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllProfiles(CancellationToken cancellationToken)
         {
-            var profiles = await _profileService.GetAllProfilesAsync(cancellationToken);
-            return Ok(profiles);
+            return Ok(
+                await _profileService.GetAllProfilesAsync(cancellationToken)
+            );
         }
 
         [HttpPut("{id}")]
@@ -42,8 +44,9 @@ namespace ProfileService.Controllers
                 updateProfileDto.ProfileImageUrl = "https://localhost:7292" + profileImageUrl;
             }
 
-            await _profileService.UpdateProfileAsync(id, updateProfileDto, cancellationToken);
-            return NoContent();
+            return Ok(
+                await _profileService.UpdateProfileAsync(id, updateProfileDto, cancellationToken)
+            );
         }
 
         [HttpDelete("{id}")]

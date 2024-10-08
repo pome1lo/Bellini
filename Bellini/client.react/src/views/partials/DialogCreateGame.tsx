@@ -75,6 +75,8 @@ export const DialogCreateGame = () => {
                 });
             }
         } catch (ex) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             toast({title: "Error", description: ex.message || "An unexpected error occurred.", variant: "destructive"});
         }
     };

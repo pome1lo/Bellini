@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import * as signalR from "@microsoft/signalr";
 import {toast} from "@/components/ui/use-toast.ts";
 import {serverFetch} from "@/utils/fetch's/serverFetch.ts";
+import {DialogShareButton} from "@/views/partials/DialogShareButton.tsx";
 
 interface CurrentGame {
     id: number;
@@ -129,6 +130,7 @@ export const GameRoomPage = () => {
                     user
                 </>
             }
+            <DialogShareButton link={window.location.href}/>
             <div>Game Room {id}</div>
         </>
     );

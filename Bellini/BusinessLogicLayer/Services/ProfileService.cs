@@ -49,7 +49,7 @@ namespace BusinessLogicLayer.Services
             return _mapper.Map<IEnumerable<ProfileDto>>(users);
         }
 
-        public async Task UpdateProfileAsync(int profileId, UpdateProfileDto updateProfileDto, CancellationToken cancellationToken = default)
+        public async Task<ProfileDto> UpdateProfileAsync(int profileId, UpdateProfileDto updateProfileDto, CancellationToken cancellationToken = default)
         {
             var validationResult = await _updateProfileValidator.ValidateAsync(updateProfileDto, cancellationToken);
             if (!validationResult.IsValid)
@@ -65,6 +65,15 @@ namespace BusinessLogicLayer.Services
 
             var user = _mapper.Map(updateProfileDto, existingUser);
             await _userRepository.UpdateAsync(profileId, user, cancellationToken);
+
+            var updatedUser = await _userRepository.GetItemAsync(profileId, cancellationToken);
+
+            if (updatedUser is null)
+            {
+                throw new NotFoundException($"Profile with ID {profileId} not found.");
+            }
+
+            return _mapper.Map<ProfileDto>(updatedUser);
         }
 
         public async Task DeleteProfileAsync(int profileId, CancellationToken cancellationToken = default)

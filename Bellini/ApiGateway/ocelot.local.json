@@ -28,7 +28,7 @@
         }
       ],
       "UpstreamPathTemplate": "/profile/{everything}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
     },
     {
       "DownstreamPathTemplate": "/images/{everything}",

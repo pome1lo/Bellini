@@ -1,27 +1,12 @@
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
 import {useEffect, useState} from "react";
-import {authFetch} from "@/utils/fetch's/authFetch.ts";
 import {CircleUser} from "lucide-react";
 import {Button} from "@/components/ui/button.tsx";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {serverFetch} from "@/utils/fetch's/serverFetch.ts";
-import {z} from "zod";
-import {useAuth} from "@/utils/context/authContext.tsx";
-import {toast} from "@/components/ui/use-toast.ts";
 // import { toast } from "sonner"
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {
-    Dialog, DialogClose,
-    DialogContent,
-    DialogDescription, DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
-} from "@/components/ui/dialog.tsx";
-import {Label} from "@/components/ui/label.tsx";
-import {Input} from "@/components/ui/input.tsx";
+import {DialogEditProfile} from "@/views/partials/DialogEditProfile.tsx";
 
 const breadcrumbItems = [
     {path: '/', name: 'Home'},
@@ -38,23 +23,10 @@ interface UserProfile {
     profileImageUrl?: string;
 }
 
-const updateProfileSchema = z.object({
-    firstName: z.string().optional(),
-    lastName: z.string().optional(),
-    dateOfBirth: z.string().optional(),
-    profileImage: z.any().optional(),
-});
-
-type UpdateProfileFormData = z.infer<typeof updateProfileSchema>;
 
 export const ProfilePage = () => {
     const [currentUser, setCurrentUser] = useState<UserProfile>();
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const {register, handleSubmit, formState: {errors}} = useForm<UpdateProfileFormData>({
-        resolver: zodResolver(updateProfileSchema),
-    });
-    const navigate = useNavigate();
-    const {user, getAccessToken, logout, isAuthenticated} = useAuth();
+    const [isProfileUpdated, setIsProfileUpdated] = useState(false);
     const {id} = useParams();
 
     useEffect(() => {
@@ -62,46 +34,10 @@ export const ProfilePage = () => {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-
                 setCurrentUser(data);
             });
-    }, [id]);
+    }, [id, isProfileUpdated]);
 
-    async function onSubmit(data: UpdateProfileFormData) {
-        if (!isAuthenticated || !user) {
-            navigate('/login');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("id", user.id);
-        formData.append("FirstName", data.firstName || "");
-        formData.append("LastName", data.lastName || "");
-        formData.append("DateOfBirth", data.dateOfBirth || "");
-        if (data.profileImage && data.profileImage[0]) {
-            formData.append("profileImage", data.profileImage[0]);
-        }
-
-        try {
-            const response = await authFetch(`/profile/${user.id}`, getAccessToken, logout, {
-                method: "PUT",
-                body: formData,
-            });
-            if (response.ok) {
-                toast({title: "Profile updated", description: "Your profile was successfully updated."});
-                setIsDialogOpen(false);
-            } else {
-                const responseData = await response.json();
-                toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
-                    variant: "destructive"
-                });
-            }
-        } catch (ex) {
-            toast({title: "Error", description: ex.message || "An unexpected error occurred.", variant: "destructive"});
-        }
-    }
 
     return (
         <>
@@ -118,47 +54,18 @@ export const ProfilePage = () => {
                         <h3>{currentUser.email}</h3>
                         <p>{currentUser.username}</p>
                     </div>
+                    <DialogEditProfile
+                        contextId={currentUser.id}
+                        isProfileUpdated={isProfileUpdated}
+                        setIsProfileUpdated={setIsProfileUpdated}
+                    />
 
-                    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                        <DialogTrigger asChild>
-                            <Button>Update Profile</Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                                <DialogTitle>Update Profile</DialogTitle>
-                                <DialogDescription>Update your profile details here.</DialogDescription>
-                            </DialogHeader>
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <div className="grid gap-4 py-4">
-                                    <div>
-                                        <Label htmlFor="firstName">First Name</Label>
-                                        <Input id="firstName" {...register("firstName")} />
-                                        {errors.firstName && <p>{errors.firstName.message}</p>}
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="lastName">Last Name</Label>
-                                        <Input id="lastName" {...register("lastName")} />
-                                        {errors.lastName && <p>{errors.lastName.message}</p>}
-                                    </div>
-                                    <div>
-                                        <Label htmlFor="dateOfBirth">Date of Birth</Label>
-                                        <Input id="dateOfBirth" type="date" {...register("dateOfBirth")} />
-                                        {errors.dateOfBirth && <p>{errors.dateOfBirth.message}</p>}
-                                    </div>
-                                    <div className="grid w-full max-w-sm items-center gap-1.5">
-                                        <Label htmlFor="profileImage">Profile Image</Label>
-                                        <Input id="profileImage" type="file" {...register("profileImage")} />
-                                    </div>
-                                </div>
-                                <DialogFooter>
-                                    <DialogClose asChild>
-                                        <Button variant="ghost">Cancel</Button>
-                                    </DialogClose>
-                                    <Button type="submit">Save changes</Button>
-                                </DialogFooter>
-                            </form>
-                        </DialogContent>
-                    </Dialog>
+                    {currentUser.profileImageUrl ?
+                        <img src={currentUser.profileImageUrl} alt="" className="rounded-full h-12 w-12"/>
+                        :
+                        <CircleUser className="h-15 w-15"/>
+                    }
+
                 </div>
             ) : (
                 <div className="flex items-center space-x-4">
