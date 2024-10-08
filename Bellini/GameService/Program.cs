@@ -8,6 +8,7 @@ using DataAccessLayer.Data.Repositories;
 using DataAccessLayer.Models;
 using GameService.MiddlewareExtensions;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Services.AddScoped<IRepository<Player>, PlayerRepository>();
 builder.Services.AddScoped<IRepository<Comment>, CommentRepository>();
 builder.Services.AddScoped<IRepository<Category>, CategoryRepository>();
 
+builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost"));
 
 builder.Services.AddScoped<IGameService, BusinessLogicLayer.Services.GameService>();
 

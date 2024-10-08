@@ -11,10 +11,10 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import {Input} from "@/components/ui/input"
-import {Link, useNavigate} from "react-router-dom";
-import {serverFetch} from "@/utils/fetch\'s/serverFetch.ts";
+import {Link, useNavigate} from "react-router-dom"
 import {useState} from "react";
 import {useAuth} from "@/utils/context/authContext.tsx";
+import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 
 export const LoginPage = () => {
     const navigate = useNavigate();
@@ -55,7 +55,8 @@ export const LoginPage = () => {
                     {
                         id: data.userId,
                         username: data.username,
-                        email: values.email
+                        email: values.email,
+                        profileImageUrl: ""
                     },
                     data.accessToken,
                     data.refreshToken
@@ -66,6 +67,8 @@ export const LoginPage = () => {
                 setErrorMessage(data.Message || 'An error occurred');
             }
         } catch (ex) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             setErrorMessage(ex.message || 'An unexpected error occurred');
         }
     }

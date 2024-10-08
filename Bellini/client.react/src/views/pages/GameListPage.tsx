@@ -8,7 +8,7 @@ import { DropdownMenu, DropdownMenuCheckboxItem,  DropdownMenuContent, DropdownM
 import {Badge} from "@/components/ui/badge.tsx";
 import {DialogCreateGame} from "@/views/partials/DialogCreateGame.tsx";
 import {useEffect, useState} from "react";
-import {serverFetch} from "@/utils/fetch's/serverFetch.ts";
+import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
 import {GameListItem} from "@/views/partials/GameListItem.tsx";
 

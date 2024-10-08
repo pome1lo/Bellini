@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {serverFetch} from "@/utils/fetch's/serverFetch.ts";
+import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {Navigate, Outlet} from "react-router-dom";
 
 interface AuthContext {

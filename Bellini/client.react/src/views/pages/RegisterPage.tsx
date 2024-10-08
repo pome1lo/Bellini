@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useNavigate } from "react-router-dom";
-import { serverFetch } from "@/utils/fetch\'s/serverFetch.ts";
+import { serverFetch } from "@/utils/fetchs/serverFetch.ts";
 import { DiGithubBadge } from "react-icons/di";
 import { useState } from "react";
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp.tsx";
@@ -76,6 +76,8 @@ export const RegisterPage = () => {
                 setErrorMessage(data.Message || 'An error occurred');
             }
         } catch (ex) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             setErrorMessage(ex.Message || 'An unexpected error occurred');
         }
     }
@@ -101,6 +103,8 @@ export const RegisterPage = () => {
                 setErrorMessage(data.Message || 'An error occurred');
             }
         } catch (ex) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             setErrorMessage(ex.Message || 'An unexpected error occurred');
         }
     }
@@ -133,6 +137,8 @@ export const RegisterPage = () => {
                 }
             }
         } catch (ex) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             setErrorMessage(ex.Message || 'An unexpected error occurred');
         }
     }

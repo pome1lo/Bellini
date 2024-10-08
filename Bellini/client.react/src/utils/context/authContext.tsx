@@ -5,12 +5,14 @@ interface User {
     id: string;
     username: string;
     email: string;
+    profileImageUrl: string;
 }
 
 interface AuthContextType {
     user: User | null;
     isAuthenticated: boolean;
     login: (userData: User, accessToken: string, refreshToken: string) => void;
+    update: (userData: User) => void;
     logout: () => void;
     getAccessToken: () => Promise<string | null>;
 }
@@ -21,7 +23,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [user, setUser] = useState<User | null>(null);
     const [accessToken, setAccessToken] = useState<string | null>(null);
     const [refreshToken, setRefreshToken] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true); // Состояние загрузки
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const storedUser = sessionStorage.getItem('user');
@@ -45,6 +47,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         sessionStorage.setItem('user', JSON.stringify(userData));
         sessionStorage.setItem('access-token', accessToken);
         sessionStorage.setItem('refresh-token', refreshToken);
+    };
+
+    const update = (userData: User) => {
+        setUser(userData);
+        sessionStorage.setItem('user', JSON.stringify(userData));
     };
 
     const logout = () => {
@@ -85,7 +92,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, login, logout, getAccessToken }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, login, logout, update, getAccessToken }}>
             {children}
         </AuthContext.Provider>
     );

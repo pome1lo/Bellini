@@ -4,9 +4,10 @@ import {CircleUser} from "lucide-react";
 import {Button} from "@/components/ui/button.tsx";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
 import {useParams} from "react-router-dom";
-import {serverFetch} from "@/utils/fetch's/serverFetch.ts";
+import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 // import { toast } from "sonner"
 import {DialogEditProfile} from "@/views/partials/DialogEditProfile.tsx";
+import {useAuth} from "@/utils/context/authContext.tsx";
 
 const breadcrumbItems = [
     {path: '/', name: 'Home'},
@@ -27,14 +28,17 @@ interface UserProfile {
 export const ProfilePage = () => {
     const [currentUser, setCurrentUser] = useState<UserProfile>();
     const [isProfileUpdated, setIsProfileUpdated] = useState(false);
+    const {user, isAuthenticated, update} = useAuth();
     const {id} = useParams();
 
     useEffect(() => {
         serverFetch(`/profile/${id}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 setCurrentUser(data);
+                if(isAuthenticated || user || user.id === id) {
+                    update(data);
+                }
             });
     }, [id, isProfileUpdated]);
 

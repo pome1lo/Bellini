@@ -1,4 +1,4 @@
-import {serverFetch} from "@/utils/fetch's/serverFetch.ts";
+import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 
 export const authFetch = async (
     endpoint: string,

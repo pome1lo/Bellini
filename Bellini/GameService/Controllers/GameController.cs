@@ -80,13 +80,13 @@ namespace GameService.Controllers
             return Ok();
         }
 
-        // Получение списка игроков в игре
-        [HttpGet("{id}/players")]
-        public async Task<IActionResult> GetPlayersInGame(int id, CancellationToken cancellationToken)
-        {
-            var players = await _gameService.GetPlayersInGameAsync(id, cancellationToken);
-            return Ok(players);
-        }
+        //// Получение списка игроков в игре
+        //[HttpGet("{id}/players")]
+        //public async Task<IActionResult> GetPlayersInGame(int id, CancellationToken cancellationToken)
+        //{
+        //    var players = await _gameService.GetPlayersInGameAsync(id, cancellationToken);
+        //    return Ok(players);
+        //}
 
         // Добавление комментария к игре
         [HttpPost("{id}/comment")]

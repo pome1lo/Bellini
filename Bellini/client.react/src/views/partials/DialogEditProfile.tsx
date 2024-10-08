@@ -11,7 +11,7 @@ import {
 import {Button} from "@/components/ui/button.tsx";
 import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
-import {authFetch} from "@/utils/fetch's/authFetch.ts";
+import {authFetch} from "@/utils/fetchs/authFetch.ts";
 import {toast} from "@/components/ui/use-toast.ts";
 import React, {useState} from "react";
 import {useForm} from "react-hook-form";

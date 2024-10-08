@@ -33,8 +33,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "@/components/ui/calendar.tsx";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form.tsx";
-import { serverFetch } from "@/utils/fetch's/serverFetch.ts";
-import { authFetch } from "@/utils/fetch's/authFetch.ts";
+import { serverFetch } from "@/utils/fetchs/serverFetch.ts";
+import { authFetch } from "@/utils/fetchs/authFetch.ts";
 
 const breadcrumbItems = [
     { path: '/', name: 'Home' },
