@@ -131,17 +131,17 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        public async Task<IEnumerable<PlayerDto>> GetPlayersInGameAsync(int gameId, CancellationToken cancellationToken = default)
-        {
-            var players = await _playerRepository.GetElementsAsync(cancellationToken);
-            return players.Where(p => p.GameId == gameId)
-                          .Select(p => new PlayerDto
-                          {
-                              Id = p.Id,
-                              Name = p.Name,
-                              GameId = p.GameId
-                          });
-        }
+        //public async Task<IEnumerable<PlayerDto>> GetPlayersInGameAsync(int gameId, CancellationToken cancellationToken = default)
+        //{
+        //    var players = await _playerRepository.GetElementsAsync(cancellationToken);
+        //    return players.Where(p => p.GameId == gameId)
+        //                  .Select(p => new PlayerDto
+        //                  {
+        //                      Id = p.Id,
+        //                      Name = p.Name,
+        //                      GameId = p.GameId
+        //                  });
+        //}
 
         public async Task SelectCategoriesAndDifficultyAsync(int gameId, SelectCategoriesDto selectCategoriesDto, CancellationToken cancellationToken = default)
         {

@@ -1,12 +1,8 @@
 ﻿namespace BusinessLogicLayer.Services.DTOs
 {
-    public class PlayerDto
+    public class JoinGameDto
     {
-
-        //todo add VALIDATOR
-
-        public int Id { get; set; }
-        public int GameId { get; set; }
+        public string GameId { get; set; } = null!;
         public string UserId { get; set; } = null!;
         public string Username { get; set; } = null!;
         public string Email { get; set; } = null!;
