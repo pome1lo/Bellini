@@ -25,15 +25,16 @@ namespace DataAccessLayer.Data.Configurations
             builder.Property(g => g.MaxPlayers)
                    .IsRequired();
 
-            builder.Property(g => g.IsActive)
+            builder.Property(g => g.IsPrivate)
                    .IsRequired();
 
-            builder.Property(g => g.DifficultyLevel)
+            builder.Property(g => g.RoomPassword)
                    .HasMaxLength(50);
 
-            builder.HasMany(g => g.Categories)
-                   .WithMany(c => c.Games)
-                   .UsingEntity(j => j.ToTable("GameCategories"));
+            builder.HasOne(g => g.Status)
+                   .WithMany(gs => gs.Games)
+                   .HasForeignKey(g => g.GameStatusId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(g => g.Players)
                    .WithOne(p => p.Game)

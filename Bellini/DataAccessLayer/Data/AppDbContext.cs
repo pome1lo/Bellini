@@ -16,7 +16,7 @@ namespace DataAccess.Data
         public DbSet<Game> Games { get; set; } = null!;
         public DbSet<Player> Players { get; set; } = null!;
         public DbSet<Comment> Comments { get; set; } = null!;
-        public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<GameStatus> GameStatuses { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,7 @@ namespace DataAccess.Data
             modelBuilder.ApplyConfiguration(new GameConfiguration());
             modelBuilder.ApplyConfiguration(new PlayerConfiguration());
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
-            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new GameStatusConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

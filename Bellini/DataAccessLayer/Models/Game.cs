@@ -9,10 +9,12 @@ namespace DataAccess.Models
         public int HostId { get; set; }
         public DateTime StartTime { get; set; }
         public int MaxPlayers { get; set; }
-        public bool IsActive { get; set; }
-        public string DifficultyLevel { get; set; } = null!;
-        public List<Player> Players { get; set; } = null!;
+        public string GameCoverImageUrl { get; set; } = null!;
+        public bool IsPrivate { get; set; }
+        public string RoomPassword { get; set; } = "";
+        public int GameStatusId { get; set; }
+        public GameStatus Status { get; set; } = null!;
         public List<Comment> Comments { get; set; } = null!;
-        public List<Category> Categories { get; set; } = null!;
+        public List<Player> Players { get; set; } = null!;
     }
 }

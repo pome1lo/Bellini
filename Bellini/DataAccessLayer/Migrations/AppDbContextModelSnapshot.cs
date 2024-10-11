@@ -22,21 +22,6 @@ namespace DataAccessLayer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CategoryGame", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GamesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoriesId", "GamesId");
-
-                    b.HasIndex("GamesId");
-
-                    b.ToTable("GameCategories", (string)null);
-                });
-
             modelBuilder.Entity("DataAccess.Models.Game", b =>
                 {
                     b.Property<int>("Id")
@@ -45,29 +30,38 @@ namespace DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DifficultyLevel")
+                    b.Property<string>("GameCoverImageUrl")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GameName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int>("GameStatusId")
+                        .HasColumnType("int");
+
                     b.Property<int>("HostId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
+                    b.Property<bool>("IsPrivate")
                         .HasColumnType("bit");
 
                     b.Property<int>("MaxPlayers")
                         .HasColumnType("int");
 
+                    b.Property<string>("RoomPassword")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GameStatusId");
 
                     b.ToTable("Games", (string)null);
                 });
@@ -116,24 +110,6 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories", (string)null);
-                });
-
             modelBuilder.Entity("DataAccessLayer.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -163,6 +139,41 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Comments", (string)null);
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.GameStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GameStatuses", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Not started"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "In process"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Completed"
+                        });
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Player", b =>
                 {
                     b.Property<int>("Id")
@@ -189,19 +200,15 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Players", (string)null);
                 });
 
-            modelBuilder.Entity("CategoryGame", b =>
+            modelBuilder.Entity("DataAccess.Models.Game", b =>
                 {
-                    b.HasOne("DataAccessLayer.Models.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("DataAccessLayer.Models.GameStatus", "Status")
+                        .WithMany("Games")
+                        .HasForeignKey("GameStatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("DataAccess.Models.Game", null)
-                        .WithMany()
-                        .HasForeignKey("GamesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Comment", b =>
@@ -231,6 +238,11 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Players");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.GameStatus", b =>
+                {
+                    b.Navigation("Games");
                 });
 #pragma warning restore 612, 618
         }
