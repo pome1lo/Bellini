@@ -55,6 +55,18 @@
       "UpstreamPathTemplate": "/game/{everything}",
       "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
     },
+    {
+      "DownstreamPathTemplate": "/covers/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/covers/{everything}",
+      "UpstreamHttpMethod": [ "GET"]
+    },
 
     // SignalR Hub for GameService
 

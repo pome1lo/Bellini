@@ -15,4 +15,8 @@
     <ProjectReference Include="..\GlobalExceptionHandlerLibrary\GlobalExceptionHandlerLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\covers\" />
+  </ItemGroup>
+
 </Project>

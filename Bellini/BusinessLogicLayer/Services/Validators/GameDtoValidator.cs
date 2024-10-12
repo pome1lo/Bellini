@@ -17,10 +17,6 @@ namespace BusinessLogicLayer.Services.Validators
             RuleFor(x => x.StartTime).NotEmpty().WithMessage("Start time cannot be empty.");
 
             RuleFor(x => x.MaxPlayers).InclusiveBetween(2, 100).WithMessage("Max players must be between 2 and 100.");
-
-            RuleFor(x => x.DifficultyLevel).NotEmpty().WithMessage("Difficulty level cannot be empty.");
-
-            RuleFor(x => x.IsActive).NotNull().WithMessage("IsActive must be set.");
         }
     }
 }

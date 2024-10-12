@@ -12,14 +12,17 @@ namespace DataAccessLayer.Data.Configurations
 
             builder.HasKey(gs => gs.Id);
 
+            builder.Property(gs => gs.Id)  // Отключаем автоинкремент
+                   .ValueGeneratedNever();
+
             builder.Property(gs => gs.Name)
                    .IsRequired()
                    .HasMaxLength(100);
 
             builder.HasData(
-                new GameStatus { Name = "Not started" },
-                new GameStatus { Name = "In process" },
-                new GameStatus { Name = "Completed" }
+                new GameStatus { Id = 1, Name = "Not started" },
+                new GameStatus { Id = 2, Name = "In process" },
+                new GameStatus { Id = 3, Name = "Completed" }
             );
 
             builder.HasMany(gs => gs.Games)

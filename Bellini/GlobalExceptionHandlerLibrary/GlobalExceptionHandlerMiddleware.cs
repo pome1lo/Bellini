@@ -24,6 +24,16 @@ namespace GlobalExceptionHandlerLibrary
             }
             catch (Exception ex)
             {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine("----------------------------------------------------");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.WriteLine("----------------------------------------------------");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.BackgroundColor = ConsoleColor.Black;
+
+
                 var statusCode = HttpStatusCode.InternalServerError;
                 var errorCode = "InternalServerError";
 
@@ -31,7 +41,7 @@ namespace GlobalExceptionHandlerLibrary
                 {
                     statusCode = HttpStatusCode.BadRequest;
                     errorCode = "BadRequest";
-                } 
+                }
                 else if (ex is NotFoundException)
                 {
                     statusCode = HttpStatusCode.NotFound;

@@ -15,7 +15,6 @@ namespace GameService.Controllers
             _gameService = gameService;
         }
 
-        // Создание новой игровой комнаты
         [HttpPost("create")]
         public async Task<IActionResult> CreateGame([FromBody] CreateGameRoomDto createGameRoomDto, CancellationToken cancellationToken)
         {
@@ -26,7 +25,6 @@ namespace GameService.Controllers
             return Ok(new { GameId = gameId });
         }
 
-        // Получение игры по ID
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetGameById(int id, CancellationToken cancellationToken)
         {
@@ -37,48 +35,70 @@ namespace GameService.Controllers
             return Ok(game);
         }
 
-        // Получение всех активных игр
-        [HttpGet("active")]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAllActiveGames(CancellationToken cancellationToken)
         {
             var activeGames = await _gameService.GetAllActiveGamesAsync(cancellationToken);
             return Ok(activeGames);
         }
 
-        // Обновление информации об игре
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateGame(int id, [FromBody] UpdateGameDto updateGameDto, CancellationToken cancellationToken)
+        [HttpGet("public")]
+        public async Task<IActionResult> GetPublicGames(CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            await _gameService.UpdateGameAsync(id, updateGameDto, cancellationToken);
-            return NoContent();
+            var activeGames = await _gameService.GetAllActiveGamesAsync(cancellationToken);
+            return Ok(activeGames);
         }
 
-        // Завершение игры
-        [HttpPost("{id}/end")]
-        public async Task<IActionResult> EndGame(int id, CancellationToken cancellationToken)
+        [HttpGet("private")]
+        public async Task<IActionResult> GetPrivateGames(CancellationToken cancellationToken)
         {
-            await _gameService.EndGameAsync(id, cancellationToken);
-            return NoContent();
+            var activeGames = await _gameService.GetAllActiveGamesAsync(cancellationToken);
+            return Ok(activeGames);
         }
 
-        // Присоединение игрока к игре
-        [HttpPost("{id}/join")]
-        public async Task<IActionResult> JoinGame(int id, [FromBody] int playerId, CancellationToken cancellationToken)
+        [HttpGet("archived")]
+        public async Task<IActionResult> GetArchivedGames(CancellationToken cancellationToken)
         {
-            await _gameService.JoinGameAsync(id, playerId, cancellationToken);
-            return Ok();
+            var activeGames = await _gameService.GetAllActiveGamesAsync(cancellationToken);
+            return Ok(activeGames);
         }
 
-        // Уход игрока из игры
-        [HttpPost("{id}/leave")]
-        public async Task<IActionResult> LeaveGame(int id, [FromBody] int playerId, CancellationToken cancellationToken)
-        {
-            await _gameService.LeaveGameAsync(id, playerId, cancellationToken);
-            return Ok();
-        }
+
+
+        //// Обновление информации об игре
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateGame(int id, [FromBody] UpdateGameDto updateGameDto, CancellationToken cancellationToken)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest(ModelState);
+
+        //    await _gameService.UpdateGameAsync(id, updateGameDto, cancellationToken);
+        //    return NoContent();
+        //}
+
+        //// Завершение игры
+        //[HttpPost("{id}/end")]
+        //public async Task<IActionResult> EndGame(int id, CancellationToken cancellationToken)
+        //{
+        //    await _gameService.EndGameAsync(id, cancellationToken);
+        //    return NoContent();
+        //}
+
+        //// Присоединение игрока к игре
+        //[HttpPost("{id}/join")]
+        //public async Task<IActionResult> JoinGame(int id, [FromBody] int playerId, CancellationToken cancellationToken)
+        //{
+        //    await _gameService.JoinGameAsync(id, playerId, cancellationToken);
+        //    return Ok();
+        //}
+
+        //// Уход игрока из игры
+        //[HttpPost("{id}/leave")]
+        //public async Task<IActionResult> LeaveGame(int id, [FromBody] int playerId, CancellationToken cancellationToken)
+        //{
+        //    await _gameService.LeaveGameAsync(id, playerId, cancellationToken);
+        //    return Ok();
+        //}
 
         //// Получение списка игроков в игре
         //[HttpGet("{id}/players")]
@@ -88,28 +108,28 @@ namespace GameService.Controllers
         //    return Ok(players);
         //}
 
-        // Добавление комментария к игре
-        [HttpPost("{id}/comment")]
-        public async Task<IActionResult> AddCommentToGame(int id, [FromBody] AddCommentDto addCommentDto, CancellationToken cancellationToken)
-        {
-            await _gameService.AddCommentToGameAsync(id, addCommentDto, cancellationToken);
-            return Ok();
-        }
+        //// Добавление комментария к игре
+        //[HttpPost("{id}/comment")]
+        //public async Task<IActionResult> AddCommentToGame(int id, [FromBody] AddCommentDto addCommentDto, CancellationToken cancellationToken)
+        //{
+        //    await _gameService.AddCommentToGameAsync(id, addCommentDto, cancellationToken);
+        //    return Ok();
+        //}
 
-        // Получение всех комментариев для игры
-        [HttpGet("{id}/comments")]
-        public async Task<IActionResult> GetCommentsForGame(int id, CancellationToken cancellationToken)
-        {
-            var comments = await _gameService.GetCommentsForGameAsync(id, cancellationToken);
-            return Ok(comments);
-        }
+        //// Получение всех комментариев для игры
+        //[HttpGet("{id}/comments")]
+        //public async Task<IActionResult> GetCommentsForGame(int id, CancellationToken cancellationToken)
+        //{
+        //    var comments = await _gameService.GetCommentsForGameAsync(id, cancellationToken);
+        //    return Ok(comments);
+        //}
 
-        // Выбор категорий и уровня сложности
-        [HttpPost("{id}/select-categories")]
-        public async Task<IActionResult> SelectCategoriesAndDifficulty(int id, [FromBody] SelectCategoriesDto selectCategoriesDto, CancellationToken cancellationToken)
-        {
-            await _gameService.SelectCategoriesAndDifficultyAsync(id, selectCategoriesDto, cancellationToken);
-            return Ok();
-        }
+        //// Выбор категорий и уровня сложности
+        //[HttpPost("{id}/select-categories")]
+        //public async Task<IActionResult> SelectCategoriesAndDifficulty(int id, [FromBody] SelectCategoriesDto selectCategoriesDto, CancellationToken cancellationToken)
+        //{
+        //    await _gameService.SelectCategoriesAndDifficultyAsync(id, selectCategoriesDto, cancellationToken);
+        //    return Ok();
+        //}
     }
 }

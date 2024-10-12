@@ -7,5 +7,7 @@
         public DateTime StartTime { get; set; } = DateTime.Now;
         public int MaxPlayers { get; set; }
         public string DifficultyLevel { get; set; } = null!;
+        public bool IsPrivate { get; set; } = false;
+        public string RoomPassword { get; set; } = "";
     }
 }

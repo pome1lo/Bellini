@@ -78,7 +78,7 @@ export const GameRoomPage = () => {
         newConnection.on('PlayerJoined', (updatedPlayerList: Player[]) => {
             setPlayers(updatedPlayerList);
             console.log('A player has joined the game');
-        });
+        });3
 
         newConnection.on('PlayerLeft', (updatedPlayerList: Player[]) => {
             setPlayers(updatedPlayerList);

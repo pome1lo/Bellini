@@ -1,76 +1,26 @@
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
-import { Tabs, TabsContent, TabsList, TabsTrigger, } from "@/components/ui/tabs"
-import { File, ListFilter, MoreHorizontal, PlusCircle, } from "lucide-react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table"
-import { Card,  CardContent,  CardDescription,  CardFooter,  CardHeader,  CardTitle,} from "@/components/ui/card"
+import {Tabs, TabsContent, TabsList, TabsTrigger,} from "@/components/ui/tabs"
+import {File, ListFilter, RefreshCcw} from "lucide-react"
 import {Button} from "@/components/ui/button.tsx";
-import { DropdownMenu, DropdownMenuCheckboxItem,  DropdownMenuContent, DropdownMenuItem,  DropdownMenuLabel, DropdownMenuSeparator,  DropdownMenuTrigger } from "@/components/ui/dropdown-menu.tsx";
-import {Badge} from "@/components/ui/badge.tsx";
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu.tsx";
 import {DialogCreateGame} from "@/views/partials/DialogCreateGame.tsx";
-import {useEffect, useState} from "react";
-import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
-import {Skeleton} from "@/components/ui/skeleton.tsx";
-import {GameListItem} from "@/views/partials/GameListItem.tsx";
+import {GamesListTabContent} from "@/views/partials/GamesListTabContent.tsx";
+import {useState} from "react";
 
 const breadcrumbItems = [
     {path: '/', name: 'Home'},
     {path: '/games', name: 'Games'},
 ];
 
-interface ActiveGame {
-    id: number;
-    gameName: string;
-    hostId: number;
-    startTime: Date;
-    maxPlayers: number;
-    isActive: boolean;
-    difficultyLevel: string;
-}
-
 export const GameListPage = () => {
-    const [games, setGames] = useState<ActiveGame[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-
-    useEffect(() => {
-        serverFetch('/game/active')
-            .then(response => {
-                if (response.status === 204) {
-                    return [];
-                }
-                return response.json();
-            })
-            .then(data => {
-                const gamesList = Array.isArray(data) ? data : [];
-                console.log("games list:", gamesList);
-                setGames(gamesList);
-            })
-            .catch(error => {
-                console.error('Error fetching games:', error.message);
-                setGames([]);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }, []);
-
-    if (isLoading) {
-        return (
-            <>
-                ЗАГРУЗОЧКА
-                <Skeleton/>
-            </>
-        );
-    }
-
-    if (games.length === 0) {
-        return (
-            <>
-                We didn't find anything
-                <span>😪</span>
-            </>
-        );
-    }
-
+    const [isUpdated, setIsUpdated] = useState<boolean>(false);
     return (
         <>
             <Breadcrumbs items={breadcrumbItems}/>
@@ -79,11 +29,9 @@ export const GameListPage = () => {
                     <div className="flex items-center">
                         <TabsList>
                             <TabsTrigger value="all">All</TabsTrigger>
-                            <TabsTrigger value="active">Active</TabsTrigger>
-                            <TabsTrigger value="draft">Draft</TabsTrigger>
-                            <TabsTrigger value="archived" className="hidden sm:flex">
-                                Archived
-                            </TabsTrigger>
+                            <TabsTrigger value="public">Public</TabsTrigger>
+                            <TabsTrigger value="private">Private</TabsTrigger>
+                            <TabsTrigger value="archived" className="hidden sm:flex">Archived</TabsTrigger>
                         </TabsList>
                         <div className="ml-auto flex items-center gap-2">
                             <DropdownMenu>
@@ -96,398 +44,34 @@ export const GameListPage = () => {
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuLabel>Filter by</DropdownMenuLabel>
                                     <DropdownMenuSeparator/>
-                                    <DropdownMenuCheckboxItem checked>
-                                        Active
-                                    </DropdownMenuCheckboxItem>
-                                    <DropdownMenuCheckboxItem>Draft</DropdownMenuCheckboxItem>
-                                    <DropdownMenuCheckboxItem>
-                                        Archived
-                                    </DropdownMenuCheckboxItem>
+                                    <DropdownMenuCheckboxItem checked>Public</DropdownMenuCheckboxItem>
+                                    <DropdownMenuCheckboxItem>Private</DropdownMenuCheckboxItem>
+                                    <DropdownMenuCheckboxItem>Archived</DropdownMenuCheckboxItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                             <Button size="sm" variant="outline" className="h-8 gap-1">
                                 <File className="h-3.5 w-3.5"/>
                                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Export</span>
                             </Button>
+                            <Button size="sm" variant="outline" className="h-8 gap-1"
+                                    onClick={() => setIsUpdated(!isUpdated)}>
+                                <RefreshCcw className="h-3.5 w-3.5"/>
+                                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Update</span>
+                            </Button>
                             <DialogCreateGame/>
                         </div>
                     </div>
                     <TabsContent value="all">
-                        <Card x-chunk="dashboard-06-chunk-0">
-                            <CardHeader>
-                                <CardTitle>Games</CardTitle>
-                                <CardDescription>
-                                    Manage your products and view their sales performance.
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead className="hidden w-[100px] sm:table-cell">
-                                                <span className="sr-only">Image</span>
-                                            </TableHead>
-                                            <TableHead>Name</TableHead>
-                                            <TableHead>Status</TableHead>
-                                            <TableHead className="hidden md:table-cell">
-                                                Price
-                                            </TableHead>
-                                            <TableHead className="hidden md:table-cell">
-                                                Total Sales
-                                            </TableHead>
-                                            <TableHead className="hidden md:table-cell">
-                                                Created at
-                                            </TableHead>
-                                            <TableHead>
-                                                <span className="sr-only">Actions</span>
-                                            </TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        <TableRow>
-                                            <TableCell className="hidden sm:table-cell">
-                                                {/*<Image*/}
-                                                {/*    alt="Product image"*/}
-                                                {/*    className="aspect-square rounded-md object-cover"*/}
-                                                {/*    height="64"*/}
-                                                {/*    src="/placeholder.svg"*/}
-                                                {/*    width="64"*/}
-                                                {/*/>*/}
-                                            </TableCell>
-                                            <TableCell className="font-medium">
-                                                Laser Lemonade Machine
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge variant="outline">Draft</Badge>
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                $499.99
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                25
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                2023-07-12 10:42 AM
-                                            </TableCell>
-                                            <TableCell>
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button
-                                                            aria-haspopup="true"
-                                                            size="icon"
-                                                            variant="ghost"
-                                                        >
-                                                            <MoreHorizontal className="h-4 w-4"/>
-                                                            <span className="sr-only">Toggle menu</span>
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
-                                            </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell className="hidden sm:table-cell">
-                                                {/*<Image*/}
-                                                {/*    alt="Product image"*/}
-                                                {/*    className="aspect-square rounded-md object-cover"*/}
-                                                {/*    height="64"*/}
-                                                {/*    src="/placeholder.svg"*/}
-                                                {/*    width="64"*/}
-                                                {/*/>*/}
-                                            </TableCell>
-                                            <TableCell className="font-medium">
-                                                Hypernova Headphones
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge variant="outline">Active</Badge>
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                $129.99
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                100
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                2023-10-18 03:21 PM
-                                            </TableCell>
-                                            <TableCell>
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button
-                                                            aria-haspopup="true"
-                                                            size="icon"
-                                                            variant="ghost"
-                                                        >
-                                                            <MoreHorizontal className="h-4 w-4"/>
-                                                            <span className="sr-only">Toggle menu</span>
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
-                                            </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell className="hidden sm:table-cell">
-                                                {/*<Image*/}
-                                                {/*    alt="Product image"*/}
-                                                {/*    className="aspect-square rounded-md object-cover"*/}
-                                                {/*    height="64"*/}
-                                                {/*    src="/placeholder.svg"*/}
-                                                {/*    width="64"*/}
-                                                {/*/>*/}
-                                            </TableCell>
-                                            <TableCell className="font-medium">
-                                                AeroGlow Desk Lamp
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge variant="outline">Active</Badge>
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                $39.99
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                50
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                2023-11-29 08:15 AM
-                                            </TableCell>
-                                            <TableCell>
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button
-                                                            aria-haspopup="true"
-                                                            size="icon"
-                                                            variant="ghost"
-                                                        >
-                                                            <MoreHorizontal className="h-4 w-4"/>
-                                                            <span className="sr-only">Toggle menu</span>
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
-                                            </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell className="hidden sm:table-cell">
-                                                {/*<Image*/}
-                                                {/*    alt="Product image"*/}
-                                                {/*    className="aspect-square rounded-md object-cover"*/}
-                                                {/*    height="64"*/}
-                                                {/*    src="/placeholder.svg"*/}
-                                                {/*    width="64"*/}
-                                                {/*/>*/}
-                                            </TableCell>
-                                            <TableCell className="font-medium">
-                                                TechTonic Energy Drink
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge variant="secondary">Draft</Badge>
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                $2.99
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                0
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                2023-12-25 11:59 PM
-                                            </TableCell>
-                                            <TableCell>
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button
-                                                            aria-haspopup="true"
-                                                            size="icon"
-                                                            variant="ghost"
-                                                        >
-                                                            <MoreHorizontal className="h-4 w-4"/>
-                                                            <span className="sr-only">Toggle menu</span>
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
-                                            </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell className="hidden sm:table-cell">
-                                                {/*<Image*/}
-                                                {/*    alt="Product image"*/}
-                                                {/*    className="aspect-square rounded-md object-cover"*/}
-                                                {/*    height="64"*/}
-                                                {/*    src="/placeholder.svg"*/}
-                                                {/*    width="64"*/}
-                                                {/*/>*/}
-                                            </TableCell>
-                                            <TableCell className="font-medium">
-                                                Gamer Gear Pro Controller
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge variant="outline">Active</Badge>
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                $59.99
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                75
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                2024-01-01 12:00 AM
-                                            </TableCell>
-                                            <TableCell>
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button
-                                                            aria-haspopup="true"
-                                                            size="icon"
-                                                            variant="ghost"
-                                                        >
-                                                            <MoreHorizontal className="h-4 w-4"/>
-                                                            <span className="sr-only">Toggle menu</span>
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
-                                            </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell className="hidden sm:table-cell">
-                                                {/*<Image*/}
-                                                {/*    alt="Product image"*/}
-                                                {/*    className="aspect-square rounded-md object-cover"*/}
-                                                {/*    height="64"*/}
-                                                {/*    src="/placeholder.svg"*/}
-                                                {/*    width="64"*/}
-                                                {/*/>*/}
-                                            </TableCell>
-                                            <TableCell className="font-medium">
-                                                Luminous VR Headset
-                                            </TableCell>
-                                            <TableCell>
-                                                <Badge variant="outline">Active</Badge>
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                $199.99
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                30
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                2024-02-14 02:14 PM
-                                            </TableCell>
-                                            <TableCell>
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button
-                                                            aria-haspopup="true"
-                                                            size="icon"
-                                                            variant="ghost"
-                                                        >
-                                                            <MoreHorizontal className="h-4 w-4"/>
-                                                            <span className="sr-only">Toggle menu</span>
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
-                            </CardContent>
-                            <CardFooter>
-                                <div className="text-xs text-muted-foreground">
-                                    Showing <strong>1-10</strong> of <strong>32</strong>{" "}
-                                    products
-                                </div>
-                            </CardFooter>
-                        </Card>
+                        <GamesListTabContent tabContentName="all" isUpdated={isUpdated}/>
                     </TabsContent>
-                    <TabsContent value="active">
-                        <Card x-chunk="dashboard-06-chunk-0">
-                            <CardHeader>
-                                <CardTitle>Games</CardTitle>
-                                <CardDescription>
-                                    {games.map((item, index) => (
-                                        <GameListItem
-                                            key={item.id}
-                                            id={item.id}
-                                            gameName={item.gameName}
-                                            startTime={item.startTime}
-                                        />
-                                    ))}
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-
-                            </CardContent>
-                            <CardFooter>
-                                <div className="text-xs text-muted-foreground">
-                                    Showing <strong>1-10</strong> of <strong>32</strong>{" "}
-                                    products
-                                </div>
-                            </CardFooter>
-                        </Card>
+                    <TabsContent value="public">
+                        <GamesListTabContent tabContentName="public" isUpdated={isUpdated}/>
                     </TabsContent>
-                    <TabsContent value="draft">
-                        <Card x-chunk="dashboard-06-chunk-0">
-                            <CardHeader>
-                                <CardTitle>Games</CardTitle>
-                                <CardDescription>
-                                    tab 3
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-
-                            </CardContent>
-                            <CardFooter>
-                                <div className="text-xs text-muted-foreground">
-                                    Showing <strong>1-10</strong> of <strong>32</strong>{" "}
-                                    products
-                                </div>
-                            </CardFooter>
-                        </Card>
+                    <TabsContent value="private">
+                        <GamesListTabContent tabContentName="private" isUpdated={isUpdated}/>
                     </TabsContent>
                     <TabsContent value="archived">
-                        <Card x-chunk="dashboard-06-chunk-0">
-                            <CardHeader>
-                                <CardTitle>Games</CardTitle>
-                                <CardDescription>
-                                    tab 4
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-
-                            </CardContent>
-                            <CardFooter>
-                                <div className="text-xs text-muted-foreground">
-                                    Showing <strong>1-10</strong> of <strong>32</strong>{" "}
-                                    products
-                                </div>
-                            </CardFooter>
-                        </Card>
+                        <GamesListTabContent tabContentName="archived" isUpdated={isUpdated}/>
                     </TabsContent>
                 </Tabs>
             </main>

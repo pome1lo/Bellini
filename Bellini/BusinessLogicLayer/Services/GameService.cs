@@ -14,42 +14,54 @@ namespace BusinessLogicLayer.Services
         private readonly IRepository<Game> _gameRepository;
         private readonly IRepository<Player> _playerRepository;
         private readonly IRepository<Comment> _commentRepository;
-        private readonly IRepository<Category> _categoryRepository;
+        private readonly IRepository<GameStatus> _gameStatusRepository;
         private readonly IHubContext<GameHub> _gameHub;
 
         public GameService(
             IRepository<Game> gameRepository,
             IRepository<Player> playerRepository,
             IRepository<Comment> commentRepository,
-            IRepository<Category> categoryRepository,
+            IRepository<GameStatus> gameStatusRepository,
             IHubContext<GameHub> gameHub)
         {
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
             _commentRepository = commentRepository;
-            _categoryRepository = categoryRepository;
+            _gameStatusRepository = gameStatusRepository;
             _gameHub = gameHub;
         }
 
         public async Task<int> CreateGameRoomAsync(CreateGameRoomDto createGameRoomDto, CancellationToken cancellationToken = default)
         {
+            var random = new Random();
+            int randomImageIndex = random.Next(1, 11);
+            string randomCoverUrl = $"https://localhost:7292/covers/{randomImageIndex}.jpg";
+
+            // Получаем статус игры с именем "Not started"
+            var gameStatus = await _gameStatusRepository.GetElementsAsync(cancellationToken);
+            var notStartedStatus = gameStatus.FirstOrDefault(s => s.Name.Equals("Not started", StringComparison.OrdinalIgnoreCase));
+
+            if (notStartedStatus == null)
+            {
+                throw new InvalidOperationException("Статус 'Not started' не найден в базе данных.");
+            }
+
             var game = new Game
             {
                 GameName = createGameRoomDto.GameName,
                 HostId = createGameRoomDto.HostId,
                 StartTime = createGameRoomDto.StartTime,
                 MaxPlayers = createGameRoomDto.MaxPlayers,
-                IsActive = true,
-                DifficultyLevel = createGameRoomDto.DifficultyLevel
+                GameCoverImageUrl = randomCoverUrl,
+                GameStatusId = notStartedStatus.Id // Устанавливаем идентификатор статуса напрямую
             };
 
             await _gameRepository.CreateAsync(game, cancellationToken);
-
-            // Уведомление пользователей о создании новой игры
             await _gameHub.Clients.All.SendAsync("GameCreated", game.GameName, cancellationToken);
 
             return game.Id;
         }
+
 
         public async Task<GameDto> GetGameByIdAsync(int gameId, CancellationToken cancellationToken = default)
         {
@@ -67,153 +79,168 @@ namespace BusinessLogicLayer.Services
                 HostId = game.HostId,
                 StartTime = game.StartTime,
                 MaxPlayers = game.MaxPlayers,
-                IsActive = game.IsActive,
-                DifficultyLevel = game.DifficultyLevel
+                GameStatus = game.Status,
+                GameCoverImageUrl = game.GameCoverImageUrl,
+                IsPrivate = game.IsPrivate,
+                RoomPassword = game.RoomPassword,
             };
         }
 
         public async Task<IEnumerable<GameDto>> GetAllActiveGamesAsync(CancellationToken cancellationToken = default)
         {
             var games = await _gameRepository.GetElementsAsync(cancellationToken);
-            return games.Where(g => g.IsActive)
-                        .Select(g => new GameDto
-                        {
-                            Id = g.Id,
-                            GameName = g.GameName,
-                            HostId = g.HostId,
-                            StartTime = g.StartTime,
-                            MaxPlayers = g.MaxPlayers,
-                            IsActive = g.IsActive,
-                            DifficultyLevel = g.DifficultyLevel
-                        });
+            return games
+                .Where(g => g.Status.Name.Equals("Not started", StringComparison.OrdinalIgnoreCase))
+                .Select(g => new GameDto
+                {
+                    Id = g.Id,
+                    GameName = g.GameName,
+                    HostId = g.HostId,
+                    StartTime = g.StartTime,
+                    MaxPlayers = g.MaxPlayers,
+                    GameStatus = g.Status,
+                    IsPrivate = g.IsPrivate,
+                    RoomPassword = g.RoomPassword,
+                    GameCoverImageUrl = g.GameCoverImageUrl
+                }).ToList();
         }
 
-        public async Task UpdateGameAsync(int gameId, UpdateGameDto updateGameDto, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<GameDto>> SelectGamesByStatusNameAsync(string statusName, CancellationToken cancellationToken = default)
         {
-            var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
-
-            if (game == null)
+            if (string.IsNullOrWhiteSpace(statusName))
             {
-                throw new NotFoundException($"Game with ID {gameId} not found.");
+                throw new NotFoundException($"Game status with name {statusName} not found.");
             }
 
-            game.GameName = updateGameDto.GameName;
-            game.MaxPlayers = updateGameDto.MaxPlayers;
-            game.DifficultyLevel = updateGameDto.DifficultyLevel;
-            game.IsActive = updateGameDto.IsActive;
+            var games = await _gameRepository.GetElementsAsync(cancellationToken);
+            var filteredGames = games
+                .Where(game => game.Status.Name.Equals(statusName, StringComparison.OrdinalIgnoreCase))
+                .Select(game => new GameDto
+                {
+                    Id = game.Id,
+                    GameName = game.GameName,
+                    HostId = game.HostId,
+                    StartTime = game.StartTime,
+                    MaxPlayers = game.MaxPlayers,
+                    GameStatus = game.Status,
+                    IsPrivate = game.IsPrivate,
+                    RoomPassword = game.RoomPassword,
+                    GameCoverImageUrl = game.GameCoverImageUrl
+                }).ToList();
 
-            await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
-        }
-
-        public async Task EndGameAsync(int gameId, CancellationToken cancellationToken = default)
-        {
-            var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
-
-            if (game == null)
+            if (!filteredGames.Any())
             {
-                throw new NotFoundException($"Game with ID {gameId} not found.");
+                throw new NotFoundException($"No games found for status {statusName}.");
             }
 
-            game.IsActive = false;
-
-            await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
-
-            // Уведомление игроков об окончании игры
-            await _gameHub.Clients.Group($"game-{gameId}").SendAsync("GameEnded", gameId, cancellationToken);
+            return filteredGames;
         }
 
-        public async Task JoinGameAsync(int gameId, int playerId, CancellationToken cancellationToken = default)
-        {
-            var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+        //public async Task UpdateGameAsync(int gameId, UpdateGameDto updateGameDto, CancellationToken cancellationToken = default)
+        //{
+        //    var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
 
-            if (game == null)
-            {
-                throw new NotFoundException($"Game with ID {gameId} not found.");
-            }
+        //    if (game == null)
+        //    {
+        //        throw new NotFoundException($"Game with ID {gameId} not found.");
+        //    }
 
-            var player = new Player
-            {
-                GameId = gameId,
-                Id = playerId
-            };
+        //    game.GameName = updateGameDto.GameName;
+        //    game.MaxPlayers = updateGameDto.MaxPlayers;
+        //    game.DifficultyLevel = updateGameDto.DifficultyLevel;
+        //    game.IsActive = updateGameDto.IsActive;
 
-            await _playerRepository.CreateAsync(player, cancellationToken);
+        //    await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
+        //}
 
-            // Присоединение игрока к группе (игровой комнате)
-            await _gameHub.Clients.Group($"game-{gameId}").SendAsync("PlayerJoined", playerId, cancellationToken);
-        }
+        //public async Task EndGameAsync(int gameId, CancellationToken cancellationToken = default)
+        //{
+        //    var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
 
-        public async Task LeaveGameAsync(int gameId, int playerId, CancellationToken cancellationToken = default)
-        {
-            var player = await _playerRepository.GetItemAsync(playerId, cancellationToken);
+        //    if (game == null)
+        //    {
+        //        throw new NotFoundException($"Game with ID {gameId} not found.");
+        //    }
 
-            if (player == null)
-            {
-                throw new NotFoundException($"Player with ID {playerId} not found.");
-            }
+        //    game.IsActive = false;
 
-            if (player.GameId == gameId)
-            {
-                await _playerRepository.DeleteAsync(playerId, cancellationToken);
+        //    await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
 
-                // Уведомление об уходе игрока из игры
-                await _gameHub.Clients.Group($"game-{gameId}").SendAsync("PlayerLeft", playerId, cancellationToken);
-            }
-        }
+        //    // Уведомление игроков об окончании игры
+        //    await _gameHub.Clients.Group($"game-{gameId}").SendAsync("GameEnded", gameId, cancellationToken);
+        //}
 
-        public async Task SelectCategoriesAndDifficultyAsync(int gameId, SelectCategoriesDto selectCategoriesDto, CancellationToken cancellationToken = default)
-        {
-            var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+        //public async Task JoinGameAsync(int gameId, int playerId, CancellationToken cancellationToken = default)
+        //{
+        //    var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
 
-            if (game == null)
-            {
-                throw new NotFoundException($"Game with ID {gameId} not found.");
-            }
+        //    if (game == null)
+        //    {
+        //        throw new NotFoundException($"Game with ID {gameId} not found.");
+        //    }
 
-            game.DifficultyLevel = selectCategoriesDto.DifficultyLevel;
+        //    var player = new Player
+        //    {
+        //        GameId = gameId,
+        //        Id = playerId
+        //    };
 
-            // Assuming the game has a collection of categories
-            var categories = await _categoryRepository.GetElementsAsync(cancellationToken);
-            var selectedCategories = categories.Where(c => selectCategoriesDto.CategoryIds.Contains(c.Id)).ToList();
+        //    await _playerRepository.CreateAsync(player, cancellationToken);
 
-            // Assign selected categories to the game (pseudo-code for demo purposes)
-            // game.Categories = selectedCategories;
+        //    // Присоединение игрока к группе (игровой комнате)
+        //    await _gameHub.Clients.Group($"game-{gameId}").SendAsync("PlayerJoined", playerId, cancellationToken);
+        //}
 
-            await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
-        }
+        //public async Task LeaveGameAsync(int gameId, int playerId, CancellationToken cancellationToken = default)
+        //{
+        //    var player = await _playerRepository.GetItemAsync(playerId, cancellationToken);
 
-        public async Task AddCommentToGameAsync(int gameId, AddCommentDto addCommentDto, CancellationToken cancellationToken = default)
-        {
-            var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+        //    if (player == null)
+        //    {
+        //        throw new NotFoundException($"Player with ID {playerId} not found.");
+        //    }
 
-            if (game == null)
-            {
-                throw new NotFoundException($"Game with ID {gameId} not found.");
-            }
+        //    if (player.GameId == gameId)
+        //    {
+        //        await _playerRepository.DeleteAsync(playerId, cancellationToken);
 
-            var comment = new Comment
-            {
-                GameId = gameId,
-                Content = addCommentDto.Content,
-                UserId = addCommentDto.CreatedBy,
-                CommentDate = addCommentDto.CreatedAt
-            };
+        //        // Уведомление об уходе игрока из игры
+        //        await _gameHub.Clients.Group($"game-{gameId}").SendAsync("PlayerLeft", playerId, cancellationToken);
+        //    }
+        //}
 
-            await _commentRepository.CreateAsync(comment, cancellationToken);
-        }
+        //public async Task AddCommentToGameAsync(int gameId, AddCommentDto addCommentDto, CancellationToken cancellationToken = default)
+        //{
+        //    var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
 
-        public async Task<IEnumerable<CommentDto>> GetCommentsForGameAsync(int gameId, CancellationToken cancellationToken = default)
-        {
-            var comments = await _commentRepository.GetElementsAsync(cancellationToken);
-            return comments.Where(c => c.GameId == gameId)
-                           .Select(c => new CommentDto
-                           {
-                               Id = c.Id,
-                               GameId = c.GameId,
-                               Content = c.Content,
-                               CreatedBy = c.UserId,
-                               CreatedAt = c.CommentDate
-                           });
-        }
+        //    if (game == null)
+        //    {
+        //        throw new NotFoundException($"Game with ID {gameId} not found.");
+        //    }
+
+        //    var comment = new Comment
+        //    {
+        //        GameId = gameId,
+        //        Content = addCommentDto.Content,
+        //        UserId = addCommentDto.CreatedBy,
+        //        CommentDate = addCommentDto.CreatedAt
+        //    };
+
+        //    await _commentRepository.CreateAsync(comment, cancellationToken);
+        //}
+
+        //public async Task<IEnumerable<CommentDto>> GetCommentsForGameAsync(int gameId, CancellationToken cancellationToken = default)
+        //{
+        //    var comments = await _commentRepository.GetElementsAsync(cancellationToken);
+        //    return comments.Where(c => c.GameId == gameId)
+        //                   .Select(c => new CommentDto
+        //                   {
+        //                       Id = c.Id,
+        //                       GameId = c.GameId,
+        //                       Content = c.Content,
+        //                       CreatedBy = c.UserId,
+        //                       CreatedAt = c.CommentDate
+        //                   });
+        //}
     }
 }

@@ -22,7 +22,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IRepository<Game>, GameRepository>();
 builder.Services.AddScoped<IRepository<Player>, PlayerRepository>();
 builder.Services.AddScoped<IRepository<Comment>, CommentRepository>();
-builder.Services.AddScoped<IRepository<Category>, CategoryRepository>();
+builder.Services.AddScoped<IRepository<GameStatus>, GameStatusRepository>();
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost"));
 
@@ -34,6 +34,8 @@ builder.Services.AddSignalR();
 var app = builder.Build();
 
 app.UseCors("AllowLocalhost5173");
+app.UseStaticFiles();
+
 app.UseRouting();
 app.UseGlobalExceptionHandler();
 

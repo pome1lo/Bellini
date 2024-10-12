@@ -1,4 +1,6 @@
-﻿namespace BusinessLogicLayer.Services.DTOs
+﻿using DataAccessLayer.Models;
+
+namespace BusinessLogicLayer.Services.DTOs
 {
     public class GameDto
     {
@@ -7,7 +9,9 @@
         public int HostId { get; set; }
         public DateTime StartTime { get; set; }
         public int MaxPlayers { get; set; }
-        public bool IsActive { get; set; }
-        public string DifficultyLevel { get; set; }
+        public string GameCoverImageUrl { get; set; } = null!;
+        public bool IsPrivate { get; set; }
+        public string RoomPassword { get; set; } = "";
+        public GameStatus GameStatus { get; set; } = null!;
     }
 }
