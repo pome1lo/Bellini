@@ -21,6 +21,7 @@ const breadcrumbItems = [
 
 export const GameListPage = () => {
     const [isUpdated, setIsUpdated] = useState<boolean>(false);
+    const [isCreated, setIsCreated] = useState<boolean>(false);
     return (
         <>
             <Breadcrumbs items={breadcrumbItems}/>
@@ -58,20 +59,23 @@ export const GameListPage = () => {
                                 <RefreshCcw className="h-3.5 w-3.5"/>
                                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Update</span>
                             </Button>
-                            <DialogCreateGame/>
+                            <DialogCreateGame
+                                setIsCreated={setIsCreated}
+                                isCreated={isCreated}
+                            />
                         </div>
                     </div>
                     <TabsContent value="all">
-                        <GamesListTabContent tabContentName="all" isUpdated={isUpdated}/>
+                        <GamesListTabContent tabContentName="all" isUpdated={isUpdated} isCreated={isCreated}/>
                     </TabsContent>
                     <TabsContent value="public">
-                        <GamesListTabContent tabContentName="public" isUpdated={isUpdated}/>
+                        <GamesListTabContent tabContentName="public" isUpdated={isUpdated} isCreated={isCreated}/>
                     </TabsContent>
                     <TabsContent value="private">
-                        <GamesListTabContent tabContentName="private" isUpdated={isUpdated}/>
+                        <GamesListTabContent tabContentName="private" isUpdated={isUpdated} isCreated={isCreated}/>
                     </TabsContent>
                     <TabsContent value="archived">
-                        <GamesListTabContent tabContentName="archived" isUpdated={isUpdated}/>
+                        <GamesListTabContent tabContentName="archived" isUpdated={isUpdated} isCreated={isCreated}/>
                     </TabsContent>
                 </Tabs>
             </main>

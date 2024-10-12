@@ -18,10 +18,11 @@ export interface ActiveGame {
 
 interface GamesListTabContentProps {
     tabContentName: string;
-    isUpdated: string;
+    isUpdated: boolean;
+    isCreated: boolean;
 }
 
-export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({ tabContentName, isUpdated }) => {
+export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({ tabContentName, isUpdated, isCreated }) => {
     const [games, setGames] = useState<ActiveGame[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -45,7 +46,7 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({ tabCon
             .finally(() => {
                 setIsLoading(false);
             });
-    }, [isUpdated, tabContentName]);
+    }, [isUpdated, isCreated, tabContentName]);
 
     if (isLoading) {
         return (

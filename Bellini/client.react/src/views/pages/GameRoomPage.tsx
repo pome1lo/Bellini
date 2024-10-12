@@ -170,11 +170,13 @@ export const GameRoomPage = () => {
                         <DialogShareButton link={window.location.href}/>
                         <div>Game Room {id}</div>
                         {isCurrentUserHost ? <span>HOST</span> : <span>USER</span>}
-                        <Button variant="destructive" onClick={disconnect}>Disconnect</Button>
 
-                        {!isUserJoined && (
+
+                        {!isUserJoined ? (
                             <Button onClick={connect}>Connect</Button>
-                        )}
+                        ) :
+                            <Button variant="destructive" onClick={disconnect}>Disconnect</Button>
+                        }
 
                         <Card x-chunk="dashboard-01-chunk-5">
                             <CardHeader>

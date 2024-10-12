@@ -30,8 +30,12 @@ const createGameSchema = z.object({
 
 type CreateGameFormData = z.infer<typeof createGameSchema>;
 
+interface DialogCreateGameProps {
+    isCreated: boolean;
+    setIsCreated: (isCreated: boolean) => void
+}
 
-export const DialogCreateGame = () => {
+export const DialogCreateGame:React.FC<DialogCreateGameProps> = ({setIsCreated, isCreated}) => {
     const {isAuthenticated, user} = useAuth();
     const navigate = useNavigate();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -66,6 +70,7 @@ export const DialogCreateGame = () => {
 
             if (response.ok) {
                 toast({title: "Game Created", description: "The game was successfully created."});
+                setIsCreated(!isCreated);
                 setIsDialogOpen(false);
             } else {
                 toast({
