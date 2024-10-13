@@ -78,7 +78,8 @@ export const GameRoomPage = () => {
         newConnection.on('PlayerJoined', (updatedPlayerList: Player[]) => {
             setPlayers(updatedPlayerList);
             console.log('A player has joined the game');
-        });3
+        });
+        3
 
         newConnection.on('PlayerLeft', (updatedPlayerList: Player[]) => {
             setPlayers(updatedPlayerList);
@@ -197,7 +198,11 @@ export const GameRoomPage = () => {
                 }
             } catch (error) {
                 console.error('Error while disconnecting:', error);
-                toast({title: "Error", description: error.message || "An unexpected error occurred.", variant: "destructive"});
+                toast({
+                    title: "Error",
+                    description: error.message || "An unexpected error occurred.",
+                    variant: "destructive"
+                });
             }
             // finally { }
         }
@@ -207,8 +212,8 @@ export const GameRoomPage = () => {
         <>
             {
                 currentGame
-                ?
-                     <>
+                    ?
+                    <>
                         <Breadcrumbs items={breadcrumbItems}/>
 
                         <DialogShareButton link={window.location.href}/>
@@ -224,8 +229,8 @@ export const GameRoomPage = () => {
 
 
                         {!isUserJoined ? (
-                            <Button onClick={connect}>Connect</Button>
-                        ) :
+                                <Button onClick={connect}>Connect</Button>
+                            ) :
                             <Button variant="destructive" onClick={disconnect}>Disconnect</Button>
                         }
 
@@ -254,9 +259,9 @@ export const GameRoomPage = () => {
                             </CardContent>
                         </Card>
                     </>
-                :
+                    :
                     <>
-                    ЗАГРУЗОЧКА
+                        ЗАГРУЗОЧКА
                     </>
             }
         </>

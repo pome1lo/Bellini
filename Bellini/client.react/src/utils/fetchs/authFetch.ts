@@ -10,7 +10,6 @@ export const authFetch = async (
         const accessToken = await getAccessToken();
 
         if (!accessToken) {
-            // Токен не удалось получить или обновить, перенаправляем на страницу логина
             logout();
             window.location.href = '/login';
             return Promise.reject(new Error("Access token is missing, redirecting to login."));

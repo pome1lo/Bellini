@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, {createContext, useContext, useState, useEffect} from 'react';
 import axios from 'axios';
 
 interface User {
@@ -19,7 +19,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
     const [user, setUser] = useState<User | null>(null);
     const [accessToken, setAccessToken] = useState<string | null>(null);
     const [refreshToken, setRefreshToken] = useState<string | null>(null);
@@ -72,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const tokenExpires = jwtDecode<{ exp: number }>(accessToken).exp * 1000;
         if (Date.now() >= tokenExpires) {
             try {
-                const response = await axios.post('/api/auth/refresh', { token: refreshToken });
+                const response = await axios.post('/api/auth/refresh', {token: refreshToken});
                 const newAccessToken = response.data.accessToken;
                 setAccessToken(newAccessToken);
                 sessionStorage.setItem('access-token', newAccessToken);
@@ -92,7 +92,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, login, logout, update, getAccessToken }}>
+        <AuthContext.Provider value={{user, isAuthenticated, login, logout, update, getAccessToken}}>
             {children}
         </AuthContext.Provider>
     );
