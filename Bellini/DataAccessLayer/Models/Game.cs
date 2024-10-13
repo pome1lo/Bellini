@@ -19,5 +19,6 @@ namespace DataAccess.Models
         [JsonIgnore] public GameStatus Status { get; set; } = null!;
         [JsonIgnore] public List<Comment> Comments { get; set; } = null!;
         [JsonIgnore] public List<Player> Players { get; set; } = null!;
+        [JsonIgnore] public List<Question> Questions { get; set; } = null!;
     }
 }
