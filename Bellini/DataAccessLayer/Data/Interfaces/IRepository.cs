@@ -1,6 +1,8 @@
-﻿namespace DataAccess.Data.Interfaces
+﻿using DataAccessLayer.Models;
+
+namespace DataAccess.Data.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : BaseModel
     {
         Task<IEnumerable<T>> GetElementsAsync(CancellationToken cancellationToken = default);
         Task<T> GetItemAsync(int id, CancellationToken cancellationToken = default);

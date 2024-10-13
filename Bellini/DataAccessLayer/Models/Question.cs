@@ -2,7 +2,7 @@
 
 namespace DataAccessLayer.Models
 {
-    public class Question
+    public class Question : BaseModel
     {
         public int Id { get; set; }
         public string Text { get; set; } = null!;

@@ -2,7 +2,7 @@
 
 namespace DataAccessLayer.Models
 {
-    public class Player
+    public class Player : BaseModel
     {
         public int Id { get; set; }
         public int GameId { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace DataAccessLayer.Models
 {
-    public class AnswerOption
+    public class AnswerOption : BaseModel
     {
         public int Id { get; set; }
         public string Text { get; set; } = null!;

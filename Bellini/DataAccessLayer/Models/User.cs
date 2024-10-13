@@ -1,6 +1,8 @@
-﻿namespace DataAccess.Models
+﻿using DataAccessLayer.Models;
+
+namespace DataAccess.Models
 {
-    public class User
+    public class User : BaseModel
     {
         public int Id { get; set; }
         public string Email { get; set; } = null!;
@@ -10,8 +12,8 @@
         public string? VerificationCode { get; set; } = string.Empty;
         public DateTime? VerificationCodeExpiry { get; set; }
         public string? FirstName { get; set; } = null!;
-        public string? LastName { get; set; } = null!; 
-        public DateTime? DateOfBirth { get; set; } 
-        public string? ProfileImageUrl { get; set; } 
+        public string? LastName { get; set; } = null!;
+        public DateTime? DateOfBirth { get; set; }
+        public string? ProfileImageUrl { get; set; }
     }
 }

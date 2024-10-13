@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace DataAccess.Models
 {
-    public class Game
+    public class Game : BaseModel
     {
         public int Id { get; set; }
         public string GameName { get; set; } = null!;
