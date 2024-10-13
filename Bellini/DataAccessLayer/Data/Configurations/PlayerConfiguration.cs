@@ -16,6 +16,11 @@ namespace DataAccessLayer.Data.Configurations
                    .IsRequired()
                    .HasMaxLength(100);
 
+            builder.HasOne(p => p.User)
+                    .WithMany()
+                    .HasForeignKey(p => p.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasOne(p => p.Game)
                    .WithMany(g => g.Players)
                    .HasForeignKey(p => p.GameId)
