@@ -45,6 +45,11 @@ namespace DataAccessLayer.Data.Configurations
                    .WithOne(c => c.Game)
                    .HasForeignKey(c => c.GameId)
                    .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(g => g.Questions)
+                   .WithOne(q => q.Game)
+                   .HasForeignKey(q => q.GameId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
