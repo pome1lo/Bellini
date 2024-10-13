@@ -159,6 +159,50 @@ export const GameRoomPage = () => {
         }
     }
 
+    async function startGame() {
+        if (connection) {
+            try {
+                if (!isAuthenticated || !user) {
+                    navigate('/login');
+                    return;
+                }
+
+                const serverPlayers = players.map(player => ({
+                    userId: parseInt(player.userId),
+                    name: player.username,
+                    GameId: id,
+                    score: 0,
+                    profileImageUrl: player.profileImageUrl
+                }));
+
+                const response = await serverFetch(`/game/${id}/start`, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        players: serverPlayers,
+                        gameId: id,
+                        hostId: user.id,
+                    }),
+                });
+                const responseData = await response.json();
+
+                if (response.ok) {
+                    toast({title: "Game Created", description: "The game was successfully created."});
+                } else {
+                    toast({
+                        title: "Error",
+                        description: responseData.message || "An error occurred.",
+                        variant: "destructive"
+                    });
+                }
+            } catch (error) {
+                console.error('Error while disconnecting:', error);
+                toast({title: "Error", description: error.message || "An unexpected error occurred.", variant: "destructive"});
+            }
+            // finally { }
+        }
+    }
+
     return (
         <>
             {
@@ -169,7 +213,14 @@ export const GameRoomPage = () => {
 
                         <DialogShareButton link={window.location.href}/>
                         <div>Game Room {id}</div>
-                        {isCurrentUserHost ? <span>HOST</span> : <span>USER</span>}
+                        <div>Max players {currentGame.maxPlayers}</div>
+                        {isCurrentUserHost ?
+                            <>
+                                <Button onClick={startGame}>Start Game</Button>
+                            </>
+                            :
+                            <span>USER</span>
+                        }
 
 
                         {!isUserJoined ? (

@@ -38,29 +38,42 @@ namespace GameService.Controllers
         [HttpGet("all")]
         public async Task<IActionResult> GetAllActiveGames(CancellationToken cancellationToken)
         {
-            var activeGames = await _gameService.GetAllActiveGamesAsync(cancellationToken);
-            return Ok(activeGames);
+            return Ok(
+                await _gameService.GetAllActiveGamesAsync(cancellationToken)
+            );
         }
 
         [HttpGet("public")]
         public async Task<IActionResult> GetPublicGames(CancellationToken cancellationToken)
         {
-            var activeGames = await _gameService.GetAllActiveGamesAsync(cancellationToken);
-            return Ok(activeGames);
+            return Ok(
+                await _gameService.SelectGamesByStatusNameAsync("public", cancellationToken)
+            );
         }
 
         [HttpGet("private")]
         public async Task<IActionResult> GetPrivateGames(CancellationToken cancellationToken)
         {
-            var activeGames = await _gameService.GetAllActiveGamesAsync(cancellationToken);
-            return Ok(activeGames);
+            return Ok(
+                await _gameService.SelectGamesByStatusNameAsync("private", cancellationToken)
+            );
         }
 
         [HttpGet("archived")]
         public async Task<IActionResult> GetArchivedGames(CancellationToken cancellationToken)
         {
-            var activeGames = await _gameService.GetAllActiveGamesAsync(cancellationToken);
-            return Ok(activeGames);
+            return Ok(
+                await _gameService.SelectGamesByStatusNameAsync("archived", cancellationToken)
+            );
+        }
+
+
+        [HttpPost("{id:int}/start")]
+        public async Task<IActionResult> StartGame(int id, [FromBody] StartGameDto startGameDto, CancellationToken cancellationToken)
+        {
+            return Ok(
+                await _gameService.StartGame(id, startGameDto, cancellationToken)
+            );
         }
 
 

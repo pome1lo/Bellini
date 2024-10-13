@@ -2,8 +2,6 @@
 {
     public class RepeatingNameException : Exception
     {
-        public RepeatingNameException(string message) : base(message)
-        {
-        }
+        public RepeatingNameException(string message) : base(message) { }
     }
 }

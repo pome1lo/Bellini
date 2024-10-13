@@ -8,6 +8,8 @@ namespace DataAccessLayer.Models
         public int GameId { get; set; }
         public string Name { get; set; } = null!;
         public int Score { get; set; }
-        public Game Game { get; set; } = null!;
+        public int UserId { get; set; }
+        public User? User { get; set; }
+        public Game? Game { get; set; }
     }
 }

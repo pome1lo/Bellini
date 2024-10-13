@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Exceptions;
+using BusinessLogicLayer.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
@@ -25,12 +26,7 @@ namespace GlobalExceptionHandlerLibrary
             catch (Exception ex)
             {
                 Console.BackgroundColor = ConsoleColor.Red;
-                Console.WriteLine("----------------------------------------------------");
-                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(ex.Message);
-                Console.BackgroundColor = ConsoleColor.Red;
-                Console.WriteLine("----------------------------------------------------");
-                Console.ForegroundColor = ConsoleColor.White;
                 Console.BackgroundColor = ConsoleColor.Black;
 
 
@@ -66,6 +62,11 @@ namespace GlobalExceptionHandlerLibrary
                 {
                     statusCode = HttpStatusCode.BadRequest;
                     errorCode = "ValidationException";
+                }
+                else if (ex is NoContentException)
+                {
+                    statusCode = HttpStatusCode.NoContent;
+                    errorCode = "NoContent";
                 }
 
                 context.Response.StatusCode = (int)statusCode;

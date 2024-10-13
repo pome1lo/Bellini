@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.Services.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BusinessLogicLayer.Services.Interfaces
 {
@@ -8,6 +9,8 @@ namespace BusinessLogicLayer.Services.Interfaces
         Task<GameDto> GetGameByIdAsync(int gameId, CancellationToken cancellationToken = default);
         Task<IEnumerable<GameDto>> GetAllActiveGamesAsync(CancellationToken cancellationToken = default);
         Task<IEnumerable<GameDto>> SelectGamesByStatusNameAsync(string statusName, CancellationToken cancellationToken = default);
+
+        Task<StartedGameDto> StartGame(int id, [FromBody] StartGameDto startGameDto, CancellationToken cancellationToken = default);
 
         //Task UpdateGameAsync(int gameId, UpdateGameDto updateGameDto, CancellationToken cancellationToken = default);
         //Task EndGameAsync(int gameId, CancellationToken cancellationToken = default);

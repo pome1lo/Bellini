@@ -16,12 +16,19 @@ namespace DataAccessLayer.Data.Repositories
 
         public async Task<IEnumerable<Player>> GetElementsAsync(CancellationToken cancellationToken = default)
         {
-            return await _context.Players.AsNoTracking().ToListAsync(cancellationToken);
+            return await _context.Players
+                .AsNoTracking()
+                .Include(p => p.User)
+                .Include(p => p.Game)
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<Player> GetItemAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _context.Players.FindAsync(new object[] { id }, cancellationToken);
+            return await _context.Players
+                .Include(p => p.User)
+                .Include(p => p.Game)
+                .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
         }
 
         public async Task CreateAsync(Player item, CancellationToken cancellationToken = default)
@@ -35,7 +42,8 @@ namespace DataAccessLayer.Data.Repositories
             await _context.Players.Where(e => e.Id == id)
                 .ExecuteUpdateAsync(s => s
                     .SetProperty(e => e.Name, item.Name)
-                    .SetProperty(e => e.GameId, item.GameId),
+                    .SetProperty(e => e.GameId, item.GameId)
+                    .SetProperty(e => e.UserId, item.UserId),
                     cancellationToken
                 );
             await _context.SaveChangesAsync(cancellationToken);

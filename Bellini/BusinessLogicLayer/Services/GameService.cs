@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Exceptions; // Добавлено для исключений
+using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Hubs;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
@@ -37,7 +38,6 @@ namespace BusinessLogicLayer.Services
             int randomImageIndex = random.Next(1, 11);
             string randomCoverUrl = $"https://localhost:7292/covers/{randomImageIndex}.jpg";
 
-            // Получаем статус игры с именем "Not started"
             var gameStatus = await _gameStatusRepository.GetElementsAsync(cancellationToken);
             var notStartedStatus = gameStatus.FirstOrDefault(s => s.Name.Equals("Not started", StringComparison.OrdinalIgnoreCase));
 
@@ -50,10 +50,9 @@ namespace BusinessLogicLayer.Services
             {
                 GameName = createGameRoomDto.GameName,
                 HostId = createGameRoomDto.HostId,
-                StartTime = createGameRoomDto.StartTime,
                 MaxPlayers = createGameRoomDto.MaxPlayers,
                 GameCoverImageUrl = randomCoverUrl,
-                GameStatusId = notStartedStatus.Id // Устанавливаем идентификатор статуса напрямую
+                GameStatusId = notStartedStatus.Id
             };
 
             await _gameRepository.CreateAsync(game, cancellationToken);
@@ -130,10 +129,36 @@ namespace BusinessLogicLayer.Services
 
             if (!filteredGames.Any())
             {
-                throw new NotFoundException($"No games found for status {statusName}.");
+                throw new NoContentException($"No games found for status {statusName}.");
             }
 
             return filteredGames;
+        }
+
+        public async Task<StartedGameDto> StartGame(int gameId, StartGameDto startGameDto, CancellationToken cancellationToken = default)
+        {
+            var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+
+            if (game == null)
+            {
+                throw new NotFoundException($"Game with ID {gameId} not found.");
+            }
+
+            var gameStatus = await _gameStatusRepository.GetElementsAsync(cancellationToken);
+            var inProcessingStatus = gameStatus.FirstOrDefault(s => s.Name.Equals("In process", StringComparison.OrdinalIgnoreCase));
+
+            if (inProcessingStatus == null)
+            {
+                throw new InvalidOperationException("No status found for StatusName 'Not started'");
+            }
+
+            game.Players = startGameDto.Players;
+            game.GameStatusId = inProcessingStatus.Id;
+            game.StartTime = DateTime.Now;
+
+            await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
+
+            return new StartedGameDto();
         }
 
         //public async Task UpdateGameAsync(int gameId, UpdateGameDto updateGameDto, CancellationToken cancellationToken = default)

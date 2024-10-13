@@ -65,9 +65,20 @@
         }
       ],
       "UpstreamPathTemplate": "/covers/{everything}",
-      "UpstreamHttpMethod": [ "GET"]
+      "UpstreamHttpMethod": [ "GET" ]
     },
-
+    {
+      "DownstreamPathTemplate": "/api/game/{id:int}/start",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/game/{id:int}/start",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
     // SignalR Hub for GameService
 
     //{

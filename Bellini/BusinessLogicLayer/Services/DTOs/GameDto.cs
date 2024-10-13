@@ -7,7 +7,8 @@ namespace BusinessLogicLayer.Services.DTOs
         public int Id { get; set; }
         public string GameName { get; set; } = null!;
         public int HostId { get; set; }
-        public DateTime StartTime { get; set; }
+        public DateTime CreateTime { get; set; } = DateTime.Now;
+        public DateTime? StartTime { get; set; }
         public int MaxPlayers { get; set; }
         public string GameCoverImageUrl { get; set; } = null!;
         public bool IsPrivate { get; set; }
