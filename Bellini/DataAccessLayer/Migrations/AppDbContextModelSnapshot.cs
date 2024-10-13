@@ -113,6 +113,32 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.AnswerOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("AnswerOptions", (string)null);
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -205,6 +231,32 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Players", (string)null);
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.Question", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCustom")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("Questions", (string)null);
+                });
+
             modelBuilder.Entity("DataAccess.Models.Game", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.GameStatus", "Status")
@@ -214,6 +266,17 @@ namespace DataAccessLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.AnswerOption", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Question", "Question")
+                        .WithMany("AnswerOptions")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Comment", b =>
@@ -238,7 +301,7 @@ namespace DataAccessLayer.Migrations
                     b.HasOne("DataAccess.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Game");
@@ -246,16 +309,34 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.Question", b =>
+                {
+                    b.HasOne("DataAccess.Models.Game", "Game")
+                        .WithMany("Questions")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
             modelBuilder.Entity("DataAccess.Models.Game", b =>
                 {
                     b.Navigation("Comments");
 
                     b.Navigation("Players");
+
+                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.GameStatus", b =>
                 {
                     b.Navigation("Games");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.Question", b =>
+                {
+                    b.Navigation("AnswerOptions");
                 });
 #pragma warning restore 612, 618
         }
