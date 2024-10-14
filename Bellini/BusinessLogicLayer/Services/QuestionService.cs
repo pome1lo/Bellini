@@ -34,5 +34,30 @@ namespace BusinessLogicLayer.Services
 
             return question.Id;
         }
+
+        public async Task<QuestionDto> GetQuestionByIdAsync(int questionId, CancellationToken cancellationToken = default)
+        {
+            var question = await _questionRepository.GetItemAsync(questionId, cancellationToken);
+            if (question == null)
+            {
+                throw new KeyNotFoundException("Question not found.");
+            }
+
+            return _mapper.Map<QuestionDto>(question);
+        }
+
+        public async Task<IEnumerable<QuestionDto>> GetQuestionsByGameIdAsync(int gameId, CancellationToken cancellationToken = default)
+        {
+            var questions = await _questionRepository.GetElementsAsync(cancellationToken);
+            var filteredQuestions = questions.Where(q => q.GameId == gameId);
+
+            return _mapper.Map<IEnumerable<QuestionDto>>(filteredQuestions);
+        }
+
+        public async Task<IEnumerable<QuestionDto>> GetAllQuestionsAsync(CancellationToken cancellationToken = default)
+        {
+            var questions = await _questionRepository.GetElementsAsync(cancellationToken);
+            return _mapper.Map<IEnumerable<QuestionDto>>(questions);
+        }
     }
 }

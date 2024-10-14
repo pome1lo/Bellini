@@ -9,6 +9,7 @@ using DataAccessLayer.Models;
 using GameService.MiddlewareExtensions;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,11 +23,16 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IRepository<Game>, GameRepository>();
 builder.Services.AddScoped<IRepository<Player>, PlayerRepository>();
 builder.Services.AddScoped<IRepository<Comment>, CommentRepository>();
+builder.Services.AddScoped<IRepository<Question>, QuestionRepository>();
 builder.Services.AddScoped<IRepository<GameStatus>, GameStatusRepository>();
+builder.Services.AddScoped<IRepository<AnswerOption>, AnswerOptionRepository>();
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost"));
 
 builder.Services.AddScoped<IGameService, BusinessLogicLayer.Services.GameService>();
+builder.Services.AddScoped<IQuestionService, BusinessLogicLayer.Services.QuestionService>();
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddSignalR();
@@ -35,6 +41,8 @@ var app = builder.Build();
 
 app.UseCors("AllowLocalhost5173");
 app.UseStaticFiles();
+ 
+
 
 app.UseRouting();
 app.UseGlobalExceptionHandler();
