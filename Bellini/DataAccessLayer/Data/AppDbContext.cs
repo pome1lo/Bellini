@@ -35,7 +35,7 @@ namespace DataAccess.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-FNKSKPB\SQLEXPRESS;Database=BELLINI;Trusted_Connection=True;Trust Server Certificate=True;");
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-FNKSKPB;Database=PWS_3;User Id=sa;Password=sa;TrustServerCertificate=true;");
         }
     }
 }
