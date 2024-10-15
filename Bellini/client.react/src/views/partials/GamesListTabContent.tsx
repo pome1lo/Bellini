@@ -36,7 +36,6 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({ tabCon
             try {
                 const response = await serverFetch(`/game/${tabContentName}?limit=${itemsPerPage}&offset=${(currentPage - 1) * itemsPerPage}`);
                 const data = await response.json();
-
                 if (response.status === 204 || !Array.isArray(data.games)) {
                     setGames([]);
                 } else {

@@ -1,11 +1,11 @@
-﻿using BusinessLogic.Exceptions; // Добавлено для исключений
-using BusinessLogicLayer.Exceptions;
+﻿using BusinessLogic.Exceptions;
 using BusinessLogicLayer.Hubs;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccess.Data.Interfaces;
 using DataAccess.Models;
 using DataAccessLayer.Models;
+using DataAccessLayer.Utils;
 using Microsoft.AspNetCore.SignalR;
 
 namespace BusinessLogicLayer.Services
@@ -91,10 +91,10 @@ namespace BusinessLogicLayer.Services
             var filteredGames = allGames
                 .Where(g => g.Status.Name.Equals("Not started", StringComparison.OrdinalIgnoreCase));
 
-            var totalCount = filteredGames.Count(); // Общее количество игр
+            var totalCount = filteredGames.Count();
             var paginatedGames = filteredGames
-                .Skip(offset) // Пропускаем элементы до offset
-                .Take(limit)  // Берем только limit элементов
+                .Skip(offset)
+                .Take(limit)
                 .Select(g => new GameDto
                 {
                     Id = g.Id,
@@ -112,35 +112,48 @@ namespace BusinessLogicLayer.Services
             return (paginatedGames, totalCount);
         }
 
-        public async Task<IEnumerable<GameDto>> SelectGamesByStatusNameAsync(string statusName, CancellationToken cancellationToken = default)
+        public async Task<(IEnumerable<GameDto> Games, int TotalCount)> SelectGamesByAvailabilityAsync(GameStatusEnum availability, int limit, int offset, CancellationToken cancellationToken = default)
         {
-            if (string.IsNullOrWhiteSpace(statusName))
+            var allGames = await _gameRepository.GetElementsAsync(cancellationToken);
+
+            IEnumerable<Game> filteredGames;
+
+            if (availability == GameStatusEnum.Public)
             {
-                throw new NotFoundException($"Game status with name {statusName} not found.");
+                filteredGames = allGames.Where(g => !g.IsPrivate);
+            }
+            else if (availability == GameStatusEnum.Private)
+            {
+                filteredGames = allGames.Where(g => g.IsPrivate);
+            }
+            else if (availability == GameStatusEnum.Archived)
+            {
+                filteredGames = allGames.Where(g => g.Status.Name.Equals("Archived", StringComparison.OrdinalIgnoreCase));
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(availability), $"Unsupported availability status: {availability}");
             }
 
-            var games = await _gameRepository.GetElementsAsync(cancellationToken);
-            var filteredGames = games
-                .Where(game => game.Status.Name.Equals(statusName, StringComparison.OrdinalIgnoreCase))
-                .Select(game => new GameDto
+            var totalCount = filteredGames.Count();
+            var paginatedGames = filteredGames
+                .Skip(offset)
+                .Take(limit)
+                .Select(g => new GameDto
                 {
-                    Id = game.Id,
-                    GameName = game.GameName,
-                    HostId = game.HostId,
-                    StartTime = game.StartTime,
-                    MaxPlayers = game.MaxPlayers,
-                    GameStatus = game.Status,
-                    IsPrivate = game.IsPrivate,
-                    RoomPassword = game.RoomPassword,
-                    GameCoverImageUrl = game.GameCoverImageUrl
-                }).ToList();
+                    Id = g.Id,
+                    GameName = g.GameName,
+                    HostId = g.HostId,
+                    StartTime = g.StartTime,
+                    MaxPlayers = g.MaxPlayers,
+                    GameStatus = g.Status,
+                    IsPrivate = g.IsPrivate,
+                    RoomPassword = g.RoomPassword,
+                    GameCoverImageUrl = g.GameCoverImageUrl
+                })
+                .ToList();
 
-            if (!filteredGames.Any())
-            {
-                throw new NoContentException($"No games found for status {statusName}.");
-            }
-
-            return filteredGames;
+            return (paginatedGames, totalCount);
         }
 
         public async Task<StartedGameDto> StartGame(int gameId, StartGameDto startGameDto, CancellationToken cancellationToken = default)
@@ -168,112 +181,5 @@ namespace BusinessLogicLayer.Services
 
             return new StartedGameDto();
         }
-
-        //public async Task UpdateGameAsync(int gameId, UpdateGameDto updateGameDto, CancellationToken cancellationToken = default)
-        //{
-        //    var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
-
-        //    if (game == null)
-        //    {
-        //        throw new NotFoundException($"Game with ID {gameId} not found.");
-        //    }
-
-        //    game.GameName = updateGameDto.GameName;
-        //    game.MaxPlayers = updateGameDto.MaxPlayers;
-        //    game.DifficultyLevel = updateGameDto.DifficultyLevel;
-        //    game.IsActive = updateGameDto.IsActive;
-
-        //    await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
-        //}
-
-        //public async Task EndGameAsync(int gameId, CancellationToken cancellationToken = default)
-        //{
-        //    var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
-
-        //    if (game == null)
-        //    {
-        //        throw new NotFoundException($"Game with ID {gameId} not found.");
-        //    }
-
-        //    game.IsActive = false;
-
-        //    await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
-
-        //    // Уведомление игроков об окончании игры
-        //    await _gameHub.Clients.Group($"game-{gameId}").SendAsync("GameEnded", gameId, cancellationToken);
-        //}
-
-        //public async Task JoinGameAsync(int gameId, int playerId, CancellationToken cancellationToken = default)
-        //{
-        //    var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
-
-        //    if (game == null)
-        //    {
-        //        throw new NotFoundException($"Game with ID {gameId} not found.");
-        //    }
-
-        //    var player = new Player
-        //    {
-        //        GameId = gameId,
-        //        Id = playerId
-        //    };
-
-        //    await _playerRepository.CreateAsync(player, cancellationToken);
-
-        //    // Присоединение игрока к группе (игровой комнате)
-        //    await _gameHub.Clients.Group($"game-{gameId}").SendAsync("PlayerJoined", playerId, cancellationToken);
-        //}
-
-        //public async Task LeaveGameAsync(int gameId, int playerId, CancellationToken cancellationToken = default)
-        //{
-        //    var player = await _playerRepository.GetItemAsync(playerId, cancellationToken);
-
-        //    if (player == null)
-        //    {
-        //        throw new NotFoundException($"Player with ID {playerId} not found.");
-        //    }
-
-        //    if (player.GameId == gameId)
-        //    {
-        //        await _playerRepository.DeleteAsync(playerId, cancellationToken);
-
-        //        // Уведомление об уходе игрока из игры
-        //        await _gameHub.Clients.Group($"game-{gameId}").SendAsync("PlayerLeft", playerId, cancellationToken);
-        //    }
-        //}
-
-        //public async Task AddCommentToGameAsync(int gameId, AddCommentDto addCommentDto, CancellationToken cancellationToken = default)
-        //{
-        //    var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
-
-        //    if (game == null)
-        //    {
-        //        throw new NotFoundException($"Game with ID {gameId} not found.");
-        //    }
-
-        //    var comment = new Comment
-        //    {
-        //        GameId = gameId,
-        //        Content = addCommentDto.Content,
-        //        UserId = addCommentDto.CreatedBy,
-        //        CommentDate = addCommentDto.CreatedAt
-        //    };
-
-        //    await _commentRepository.CreateAsync(comment, cancellationToken);
-        //}
-
-        //public async Task<IEnumerable<CommentDto>> GetCommentsForGameAsync(int gameId, CancellationToken cancellationToken = default)
-        //{
-        //    var comments = await _commentRepository.GetElementsAsync(cancellationToken);
-        //    return comments.Where(c => c.GameId == gameId)
-        //                   .Select(c => new CommentDto
-        //                   {
-        //                       Id = c.Id,
-        //                       GameId = c.GameId,
-        //                       Content = c.Content,
-        //                       CreatedBy = c.UserId,
-        //                       CreatedAt = c.CommentDate
-        //                   });
-        //}
     }
 }
