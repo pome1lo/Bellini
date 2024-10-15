@@ -32,8 +32,12 @@ namespace GlobalExceptionHandlerLibrary
 
                 var statusCode = HttpStatusCode.InternalServerError;
                 var errorCode = "InternalServerError";
-
-                if (ex is ArgumentException)
+                if (ex is IncorrectNumberOfAnswersException)
+                {
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorCode = "BadRequest";
+                }
+                else if (ex is ArgumentException)
                 {
                     statusCode = HttpStatusCode.BadRequest;
                     errorCode = "BadRequest";

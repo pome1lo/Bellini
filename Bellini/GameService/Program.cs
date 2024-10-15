@@ -1,5 +1,6 @@
 using BusinessLogicLayer.Hubs;
 using BusinessLogicLayer.Services.Configs;
+using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccess.Data;
 using DataAccess.Data.Interfaces;
@@ -9,7 +10,6 @@ using DataAccessLayer.Models;
 using GameService.MiddlewareExtensions;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +32,18 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Conn
 builder.Services.AddScoped<IGameService, BusinessLogicLayer.Services.GameService>();
 builder.Services.AddScoped<IQuestionService, BusinessLogicLayer.Services.QuestionService>();
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.CreateMap<Game, GameDto>()
+        .ForMember(dest => dest.GameStatus, opt => opt.MapFrom(src => src.Status));
+    cfg.CreateMap<CreateGameRoomDto, Game>();
+    cfg.CreateMap<Player, PlayerDto>();
+    cfg.CreateMap<Comment, CommentDto>();
+    cfg.CreateMap<CreateQuestionDto, Question>();
+    cfg.CreateMap<CreateAnswerDto, AnswerOption>();
+}, typeof(Program));
+
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddSignalR();
@@ -41,7 +52,7 @@ var app = builder.Build();
 
 app.UseCors("AllowLocalhost5173");
 app.UseStaticFiles();
- 
+
 
 
 app.UseRouting();

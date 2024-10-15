@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccess.Data.Interfaces;
@@ -21,8 +22,13 @@ namespace BusinessLogicLayer.Services
 
         public async Task<int> CreateQuestionAsync(CreateQuestionDto createQuestionDto, CancellationToken cancellationToken = default)
         {
-            var question = _mapper.Map<Question>(createQuestionDto);
+            var correctAnswers = createQuestionDto.Answers.Count(a => a.IsCorrect);
+            if (correctAnswers != 1)
+            {
+                throw new IncorrectNumberOfAnswersException("Each question must have exactly one correct answer.");
+            }
 
+            var question = _mapper.Map<Question>(createQuestionDto);
             await _questionRepository.CreateAsync(question, cancellationToken);
 
             foreach (var answerDto in createQuestionDto.Answers)
