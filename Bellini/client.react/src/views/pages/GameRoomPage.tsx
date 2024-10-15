@@ -5,21 +5,30 @@ import {useEffect, useState} from "react";
 import * as signalR from "@microsoft/signalr";
 import {toast} from "@/components/ui/use-toast.ts";
 import {DialogShareButton} from "@/views/partials/DialogShareButton.tsx";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
 import {DialogCreateQuestion} from "@/views/partials/DialogCreateQuestion.tsx";
+import {CirclePlay, DollarSign, FileType, TrendingUp, Users} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 
 interface CurrentGame {
     id: number;
     gameName: string;
     hostId: number;
     startTime: Date;
+    createTime: Date;
+    gameCoverImageUrl: string;
     maxPlayers: number;
-    isActive: boolean;
-    difficultyLevel: string;
+    isPrivate: boolean;
+    roomPassword: string;
+    gameStatus: {
+        id: number;
+        name: string;
+    }
 }
 
 interface Player {
@@ -80,7 +89,6 @@ export const GameRoomPage = () => {
             setPlayers(updatedPlayerList);
             console.log('A player has joined the game');
         });
-        3
 
         newConnection.on('PlayerLeft', (updatedPlayerList: Player[]) => {
             setPlayers(updatedPlayerList);
@@ -217,49 +225,166 @@ export const GameRoomPage = () => {
                     <>
                         <Breadcrumbs items={breadcrumbItems}/>
 
-                        <DialogShareButton link={window.location.href}/>
-                        <div>Game Room {id}</div>
-                        <div>Max players {currentGame.maxPlayers}</div>
                         {isCurrentUserHost ?
-                            <>
-                                <Button onClick={startGame}>Start Game</Button>
-                                {id ? <DialogCreateQuestion currentGameId={id.toString()}/> : <></>}
-                            </>
+                            <div className="flex items-center justify-between my-3">
+                                <Badge>You are the creator of the room</Badge>
+                                <div>
+                                    {id ? <DialogCreateQuestion currentGameId={id.toString()}/> : <></>}
+                                    <Button size="sm" className="h-8 ms-3 gap-1" onClick={startGame}>
+                                        <CirclePlay className="h-3.5 w-3.5"/>
+                                        Start Game
+                                    </Button>
+                                </div>
+                            </div>
                             :
                             <span>USER</span>
                         }
 
 
-                        {!isUserJoined ? (
-                                <Button onClick={connect}>Connect</Button>
-                            ) :
-                            <Button variant="destructive" onClick={disconnect}>Disconnect</Button>
-                        }
+                        <div className="flex flex-col-reverse lg:flex-row gap-4 w-full">
+                            <div className="w-full flex flex-col gap-4 lg:order-2">
+                                <div className="flex gap-4 flex-col sm:flex-row">
+                                    <Card className="w-full">
+                                        <CardHeader
+                                            className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                            <CardTitle className="text-sm font-medium">
+                                                Maximum players
+                                            </CardTitle>
+                                            <Users className="h-4 w-4 text-muted-foreground"/>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div className="text-2xl font-bold">{currentGame.maxPlayers} player(s)</div>
+                                            <p className="text-xs text-muted-foreground">
+                                                No more than this number of players
+                                            </p>
+                                        </CardContent>
+                                    </Card>
+                                    <Card className="w-full">
+                                        <CardHeader
+                                            className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                            <CardTitle className="text-sm font-medium">
+                                                Game status
+                                            </CardTitle>
+                                            <TrendingUp className="h-4 w-4 text-muted-foreground"/>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div className="text-2xl font-bold">{currentGame.gameStatus.name}</div>
+                                            <p className="text-xs text-muted-foreground">
+                                                The game will start soon
+                                            </p>
+                                        </CardContent>
+                                    </Card>
+                                    <Card className="w-full">
+                                        <CardHeader
+                                            className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                            <CardTitle className="text-sm font-medium">
+                                                Game room type
+                                            </CardTitle>
+                                            <FileType className="h-4 w-4 text-muted-foreground"/>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div
+                                                className="text-2xl font-bold">{currentGame.isPrivate ? "Private" : "Public"}</div>
+                                            <p className="text-xs text-muted-foreground">
+                                                The game will start soon
+                                            </p>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Connected Users</CardTitle>
+                                        <CardDescription>
+                                            Players connected to this game room
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent className="grid gap-8">
+                                        <ScrollArea className="h-[210px] w-full rounded-md border p-4">
+                                            {players.length == 0 ?
+                                                <>
+                                                    <div className="h-[170px] flex items-center justify-center">
+                                                        <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There are no connected users yet... 😪</h1>
+                                                    </div>
+                                                </>
+                                                :
+                                                <>
+                                                    {players.map((player) => (
+                                                        <div key={player.userId} className="flex items-center gap-4">
+                                                            <Avatar className="hidden h-9 w-9 sm:flex">
+                                                                <AvatarImage
+                                                                    src={player.profileImageUrl}
+                                                                    alt={`${player.username}'s profile`}
+                                                                />
+                                                                <AvatarFallback>
+                                                                    {(player.username.charAt(0) + player.email.charAt(0)).toUpperCase()}
+                                                                </AvatarFallback>
+                                                            </Avatar>
+                                                            <div className="grid gap-1">
+                                                                <p className="text-sm font-medium leading-none">{player.username}</p>
+                                                                <p className="text-sm text-muted-foreground">{player.email}</p>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </>
+                                            }
+                                        </ScrollArea>
+                                    </CardContent>
+                                    <CardFooter>
+                                        {!isUserJoined ? (
+                                            <Button onClick={connect}>Connect</Button>
+                                        ) : (
+                                            <Button variant="destructive" onClick={disconnect}>Disconnect</Button>
+                                        )}
+                                    </CardFooter>
+                                </Card>
+                                <Card className="block lg:hidden">
+                                    <CardHeader>
+                                        <CardTitle>Share</CardTitle>
+                                        <CardDescription>
+                                            You can share the link to the game with other users
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <DialogShareButton link={window.location.href}/>
+                                    </CardContent>
+                                </Card>
+                            </div>
 
-                        <Card x-chunk="dashboard-01-chunk-5">
-                            <CardHeader>
-                                <CardTitle>Connected Users</CardTitle>
-                            </CardHeader>
-                            <CardContent className="grid gap-8">
-                                {players.map((player) => (
-                                    <div key={player.userId} className="flex items-center gap-4">
-                                        <Avatar className="hidden h-9 w-9 sm:flex">
-                                            <AvatarImage
-                                                src={player.profileImageUrl}
-                                                alt={`${player.username}'s profile`}
+                            <div className="flex gap-4 flex-col w-full lg:w-[20rem] order-1 lg:order-2 ">
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>{currentGame.gameName}</CardTitle>
+                                        <CardDescription>
+                                            Lipsum dolor sit amet, consectetur adipiscing elit
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="grid gap-2">
+                                            <img
+                                                alt="Product image"
+                                                className="hidden lg:block aspect-square w-full rounded-md object-cover"
+                                                height="300"
+                                                src={currentGame.gameCoverImageUrl}
+                                                width="300"
                                             />
-                                            <AvatarFallback>
-                                                {(player.username.charAt(0) + player.email.charAt(0)).toUpperCase()}
-                                            </AvatarFallback>
-                                        </Avatar>
-                                        <div className="grid gap-1">
-                                            <p className="text-sm font-medium leading-none">{player.username}</p>
-                                            <p className="text-sm text-muted-foreground">{player.email}</p>
                                         </div>
-                                    </div>
-                                ))}
-                            </CardContent>
-                        </Card>
+                                    </CardContent>
+                                </Card>
+                                <Card className="hidden lg:block">
+                                    <CardHeader>
+                                        <CardTitle>Share</CardTitle>
+                                        <CardDescription>
+                                            You can share the link to the game with other users
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <DialogShareButton link={window.location.href}/>
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        </div>
+
+
                     </>
                     :
                     <>

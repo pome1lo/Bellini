@@ -6,7 +6,7 @@ export const BasicLayout = () => {
     return (
         <>
             <Header/>
-            <div className="">
+            <div className="bg-muted/40 p-4">
                 <Outlet/>
 
             </div>

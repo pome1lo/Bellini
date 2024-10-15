@@ -29,6 +29,7 @@ namespace BusinessLogicLayer.Services
             }
 
             var question = _mapper.Map<Question>(createQuestionDto);
+            question.IsCustom = true;
             await _questionRepository.CreateAsync(question, cancellationToken);
 
             foreach (var answerDto in createQuestionDto.Answers)

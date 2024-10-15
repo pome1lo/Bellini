@@ -69,8 +69,10 @@ export const Header = () => {
     return (
         <>
             <header className="sticky top-0 z-50 w-full shadow-md backdrop-blur">
-                <div className="flex items-center justify-between p-4">
-                    <div className="text-3xl text-shrikhand">Bellini</div>
+                <div className="flex items-center justify-between p-2">
+                    <Link to={"/"} className="text-3xl text-shrikhand">
+                        Bellini
+                    </Link>
                     <NavigationMenu className="hidden md:flex ">
                         <NavigationMenuList>
                             <NavigationMenuItem>
@@ -132,14 +134,14 @@ export const Header = () => {
                         </NavigationMenuList>
                     </NavigationMenu>
                     <div className="flex items-center space-x-4">
-                        <Button variant="outline" onClick={() => navigate("profile/notifications")}>
+                        <Button variant="ghost" onClick={() => navigate("profile/notifications")}>
                             <IoNotificationsOutline className="text-xl" />
                         </Button>
                         <ModeToggle />
                         {isAuthenticated ? (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
-                                    <Button variant="secondary" size="icon" className="rounded-full">
+                                    <Button variant="ghost" size="icon" className="rounded-full">
                                         <CircleUser className="h-5 w-5" />
                                         <span className="sr-only">Toggle user menu</span>
                                     </Button>

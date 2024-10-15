@@ -8,26 +8,26 @@ import {
     DialogTitle,
     DialogTrigger
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import React, { useState } from "react";
-import { serverFetch } from "@/utils/fetchs/serverFetch";
-import { toast } from "@/components/ui/use-toast";
-import { useAuth } from "@/utils/context/authContext";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group.tsx";
+import {Button} from "@/components/ui/button";
+import {PlusCircle} from "lucide-react";
+import {Label} from "@/components/ui/label";
+import {Input} from "@/components/ui/input";
+import React, {useState} from "react";
+import {serverFetch} from "@/utils/fetchs/serverFetch";
+import {toast} from "@/components/ui/use-toast";
+import {useAuth} from "@/utils/context/authContext";
+import {useNavigate} from "react-router-dom";
+import {useForm} from "react-hook-form";
+import {z} from "zod";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group.tsx";
 
 interface DialogCreateQuestionProps {
     currentGameId: string;
 }
 
-export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({ currentGameId }) => {
-    const { isAuthenticated, user } = useAuth();
+export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({currentGameId}) => {
+    const {isAuthenticated, user} = useAuth();
     const navigate = useNavigate();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -52,7 +52,7 @@ export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({ curr
         register,
         handleSubmit,
         reset,
-        formState: { errors },
+        formState: {errors},
         watch,
         setValue,
     } = useForm<CreateQuestionFormData>({
@@ -61,10 +61,10 @@ export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({ curr
             gameId: parseInt(currentGameId),
             text: "",
             answers: [
-                { text: "", isCorrect: false },
-                { text: "", isCorrect: false },
-                { text: "", isCorrect: false },
-                { text: "", isCorrect: false },
+                {text: "", isCorrect: false},
+                {text: "", isCorrect: false},
+                {text: "", isCorrect: false},
+                {text: "", isCorrect: false},
             ],
         },
     });
@@ -80,14 +80,14 @@ export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({ curr
             }
             const response = await serverFetch("/questions", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(data),
             });
 
             const responseData = await response.json();
 
             if (response.ok) {
-                toast({ title: "Question Created", description: "The question was successfully created." });
+                toast({title: "Question Created", description: "The question was successfully created."});
                 setIsDialogOpen(false);
                 reset();
             } else {
@@ -98,7 +98,9 @@ export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({ curr
                 });
             }
         } catch (ex) {
-            toast({ title: "Error", description: ex.message || "An unexpected error occurred.", variant: "destructive" });
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            toast({title: "Error", description: ex.message || "An unexpected error occurred.", variant: "destructive"});
         }
     };
 
@@ -118,8 +120,8 @@ export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({ curr
     return (
         <Dialog open={isDialogOpen} onOpenChange={handleDialogOpenChange}>
             <DialogTrigger asChild>
-                <Button size="sm" className="h-8 gap-1">
-                    <PlusCircle className="h-3.5 w-3.5" />
+                <Button size="sm" variant="outline" className="h-8 gap-1">
+                    <PlusCircle className="h-3.5 w-3.5"/>
                     <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Create question</span>
                 </Button>
             </DialogTrigger>
@@ -144,7 +146,7 @@ export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({ curr
 
                         {answers.map((_, index) => (
                             <div key={index} className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor={`answerText${index}`} className="text-right">Answer {index + 1}</Label>
+                                <Label htmlFor={`answerText${index}`} className="text-right">{index + 1}. Answer</Label>
                                 <Input
                                     id={`answerText${index}`}
                                     {...register(`answers.${index}.text`)}
@@ -153,10 +155,10 @@ export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({ curr
                                 <RadioGroup
                                     value={answers[index].isCorrect ? "true" : "false"}
                                     onValueChange={() => handleCorrectAnswerChange(index)}
-                                    className="col-span-2 flex items-center space-x-2"
+                                    className="flex items-center space-x-2"
                                 >
-                                    <RadioGroupItem value="true" id={`correctAnswer${index}`} />
-                                    <Label htmlFor={`correctAnswer${index}`}>Correct</Label>
+                                    <Label htmlFor={`correctAnswer${index}`}>Correct: </Label>
+                                    <RadioGroupItem value="true" id={`correctAnswer${index}`}/>
                                 </RadioGroup>
                                 {errors.answers?.[index]?.text && (
                                     <p className="col-span-4 text-red-500">{errors.answers[index]?.text?.message}</p>
