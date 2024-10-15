@@ -10,6 +10,7 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
+import {DialogCreateQuestion} from "@/views/partials/DialogCreateQuestion.tsx";
 
 interface CurrentGame {
     id: number;
@@ -222,6 +223,7 @@ export const GameRoomPage = () => {
                         {isCurrentUserHost ?
                             <>
                                 <Button onClick={startGame}>Start Game</Button>
+                                {id ? <DialogCreateQuestion currentGameId={id.toString()}/> : <></>}
                             </>
                             :
                             <span>USER</span>

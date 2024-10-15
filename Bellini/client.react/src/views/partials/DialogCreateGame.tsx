@@ -18,7 +18,7 @@ import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {toast} from "@/components/ui/use-toast.ts";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import React, {useState} from "react";
 
 const createGameSchema = z.object({
     gameName: z.string().min(1, "Game name is required"),

@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GameService.Controllers
 {
+
+    [ApiController]
+    [Route("api/[controller]")]
     public class QuestionsController : ControllerBase
     {
         private readonly IQuestionService _questionService;
