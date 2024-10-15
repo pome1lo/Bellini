@@ -7,7 +7,7 @@ namespace BusinessLogicLayer.Services.Interfaces
     {
         Task<int> CreateGameRoomAsync(CreateGameRoomDto createGameRoomDto, CancellationToken cancellationToken = default);
         Task<GameDto> GetGameByIdAsync(int gameId, CancellationToken cancellationToken = default);
-        Task<IEnumerable<GameDto>> GetAllActiveGamesAsync(CancellationToken cancellationToken = default);
+        Task<(IEnumerable<GameDto> Games, int TotalCount)> GetAllActiveGamesAsync(int limit, int offset, CancellationToken cancellationToken = default);
         Task<IEnumerable<GameDto>> SelectGamesByStatusNameAsync(string statusName, CancellationToken cancellationToken = default);
 
         Task<StartedGameDto> StartGame(int id, [FromBody] StartGameDto startGameDto, CancellationToken cancellationToken = default);

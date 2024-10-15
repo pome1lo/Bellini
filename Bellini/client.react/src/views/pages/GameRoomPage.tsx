@@ -299,7 +299,7 @@ export const GameRoomPage = () => {
                                         </CardDescription>
                                     </CardHeader>
                                     <CardContent className="grid gap-8">
-                                        <ScrollArea className="h-[210px] w-full rounded-md border p-4">
+                                        <ScrollArea className="h-[220px] w-full rounded-md border p-4">
                                             {players.length == 0 ?
                                                 <>
                                                     <div className="h-[170px] flex items-center justify-center">

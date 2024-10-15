@@ -85,11 +85,16 @@ namespace BusinessLogicLayer.Services
             };
         }
 
-        public async Task<IEnumerable<GameDto>> GetAllActiveGamesAsync(CancellationToken cancellationToken = default)
+        public async Task<(IEnumerable<GameDto> Games, int TotalCount)> GetAllActiveGamesAsync(int limit, int offset, CancellationToken cancellationToken = default)
         {
-            var games = await _gameRepository.GetElementsAsync(cancellationToken);
-            return games
-                .Where(g => g.Status.Name.Equals("Not started", StringComparison.OrdinalIgnoreCase))
+            var allGames = await _gameRepository.GetElementsAsync(cancellationToken);
+            var filteredGames = allGames
+                .Where(g => g.Status.Name.Equals("Not started", StringComparison.OrdinalIgnoreCase));
+
+            var totalCount = filteredGames.Count(); // Общее количество игр
+            var paginatedGames = filteredGames
+                .Skip(offset) // Пропускаем элементы до offset
+                .Take(limit)  // Берем только limit элементов
                 .Select(g => new GameDto
                 {
                     Id = g.Id,
@@ -101,7 +106,10 @@ namespace BusinessLogicLayer.Services
                     IsPrivate = g.IsPrivate,
                     RoomPassword = g.RoomPassword,
                     GameCoverImageUrl = g.GameCoverImageUrl
-                }).ToList();
+                })
+                .ToList();
+
+            return (paginatedGames, totalCount);
         }
 
         public async Task<IEnumerable<GameDto>> SelectGamesByStatusNameAsync(string statusName, CancellationToken cancellationToken = default)

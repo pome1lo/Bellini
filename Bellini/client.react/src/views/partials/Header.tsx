@@ -138,7 +138,7 @@ export const Header = () => {
                             <IoNotificationsOutline className="text-xl" />
                         </Button>
                         <ModeToggle />
-                        {isAuthenticated ? (
+                        {user && isAuthenticated ? (
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="ghost" size="icon" className="rounded-full">
@@ -148,11 +148,11 @@ export const Header = () => {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuLabel>
-                                        <p className="text-sm font-medium leading-none">{user?.username}</p>
-                                        <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
+                                        <p className="text-sm font-medium leading-none">{user.username}</p>
+                                        <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
                                     </DropdownMenuLabel>
                                     <DropdownMenuSeparator />
-                                    <DropdownMenuItem onClick={() => navigate(`/profile/${user?.id}`)}>Profile</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => navigate(`/profile/${user.id}`)}>Profile</DropdownMenuItem>
                                     <DropdownMenuItem>Settings</DropdownMenuItem>
                                     <DropdownMenuItem>Support</DropdownMenuItem>
                                     <DropdownMenuSeparator />

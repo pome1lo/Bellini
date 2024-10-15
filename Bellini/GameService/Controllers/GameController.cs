@@ -36,11 +36,10 @@ namespace GameService.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<IActionResult> GetAllActiveGames(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllActiveGames([FromQuery] int limit = 10, [FromQuery] int offset = 0, CancellationToken cancellationToken = default)
         {
-            return Ok(
-                await _gameService.GetAllActiveGamesAsync(cancellationToken)
-            );
+            var (games, totalCount) = await _gameService.GetAllActiveGamesAsync(limit, offset, cancellationToken);
+            return Ok(new { games, total = totalCount });
         }
 
         [HttpGet("public")]
