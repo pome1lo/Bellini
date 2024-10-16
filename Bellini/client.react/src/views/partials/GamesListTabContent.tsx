@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis } from "@/components/ui/pagination";
 import { serverFetch } from "@/utils/fetchs/serverFetch";
-import { Skeleton } from "@/components/ui/skeleton";
 import { GameListItem } from "@/views/partials/GameListItem";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody } from "@/components/ui/table.tsx";
+import {Table, TableBody} from "@/components/ui/table.tsx";
+import {GameListTabContentRowSkeleton} from "@/views/partials/skeletons/GameListTabContentRowSkeleton.tsx";
 
 export interface ActiveGame {
     id: number;
@@ -61,10 +61,7 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({ tabCon
 
     if (isLoading) {
         return (
-            <>
-                ЗАГРУЗОЧКА
-                <Skeleton />
-            </>
+            <GameListTabContentRowSkeleton/>
         );
     }
 
@@ -88,7 +85,6 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({ tabCon
                 </CardHeader>
                 <CardContent>
                     <Table>
-                        {/* Table header */}
                         <TableBody>
                             {games.map((item) => (
                                 <GameListItem

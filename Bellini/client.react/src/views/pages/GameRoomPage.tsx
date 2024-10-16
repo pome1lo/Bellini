@@ -4,16 +4,21 @@ import {useAuth} from "@/utils/context/authContext.tsx";
 import {useEffect, useState} from "react";
 import * as signalR from "@microsoft/signalr";
 import {toast} from "@/components/ui/use-toast.ts";
-import {DialogShareButton} from "@/views/partials/DialogShareButton.tsx";
+import {DialogShareButton} from "@/views/partials/dialogs/DialogShareButton.tsx";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
-import {DialogCreateQuestion} from "@/views/partials/DialogCreateQuestion.tsx";
+import {DialogCreateQuestion} from "@/views/partials/dialogs/DialogCreateQuestion.tsx";
 import {CirclePlay, DollarSign, FileType, TrendingUp, Users} from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import {Badge} from "@/components/ui/badge";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
+import { Popover, PopoverContent } from "@/components/ui/popover";
+import {PopoverTrigger} from "@/components/ui/popover.tsx";
+import {Label} from "@/components/ui/label.tsx";
+import {Input} from "@/components/ui/input.tsx";
+import {GameQuestionItem} from "@/views/partials/GameQuestionItem.tsx";
 
 interface CurrentGame {
     id: number;
@@ -216,7 +221,13 @@ export const GameRoomPage = () => {
             // finally { }
         }
     }
-
+    const question = "What is the capital of France?";
+    const answers = [
+        { text: "Paris", isCorrect: true },
+        { text: "Berlin", isCorrect: false },
+        { text: "Madrid", isCorrect: false },
+        { text: "Rome", isCorrect: false },
+    ];
     return (
         <>
             {
@@ -229,7 +240,7 @@ export const GameRoomPage = () => {
                             <div className="flex items-center justify-between my-3">
                                 <Badge>You are the creator of the room</Badge>
                                 <div>
-                                    {id ? <DialogCreateQuestion currentGameId={id.toString()}/> : <></>}
+
                                     <Button size="sm" className="h-8 ms-3 gap-1" onClick={startGame}>
                                         <CirclePlay className="h-3.5 w-3.5"/>
                                         Start Game
@@ -291,52 +302,147 @@ export const GameRoomPage = () => {
                                         </CardContent>
                                     </Card>
                                 </div>
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle>Connected Users</CardTitle>
-                                        <CardDescription>
-                                            Players connected to this game room
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent className="grid gap-8">
-                                        <ScrollArea className="h-[220px] w-full rounded-md border p-4">
-                                            {players.length == 0 ?
-                                                <>
-                                                    <div className="h-[170px] flex items-center justify-center">
-                                                        <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There are no connected users yet... 😪</h1>
-                                                    </div>
-                                                </>
-                                                :
-                                                <>
-                                                    {players.map((player) => (
-                                                        <div key={player.userId} className="flex items-center gap-4">
-                                                            <Avatar className="hidden h-9 w-9 sm:flex">
-                                                                <AvatarImage
-                                                                    src={player.profileImageUrl}
-                                                                    alt={`${player.username}'s profile`}
-                                                                />
-                                                                <AvatarFallback>
-                                                                    {(player.username.charAt(0) + player.email.charAt(0)).toUpperCase()}
-                                                                </AvatarFallback>
-                                                            </Avatar>
-                                                            <div className="grid gap-1">
-                                                                <p className="text-sm font-medium leading-none">{player.username}</p>
-                                                                <p className="text-sm text-muted-foreground">{player.email}</p>
-                                                            </div>
+
+                                <div className="flex gap-4 flex-col lg:flex-row w-full">
+                                    <Card className="w-full lg:w-1/2">
+                                        {isCurrentUserHost ?
+                                            <>
+                                                <CardHeader>
+                                                    <CardTitle>Questions</CardTitle>
+                                                    <CardDescription>
+                                                        Here you can select a list of questions that will participate in
+                                                        the game
+                                                    </CardDescription>
+                                                </CardHeader>
+                                                <CardContent>
+                                                    <ScrollArea className="h-[370px] p-4 border rounded-md">
+
+
+                                                        <GameQuestionItem question={question} answers={answers} />
+
+
+                                                    </ScrollArea>
+                                                </CardContent>
+                                                <CardFooter>
+                                                    {id ? <DialogCreateQuestion currentGameId={id.toString()}/> : <></>}
+                                                </CardFooter>
+                                            </>
+                                            :
+                                            <>
+                                                <CardContent>
+                                                    <ScrollArea className="mt-5 h-[370px] p-4  rounded-md">
+                                                        <h2 className="text-xl font-bold mb-4">Welcome to the Game
+                                                            Room!</h2>
+                                                        <p className="mb-4">Before we begin, here's a quick guide to
+                                                            help you understand how to play:</p>
+
+                                                        <h3 className="text-lg font-semibold mb-2">Objective</h3>
+                                                        <p className="mb-4">Answer questions correctly to earn points.
+                                                            The player or team with the highest score at the end
+                                                            wins!</p>
+
+                                                        <h3 className="text-lg font-semibold mb-2">Question Format</h3>
+                                                        <ul className="list-disc ml-6 mb-4">
+                                                            <li>Each question has 4 answer options.</li>
+                                                            <li>Only one answer is correct.</li>
+                                                            <li>You have a limited time to answer each question, so
+                                                                think fast!
+                                                            </li>
+                                                        </ul>
+
+                                                        <h3 className="text-lg font-semibold mb-2">Scoring</h3>
+                                                        <ul className="list-disc ml-6 mb-4">
+                                                            <li>Correct answers earn points.</li>
+                                                            <li>The faster you answer, the more points you score.</li>
+                                                            <li>No points are awarded for incorrect answers.</li>
+                                                        </ul>
+
+                                                        <h3 className="text-lg font-semibold mb-2">Hints & Lifelines (if
+                                                            available)</h3>
+                                                        <ul className="list-disc ml-6 mb-4">
+                                                            <li><strong>50/50:</strong> Two incorrect answers will be
+                                                                removed.
+                                                            </li>
+                                                            <li><strong>Skip:</strong> Skip the question without losing
+                                                                points (limited usage).
+                                                            </li>
+                                                        </ul>
+
+                                                        <h3 className="text-lg font-semibold mb-2">Team Play (if
+                                                            applicable)</h3>
+                                                        <ul className="list-disc ml-6 mb-4">
+                                                            <li>Discuss answers with your team.</li>
+                                                            <li>Only one person needs to submit the answer on behalf of
+                                                                the team.
+                                                            </li>
+                                                            <li>Team coordination is key!</li>
+                                                        </ul>
+
+                                                        <h3 className="text-lg font-semibold mb-2">Rules</h3>
+                                                        <ul className="list-disc ml-6 mb-4">
+                                                            <li>No cheating! Use only your knowledge and reasoning.</li>
+                                                            <li>Be respectful to other players and enjoy the game.</li>
+                                                        </ul>
+
+                                                        <p className="text-lg font-semibold">Ready to start? Good luck,
+                                                            and may the best player win!</p>
+                                                    </ScrollArea>
+                                                </CardContent>
+                                            </>
+                                        }
+                                    </Card>
+                                    <Card className="w-full lg:w-1/2">
+                                        <CardHeader>
+                                            <CardTitle>Connected Users</CardTitle>
+                                            <CardDescription>
+                                                Players connected to this game room
+                                            </CardDescription>
+                                        </CardHeader>
+                                        <CardContent className="grid gap-8">
+                                            <ScrollArea className="h-[220px] w-full rounded-md border p-4">
+                                                {players.length == 0 ?
+                                                    <>
+                                                        <div className="h-[170px] flex items-center justify-center">
+                                                            <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There
+                                                                are no connected users yet... 😪</h1>
                                                         </div>
-                                                    ))}
-                                                </>
-                                            }
-                                        </ScrollArea>
-                                    </CardContent>
-                                    <CardFooter>
-                                        {!isUserJoined ? (
-                                            <Button onClick={connect}>Connect</Button>
-                                        ) : (
-                                            <Button variant="destructive" onClick={disconnect}>Disconnect</Button>
-                                        )}
-                                    </CardFooter>
-                                </Card>
+                                                    </>
+                                                    :
+                                                    <>
+                                                        {players.map((player) => (
+                                                            <div key={player.userId}
+                                                                 className="flex items-center gap-4 mt-2">
+                                                                <Avatar className="hidden h-9 w-9 sm:flex">
+                                                                    <AvatarImage
+                                                                        src={player.profileImageUrl}
+                                                                        alt={`${player.username}'s profile`}
+                                                                    />
+                                                                    <AvatarFallback>
+                                                                        {(player.username.charAt(0) + player.email.charAt(0)).toUpperCase()}
+                                                                    </AvatarFallback>
+                                                                </Avatar>
+                                                                <div className="grid">
+                                                                    <p className="text-sm font-medium leading-none">{player.username}</p>
+                                                                    <p className="text-sm text-muted-foreground">{player.email}</p>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </>
+                                                }
+                                            </ScrollArea>
+                                        </CardContent>
+                                        <CardFooter>
+                                            {!isUserJoined ? (
+                                                <Button onClick={connect}>Connect</Button>
+                                            ) : (
+                                                <Button variant="destructive" onClick={disconnect}>Disconnect</Button>
+                                            )}
+                                        </CardFooter>
+                                    </Card>
+
+                                </div>
+
+
                                 <Card className="block lg:hidden">
                                     <CardHeader>
                                         <CardTitle>Share</CardTitle>

@@ -10,7 +10,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.tsx";
-import {DialogCreateGame} from "@/views/partials/DialogCreateGame.tsx";
+import {DialogCreateGame} from "@/views/partials/dialogs/DialogCreateGame.tsx";
 import {GamesListTabContent} from "@/views/partials/GamesListTabContent.tsx";
 import {useState} from "react";
 

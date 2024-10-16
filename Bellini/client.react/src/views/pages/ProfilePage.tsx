@@ -6,7 +6,7 @@ import {Skeleton} from "@/components/ui/skeleton.tsx";
 import {useParams} from "react-router-dom";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 // import { toast } from "sonner"
-import {DialogEditProfile} from "@/views/partials/DialogEditProfile.tsx";
+import {DialogEditProfile} from "@/views/partials/dialogs/DialogEditProfile.tsx";
 import {useAuth} from "@/utils/context/authContext.tsx";
 
 const breadcrumbItems = [

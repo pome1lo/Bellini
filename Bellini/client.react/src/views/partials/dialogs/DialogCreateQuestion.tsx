@@ -7,15 +7,15 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger
-} from "@/components/ui/dialog";
-import {Button} from "@/components/ui/button";
+} from "@/components/ui/dialog.tsx";
+import {Button} from "@/components/ui/button.tsx";
 import {PlusCircle} from "lucide-react";
-import {Label} from "@/components/ui/label";
-import {Input} from "@/components/ui/input";
+import {Label} from "@/components/ui/label.tsx";
+import {Input} from "@/components/ui/input.tsx";
 import React, {useState} from "react";
-import {serverFetch} from "@/utils/fetchs/serverFetch";
-import {toast} from "@/components/ui/use-toast";
-import {useAuth} from "@/utils/context/authContext";
+import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
+import {toast} from "@/components/ui/use-toast.ts";
+import {useAuth} from "@/utils/context/authContext.tsx";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
