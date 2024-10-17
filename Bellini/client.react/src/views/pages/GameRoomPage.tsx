@@ -33,7 +33,17 @@ interface CurrentGame {
     gameStatus: {
         id: number;
         name: string;
-    }
+    };
+    questions: Array<{
+        id: number;
+        text: string;
+        isCustom: boolean;
+        answerOptions: Array<{
+            id: number;
+            text: string;
+            isCorrect: boolean;
+        }>;
+    }>;
 }
 
 interface Player {
@@ -52,6 +62,7 @@ export const GameRoomPage = () => {
     const [connection, setConnection] = useState<signalR.HubConnection | null>(null);
     const [players, setPlayers] = useState<Player[]>([]);
     const [isUserJoined, setIsUserJoined] = useState(false);
+    const [isQuestionCreated, setIsQuestionCreated] = useState(false);
 
     const breadcrumbItems = [
         {path: '/', name: 'Home'},
@@ -69,12 +80,13 @@ export const GameRoomPage = () => {
             .then(response => response.json())
             .then(data => {
                 setCurrentGame(data);
+                console.log(data);
                 setIsCurrentUserHost(user.id === data.hostId);
             })
             .catch(error => {
                 console.error('Error fetching game:', error.message);
             });
-    }, [id, isAuthenticated, user, navigate]);
+    }, [id, isAuthenticated, user, navigate, isQuestionCreated]);
 
     useEffect(() => {
         if (!isAuthenticated || !user || !id) {
@@ -316,15 +328,22 @@ export const GameRoomPage = () => {
                                                 </CardHeader>
                                                 <CardContent>
                                                     <ScrollArea className="h-[370px] p-4 border rounded-md">
-
-
-                                                        <GameQuestionItem question={question} answers={answers} />
-
-
+                                                        {currentGame.questions.map((item, index) => (
+                                                            <div key={index} className="mb-2">
+                                                                <GameQuestionItem
+                                                                    index={index + 1}
+                                                                    question={item.text}
+                                                                    answers={item.answerOptions} />
+                                                            </div>
+                                                        ))}
                                                     </ScrollArea>
                                                 </CardContent>
                                                 <CardFooter>
-                                                    {id ? <DialogCreateQuestion currentGameId={id.toString()}/> : <></>}
+                                                    {id ? <DialogCreateQuestion
+                                                        currentGameId={id.toString()}
+                                                        setIsQuestionCreated={setIsQuestionCreated}
+                                                        isQuestionCreated={isQuestionCreated}
+                                                    /> : <></>}
                                                 </CardFooter>
                                             </>
                                             :

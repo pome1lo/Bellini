@@ -1,4 +1,6 @@
-﻿namespace DataAccessLayer.Models
+﻿using System.Text.Json.Serialization;
+
+namespace DataAccessLayer.Models
 {
     public class AnswerOption : BaseModel
     {
@@ -6,6 +8,6 @@
         public string Text { get; set; } = null!;
         public bool IsCorrect { get; set; }
         public int QuestionId { get; set; }
-        public Question Question { get; set; } = null!;
+        [JsonIgnore] public Question Question { get; set; } = null!;
     }
 }

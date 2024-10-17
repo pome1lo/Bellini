@@ -14,5 +14,6 @@ namespace BusinessLogicLayer.Services.DTOs
         public bool IsPrivate { get; set; }
         public string RoomPassword { get; set; } = "";
         public GameStatus GameStatus { get; set; } = null!;
+        public List<Question> Questions { get; set; } = null!;
     }
 }

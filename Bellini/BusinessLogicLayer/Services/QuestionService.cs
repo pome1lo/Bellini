@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using BusinessLogic.Exceptions;
 using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccess.Data.Interfaces;
+using DataAccess.Models;
 using DataAccessLayer.Models;
 
 namespace BusinessLogicLayer.Services
@@ -11,12 +13,14 @@ namespace BusinessLogicLayer.Services
     {
         private readonly IRepository<Question> _questionRepository;
         private readonly IRepository<AnswerOption> _answerRepository;
+        private readonly IRepository<Game> _gameRepository;
         private readonly IMapper _mapper;
 
-        public QuestionService(IRepository<Question> questionRepository, IRepository<AnswerOption> answerRepository, IMapper mapper)
+        public QuestionService(IRepository<Question> questionRepository, IRepository<AnswerOption> answerRepository, IRepository<Game> gameRepository, IMapper mapper)
         {
             _questionRepository = questionRepository;
             _answerRepository = answerRepository;
+            _gameRepository = gameRepository;
             _mapper = mapper;
         }
 
@@ -26,6 +30,12 @@ namespace BusinessLogicLayer.Services
             if (correctAnswers != 1)
             {
                 throw new IncorrectNumberOfAnswersException("Each question must have exactly one correct answer.");
+            }
+
+            var game = await _gameRepository.GetItemAsync(createQuestionDto.GameId, cancellationToken);
+            if (game == null)
+            {
+                throw new NotFoundException("Game not found.");
             }
 
             var question = _mapper.Map<Question>(createQuestionDto);
@@ -38,6 +48,9 @@ namespace BusinessLogicLayer.Services
                 answer.QuestionId = question.Id;
                 await _answerRepository.CreateAsync(answer, cancellationToken);
             }
+
+            game.Questions.Add(question);
+            await _gameRepository.UpdateAsync(game.Id, game, cancellationToken);
 
             return question.Id;
         }

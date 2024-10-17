@@ -24,9 +24,11 @@ import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group.tsx";
 
 interface DialogCreateQuestionProps {
     currentGameId: string;
+    isQuestionCreated: boolean;
+    setIsQuestionCreated: (arg: boolean) => void;
 }
 
-export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({currentGameId}) => {
+export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({currentGameId, setIsQuestionCreated, isQuestionCreated}) => {
     const {isAuthenticated, user} = useAuth();
     const navigate = useNavigate();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -89,6 +91,7 @@ export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({curre
             if (response.ok) {
                 toast({title: "Question Created", description: "The question was successfully created."});
                 setIsDialogOpen(false);
+                setIsQuestionCreated(!isQuestionCreated);
                 reset();
             } else {
                 toast({

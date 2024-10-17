@@ -82,6 +82,7 @@ namespace BusinessLogicLayer.Services
                 GameCoverImageUrl = game.GameCoverImageUrl,
                 IsPrivate = game.IsPrivate,
                 RoomPassword = game.RoomPassword,
+                Questions = game.Questions
             };
         }
 
