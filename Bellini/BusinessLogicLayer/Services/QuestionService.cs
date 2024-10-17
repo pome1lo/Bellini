@@ -79,5 +79,34 @@ namespace BusinessLogicLayer.Services
             var questions = await _questionRepository.GetElementsAsync(cancellationToken);
             return _mapper.Map<IEnumerable<QuestionDto>>(questions);
         }
+
+        public async Task DeleteQuestionAsync(int questionId, int gameId, CancellationToken cancellationToken = default)
+        {
+            var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+            if (game == null)
+            {
+                throw new NotFoundException("Game not found.");
+            }
+
+            var question = await _questionRepository.GetItemAsync(questionId, cancellationToken);
+            if (question == null || question.GameId != gameId)
+            {
+                throw new NotFoundException("Question not found or does not belong to the game.");
+            }
+
+            var answerOptions = await _answerRepository.GetElementsAsync(cancellationToken);
+            var answersToDelete = answerOptions.Where(a => a.QuestionId == questionId).ToList();
+
+            foreach (var answer in answersToDelete)
+            {
+                await _answerRepository.DeleteAsync(answer.Id, cancellationToken);
+            }
+
+            await _questionRepository.DeleteAsync(questionId, cancellationToken);
+
+            game.Questions.Remove(question);
+
+            await _gameRepository.UpdateAsync(game.Id, game, cancellationToken);
+        }
     }
 }

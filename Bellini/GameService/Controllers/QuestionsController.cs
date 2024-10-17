@@ -23,7 +23,7 @@ namespace GameService.Controllers
             return Ok(questionId);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetQuestionById(int id, CancellationToken cancellationToken)
         {
             var question = await _questionService.GetQuestionByIdAsync(id, cancellationToken);
@@ -37,11 +37,18 @@ namespace GameService.Controllers
             return Ok(questions);
         }
 
-        [HttpGet("game/{gameId}")]
+        [HttpGet("game/{gameId:int}")]
         public async Task<IActionResult> GetQuestionsByGameId(int gameId, CancellationToken cancellationToken)
         {
             var questions = await _questionService.GetQuestionsByGameIdAsync(gameId, cancellationToken);
             return Ok(questions);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteQuestionById(int id, [FromBody] int gameId, CancellationToken cancellationToken)
+        {
+            await _questionService.DeleteQuestionAsync(id, gameId, cancellationToken);
+            return Ok();
         }
     }
 }

@@ -63,6 +63,7 @@ export const GameRoomPage = () => {
     const [players, setPlayers] = useState<Player[]>([]);
     const [isUserJoined, setIsUserJoined] = useState(false);
     const [isQuestionCreated, setIsQuestionCreated] = useState(false);
+    const [isQuestionDeleted, setIsQuestionDeleted] = useState(false);
 
     const breadcrumbItems = [
         {path: '/', name: 'Home'},
@@ -86,7 +87,7 @@ export const GameRoomPage = () => {
             .catch(error => {
                 console.error('Error fetching game:', error.message);
             });
-    }, [id, isAuthenticated, user, navigate, isQuestionCreated]);
+    }, [id, isAuthenticated, user, navigate, isQuestionCreated, isQuestionDeleted]);
 
     useEffect(() => {
         if (!isAuthenticated || !user || !id) {
@@ -233,13 +234,37 @@ export const GameRoomPage = () => {
             // finally { }
         }
     }
-    const question = "What is the capital of France?";
-    const answers = [
-        { text: "Paris", isCorrect: true },
-        { text: "Berlin", isCorrect: false },
-        { text: "Madrid", isCorrect: false },
-        { text: "Rome", isCorrect: false },
-    ];
+
+    async function dtopQuestion(questionId : number) {
+        try {
+            if (!isAuthenticated || !user) {
+                navigate("/login");
+                return;
+            }
+            const response = await serverFetch(`/questions/${questionId}`, {
+                method: "DELETE",
+                headers: {"Content-Type": "application/json"},
+                body: currentGame?.id.toString(),
+            });
+
+            if (response.ok) {
+                setIsQuestionDeleted(!isQuestionDeleted);
+                toast({title: "Question Deleted", description: "The question was successfully deleted."});
+            } else {
+                const responseData = await response.json();
+                toast({
+                    title: "Error",
+                    description: responseData.message || "An error occurred.",
+                    variant: "destructive",
+                });
+            }
+        } catch (ex) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            toast({title: "Error", description: ex.message || "An unexpected error occurred.", variant: "destructive"});
+        }
+    }
+
     return (
         <>
             {
@@ -327,15 +352,30 @@ export const GameRoomPage = () => {
                                                     </CardDescription>
                                                 </CardHeader>
                                                 <CardContent>
-                                                    <ScrollArea className="h-[370px] p-4 border rounded-md">
-                                                        {currentGame.questions.map((item, index) => (
-                                                            <div key={index} className="mb-2">
-                                                                <GameQuestionItem
-                                                                    index={index + 1}
-                                                                    question={item.text}
-                                                                    answers={item.answerOptions} />
-                                                            </div>
-                                                        ))}
+                                                    <ScrollArea className="h-[220px] p-4 border rounded-md">
+                                                        {
+                                                            currentGame.questions.length == 0 ?
+                                                                <>
+                                                                    <div
+                                                                        className="h-[170px] flex items-center justify-center">
+                                                                        <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There
+                                                                            are no questions yet... 😪</h1>
+                                                                    </div>
+                                                                </>
+                                                                :
+                                                                <>
+                                                                    {currentGame.questions.map((item, index) => (
+                                                                        <div key={index} className="mb-2">
+                                                                        <GameQuestionItem
+                                                                            id={item.id}
+                                                                            index={index + 1}
+                                                                            dropItem={dtopQuestion}
+                                                                            question={item.text}
+                                                                            answers={item.answerOptions} />
+                                                                    </div>
+                                                                ))}
+                                                            </>
+                                                        }
                                                     </ScrollArea>
                                                 </CardContent>
                                                 <CardFooter>

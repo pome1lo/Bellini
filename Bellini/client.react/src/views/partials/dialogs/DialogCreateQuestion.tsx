@@ -74,7 +74,6 @@ export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({curre
     const answers = watch("answers") || [];
 
     const onSubmit = async (data: CreateQuestionFormData) => {
-        console.log(data);
         try {
             if (!isAuthenticated || !user) {
                 navigate("/login");
