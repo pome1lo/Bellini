@@ -1,6 +1,6 @@
 import './assets/styles/App.css'
 import { Route, Routes } from 'react-router-dom';
-import {BasicLayout} from "./layouts/BasicLayout.tsx";
+import {BasicLayout} from "@/utils/layouts/BasicLayout.tsx";
 import {MainPage} from "./views/pages/MainPage.tsx";
 import {ThemeProvider} from "@/components/theme-provider.tsx";
 import {LoginPage} from "@/views/pages/LoginPage.tsx";
@@ -21,6 +21,7 @@ import {AuthProvider} from "@/utils/context/authContext.tsx";
 import {GameRoomPage} from "@/views/pages/GameRoomPage.tsx";
 import {GameStartedPage} from "@/views/pages/GameStartedPage.tsx";
 import {StartedGameDto} from "@/utils/interfaces/StartedGame.ts";
+import {GameLayout} from "@/utils/layouts/GameLayout.tsx";
 
 function App() {
     const [gameStarted, setGameStarted] = useState(false);
@@ -52,6 +53,13 @@ function App() {
                             <Route path='profile/:id' element={<ProfilePage/>}/>
                             <Route path='games' element={<GameListPage/>}/>
 
+
+
+                            <Route element={<PrivateRoute/>}>
+
+                            </Route>
+                        </Route>
+                        <Route path='/' element={<GameLayout/>}>
                             <Route path='games/:id' element={
                                 !gameStarted ?
                                     <GameRoomPage onStart={handleStart} /> :
@@ -60,12 +68,8 @@ function App() {
                                     ) : (
                                         <div>Loading...</div>
                                     )
-                                }
+                            }
                             />
-
-                            <Route element={<PrivateRoute/>}>
-
-                            </Route>
                         </Route>
                         <Route path="500" element={<InternalServerErrorPage/>}/>
                         <Route path="404" element={<NotFoundPage/>}/>

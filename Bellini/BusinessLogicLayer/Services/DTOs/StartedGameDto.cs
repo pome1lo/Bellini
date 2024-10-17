@@ -20,7 +20,7 @@ namespace BusinessLogicLayer.Services.DTOs
             this.Questions = game.Questions;
             this.StartTime = game.StartTime;
             this.CreateTime = game.CreateTime;
-            this.GameCoverImageUrl = game.GameCoverImageUrl;
+            this.GameCoverImageUrl = game.GameCoverImageUrl;%
             this.MaxPlayers = game.MaxPlayers;
             this.GameName = game.GameName;
             this.HostId = game.HostId;
