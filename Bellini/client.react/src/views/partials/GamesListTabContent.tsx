@@ -12,9 +12,8 @@ export interface ActiveGame {
     hostId: number;
     startTime: Date;
     maxPlayers: number;
-    isActive: boolean;
-    difficultyLevel: string;
     gameCoverImageUrl: string;
+    isPrivate: boolean;
 }
 
 interface GamesListTabContentProps {
@@ -40,6 +39,7 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({ tabCon
                     setGames([]);
                 } else {
                     setGames(data.games);
+                    console.log(data)
                     setTotalPages(Math.ceil(data.total / itemsPerPage));
                 }
             } catch (error) {

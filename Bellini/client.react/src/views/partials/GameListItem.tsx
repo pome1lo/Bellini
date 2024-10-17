@@ -19,12 +19,10 @@ import React from "react";
 export const GameListItem: React.FC<ActiveGame> = ({
                                                        id,
                                                        gameName,
-                                                       hostId,
                                                        startTime,
                                                        maxPlayers,
-                                                       isActive,
-                                                       difficultyLevel,
-                                                       gameCoverImageUrl
+                                                       gameCoverImageUrl,
+                                                       isPrivate
                                                    }) => {
     const {user, isAuthenticated} = useAuth();
     const navigate = useNavigate();
@@ -65,7 +63,7 @@ export const GameListItem: React.FC<ActiveGame> = ({
                     {gameName}
                 </TableCell>
                 <TableCell>
-                    <Badge variant="outline">Draft</Badge>
+                    <Badge variant="outline">{isPrivate ? "private" : "public"}</Badge>
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
                     $499.99

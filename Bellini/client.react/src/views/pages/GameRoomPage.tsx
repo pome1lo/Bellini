@@ -11,13 +11,9 @@ import {Button} from "@/components/ui/button.tsx";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
 import {DialogCreateQuestion} from "@/views/partials/dialogs/DialogCreateQuestion.tsx";
-import {CirclePlay, DollarSign, FileType, TrendingUp, Users} from "lucide-react";
+import {CirclePlay, FileType, TrendingUp, Users} from "lucide-react";
 import {Badge} from "@/components/ui/badge";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
-import { Popover, PopoverContent } from "@/components/ui/popover";
-import {PopoverTrigger} from "@/components/ui/popover.tsx";
-import {Label} from "@/components/ui/label.tsx";
-import {Input} from "@/components/ui/input.tsx";
 import {GameQuestionItem} from "@/views/partials/GameQuestionItem.tsx";
 
 interface CurrentGame {
@@ -154,19 +150,26 @@ export const GameRoomPage = () => {
     async function connect() {
         if (!connection || isUserJoined) return;
 
-        try {
-            await connection.invoke("JoinGame", {
-                GameId: id.toString(),
-                UserId: user.id.toString(),
-                Username: user.username,
-                Email: user.email,
-                ProfileImageUrl: user.profileImageUrl
-            });
+        if (currentGame?.maxPlayers > players.length) {
+            try {
+                await connection.invoke("JoinGame", {
+                    GameId: id.toString(),
+                    UserId: user.id.toString(),
+                    Username: user.username,
+                    Email: user.email,
+                    ProfileImageUrl: user.profileImageUrl
+                });
 
-            setIsUserJoined(true);
-            toast({title: "You have successfully joined the game!"});
-        } catch (error) {
-            console.error('Error joining game:', error);
+                setIsUserJoined(true);
+                toast({title: "You have successfully joined the game!"});
+            } catch (error) {
+                console.error('Error joining game:', error);
+            }
+        } else {
+            toast({
+                title: "Something went wrong", variant: "destructive",
+                description: "The room is full. Try to connect later.",
+            });
         }
     }
 
@@ -216,6 +219,12 @@ export const GameRoomPage = () => {
 
                 if (response.ok) {
                     toast({title: "Game Created", description: "The game was successfully created."});
+                } else if (responseData.ErrorCode == "NotFoundGameQuestionsException") {
+                    toast({
+                        title: "Error",
+                        description: responseData.Message || "An error occurred.",
+                        variant: "destructive"
+                    });
                 } else {
                     toast({
                         title: "Error",
@@ -235,7 +244,7 @@ export const GameRoomPage = () => {
         }
     }
 
-    async function dtopQuestion(questionId : number) {
+    async function dtopQuestion(questionId: number) {
         try {
             if (!isAuthenticated || !user) {
                 navigate("/login");
@@ -285,7 +294,7 @@ export const GameRoomPage = () => {
                                 </div>
                             </div>
                             :
-                            <span>USER</span>
+                            <span className="bg-red-700">USER</span>
                         }
 
 
@@ -366,15 +375,15 @@ export const GameRoomPage = () => {
                                                                 <>
                                                                     {currentGame.questions.map((item, index) => (
                                                                         <div key={index} className="mb-2">
-                                                                        <GameQuestionItem
-                                                                            id={item.id}
-                                                                            index={index + 1}
-                                                                            dropItem={dtopQuestion}
-                                                                            question={item.text}
-                                                                            answers={item.answerOptions} />
-                                                                    </div>
-                                                                ))}
-                                                            </>
+                                                                            <GameQuestionItem
+                                                                                id={item.id}
+                                                                                index={index + 1}
+                                                                                dropItem={dtopQuestion}
+                                                                                question={item.text}
+                                                                                answers={item.answerOptions}/>
+                                                                        </div>
+                                                                    ))}
+                                                                </>
                                                         }
                                                     </ScrollArea>
                                                 </CardContent>

@@ -35,32 +35,37 @@ namespace GlobalExceptionHandlerLibrary
                 if (ex is IncorrectNumberOfAnswersException)
                 {
                     statusCode = HttpStatusCode.BadRequest;
-                    errorCode = "BadRequest";
+                    errorCode = "IncorrectNumberOfAnswersException";
+                }
+                if (ex is NotFoundGameQuestionsException)
+                {
+                    statusCode = HttpStatusCode.BadRequest;
+                    errorCode = "NotFoundGameQuestionsException";
                 }
                 else if (ex is ArgumentException)
                 {
                     statusCode = HttpStatusCode.BadRequest;
-                    errorCode = "BadRequest";
+                    errorCode = "ArgumentException";
                 }
                 else if (ex is NotFoundException)
                 {
                     statusCode = HttpStatusCode.NotFound;
-                    errorCode = "NotFound";
+                    errorCode = "NotFoundException";
                 }
                 else if (ex is RepeatingNameException)
                 {
                     statusCode = HttpStatusCode.Conflict;
-                    errorCode = "RepeatingName";
+                    errorCode = "RepeatingNameException";
                 }
                 else if (ex is UnauthorizedAccessException)
                 {
                     statusCode = HttpStatusCode.Unauthorized;
-                    errorCode = "Unauthorized";
+                    errorCode = "UnauthorizedAccessException";
                 }
                 else if (ex is SecurityTokenException)
                 {
                     statusCode = HttpStatusCode.Unauthorized;
-                    errorCode = "Unauthorized";
+                    errorCode = "SecurityTokenException";
                 }
                 else if (ex is ValidationException)
                 {
@@ -70,7 +75,7 @@ namespace GlobalExceptionHandlerLibrary
                 else if (ex is NoContentException)
                 {
                     statusCode = HttpStatusCode.NoContent;
-                    errorCode = "NoContent";
+                    errorCode = "NoContentException";
                 }
 
                 context.Response.StatusCode = (int)statusCode;

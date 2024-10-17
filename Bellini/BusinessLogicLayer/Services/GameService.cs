@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Exceptions;
+using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Hubs;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
@@ -166,6 +167,11 @@ namespace BusinessLogicLayer.Services
                 throw new NotFoundException($"Game with ID {gameId} not found.");
             }
 
+            if (game.Questions == null || !game.Questions.Any())
+            {
+                throw new NotFoundGameQuestionsException("Cannot start a game without any questions.");
+            }
+
             var gameStatus = await _gameStatusRepository.GetElementsAsync(cancellationToken);
             var inProcessingStatus = gameStatus.FirstOrDefault(s => s.Name.Equals("In process", StringComparison.OrdinalIgnoreCase));
 
@@ -173,6 +179,8 @@ namespace BusinessLogicLayer.Services
             {
                 throw new InvalidOperationException("No status found for StatusName 'Not started'");
             }
+
+            // извлечь из redis игроков и добавить в бд
 
             game.Players = startGameDto.Players;
             game.GameStatusId = inProcessingStatus.Id;
