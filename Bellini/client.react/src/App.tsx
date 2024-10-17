@@ -20,13 +20,16 @@ import {Toaster} from "@/components/ui/toaster.tsx";
 import {AuthProvider} from "@/utils/context/authContext.tsx";
 import {GameRoomPage} from "@/views/pages/GameRoomPage.tsx";
 import {GameStartedPage} from "@/views/pages/GameStartedPage.tsx";
+import {StartedGameDto} from "@/utils/interfaces/StartedGame.ts";
 
 function App() {
     const [gameStarted, setGameStarted] = useState(false);
+    const [currentStartedGame, setCurrentStartedGame] = useState<StartedGameDto>();
 
     useEffect(() => AOS.init , []);
 
-    const handleStart = () => {
+    const handleStart = (game: StartedGameDto) => {
+        setCurrentStartedGame(game);
         setGameStarted(true);
     };
 
@@ -49,7 +52,16 @@ function App() {
                             <Route path='profile/:id' element={<ProfilePage/>}/>
                             <Route path='games' element={<GameListPage/>}/>
 
-                            <Route path='games/:id' element={!gameStarted ? <GameRoomPage onStart={handleStart} /> : <GameStartedPage />} />
+                            <Route path='games/:id' element={
+                                !gameStarted ?
+                                    <GameRoomPage onStart={handleStart} /> :
+                                    currentStartedGame ? (
+                                        <GameStartedPage currentGame={currentStartedGame} />
+                                    ) : (
+                                        <div>Loading...</div>
+                                    )
+                                }
+                            />
 
                             <Route element={<PrivateRoute/>}>
 

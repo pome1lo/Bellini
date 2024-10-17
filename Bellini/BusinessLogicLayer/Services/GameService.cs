@@ -8,6 +8,8 @@ using DataAccess.Models;
 using DataAccessLayer.Models;
 using DataAccessLayer.Utils;
 using Microsoft.AspNetCore.SignalR;
+using StackExchange.Redis;
+using System.Text.Json;
 
 namespace BusinessLogicLayer.Services
 {
@@ -18,19 +20,22 @@ namespace BusinessLogicLayer.Services
         private readonly IRepository<Comment> _commentRepository;
         private readonly IRepository<GameStatus> _gameStatusRepository;
         private readonly IHubContext<GameHub> _gameHub;
+        private readonly IConnectionMultiplexer _redis;
 
         public GameService(
             IRepository<Game> gameRepository,
             IRepository<Player> playerRepository,
             IRepository<Comment> commentRepository,
             IRepository<GameStatus> gameStatusRepository,
-            IHubContext<GameHub> gameHub)
+            IHubContext<GameHub> gameHub,
+            IConnectionMultiplexer redis)
         {
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
             _commentRepository = commentRepository;
             _gameStatusRepository = gameStatusRepository;
             _gameHub = gameHub;
+            _redis = redis;
         }
 
         public async Task<int> CreateGameRoomAsync(CreateGameRoomDto createGameRoomDto, CancellationToken cancellationToken = default)
@@ -53,7 +58,8 @@ namespace BusinessLogicLayer.Services
                 HostId = createGameRoomDto.HostId,
                 MaxPlayers = createGameRoomDto.MaxPlayers,
                 GameCoverImageUrl = randomCoverUrl,
-                GameStatusId = notStartedStatus.Id
+                GameStatusId = notStartedStatus.Id,
+                CreateTime = DateTime.Now,
             };
 
             await _gameRepository.CreateAsync(game, cancellationToken);
@@ -180,15 +186,24 @@ namespace BusinessLogicLayer.Services
                 throw new InvalidOperationException("No status found for StatusName 'Not started'");
             }
 
-            // извлечь из redis игроков и добавить в бд
+            var db = _redis.GetDatabase();
+            string gameKey = $"game:{gameId}:players";
+            var playersInGame = await db.ListRangeAsync(gameKey);
+            var playerList = playersInGame.Select(p => JsonSerializer.Deserialize<PlayerDto>(p)).ToList();
 
-            game.Players = startGameDto.Players;
+            game.Players = playerList.Select(p => new Player
+            {
+                UserId = int.Parse(p.UserId),
+                Name = p.Username,
+                GameId = p.GameId,
+            }).ToList();
+
             game.GameStatusId = inProcessingStatus.Id;
             game.StartTime = DateTime.Now;
 
             await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
 
-            return new StartedGameDto();
+            return new StartedGameDto(game);
         }
     }
 }
