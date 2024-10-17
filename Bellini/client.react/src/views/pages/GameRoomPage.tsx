@@ -1,7 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {HubConnectionBuilder} from "@microsoft/signalr";
 import {useAuth} from "@/utils/context/authContext.tsx";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import * as signalR from "@microsoft/signalr";
 import {toast} from "@/components/ui/use-toast.ts";
 import {DialogShareButton} from "@/views/partials/dialogs/DialogShareButton.tsx";
@@ -49,7 +49,11 @@ interface Player {
     profileImageUrl: string;
 }
 
-export const GameRoomPage = () => {
+interface GameRoomPageProps {
+    onStart: () => void;
+}
+
+export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart}) => {
     const {id} = useParams();
     const navigate = useNavigate();
     const {isAuthenticated, user} = useAuth();
@@ -185,7 +189,6 @@ export const GameRoomPage = () => {
             } finally {
                 await connection.stop();
                 setPlayers([]);
-                navigate('/games');
             }
         }
     }
@@ -218,7 +221,7 @@ export const GameRoomPage = () => {
                 const responseData = await response.json();
 
                 if (response.ok) {
-                    toast({title: "Game Created", description: "The game was successfully created."});
+                    onStart();
                 } else if (responseData.ErrorCode == "NotFoundGameQuestionsException") {
                     toast({
                         title: "Error",

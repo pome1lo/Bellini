@@ -1,4 +1,3 @@
-import {JoinGameButton} from "@/views/partials/JoinGameButton.tsx";
 import {TableCell, TableRow} from "@/components/ui/table.tsx";
 import {Badge} from "@/components/ui/badge.tsx";
 import {
@@ -32,7 +31,7 @@ export const GameListItem: React.FC<ActiveGame> = ({
             if (!isAuthenticated || !user) {
                 navigate('/login');
             } else {
-                navigate(`/games/rooms/${id}`);
+                navigate(`/games/${id}`);
             }
         } catch (error) {
             console.error('Connection failed: ', error);

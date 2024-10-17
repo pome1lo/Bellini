@@ -14,14 +14,21 @@ import {AboutPage} from "@/views/pages/AboutPage.tsx";
 import {ProfilePage} from "@/views/pages/ProfilePage.tsx";
 import {SupportPage} from "@/views/pages/SupportPage.tsx";
 import {GameListPage} from "@/views/pages/GameListPage.tsx";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import AOS from 'aos';
 import {Toaster} from "@/components/ui/toaster.tsx";
 import {AuthProvider} from "@/utils/context/authContext.tsx";
 import {GameRoomPage} from "@/views/pages/GameRoomPage.tsx";
+import {GameStartedPage} from "@/views/pages/GameStartedPage.tsx";
 
 function App() {
+    const [gameStarted, setGameStarted] = useState(false);
+
     useEffect(() => AOS.init , []);
+
+    const handleStart = () => {
+        setGameStarted(true);
+    };
 
     return (
         <>
@@ -42,7 +49,7 @@ function App() {
                             <Route path='profile/:id' element={<ProfilePage/>}/>
                             <Route path='games' element={<GameListPage/>}/>
 
-                            <Route path='games/rooms/:id' element={<GameRoomPage/>}/>
+                            <Route path='games/:id' element={!gameStarted ? <GameRoomPage onStart={handleStart} /> : <GameStartedPage />} />
 
                             <Route element={<PrivateRoute/>}>
 
