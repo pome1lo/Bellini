@@ -20,6 +20,25 @@ namespace BusinessLogicLayer.Hubs
             await Clients.Group(gameId).SendAsync("NextQuestion", nextQuestionIndex);
         }
 
+        public async Task SubmitAnswers(string gameId, string userId, List<AnswerSubmitedDto> answers)
+        {
+            try
+            {
+                var db = _redis.GetDatabase();
+                string answersKey = $"running:game:{gameId}:answers:{userId}";
+
+                var serializedAnswers = JsonSerializer.Serialize(answers);
+                await db.StringSetAsync(answersKey, serializedAnswers);
+
+                Console.WriteLine($"Answers saved for user {userId} in game {gameId}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in SubmitAnswers: {ex.Message}");
+                throw;
+            }
+        }
+
         public async Task EndGame(string gameId)
         {
             await Clients.Group(gameId).SendAsync("GameEnded");

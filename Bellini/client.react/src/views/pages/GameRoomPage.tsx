@@ -15,7 +15,7 @@ import {CirclePlay, FileType, TrendingUp, Users} from "lucide-react";
 import {Badge} from "@/components/ui/badge";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {GameQuestionItem} from "@/views/partials/GameQuestionItem.tsx";
-import {StartedGameDto} from "@/utils/interfaces/StartedGame.ts";
+import {StartedGame} from "@/utils/interfaces/StartedGame.ts";
 
 interface CurrentGame {
     id: number;
@@ -51,7 +51,7 @@ interface Player {
 }
 
 interface GameRoomPageProps {
-    onStart: (game: StartedGameDto) => void;
+    onStart: (game: StartedGame) => void;
 }
 
 export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart}) => {
@@ -114,7 +114,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart}) => {
             console.log('A player has left the game');
         });
 
-        newConnection.on('GameStarted', (gameStarted: StartedGameDto) => {
+        newConnection.on('GameStarted', (gameStarted: StartedGame) => {
             if(gameStarted.hostId == gameStarted.hostId) {
                 onStart(gameStarted);
             }
@@ -234,7 +234,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart}) => {
                         hostId: user.id,
                     }),
                 });
-                const responseData : StartedGameDto = await response.json();
+                const responseData : StartedGame = await response.json();
                 if (response.ok) {
                     onStart(responseData);
                 } else if (responseData.ErrorCode == "NotFoundGameQuestionsException") {

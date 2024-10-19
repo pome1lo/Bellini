@@ -20,18 +20,28 @@ import {Toaster} from "@/components/ui/toaster.tsx";
 import {AuthProvider} from "@/utils/context/authContext.tsx";
 import {GameRoomPage} from "@/views/pages/GameRoomPage.tsx";
 import {GameStartedPage} from "@/views/pages/GameStartedPage.tsx";
-import {StartedGameDto} from "@/utils/interfaces/StartedGame.ts";
+import {StartedGame} from "@/utils/interfaces/StartedGame.ts";
 import {GameLayout} from "@/utils/layouts/GameLayout.tsx";
+import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
+import {GameFinishedPage} from "@/views/pages/GameFinishedPage.tsx";
 
 function App() {
     const [gameStarted, setGameStarted] = useState(false);
-    const [currentStartedGame, setCurrentStartedGame] = useState<StartedGameDto>();
+    const [gameFinished, setGameFinished] = useState(false);
+    const [currentStartedGame, setCurrentStartedGame] = useState<StartedGame>();
+    const [currentFinishedGame, setCurrentFinishedGame] = useState<FinishedGame>();
 
     useEffect(() => AOS.init , []);
 
-    const handleStart = (game: StartedGameDto) => {
+    const handleStart = (game: StartedGame) => {
         setCurrentStartedGame(game);
         setGameStarted(true);
+    };
+
+    const handleFinish = (game: FinishedGame) => {
+        setCurrentFinishedGame(game);
+        setGameFinished(true);
+        setGameStarted(false);
     };
 
     return (
@@ -42,16 +52,12 @@ function App() {
                     <Routes>
                         <Route path='/' element={<BasicLayout/>}>
                             <Route index element={<MainPage/>}/>
-
                             <Route path='settings' element={<SettingsPage/>}/>
                             <Route path='contacts' element={<ContactsPage/>}/>
                             <Route path='about' element={<AboutPage/>}/>
                             <Route path='support' element={<SupportPage/>}/>
-
                             <Route path='profile/:id' element={<ProfilePage/>}/>
                             <Route path='games' element={<GameListPage/>}/>
-
-
 
                             <Route element={<PrivateRoute/>}>
 
@@ -61,13 +67,21 @@ function App() {
                             <Route path='login' element={<LoginPage/>}/>
                             <Route path='register' element={<RegisterPage/>}/>
                             <Route path='games/:id' element={
-                                !gameStarted ?
-                                    <GameRoomPage onStart={handleStart} /> :
-                                    currentStartedGame ? (
-                                        <GameStartedPage currentGame={currentStartedGame} />
+                                gameFinished ? (
+                                    currentFinishedGame ? (
+                                        <GameFinishedPage currentGame={currentFinishedGame} />
                                     ) : (
-                                        <div>Loading...</div>
+                                        <div>Loading...</div>  //todo add Skeleton
                                     )
+                                ) : gameStarted ? (
+                                    currentStartedGame ? (
+                                        <GameStartedPage currentGame={currentStartedGame} onFinish={handleFinish} />
+                                    ) : (
+                                        <div>Loading...</div>  //todo add Skeleton
+                                    )
+                                ) : (
+                                    <GameRoomPage onStart={handleStart} />
+                                )
                             }
                             />
                         </Route>

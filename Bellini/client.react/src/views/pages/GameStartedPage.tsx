@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {StartedGameDto} from "@/utils/interfaces/StartedGame.ts";
+import {StartedGame} from "@/utils/interfaces/StartedGame.ts";
 import {Button} from "@/components/ui/button";
 import {Card, CardHeader, CardTitle, CardContent} from "@/components/ui/card";
 import {useAuth} from "@/utils/context/authContext.tsx";
@@ -7,13 +7,15 @@ import {Progress} from "@/components/ui/progress";
 import {HubConnectionBuilder} from "@microsoft/signalr";
 import * as signalR from "@microsoft/signalr";
 import {Player} from "@/utils/interfaces/Player.ts";
-import {Badge} from "@/components/ui/badge.tsx";
+import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
+import {GameFinishedPage} from "@/views/pages/GameFinishedPage.tsx";
 
 interface GameStartedPageProps {
-    currentGame?: StartedGameDto;
+    currentGame?: StartedGame;
+    onFinish: (game: FinishedGame) => void;
 }
 
-export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame}) => {
+export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, onFinish}) => {
     const [connection, setConnection] = useState<any>(null);
     const [countdown, setCountdown] = useState(3);
     const [showQuestion, setShowQuestion] = useState(false);
@@ -45,6 +47,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame}) =
         }
     }, [countdown]);
 
+
     useEffect(() => {
         if (connection) {
             connection.start().then(() => {
@@ -59,6 +62,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame}) =
                     });
 
                 connection.on("NextQuestion", (nextQuestionIndex: number) => {
+                    handleSubmitAnswers();
                     setCurrentQuestionIndex(nextQuestionIndex);
                     setSelectedAnswer(null);
                     setFadeIn(true);
@@ -66,7 +70,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame}) =
 
                 connection.on("GameEnded", () => {
                     alert("The game has ended.");
-                    // Логика завершения игры на клиенте
+                    onFinish({});
                 });
 
                 connection.on("PlayersList", (playerList: Player[]) => {
@@ -89,6 +93,19 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame}) =
         }
     }, [connection]);
 
+    const handleSubmitAnswers = async () => {
+        console.log(currentGame?.id.toString() + "\n" + user.id + "\n" + userAnswers);
+        if (connection && connection.state === "Connected   " && userAnswers.length > 0) {
+            try {
+                await connection.invoke("SubmitAnswers", currentGame?.id.toString(), user.id, userAnswers);
+            } catch (error) {
+                console.error("Error submitting answers:", error);
+            }
+        } else {
+            console.warn("Cannot send data, connection is not established");
+        }
+    };
+
     const handleAnswerSelect = (index: number) => {
         if (selectedAnswer === null) {
             setSelectedAnswer(index);
@@ -105,9 +122,10 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame}) =
     const handleNextQuestion = async () => {
         if (connection && connection.state === "Connected") {
             try {
+                await connection.invoke("SubmitAnswers", currentGame?.id.toString(), user.id, userAnswers);
                 await connection.invoke("NextQuestion", currentGame?.id.toString(), currentQuestionIndex + 1);
             } catch (error) {
-                console.error("Error invoking NextQuestion:", error);
+                console.error("Error invoking NextQuestion or SubmitAnswers:", error);
             }
         } else {
             console.warn("Cannot send data, connection is not established");
@@ -115,9 +133,12 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame}) =
                 try {
                     await connection.start();
                     console.log("Reconnected to the server");
+
+                    // Отправка ответов и переход к следующему вопросу
+                    await connection.invoke("SubmitAnswers", currentGame!.id.toString(), user.id, userAnswers);
                     await connection.invoke("NextQuestion", currentGame!.id, currentQuestionIndex + 1);
                 } catch (error) {
-                    console.error("Failed to reconnect and send NextQuestion:", error);
+                    console.error("Failed to reconnect and send NextQuestion or SubmitAnswers:", error);
                 }
             }
         }
@@ -125,7 +146,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame}) =
 
     const handleEndGame = () => {
         if (connection) {
-            connection.invoke("EndGame", currentGame!.id);
+            connection.invoke("EndGame", currentGame!.id.toString());
         }
     };
 
@@ -137,20 +158,25 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame}) =
             {currentGame ? (
                 <>
                     {!showQuestion ? (
-                        <div className="flex justify-center items-center h-screen">
+                        <div className="flex justify-center items-center h-[80vh]">
                             <h1 className="animate-pulse text-[35rem] text-roboto">{countdown}</h1>
                         </div>
                     ) : (
                         <div className="flex flex-col items-center justify-center h-[80vh] space-y-6">
-                            <div className="absolute flex flex-wrap justify-center items-center top-20 sm:w-1/2 w-[250px]">
+                            <div
+                                className="absolute flex flex-wrap justify-center items-center top-20 sm:w-1/2 w-[250px]">
                                 <Progress value={progressValue} className="h-2 mb-5"/>
                                 {currentQuestionIndex + 1} / {currentGame.questions.length}
-                                {currentGame.hostId == user.id && currentQuestionIndex < currentGame.questions.length - 1 ? (
+                                {currentGame.hostId == user.id ? (
                                     <div className="flex">
-                                        <Button variant="default" className="ms-5 me-5" size="sm" onClick={handleNextQuestion}>
-                                            Next question
-                                        </Button>
-                                        <Button variant="destructive" size="sm" onClick={handleEndGame}>
+                                        {currentQuestionIndex < currentGame.questions.length - 1 ?
+                                            <Button variant="default" className="ms-5" size="sm"
+                                                    onClick={handleNextQuestion}>
+                                                Next question
+                                            </Button> : null
+                                        }
+
+                                        <Button variant="destructive" className="ms-5" size="sm" onClick={handleEndGame}>
                                             End Game
                                         </Button>
                                     </div>
