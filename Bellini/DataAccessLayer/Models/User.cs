@@ -15,5 +15,6 @@ namespace DataAccess.Models
         public string? LastName { get; set; } = null!;
         public DateTime? DateOfBirth { get; set; }
         public string? ProfileImageUrl { get; set; }
+        public List<QuizResults> QuizResults { get; set; } = null!;
     }
 }
