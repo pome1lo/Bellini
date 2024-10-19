@@ -203,7 +203,11 @@ namespace BusinessLogicLayer.Services
 
             await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
 
-            return new StartedGameDto(game);
+            var result = new StartedGameDto(game);
+
+            await _gameHub.Clients.All.SendAsync("GameStarted", result, cancellationToken);
+
+            return result;
         }
     }
 }

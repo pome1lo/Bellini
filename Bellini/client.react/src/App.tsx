@@ -42,8 +42,6 @@ function App() {
                     <Routes>
                         <Route path='/' element={<BasicLayout/>}>
                             <Route index element={<MainPage/>}/>
-                            <Route path='login' element={<LoginPage/>}/>
-                            <Route path='register' element={<RegisterPage/>}/>
 
                             <Route path='settings' element={<SettingsPage/>}/>
                             <Route path='contacts' element={<ContactsPage/>}/>
@@ -60,6 +58,8 @@ function App() {
                             </Route>
                         </Route>
                         <Route path='/' element={<GameLayout/>}>
+                            <Route path='login' element={<LoginPage/>}/>
+                            <Route path='register' element={<RegisterPage/>}/>
                             <Route path='games/:id' element={
                                 !gameStarted ?
                                     <GameRoomPage onStart={handleStart} /> :

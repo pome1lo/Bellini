@@ -114,6 +114,12 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart}) => {
             console.log('A player has left the game');
         });
 
+        newConnection.on('GameStarted', (gameStarted: StartedGameDto) => {
+            if(gameStarted.hostId == gameStarted.hostId) {
+                onStart(gameStarted);
+            }
+        });
+
         newConnection.start()
             .then(() => {
                 console.log('Connected to SignalR');
@@ -164,7 +170,11 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart}) => {
                     Email: user.email,
                     ProfileImageUrl: user.profileImageUrl
                 });
-
+                connection.invoke("GetPlayers", id.toString())
+                    .then((playerList: Player[]) => {
+                            setPlayers(playerList);
+                        }
+                    );
                 setIsUserJoined(true);
                 toast({title: "You have successfully joined the game!"});
             } catch (error) {
@@ -183,13 +193,18 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart}) => {
             try {
                 if (connection.state === signalR.HubConnectionState.Connected) {
                     await connection.invoke("LeaveGame", id.toString(), user.id.toString());
+                    setIsUserJoined(false);
                     toast({title: "You have left the game."});
+
                 }
             } catch (error) {
                 console.error('Error while disconnecting:', error);
             } finally {
-                await connection.stop();
-                setPlayers([]);
+                connection.invoke("GetPlayers", id.toString())
+                    .then((playerList: Player[]) => {
+                        setPlayers(playerList);
+                    }
+                );
             }
         }
     }
@@ -247,7 +262,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart}) => {
         }
     }
 
-    async function dtopQuestion(questionId: number) {
+    async function dropQuestion(questionId: number) {
         try {
             if (!isAuthenticated || !user) {
                 navigate("/login");
@@ -381,7 +396,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart}) => {
                                                                             <GameQuestionItem
                                                                                 id={item.id}
                                                                                 index={index + 1}
-                                                                                dropItem={dtopQuestion}
+                                                                                dropItem={dropQuestion}
                                                                                 question={item.text}
                                                                                 answers={item.answerOptions}/>
                                                                         </div>

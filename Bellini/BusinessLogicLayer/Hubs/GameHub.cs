@@ -11,8 +11,39 @@ namespace BusinessLogicLayer.Hubs
 
         public GameHub(IConnectionMultiplexer redis)
         {
-         
+
             _redis = redis;
+        }
+
+        public async Task NextQuestion(string gameId, int nextQuestionIndex)
+        {
+            await Clients.Group(gameId).SendAsync("NextQuestion", nextQuestionIndex);
+        }
+
+        public async Task EndGame(string gameId)
+        {
+            await Clients.Group(gameId).SendAsync("GameEnded");
+        }
+
+        public async Task JoinRunningGame(string gameId)
+        {
+            try
+            {
+                var db = _redis.GetDatabase();
+                string gameKey = $"running:game:{gameId}:players";
+
+                var playersInGame = await db.ListRangeAsync(gameKey);
+                var playerList = playersInGame.Select(p => JsonSerializer.Deserialize<PlayerDto>(p)).ToList();
+
+                await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
+
+                await Clients.Caller.SendAsync("PlayersList", playerList);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in JoinRunningGame: {ex.Message}");
+                throw;
+            }
         }
 
         public async Task JoinGame(JoinGameDto joinGameDto)
