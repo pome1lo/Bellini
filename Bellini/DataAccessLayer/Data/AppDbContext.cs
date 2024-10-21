@@ -47,79 +47,50 @@ namespace DataAccess.Data
 
 
 
-            var defaultQuiz = new Quiz
+            var defaultQuizzes = new List<Quiz>
             {
-                Id = 1,
-                GameName = "Мифология Древней Греции",
-                GameCoverImageUrl = "https://i.pinimg.com/originals/b3/7e/4f/b37e4fd167bd9e14558dd14301ec6487.jpg",
-                StartTime = DateTime.MinValue,
-                EndTime = DateTime.MinValue,
+                new Quiz
+                {
+                    Id = 1,
+                    GameName = "Мифология Древней Греции",
+                    GameCoverImageUrl = "https://i.pinimg.com/originals/b3/7e/4f/b37e4fd167bd9e14558dd14301ec6487.jpg",
+                    StartTime = DateTime.MinValue,
+                    EndTime = DateTime.MinValue,
+                },
+                new Quiz
+                {
+                    Id = 2,
+                    GameName = "Древний Рим",
+                    GameCoverImageUrl = "https://i.pinimg.com/originals/b3/7e/4f/b37e4fd167bd9e14558dd14301ec6487.jpg",
+                    StartTime = DateTime.MinValue,
+                    EndTime = DateTime.MinValue
+                }
             };
 
-            modelBuilder.Entity<Quiz>().HasData(defaultQuiz);
+            modelBuilder.Entity<Quiz>().HasData(defaultQuizzes);
 
             var questions = new List<QuizQuestion>
             {
-                new QuizQuestion
-                {
-                    Id = 1,
-                    Text = "Кто был верховным богом в греческой мифологии?",
-                    QuizId = 1,
-                },
-                new QuizQuestion
-                {
-                    Id = 2,
-                    Text = "Какой бог был покровителем кузнецов и огня?",
-                    QuizId = 1,
-                },
-                new QuizQuestion
-                {
-                    Id = 3,
-                    Text = "Кто был богом моря?",
-                    QuizId = 1,
-                },
-                new QuizQuestion
-                {
-                    Id = 4,
-                    Text = "Кто был богиней мудрости?",
-                    QuizId = 1,
-                },
-                new QuizQuestion
-                {
-                    Id = 5,
-                    Text = "Кто был богом войны?",
-                    QuizId = 1,
-                },
-                new QuizQuestion
-                {
-                    Id = 6,
-                    Text = "Кто был богиней охоты?",
-                    QuizId = 1,
-                },
-                new QuizQuestion
-                {
-                    Id = 7,
-                    Text = "Кто был вестником богов?",
-                    QuizId = 1,
-                },
-                new QuizQuestion
-                {
-                    Id = 8,
-                    Text = "Кто был богом солнца?",
-                    QuizId = 1,
-                },
-                new QuizQuestion
-                {
-                    Id = 9,
-                    Text = "Кто был богиней любви и красоты?",
-                    QuizId = 1,
-                },
-                new QuizQuestion
-                {
-                    Id = 10,
-                    Text = "Кто был титаном, держащим небо на своих плечах?",
-                    QuizId = 1,
-                }
+                new QuizQuestion { Id = 1,  Text = "Кто был верховным богом в греческой мифологии?", QuizId = 1, },
+                new QuizQuestion { Id = 2,  Text = "Какой бог был покровителем кузнецов и огня?", QuizId = 1,},
+                new QuizQuestion { Id = 3,  Text = "Кто был богом моря?", QuizId = 1, },
+                new QuizQuestion { Id = 4,  Text = "Кто был богиней мудрости?",QuizId = 1,},
+                new QuizQuestion { Id = 5,  Text = "Кто был богом войны?",QuizId = 1,},
+                new QuizQuestion { Id = 6,  Text = "Кто был богиней охоты?",QuizId = 1,},
+                new QuizQuestion { Id = 7,  Text = "Кто был вестником богов?",QuizId = 1,},
+                new QuizQuestion { Id = 8,  Text = "Кто был богом солнца?",QuizId = 1,                },
+                new QuizQuestion { Id = 9,  Text = "Кто был богиней любви и красоты?",QuizId = 1,},
+                new QuizQuestion { Id = 10, Text = "Кто был титаном, держащим небо на своих плечах?",QuizId = 1,},
+                new QuizQuestion { Id = 11, Text = "Кто был основателем Рима?", QuizId = 2 },
+                new QuizQuestion { Id = 12, Text = "Какой был последний император Рима?", QuizId = 2 },
+                new QuizQuestion { Id = 13, Text = "Какой бог был покровителем Рима?", QuizId = 2 },
+                new QuizQuestion { Id = 14, Text = "Какой праздник был посвящен славе императоров?", QuizId = 2 },
+                new QuizQuestion { Id = 15, Text = "Кто был великим полководцем Рима?", QuizId = 2 },
+                new QuizQuestion { Id = 16, Text = "Какое здание является символом Рима?", QuizId = 2 },
+                new QuizQuestion { Id = 17, Text = "Какой язык был официальным в Риме?", QuizId = 2 },
+                new QuizQuestion { Id = 18, Text = "Какое искусство было популярно в Риме?", QuizId = 2 },
+                new QuizQuestion { Id = 19, Text = "Какой строй был установлен в Риме?", QuizId = 2 },
+                new QuizQuestion { Id = 20, Text = "Какой век считается временем расцвета Рима?", QuizId = 2 }
             };
 
             modelBuilder.Entity<QuizQuestion>().HasData(questions);
@@ -184,7 +155,67 @@ namespace DataAccess.Data
                 new QuizAnswerOption { Id = 37, Text = "Кронос", IsCorrect = false, QuizQuestionId = 10 },
                 new QuizAnswerOption { Id = 38, Text = "Гиперион", IsCorrect = false, QuizQuestionId = 10 },
                 new QuizAnswerOption { Id = 39, Text = "Атлас", IsCorrect = true, QuizQuestionId = 10 },
-                new QuizAnswerOption { Id = 40, Text = "Гигант", IsCorrect = false, QuizQuestionId = 10 }
+                new QuizAnswerOption { Id = 40, Text = "Гигант", IsCorrect = false, QuizQuestionId = 10 },
+
+                // Вопрос 1
+                new QuizAnswerOption { Id = 41, Text = "Ромул", IsCorrect = true, QuizQuestionId = 11 },
+                new QuizAnswerOption { Id = 42, Text = "Рем", IsCorrect = false, QuizQuestionId = 11 },
+                new QuizAnswerOption { Id = 43, Text = "Цезарь", IsCorrect = false, QuizQuestionId = 11 },
+                new QuizAnswerOption { Id = 44, Text = "Август", IsCorrect = false, QuizQuestionId = 11 },
+
+                // Вопрос 2
+                new QuizAnswerOption { Id = 45, Text = "Нерон", IsCorrect = false, QuizQuestionId = 12 },
+                new QuizAnswerOption { Id = 46, Text = "Август", IsCorrect = true, QuizQuestionId = 12 },
+                new QuizAnswerOption { Id = 47, Text = "Тиберий", IsCorrect = false, QuizQuestionId = 12 },
+                new QuizAnswerOption { Id = 48, Text = "Клавдий", IsCorrect = false, QuizQuestionId = 12 },
+
+                // Вопрос 3
+                new QuizAnswerOption { Id = 49, Text = "Юпитер", IsCorrect = true, QuizQuestionId = 13 },
+                new QuizAnswerOption { Id = 50, Text = "Марс", IsCorrect = false, QuizQuestionId = 13 },
+                new QuizAnswerOption { Id = 51, Text = "Венера", IsCorrect = false, QuizQuestionId = 13 },
+                new QuizAnswerOption { Id = 52, Text = "Сатурн", IsCorrect = false, QuizQuestionId = 13 },
+
+                // Вопрос 4
+                new QuizAnswerOption { Id = 53, Text = "Панем", IsCorrect = false, QuizQuestionId = 14 },
+                new QuizAnswerOption { Id = 54, Text = "Луперкалии", IsCorrect = false, QuizQuestionId = 14 },
+                new QuizAnswerOption { Id = 55, Text = "Тритон", IsCorrect = true, QuizQuestionId = 14 },
+                new QuizAnswerOption { Id = 56, Text = "Сатурналии", IsCorrect = false, QuizQuestionId = 14 },
+
+                // Вопрос 5
+                new QuizAnswerOption { Id = 57, Text = "Ганнибал", IsCorrect = true, QuizQuestionId = 15 },
+                new QuizAnswerOption { Id = 58, Text = "Цезарь", IsCorrect = false, QuizQuestionId = 15 },
+                new QuizAnswerOption { Id = 59, Text = "Октавиан", IsCorrect = false, QuizQuestionId = 15 },
+                new QuizAnswerOption { Id = 60, Text = "Сципион", IsCorrect = false, QuizQuestionId = 15 },
+
+                // Вопрос 6
+                new QuizAnswerOption { Id = 61, Text = "Колизей", IsCorrect = true, QuizQuestionId = 16 },
+                new QuizAnswerOption { Id = 62, Text = "Пантеон", IsCorrect = false, QuizQuestionId = 16 },
+                new QuizAnswerOption { Id = 63, Text = "Форум", IsCorrect = false, QuizQuestionId = 16 },
+                new QuizAnswerOption { Id = 64, Text = "Кирка", IsCorrect = false, QuizQuestionId = 16 },
+
+                // Вопрос 7
+                new QuizAnswerOption { Id = 65, Text = "Латинский", IsCorrect = true, QuizQuestionId = 17 },
+                new QuizAnswerOption { Id = 66, Text = "Греческий", IsCorrect = false, QuizQuestionId = 17 },
+                new QuizAnswerOption { Id = 67, Text = "Еврейский", IsCorrect = false, QuizQuestionId = 17 },
+                new QuizAnswerOption { Id = 68, Text = "Арабский", IsCorrect = false, QuizQuestionId = 17 },
+
+                // Вопрос 8
+                new QuizAnswerOption { Id = 69, Text = "Архитектура", IsCorrect = true, QuizQuestionId = 18 },
+                new QuizAnswerOption { Id = 70, Text = "Живопись", IsCorrect = false, QuizQuestionId = 18 },
+                new QuizAnswerOption { Id = 71, Text = "Музыка", IsCorrect = false, QuizQuestionId = 18 },
+                new QuizAnswerOption { Id = 72, Text = "Скульптура", IsCorrect = false, QuizQuestionId = 18 },
+
+                // Вопрос 9
+                new QuizAnswerOption { Id = 73, Text = "Монархия", IsCorrect = false, QuizQuestionId = 19 },
+                new QuizAnswerOption { Id = 74, Text = "Республика", IsCorrect = true, QuizQuestionId = 19 },
+                new QuizAnswerOption { Id = 75, Text = "Демократия", IsCorrect = false, QuizQuestionId = 19 },
+                new QuizAnswerOption { Id = 76, Text = "Олигархия", IsCorrect = false, QuizQuestionId = 19 },
+
+                // Вопрос 10
+                new QuizAnswerOption { Id = 77, Text = "V веке до н.э.", IsCorrect = false, QuizQuestionId = 20 },
+                new QuizAnswerOption { Id = 78, Text = "IV веке н.э.", IsCorrect = true, QuizQuestionId = 20 },
+                new QuizAnswerOption { Id = 79, Text = "III веке до н.э.", IsCorrect = false, QuizQuestionId = 20 },
+                new QuizAnswerOption { Id = 80, Text = "I веке до н.э.", IsCorrect = false, QuizQuestionId = 20 }
             };
 
             modelBuilder.Entity<QuizAnswerOption>().HasData(answerOptions);
