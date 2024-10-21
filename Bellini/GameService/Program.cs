@@ -26,10 +26,14 @@ builder.Services.AddScoped<IRepository<Comment>, CommentRepository>();
 builder.Services.AddScoped<IRepository<Question>, QuestionRepository>();
 builder.Services.AddScoped<IRepository<GameStatus>, GameStatusRepository>();
 builder.Services.AddScoped<IRepository<AnswerOption>, AnswerOptionRepository>();
+builder.Services.AddScoped<IRepository<Quiz>, QuizRepository>();
+builder.Services.AddScoped<IRepository<QuizQuestion>, QuizQuestionRepository>();
+builder.Services.AddScoped<IRepository<QuizAnswerOption>, QuizAnswerOptionRepository>();
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost"));
 
 builder.Services.AddScoped<IGameService, BusinessLogicLayer.Services.GameService>();
+builder.Services.AddScoped<IQuizService, BusinessLogicLayer.Services.QuizService>();
 builder.Services.AddScoped<IQuestionService, BusinessLogicLayer.Services.QuestionService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
