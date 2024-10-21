@@ -24,6 +24,7 @@ import {StartedGame} from "@/utils/interfaces/StartedGame.ts";
 import {GameLayout} from "@/utils/layouts/GameLayout.tsx";
 import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
 import {GameFinishedPage} from "@/views/pages/GameFinishedPage.tsx";
+import {QuizzesListPage} from "@/views/pages/QuizzesListPage.tsx";
 
 function App() {
     const [gameStarted, setGameStarted] = useState(false);
@@ -58,6 +59,7 @@ function App() {
                             <Route path='support' element={<SupportPage/>}/>
                             <Route path='profile/:id' element={<ProfilePage/>}/>
                             <Route path='games' element={<GameListPage/>}/>
+                            <Route path='quizzes' element={<QuizzesListPage/>}/>
 
                             <Route element={<PrivateRoute/>}>
 
