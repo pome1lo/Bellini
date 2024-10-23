@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationPrevious, PaginationNext, PaginationEllipsis } from "@/components/ui/pagination";
-import { serverFetch } from "@/utils/fetchs/serverFetch";
-import { GameListItem } from "@/views/partials/GameListItem";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import React, {useState, useEffect} from "react";
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationPrevious,
+    PaginationNext,
+    PaginationEllipsis
+} from "@/components/ui/pagination";
+import {serverFetch} from "@/utils/fetchs/serverFetch";
+import {GameListItem} from "@/views/partials/GameListItem";
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {Table, TableBody} from "@/components/ui/table.tsx";
 import {GameListTabContentRowSkeleton} from "@/views/partials/skeletons/GameListTabContentRowSkeleton.tsx";
+import {ActiveGame} from "@/utils/interfaces/ActiveGame.ts";
 
-export interface ActiveGame {
-    id: number;
-    gameName: string;
-    hostId: number;
-    startTime: Date;
-    maxPlayers: number;
-    gameCoverImageUrl: string;
-    isPrivate: boolean;
-}
 
 interface GamesListTabContentProps {
     tabContentName: string;
@@ -22,7 +22,7 @@ interface GamesListTabContentProps {
     isCreated: boolean;
 }
 
-export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({ tabContentName, isUpdated, isCreated }) => {
+export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({tabContentName, isUpdated, isCreated}) => {
     const [games, setGames] = useState<ActiveGame[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [currentPage, setCurrentPage] = useState(1);
@@ -118,10 +118,11 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({ tabCon
                                             <PaginationLink onClick={() => handlePageChange(1)}>1</PaginationLink>
                                         </PaginationItem>
                                     )}
-                                    {currentPage > 3 && <PaginationEllipsis />}
+                                    {currentPage > 3 && <PaginationEllipsis/>}
                                     {currentPage > 1 && (
                                         <PaginationItem>
-                                            <PaginationLink onClick={() => handlePageChange(currentPage - 1)}>{currentPage - 1}</PaginationLink>
+                                            <PaginationLink
+                                                onClick={() => handlePageChange(currentPage - 1)}>{currentPage - 1}</PaginationLink>
                                         </PaginationItem>
                                     )}
                                     <PaginationItem>
@@ -129,13 +130,15 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({ tabCon
                                     </PaginationItem>
                                     {currentPage < totalPages && (
                                         <PaginationItem>
-                                            <PaginationLink onClick={() => handlePageChange(currentPage + 1)}>{currentPage + 1}</PaginationLink>
+                                            <PaginationLink
+                                                onClick={() => handlePageChange(currentPage + 1)}>{currentPage + 1}</PaginationLink>
                                         </PaginationItem>
                                     )}
-                                    {currentPage < totalPages - 2 && <PaginationEllipsis />}
+                                    {currentPage < totalPages - 2 && <PaginationEllipsis/>}
                                     {currentPage < totalPages - 1 && (
                                         <PaginationItem>
-                                            <PaginationLink onClick={() => handlePageChange(totalPages)}>{totalPages}</PaginationLink>
+                                            <PaginationLink
+                                                onClick={() => handlePageChange(totalPages)}>{totalPages}</PaginationLink>
                                         </PaginationItem>
                                     )}
                                     <PaginationNext

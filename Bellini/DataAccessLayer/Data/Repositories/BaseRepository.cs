@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Data.Repositories
 {
-    public abstract class BaseRepository<T> : IRepository<T> where T : BaseModel
+    public class BaseRepository<T> : IRepository<T> where T : BaseModel
     {
         protected readonly DbContext _context;
         protected readonly DbSet<T> _dbSet;
