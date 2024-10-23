@@ -24,6 +24,10 @@ import {
 } from "@/components/ui/pagination.tsx";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
+import {Quiz} from "@/utils/interfaces/Quiz.ts";
+import {useAuth} from "@/utils/context/authContext.tsx";
+import {useNavigate} from "react-router-dom";
+import {toast} from "@/components/ui/use-toast.ts";
 
 const breadcrumbItems = [
     {path: '/', name: 'Home'},
@@ -34,11 +38,6 @@ interface QuizzesListPageProps {
     tabContentName: string;
 }
 
-interface Quiz {
-    id: number;
-    gameName: string;
-    gameCoverImageUrl: string;
-}
 
 export const QuizzesListPage: React.FC<QuizzesListPageProps> = ({tabContentName}) => {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
@@ -76,6 +75,23 @@ export const QuizzesListPage: React.FC<QuizzesListPageProps> = ({tabContentName}
         }
     };
 
+
+    const {user, isAuthenticated} = useAuth();
+    const navigate = useNavigate();
+
+    async function handleNavigateToQuiz(id: number) {
+        try {
+            if (!isAuthenticated || !user) {
+                navigate('/login');
+            } else {
+                navigate(`/quizzes/${id}`);
+            }
+        } catch (error) {
+            console.error('Connection failed: ', error);
+            toast({title: "Connection failed!", description: "Please try again.", variant: "destructive"});
+        }
+    }
+
     // if (isLoading) {
     //     return (
     //         <GameListTabContentRowSkeleton/>
@@ -108,7 +124,7 @@ export const QuizzesListPage: React.FC<QuizzesListPageProps> = ({tabContentName}
                             <Table>
                                 <TableBody>
                                     {quizzes.map((item) => (
-                                        <TableRow>
+                                        <TableRow onClick={() => handleNavigateToQuiz(item.id)} key={item.id}>
                                             <TableCell>
                                                 <img
                                                     alt={item.gameName + " image"}

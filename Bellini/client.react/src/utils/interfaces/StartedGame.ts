@@ -11,6 +11,8 @@ export interface StartedGame {
     gameCoverImageUrl: string;
     players: Player[];
     questions: Question[];
+    ErrorCode: string;
+    Message: string;
 }
 
 

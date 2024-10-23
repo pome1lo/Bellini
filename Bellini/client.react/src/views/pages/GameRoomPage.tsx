@@ -246,7 +246,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart}) => {
                 } else {
                     toast({
                         title: "Error",
-                        description: responseData.message || "An error occurred.",
+                        description: responseData.Message || "An error occurred.",
                         variant: "destructive"
                     });
                 }

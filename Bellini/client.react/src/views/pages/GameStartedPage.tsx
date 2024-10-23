@@ -8,7 +8,6 @@ import {HubConnectionBuilder} from "@microsoft/signalr";
 import * as signalR from "@microsoft/signalr";
 import {Player} from "@/utils/interfaces/Player.ts";
 import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
-import {GameFinishedPage} from "@/views/pages/GameFinishedPage.tsx";
 
 interface GameStartedPageProps {
     currentGame?: StartedGame;

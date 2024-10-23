@@ -1,6 +1,6 @@
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
 import {Tabs, TabsContent, TabsList, TabsTrigger,} from "@/components/ui/tabs"
-import {File, ListFilter, RefreshCcw} from "lucide-react"
+import {ListFilter, RefreshCcw} from "lucide-react"
 import {Button} from "@/components/ui/button.tsx";
 import {
     DropdownMenu,
