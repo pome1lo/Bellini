@@ -1,6 +1,6 @@
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
-import {useEffect, useState} from "react";
-import {CircleUser} from "lucide-react";
+import React, {useEffect, useState} from "react";
+import {CircleUser, Divide} from "lucide-react";
 import {Button} from "@/components/ui/button.tsx";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
 import {useParams} from "react-router-dom";
@@ -8,6 +8,10 @@ import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 // import { toast } from "sonner"
 import {DialogEditProfile} from "@/views/partials/dialogs/DialogEditProfile.tsx";
 import {useAuth} from "@/utils/context/authContext.tsx";
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import {DividerHorizontalIcon} from "@radix-ui/react-icons";
+import {Separator} from "@/components/ui/separator.tsx";
+import {DialogShareButton} from "@/views/partials/dialogs/DialogShareButton.tsx";
 
 const breadcrumbItems = [
     {path: '/', name: 'Home'},
@@ -45,11 +49,57 @@ export const ProfilePage = () => {
 
     return (
         <>
-            <h1 className="text-3xl text-center mb-16 mt-16">Profile page</h1>
             <Breadcrumbs items={breadcrumbItems}/>
 
             {currentUser ? (
                 <div className="flex items-center space-x-4">
+                    <div className="">
+                        <Card>
+                            <CardHeader>
+                                <div className="flex items-center mb-5">
+                                    <div>
+                                        {currentUser.profileImageUrl ?
+                                            <img
+                                                src={currentUser.profileImageUrl}
+                                                alt=""
+                                                className="rounded-md h-20 w-20"
+                                            />
+                                            :
+                                            <CircleUser className="h-20 w-20"/>
+                                        }
+                                    </div>
+                                    <div className="ms-4">
+                                        <h3 className="font-bold text-xl">{currentUser.username}</h3>
+                                        <h3 className="leading-none text-muted-foreground">{currentUser.email}</h3>
+                                    </div>
+                                </div>
+                                <DialogEditProfile
+                                    className={"w-full"}
+                                    contextId={currentUser.id}
+                                    isProfileUpdated={isProfileUpdated}
+                                    setIsProfileUpdated={setIsProfileUpdated}
+                                />
+                            </CardHeader>
+                            <CardContent>
+                                <Separator />
+                            </CardContent>
+                            <CardFooter>
+
+                            </CardFooter>
+                        </Card>
+                        <Card className="mt-4">
+                            <CardHeader>
+                                <CardTitle>Share</CardTitle>
+                                <CardDescription>
+                                    You can share the link to the game with other users
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <DialogShareButton link={window.location.href}/>
+                            </CardContent>
+                        </Card>
+                    </div>
+
                     <Button variant="secondary" size="icon" className="rounded-full h-12 w-12">
                         <CircleUser className="h-15 w-15"/>
                         <span className="sr-only">Toggle user menu</span>
@@ -58,17 +108,7 @@ export const ProfilePage = () => {
                         <h3>{currentUser.email}</h3>
                         <p>{currentUser.username}</p>
                     </div>
-                    <DialogEditProfile
-                        contextId={currentUser.id}
-                        isProfileUpdated={isProfileUpdated}
-                        setIsProfileUpdated={setIsProfileUpdated}
-                    />
 
-                    {currentUser.profileImageUrl ?
-                        <img src={currentUser.profileImageUrl} alt="" className="rounded-full h-12 w-12"/>
-                        :
-                        <CircleUser className="h-15 w-15"/>
-                    }
 
                 </div>
             ) : (

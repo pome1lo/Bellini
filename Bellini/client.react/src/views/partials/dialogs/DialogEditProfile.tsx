@@ -24,6 +24,7 @@ interface DialogEditProfileProps {
     contextId: number;
     isProfileUpdated: boolean;
     setIsProfileUpdated: (arg: boolean) => void;
+    className: string;
 }
 
 
@@ -39,7 +40,8 @@ type UpdateProfileFormData = z.infer<typeof updateProfileSchema>;
 export const DialogEditProfile: React.FC<DialogEditProfileProps> = ({
                                                                         contextId,
                                                                         isProfileUpdated,
-                                                                        setIsProfileUpdated
+                                                                        setIsProfileUpdated,
+                                                                        className
                                                                     }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const {register, handleSubmit, formState: {errors}} = useForm<UpdateProfileFormData>({
@@ -90,7 +92,7 @@ export const DialogEditProfile: React.FC<DialogEditProfileProps> = ({
         return (
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
-                    <Button>Update Profile</Button>
+                    <Button className={className}>Update Profile</Button>
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
