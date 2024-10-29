@@ -61,10 +61,17 @@ const components: { title: string; href: string; description: string }[] = [
     },
 ]
 
+
+
 export const Header = () => {
     const { user, isAuthenticated, logout } = useAuth();
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
+
+    function navigateTo(str: string) : void {
+        setOpen(false);
+        navigate(str);
+    }
 
     return (
         <>
@@ -172,9 +179,11 @@ export const Header = () => {
                                 </SheetTrigger>
                                 <SheetContent side="left">
                                     <div className="flex flex-col space-y-4 p-4">
-                                        <Button variant="link" onClick={() => setOpen(false)}>Home</Button>
-                                        <Button variant="link" onClick={() => setOpen(false)}>About</Button>
-                                        <Button variant="link" onClick={() => setOpen(false)}>Contact</Button>
+                                        <Button variant="link" onClick={() => navigateTo("/")}>Home</Button>
+                                        <Button variant="link" onClick={() => navigateTo("/quizzes")}>Quizzes</Button>
+                                        <Button variant="link" onClick={() => navigateTo("/games")}>Games</Button>
+                                        <Button variant="link" onClick={() => navigateTo("/about")}>About</Button>
+                                        <Button variant="link" onClick={() => navigateTo("/contact")}>Contact</Button>
                                     </div>
                                 </SheetContent>
                             </Sheet>

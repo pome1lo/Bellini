@@ -62,7 +62,6 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                     });
 
                 connection.on("NextQuestion", (nextQuestionIndex: number) => {
-                    handleSubmitAnswers();
                     setCurrentQuestionIndex(nextQuestionIndex);
                     setSelectedAnswer(null);
                     setFadeIn(true);
@@ -94,10 +93,10 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
     }, [connection]);
 
     const handleSubmitAnswers = async () => {
-        console.log(currentGame?.id.toString() + "\n" + user.id + "\n" + userAnswers);
+        console.log(currentGame?.id.toString() + "\n" + user?.id + "\n" + userAnswers);
         if (connection && connection.state === "Connected   " && userAnswers.length > 0) {
             try {
-                await connection.invoke("SubmitAnswers", currentGame?.id.toString(), user.id, userAnswers);
+                await connection.invoke("SubmitAnswers", currentGame?.id.toString(), user?.id, userAnswers);
             } catch (error) {
                 console.error("Error submitting answers:", error);
             }
@@ -109,13 +108,13 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
     const handleAnswerSelect = (index: number) => {
         if (selectedAnswer === null) {
             setSelectedAnswer(index);
-
             const updatedAnswers = [...userAnswers];
             updatedAnswers[currentQuestionIndex] = {
                 questionId: currentGame!.questions[currentQuestionIndex].id,
                 answerId: currentGame!.questions[currentQuestionIndex].answerOptions[index].id,
             };
             setUserAnswers(updatedAnswers);
+            handleSubmitAnswers();
         }
     };
 
@@ -135,7 +134,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                     console.log("Reconnected to the server");
 
                     // Отправка ответов и переход к следующему вопросу
-                    await connection.invoke("SubmitAnswers", currentGame!.id.toString(), user.id, userAnswers);
+                    await connection.invoke("SubmitAnswers", currentGame!.id.toString(), user?.id, userAnswers);
                     await connection.invoke("NextQuestion", currentGame!.id, currentQuestionIndex + 1);
                 } catch (error) {
                     console.error("Failed to reconnect and send NextQuestion or SubmitAnswers:", error);
@@ -179,7 +178,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                                 className="absolute flex flex-wrap justify-center items-center top-20 sm:w-1/2 w-[250px]">
                                 <Progress value={progressValue} className="h-2 mb-5"/>
                                 {currentQuestionIndex + 1} / {currentGame.questions.length}
-                                {currentGame.hostId == user.id ? (
+                                {currentGame.hostId == user?.id ? (
                                     <div className="flex">
                                         {currentQuestionIndex < currentGame.questions.length - 1 ?
                                             <Button variant="default" className="ms-5" size="sm"
