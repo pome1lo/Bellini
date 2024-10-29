@@ -1,6 +1,6 @@
-﻿using BusinessLogic.Services.DTOs;
+﻿using BusinessLogicLayer.Services.DTOs;
 
-namespace BusinessLogic.Services.Interfaces
+namespace BusinessLogicLayer.Services.Interfaces
 {
     public interface IUserService
     {

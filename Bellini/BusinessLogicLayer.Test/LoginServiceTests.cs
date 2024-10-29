@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using BusinessLogic.Services;
-using BusinessLogic.Services.DTOs;
+using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Validators;
-using DataAccess.Data.Interfaces;
-using DataAccess.Models;
+using DataAccessLayer.Data.Interfaces;
+using DataAccessLayer.Models;
 using FluentValidation;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;

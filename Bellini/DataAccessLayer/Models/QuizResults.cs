@@ -1,5 +1,4 @@
-﻿using DataAccess.Models;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace DataAccessLayer.Models
 {

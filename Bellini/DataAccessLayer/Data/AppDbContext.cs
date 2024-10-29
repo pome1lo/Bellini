@@ -1,10 +1,8 @@
-﻿using DataAccess.Data.Configurations;
-using DataAccess.Models;
-using DataAccessLayer.Data.Configurations;
+﻿using DataAccessLayer.Data.Configurations;
 using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess.Data
+namespace DataAccessLayer.Data
 {
     public class AppDbContext : DbContext
     {
@@ -40,6 +38,7 @@ namespace DataAccess.Data
             modelBuilder.ApplyConfiguration(new GameStatusConfiguration());
             modelBuilder.ApplyConfiguration(new QuestionConfiguration());
             modelBuilder.ApplyConfiguration(new AnswerOptionConfiguration());
+            modelBuilder.ApplyConfiguration(new CompletedAnswerConfiguration());
 
             modelBuilder.ApplyConfiguration(new QuizConfiguration());
             modelBuilder.ApplyConfiguration(new QuizAnswerOptionConfiguration());

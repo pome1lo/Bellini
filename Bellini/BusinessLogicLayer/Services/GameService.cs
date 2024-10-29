@@ -1,10 +1,8 @@
-﻿using BusinessLogic.Exceptions;
-using BusinessLogicLayer.Exceptions;
+﻿using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Hubs;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
-using DataAccess.Data.Interfaces;
-using DataAccess.Models;
+using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 using DataAccessLayer.Utils;
 using Microsoft.AspNetCore.SignalR;
@@ -17,7 +15,7 @@ namespace BusinessLogicLayer.Services
     {
         private readonly IRepository<Game> _gameRepository;
         private readonly IRepository<Player> _playerRepository;
-        private readonly IRepository<Comment> _commentRepository;
+        private readonly IRepository<CompletedAnswer> _completedAnswerRepository;
         private readonly IRepository<GameStatus> _gameStatusRepository;
         private readonly IHubContext<GameHub> _gameHub;
         private readonly IConnectionMultiplexer _redis;
@@ -25,14 +23,14 @@ namespace BusinessLogicLayer.Services
         public GameService(
             IRepository<Game> gameRepository,
             IRepository<Player> playerRepository,
-            IRepository<Comment> commentRepository,
+            IRepository<CompletedAnswer> completedAnswerRepository,
             IRepository<GameStatus> gameStatusRepository,
             IHubContext<GameHub> gameHub,
             IConnectionMultiplexer redis)
         {
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
-            _commentRepository = commentRepository;
+            _completedAnswerRepository = completedAnswerRepository;
             _gameStatusRepository = gameStatusRepository;
             _gameHub = gameHub;
             _redis = redis;
@@ -67,7 +65,7 @@ namespace BusinessLogicLayer.Services
 
             return game.Id;
         }
-         
+
         public async Task<GameDto> GetGameByIdAsync(int gameId, CancellationToken cancellationToken = default)
         {
             var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
@@ -209,7 +207,7 @@ namespace BusinessLogicLayer.Services
             return result;
         }
 
-        public async Task CompleteGameAsync(int gameId, CancellationToken cancellationToken = default)
+        public async Task<EndGameDto> CompleteGameAsync(int gameId, CancellationToken cancellationToken = default)
         {
             var db = _redis.GetDatabase();
 
@@ -248,14 +246,15 @@ namespace BusinessLogicLayer.Services
                         var completedAnswer = new CompletedAnswer
                         {
                             GameId = gameId,
-                            PlayerId = int.Parse(key.ToString().Split(':').Last()), // ID игрока из ключа
+                            PlayerId = _playerRepository.GetElementsAsync(cancellationToken).Result.FirstOrDefault(x =>
+                                x.UserId == int.Parse(key.ToString().Split(':').Last())).Id,
                             QuestionId = answer.QuestionId,
                             SelectedOptionId = answer.AnswerId,
                             IsCorrect = isCorrect
                         };
 
                         // Сохраняем каждый ответ в базе данных
-                        await _commentRepository.CreateAsync(completedAnswer, cancellationToken);
+                        await _completedAnswerRepository.CreateAsync(completedAnswer, cancellationToken);
                     }
                 }
             }
@@ -274,6 +273,8 @@ namespace BusinessLogicLayer.Services
 
             // Уведомляем клиентов об окончании игры
             await _gameHub.Clients.Group(gameId.ToString()).SendAsync("GameCompleted", gameId);
+
+            return new EndGameDto();
         }
 
     }

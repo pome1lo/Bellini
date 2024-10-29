@@ -1,14 +1,14 @@
 using AuthenticationService.MiddlewareExtensions;
-using BusinessLogic.Services.DTOs;
-using BusinessLogic.Services.Validators;
+using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Validators;
 using BusinessLogicLayer.Services.Configs;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using BusinessLogicLayer.Services.Validators;
-using DataAccess.Data;
-using DataAccess.Data.Interfaces;
-using DataAccess.Data.Repositories;
-using DataAccess.Models;
+using DataAccessLayer.Data;
+using DataAccessLayer.Data.Interfaces;
+using DataAccessLayer.Data.Repositories;
+using DataAccessLayer.Models;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 

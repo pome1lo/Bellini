@@ -1,4 +1,4 @@
-﻿using BusinessLogic.Exceptions;
+﻿using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Exceptions;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;

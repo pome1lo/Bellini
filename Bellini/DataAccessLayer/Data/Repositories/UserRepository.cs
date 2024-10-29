@@ -1,8 +1,8 @@
-﻿using DataAccess.Data.Interfaces;
-using DataAccess.Models;
+﻿using DataAccessLayer.Data.Interfaces;
+using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess.Data.Repositories
+namespace DataAccessLayer.Data.Repositories
 {
     public class UserRepository : IRepository<User>
     {

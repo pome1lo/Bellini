@@ -1,4 +1,4 @@
-﻿using DataAccess.Models;
+﻿using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

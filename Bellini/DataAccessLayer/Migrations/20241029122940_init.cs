@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -73,6 +73,7 @@ namespace DataAccessLayer.Migrations
                     HostId = table.Column<int>(type: "int", nullable: false),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MaxPlayers = table.Column<int>(type: "int", nullable: false),
                     GameCoverImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsPrivate = table.Column<bool>(type: "bit", nullable: false),
@@ -251,6 +252,44 @@ namespace DataAccessLayer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CompletedAnswers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GameId = table.Column<int>(type: "int", nullable: false),
+                    PlayerId = table.Column<int>(type: "int", nullable: false),
+                    QuestionId = table.Column<int>(type: "int", nullable: false),
+                    SelectedOptionId = table.Column<int>(type: "int", nullable: false),
+                    IsCorrect = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CompletedAnswers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CompletedAnswers_AnswerOptions_SelectedOptionId",
+                        column: x => x.SelectedOptionId,
+                        principalTable: "AnswerOptions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CompletedAnswers_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CompletedAnswers_Players_PlayerId",
+                        column: x => x.PlayerId,
+                        principalTable: "Players",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_CompletedAnswers_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.InsertData(
                 table: "GameStatuses",
                 columns: new[] { "Id", "Name" },
@@ -395,6 +434,26 @@ namespace DataAccessLayer.Migrations
                 column: "GameId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CompletedAnswers_GameId",
+                table: "CompletedAnswers",
+                column: "GameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CompletedAnswers_PlayerId",
+                table: "CompletedAnswers",
+                column: "PlayerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CompletedAnswers_QuestionId",
+                table: "CompletedAnswers",
+                column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CompletedAnswers_SelectedOptionId",
+                table: "CompletedAnswers",
+                column: "SelectedOptionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Games_GameStatusId",
                 table: "Games",
                 column: "GameStatusId");
@@ -439,13 +498,10 @@ namespace DataAccessLayer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AnswerOptions");
-
-            migrationBuilder.DropTable(
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Players");
+                name: "CompletedAnswers");
 
             migrationBuilder.DropTable(
                 name: "QuizAnswerOptions");
@@ -454,19 +510,25 @@ namespace DataAccessLayer.Migrations
                 name: "QuizResults");
 
             migrationBuilder.DropTable(
-                name: "Questions");
+                name: "AnswerOptions");
+
+            migrationBuilder.DropTable(
+                name: "Players");
 
             migrationBuilder.DropTable(
                 name: "QuizQuestions");
 
             migrationBuilder.DropTable(
+                name: "Questions");
+
+            migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Games");
+                name: "Quizzes");
 
             migrationBuilder.DropTable(
-                name: "Quizzes");
+                name: "Games");
 
             migrationBuilder.DropTable(
                 name: "GameStatuses");

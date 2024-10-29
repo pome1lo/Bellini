@@ -1,6 +1,5 @@
-﻿using DataAccess.Data;
-using DataAccess.Data.Interfaces;
-using DataAccess.Models;
+﻿using DataAccessLayer.Data.Interfaces;
+using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Data.Repositories

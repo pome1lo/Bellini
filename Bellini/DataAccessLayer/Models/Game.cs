@@ -1,7 +1,6 @@
-using DataAccessLayer.Models;
 using System.Text.Json.Serialization;
 
-namespace DataAccess.Models
+namespace DataAccessLayer.Models
 {
     public class Game : BaseModel
     {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using DataAccess.Models;
+using DataAccessLayer.Models;
 
-namespace DataAccess.Data.Configurations
+namespace DataAccessLayer.Data.Configurations
 {
     public class UserConfiguration : IEntityTypeConfiguration<User>
     {

@@ -1,4 +1,4 @@
-﻿namespace BusinessLogic.Services.DTOs
+﻿namespace BusinessLogicLayer.Services.DTOs
 {
     public class RegisterDto
     {

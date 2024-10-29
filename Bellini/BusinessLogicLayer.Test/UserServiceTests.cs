@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using BusinessLogic.Exceptions;
-using BusinessLogic.Services;
-using BusinessLogic.Services.DTOs;
-using DataAccess.Data.Interfaces;
-using DataAccess.Models;
+using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Services.DTOs;
+using DataAccessLayer.Data.Interfaces;
+using DataAccessLayer.Models;
 using Moq;
 
 namespace BusinessLogicLayer.Test

@@ -1,6 +1,6 @@
 ﻿using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
-using DataAccess.Data.Interfaces;
+using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 
 namespace BusinessLogicLayer.Services

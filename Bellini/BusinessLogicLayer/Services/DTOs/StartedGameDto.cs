@@ -1,4 +1,4 @@
-﻿using DataAccess.Models;
+﻿using DataAccessLayer.Models;
 using DataAccessLayer.Models;
 
 namespace BusinessLogicLayer.Services.DTOs

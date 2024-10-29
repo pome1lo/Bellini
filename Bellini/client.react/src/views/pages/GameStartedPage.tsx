@@ -8,6 +8,7 @@ import {HubConnectionBuilder} from "@microsoft/signalr";
 import * as signalR from "@microsoft/signalr";
 import {Player} from "@/utils/interfaces/Player.ts";
 import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
+import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 
 interface GameStartedPageProps {
     currentGame?: StartedGame;
@@ -143,9 +144,21 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
         }
     };
 
-    const handleEndGame = () => {
+    const handleEndGame = async () => {
         if (connection) {
             connection.invoke("EndGame", currentGame!.id.toString());
+
+            const response = await serverFetch(`/game/${currentGame?.id}/end`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+            });
+
+            const data = await response.json();
+            console.log(data);
+            if (response.ok) {
+                alert("ok ok ");
+
+            }
         }
     };
 

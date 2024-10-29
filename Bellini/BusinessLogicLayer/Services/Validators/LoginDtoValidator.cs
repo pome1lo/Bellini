@@ -1,4 +1,4 @@
-﻿using BusinessLogic.Services.DTOs;
+﻿using BusinessLogicLayer.Services.DTOs;
 using FluentValidation;
 using FluentValidation.Validators;
 

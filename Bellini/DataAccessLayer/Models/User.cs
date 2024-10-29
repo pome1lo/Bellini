@@ -1,6 +1,4 @@
-﻿using DataAccessLayer.Models;
-
-namespace DataAccess.Models
+﻿namespace DataAccessLayer.Models
 {
     public class User : BaseModel
     {

@@ -1,6 +1,6 @@
 ﻿using DataAccessLayer.Models;
 
-namespace DataAccess.Data.Interfaces
+namespace DataAccessLayer.Data.Interfaces
 {
     public interface IRepository<T> where T : BaseModel
     {

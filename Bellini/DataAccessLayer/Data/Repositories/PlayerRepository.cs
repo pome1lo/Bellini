@@ -1,5 +1,5 @@
-﻿using DataAccess.Data;
-using DataAccess.Data.Interfaces;
+﻿using DataAccessLayer.Data;
+using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 

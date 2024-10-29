@@ -1,5 +1,5 @@
-﻿using BusinessLogic.Services.DTOs;
-using BusinessLogic.Services.Interfaces;
+﻿using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
 using BusinessLogicLayer.Services.DTOs;
 using Microsoft.AspNetCore.Mvc;
 

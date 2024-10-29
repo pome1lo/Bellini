@@ -1,4 +1,4 @@
-﻿namespace BusinessLogic.Exceptions
+﻿namespace BusinessLogicLayer.Exceptions
 {
     public class NotFoundException : Exception
     {

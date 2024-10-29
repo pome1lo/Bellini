@@ -11,5 +11,6 @@ namespace BusinessLogicLayer.Services.Interfaces
         Task<(IEnumerable<GameDto> Games, int TotalCount)> GetAllActiveGamesAsync(int limit, int offset, CancellationToken cancellationToken = default);
         Task<(IEnumerable<GameDto> Games, int TotalCount)> SelectGamesByAvailabilityAsync(GameStatusEnum availability, int limit, int offset, CancellationToken cancellationToken = default);
         Task<StartedGameDto> StartGame(int id, [FromBody] StartGameDto startGameDto, CancellationToken cancellationToken = default);
+        Task<EndGameDto> CompleteGameAsync(int gameId, CancellationToken cancellationToken = default);
     }
 }

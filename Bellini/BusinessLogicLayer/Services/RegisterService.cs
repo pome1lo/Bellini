@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
-using BusinessLogic.Exceptions;
-using BusinessLogic.Services.DTOs;
-using BusinessLogic.Services.Interfaces;
+using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using BusinessLogicLayer.Utils;
-using DataAccess.Data.Interfaces;
-using DataAccess.Models;
+using DataAccessLayer.Data.Interfaces;
+using DataAccessLayer.Models;
 using FluentValidation;
 
-namespace BusinessLogic.Services
+namespace BusinessLogicLayer.Services
 {
     public class RegisterService : IRegisterService
     {

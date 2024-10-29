@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using BusinessLogic.Exceptions;
-using BusinessLogic.Services;
-using BusinessLogic.Services.DTOs;
-using BusinessLogic.Services.Interfaces;
+using BusinessLogicLayer.Exceptions;
+using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using BusinessLogicLayer.Services.Validators;
-using DataAccess.Data.Interfaces;
-using DataAccess.Models;
+using DataAccessLayer.Data.Interfaces;
+using DataAccessLayer.Models;
 using FluentValidation;
 using Moq;
 

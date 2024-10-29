@@ -1,9 +1,9 @@
-﻿using BusinessLogic.Exceptions;
+﻿using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using BusinessLogicLayer.Utils;
-using DataAccess.Data.Interfaces;
-using DataAccess.Models;
+using DataAccessLayer.Data.Interfaces;
+using DataAccessLayer.Models;
 using FluentValidation;
 
 namespace BusinessLogicLayer.Services

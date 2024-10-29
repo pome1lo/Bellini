@@ -57,5 +57,13 @@ namespace GameService.Controllers
                 await _gameService.StartGame(id, startGameDto, cancellationToken)
             );
         }
+
+        [HttpPost("{id:int}/end")]
+        public async Task<IActionResult> EndGame(int id, CancellationToken cancellationToken)
+        {
+            return Ok(
+                await _gameService.CompleteGameAsync(id, cancellationToken)
+            );
+        }
     }
 }
