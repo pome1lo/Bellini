@@ -28,10 +28,13 @@ namespace DataAccessLayer.Data.Repositories
         // Получение конкретного квиза по ID с включением связанных данных
         public async Task<Quiz> GetItemAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _dbSet
+            var obj = await _dbSet
                 .Include(q => q.Questions) // Включение связанных вопросов
                 .Include(q => q.QuizResults) // Включение результатов квиза
+                .AsSplitQuery()
                 .FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
+
+            return obj;
         }
 
         // Создание нового квиза

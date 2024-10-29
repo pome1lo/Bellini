@@ -293,6 +293,14 @@ namespace DataAccessLayer.Migrations
                             GameCoverImageUrl = "https://i.pinimg.com/originals/b3/7e/4f/b37e4fd167bd9e14558dd14301ec6487.jpg",
                             GameName = "Мифология Древней Греции",
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://i.pinimg.com/originals/b3/7e/4f/b37e4fd167bd9e14558dd14301ec6487.jpg",
+                            GameName = "Древний Рим",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -601,6 +609,286 @@ namespace DataAccessLayer.Migrations
                             IsCorrect = false,
                             QuizQuestionId = 10,
                             Text = "Гигант"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            IsCorrect = true,
+                            QuizQuestionId = 11,
+                            Text = "Ромул"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            IsCorrect = false,
+                            QuizQuestionId = 11,
+                            Text = "Рем"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            IsCorrect = false,
+                            QuizQuestionId = 11,
+                            Text = "Цезарь"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            IsCorrect = false,
+                            QuizQuestionId = 11,
+                            Text = "Август"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            IsCorrect = false,
+                            QuizQuestionId = 12,
+                            Text = "Нерон"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            IsCorrect = true,
+                            QuizQuestionId = 12,
+                            Text = "Август"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            IsCorrect = false,
+                            QuizQuestionId = 12,
+                            Text = "Тиберий"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            IsCorrect = false,
+                            QuizQuestionId = 12,
+                            Text = "Клавдий"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            IsCorrect = true,
+                            QuizQuestionId = 13,
+                            Text = "Юпитер"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            IsCorrect = false,
+                            QuizQuestionId = 13,
+                            Text = "Марс"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            IsCorrect = false,
+                            QuizQuestionId = 13,
+                            Text = "Венера"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            IsCorrect = false,
+                            QuizQuestionId = 13,
+                            Text = "Сатурн"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            IsCorrect = false,
+                            QuizQuestionId = 14,
+                            Text = "Панем"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            IsCorrect = false,
+                            QuizQuestionId = 14,
+                            Text = "Луперкалии"
+                        },
+                        new
+                        {
+                            Id = 55,
+                            IsCorrect = true,
+                            QuizQuestionId = 14,
+                            Text = "Тритон"
+                        },
+                        new
+                        {
+                            Id = 56,
+                            IsCorrect = false,
+                            QuizQuestionId = 14,
+                            Text = "Сатурналии"
+                        },
+                        new
+                        {
+                            Id = 57,
+                            IsCorrect = true,
+                            QuizQuestionId = 15,
+                            Text = "Ганнибал"
+                        },
+                        new
+                        {
+                            Id = 58,
+                            IsCorrect = false,
+                            QuizQuestionId = 15,
+                            Text = "Цезарь"
+                        },
+                        new
+                        {
+                            Id = 59,
+                            IsCorrect = false,
+                            QuizQuestionId = 15,
+                            Text = "Октавиан"
+                        },
+                        new
+                        {
+                            Id = 60,
+                            IsCorrect = false,
+                            QuizQuestionId = 15,
+                            Text = "Сципион"
+                        },
+                        new
+                        {
+                            Id = 61,
+                            IsCorrect = true,
+                            QuizQuestionId = 16,
+                            Text = "Колизей"
+                        },
+                        new
+                        {
+                            Id = 62,
+                            IsCorrect = false,
+                            QuizQuestionId = 16,
+                            Text = "Пантеон"
+                        },
+                        new
+                        {
+                            Id = 63,
+                            IsCorrect = false,
+                            QuizQuestionId = 16,
+                            Text = "Форум"
+                        },
+                        new
+                        {
+                            Id = 64,
+                            IsCorrect = false,
+                            QuizQuestionId = 16,
+                            Text = "Кирка"
+                        },
+                        new
+                        {
+                            Id = 65,
+                            IsCorrect = true,
+                            QuizQuestionId = 17,
+                            Text = "Латинский"
+                        },
+                        new
+                        {
+                            Id = 66,
+                            IsCorrect = false,
+                            QuizQuestionId = 17,
+                            Text = "Греческий"
+                        },
+                        new
+                        {
+                            Id = 67,
+                            IsCorrect = false,
+                            QuizQuestionId = 17,
+                            Text = "Еврейский"
+                        },
+                        new
+                        {
+                            Id = 68,
+                            IsCorrect = false,
+                            QuizQuestionId = 17,
+                            Text = "Арабский"
+                        },
+                        new
+                        {
+                            Id = 69,
+                            IsCorrect = true,
+                            QuizQuestionId = 18,
+                            Text = "Архитектура"
+                        },
+                        new
+                        {
+                            Id = 70,
+                            IsCorrect = false,
+                            QuizQuestionId = 18,
+                            Text = "Живопись"
+                        },
+                        new
+                        {
+                            Id = 71,
+                            IsCorrect = false,
+                            QuizQuestionId = 18,
+                            Text = "Музыка"
+                        },
+                        new
+                        {
+                            Id = 72,
+                            IsCorrect = false,
+                            QuizQuestionId = 18,
+                            Text = "Скульптура"
+                        },
+                        new
+                        {
+                            Id = 73,
+                            IsCorrect = false,
+                            QuizQuestionId = 19,
+                            Text = "Монархия"
+                        },
+                        new
+                        {
+                            Id = 74,
+                            IsCorrect = true,
+                            QuizQuestionId = 19,
+                            Text = "Республика"
+                        },
+                        new
+                        {
+                            Id = 75,
+                            IsCorrect = false,
+                            QuizQuestionId = 19,
+                            Text = "Демократия"
+                        },
+                        new
+                        {
+                            Id = 76,
+                            IsCorrect = false,
+                            QuizQuestionId = 19,
+                            Text = "Олигархия"
+                        },
+                        new
+                        {
+                            Id = 77,
+                            IsCorrect = false,
+                            QuizQuestionId = 20,
+                            Text = "V веке до н.э."
+                        },
+                        new
+                        {
+                            Id = 78,
+                            IsCorrect = true,
+                            QuizQuestionId = 20,
+                            Text = "IV веке н.э."
+                        },
+                        new
+                        {
+                            Id = 79,
+                            IsCorrect = false,
+                            QuizQuestionId = 20,
+                            Text = "III веке до н.э."
+                        },
+                        new
+                        {
+                            Id = 80,
+                            IsCorrect = false,
+                            QuizQuestionId = 20,
+                            Text = "I веке до н.э."
                         });
                 });
 
@@ -686,6 +974,66 @@ namespace DataAccessLayer.Migrations
                             Id = 10,
                             QuizId = 1,
                             Text = "Кто был титаном, держащим небо на своих плечах?"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            QuizId = 2,
+                            Text = "Кто был основателем Рима?"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            QuizId = 2,
+                            Text = "Какой был последний император Рима?"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            QuizId = 2,
+                            Text = "Какой бог был покровителем Рима?"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            QuizId = 2,
+                            Text = "Какой праздник был посвящен славе императоров?"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            QuizId = 2,
+                            Text = "Кто был великим полководцем Рима?"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            QuizId = 2,
+                            Text = "Какое здание является символом Рима?"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            QuizId = 2,
+                            Text = "Какой язык был официальным в Риме?"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            QuizId = 2,
+                            Text = "Какое искусство было популярно в Риме?"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            QuizId = 2,
+                            Text = "Какой строй был установлен в Риме?"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            QuizId = 2,
+                            Text = "Какой век считается временем расцвета Рима?"
                         });
                 });
 

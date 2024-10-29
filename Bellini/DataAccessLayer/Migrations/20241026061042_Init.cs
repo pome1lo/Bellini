@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -264,7 +264,11 @@ namespace DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "Quizzes",
                 columns: new[] { "Id", "EndTime", "GameCoverImageUrl", "GameName", "StartTime" },
-                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://i.pinimg.com/originals/b3/7e/4f/b37e4fd167bd9e14558dd14301ec6487.jpg", "Мифология Древней Греции", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+                values: new object[,]
+                {
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://i.pinimg.com/originals/b3/7e/4f/b37e4fd167bd9e14558dd14301ec6487.jpg", "Мифология Древней Греции", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://i.pinimg.com/originals/b3/7e/4f/b37e4fd167bd9e14558dd14301ec6487.jpg", "Древний Рим", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
 
             migrationBuilder.InsertData(
                 table: "QuizQuestions",
@@ -280,7 +284,17 @@ namespace DataAccessLayer.Migrations
                     { 7, 1, "Кто был вестником богов?" },
                     { 8, 1, "Кто был богом солнца?" },
                     { 9, 1, "Кто был богиней любви и красоты?" },
-                    { 10, 1, "Кто был титаном, держащим небо на своих плечах?" }
+                    { 10, 1, "Кто был титаном, держащим небо на своих плечах?" },
+                    { 11, 2, "Кто был основателем Рима?" },
+                    { 12, 2, "Какой был последний император Рима?" },
+                    { 13, 2, "Какой бог был покровителем Рима?" },
+                    { 14, 2, "Какой праздник был посвящен славе императоров?" },
+                    { 15, 2, "Кто был великим полководцем Рима?" },
+                    { 16, 2, "Какое здание является символом Рима?" },
+                    { 17, 2, "Какой язык был официальным в Риме?" },
+                    { 18, 2, "Какое искусство было популярно в Риме?" },
+                    { 19, 2, "Какой строй был установлен в Риме?" },
+                    { 20, 2, "Какой век считается временем расцвета Рима?" }
                 });
 
             migrationBuilder.InsertData(
@@ -327,7 +341,47 @@ namespace DataAccessLayer.Migrations
                     { 37, false, 10, "Кронос" },
                     { 38, false, 10, "Гиперион" },
                     { 39, true, 10, "Атлас" },
-                    { 40, false, 10, "Гигант" }
+                    { 40, false, 10, "Гигант" },
+                    { 41, true, 11, "Ромул" },
+                    { 42, false, 11, "Рем" },
+                    { 43, false, 11, "Цезарь" },
+                    { 44, false, 11, "Август" },
+                    { 45, false, 12, "Нерон" },
+                    { 46, true, 12, "Август" },
+                    { 47, false, 12, "Тиберий" },
+                    { 48, false, 12, "Клавдий" },
+                    { 49, true, 13, "Юпитер" },
+                    { 50, false, 13, "Марс" },
+                    { 51, false, 13, "Венера" },
+                    { 52, false, 13, "Сатурн" },
+                    { 53, false, 14, "Панем" },
+                    { 54, false, 14, "Луперкалии" },
+                    { 55, true, 14, "Тритон" },
+                    { 56, false, 14, "Сатурналии" },
+                    { 57, true, 15, "Ганнибал" },
+                    { 58, false, 15, "Цезарь" },
+                    { 59, false, 15, "Октавиан" },
+                    { 60, false, 15, "Сципион" },
+                    { 61, true, 16, "Колизей" },
+                    { 62, false, 16, "Пантеон" },
+                    { 63, false, 16, "Форум" },
+                    { 64, false, 16, "Кирка" },
+                    { 65, true, 17, "Латинский" },
+                    { 66, false, 17, "Греческий" },
+                    { 67, false, 17, "Еврейский" },
+                    { 68, false, 17, "Арабский" },
+                    { 69, true, 18, "Архитектура" },
+                    { 70, false, 18, "Живопись" },
+                    { 71, false, 18, "Музыка" },
+                    { 72, false, 18, "Скульптура" },
+                    { 73, false, 19, "Монархия" },
+                    { 74, true, 19, "Республика" },
+                    { 75, false, 19, "Демократия" },
+                    { 76, false, 19, "Олигархия" },
+                    { 77, false, 20, "V веке до н.э." },
+                    { 78, true, 20, "IV веке н.э." },
+                    { 79, false, 20, "III веке до н.э." },
+                    { 80, false, 20, "I веке до н.э." }
                 });
 
             migrationBuilder.CreateIndex(

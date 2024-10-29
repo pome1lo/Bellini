@@ -25,7 +25,7 @@ namespace GlobalExceptionHandlerLibrary
             }
             catch (Exception ex)
             {
-                Console.BackgroundColor = ConsoleColor.Red;
+                Console.BackgroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine(ex.Message);
                 Console.BackgroundColor = ConsoleColor.Black;
 

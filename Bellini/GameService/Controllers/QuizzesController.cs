@@ -25,7 +25,7 @@ namespace GameService.Controllers
         public async Task<IActionResult> GetQuizByQuizId(int quizId, CancellationToken cancellationToken)
         {
             return Ok(
-                _quizService.GetQuizByIdAsync(quizId, cancellationToken)
+                await _quizService.GetQuizByIdAsync(quizId, cancellationToken)
             );
         }
     }

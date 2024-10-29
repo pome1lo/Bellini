@@ -68,7 +68,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                 });
 
                 connection.on("GameEnded", () => {
-                    alert("The game has ended.");
+                    //alert("The game has ended.");
                     onFinish({});
                 });
 
