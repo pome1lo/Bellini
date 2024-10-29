@@ -67,8 +67,7 @@ namespace BusinessLogicLayer.Services
 
             return game.Id;
         }
-
-
+         
         public async Task<GameDto> GetGameByIdAsync(int gameId, CancellationToken cancellationToken = default)
         {
             var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
@@ -209,5 +208,73 @@ namespace BusinessLogicLayer.Services
 
             return result;
         }
+
+        public async Task CompleteGameAsync(int gameId, CancellationToken cancellationToken = default)
+        {
+            var db = _redis.GetDatabase();
+
+            // Извлекаем информацию об игре из базы данных
+            var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+            if (game == null)
+            {
+                throw new NotFoundException($"Game with ID {gameId} not found.");
+            }
+
+            // Проверяем, что игра в процессе и готова к завершению
+            if (game.Status.Name != "In process")
+            {
+                throw new InvalidOperationException("Game is not in process and cannot be completed.");
+            }
+
+            // Извлекаем ответы игроков из Redis
+            string answersPattern = $"running:game:{gameId}:answers:*";
+            var server = _redis.GetServer(_redis.GetEndPoints().First());
+            var keys = server.Keys(pattern: answersPattern);
+
+            foreach (var key in keys)
+            {
+                var userAnswersJson = await db.StringGetAsync(key);
+                if (userAnswersJson.HasValue)
+                {
+                    var userAnswers = JsonSerializer.Deserialize<List<AnswerSubmitedDto>>(userAnswersJson);
+
+                    foreach (var answer in userAnswers)
+                    {
+                        // Определяем, правильный ли ответ
+                        var isCorrect = game.Questions
+                            .FirstOrDefault(q => q.Id == answer.QuestionId)?
+                            .AnswerOptions.FirstOrDefault(opt => opt.Id == answer.AnswerId)?.IsCorrect ?? false;
+
+                        var completedAnswer = new CompletedAnswer
+                        {
+                            GameId = gameId,
+                            PlayerId = int.Parse(key.ToString().Split(':').Last()), // ID игрока из ключа
+                            QuestionId = answer.QuestionId,
+                            SelectedOptionId = answer.AnswerId,
+                            IsCorrect = isCorrect
+                        };
+
+                        // Сохраняем каждый ответ в базе данных
+                        await _commentRepository.CreateAsync(completedAnswer, cancellationToken);
+                    }
+                }
+            }
+
+            // Обновляем статус игры на "Completed"
+            var gameStatuses = await _gameStatusRepository.GetElementsAsync(cancellationToken);
+            var completedStatus = gameStatuses.FirstOrDefault(s => s.Name.Equals("Completed", StringComparison.OrdinalIgnoreCase));
+            if (completedStatus == null)
+            {
+                throw new InvalidOperationException("Status 'Completed' not found in database.");
+            }
+
+            game.GameStatusId = completedStatus.Id;
+            game.EndTime = DateTime.Now;
+            await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
+
+            // Уведомляем клиентов об окончании игры
+            await _gameHub.Clients.Group(gameId.ToString()).SendAsync("GameCompleted", gameId);
+        }
+
     }
 }

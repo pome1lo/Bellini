@@ -121,7 +121,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
     const handleNextQuestion = async () => {
         if (connection && connection.state === "Connected") {
             try {
-                await connection.invoke("SubmitAnswers", currentGame?.id.toString(), user.id, userAnswers);
+                await connection.invoke("SubmitAnswers", currentGame?.id.toString(), user?.id.toString(), userAnswers);
                 await connection.invoke("NextQuestion", currentGame?.id.toString(), currentQuestionIndex + 1);
             } catch (error) {
                 console.error("Error invoking NextQuestion or SubmitAnswers:", error);

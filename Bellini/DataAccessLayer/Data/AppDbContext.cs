@@ -19,6 +19,7 @@ namespace DataAccess.Data
         public DbSet<GameStatus> GameStatuses { get; set; } = null!;
         public DbSet<Question> Questions { get; set; } = null!;
         public DbSet<AnswerOption> AnswerOptions { get; set; } = null!;
+        public DbSet<CompletedAnswer> CompletedAnswers { get; set; } = null!;
 
 
 

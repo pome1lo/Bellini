@@ -10,6 +10,7 @@ namespace DataAccess.Models
         public int HostId { get; set; }
         public DateTime CreateTime { get; set; } = DateTime.Now;
         public DateTime StartTime { get; set; } = DateTime.MinValue;
+        public DateTime EndTime { get; set; } = DateTime.MinValue;
         public int MaxPlayers { get; set; }
         public string GameCoverImageUrl { get; set; } = null!;
         public bool IsPrivate { get; set; }
@@ -20,5 +21,6 @@ namespace DataAccess.Models
         [JsonIgnore] public List<Comment> Comments { get; set; } = null!;
         [JsonIgnore] public List<Player> Players { get; set; } = null!;
         [JsonIgnore] public List<Question> Questions { get; set; } = null!;
+        public List<CompletedAnswer> CompletedAnswers { get; set; } = new();
     }
 }
