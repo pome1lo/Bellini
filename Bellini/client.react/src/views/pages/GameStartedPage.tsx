@@ -9,6 +9,7 @@ import * as signalR from "@microsoft/signalr";
 import {Player} from "@/utils/interfaces/Player.ts";
 import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
+import {Game} from "@/utils/interfaces/Game.ts";
 
 interface GameStartedPageProps {
     currentGame?: StartedGame;
@@ -67,9 +68,18 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                     setFadeIn(true);
                 });
 
-                connection.on("GameEnded", () => {
+                // connection.on("GameEnded", (gameId: number, game: FinishedGame) => {
+                //     console.log(gameId);
+                //     console.log(game);
+                //     //alert("The game has ended.");
+                //     //onFinish(game);
+                // });
+
+                connection.on("GameCompleted", (gameId: number, game: FinishedGame) => {
+                    console.log(gameId);
+                    console.log(game);
                     //alert("The game has ended.");
-                    onFinish({});
+                    onFinish(game);
                 });
 
                 connection.on("PlayersList", (playerList: Player[]) => {
@@ -94,9 +104,9 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
 
     const handleSubmitAnswers = async () => {
         console.log(currentGame?.id.toString() + "\n" + user?.id + "\n" + userAnswers);
-        if (connection && connection.state === "Connected   " && userAnswers.length > 0) {
+        if (connection && connection.state === "Connected" && userAnswers.length > 0) {
             try {
-                await connection.invoke("SubmitAnswers", currentGame?.id.toString(), user?.id, userAnswers);
+                await connection.invoke("SubmitAnswers", currentGame?.id.toString(), user?.id.toString(), userAnswers);
             } catch (error) {
                 console.error("Error submitting answers:", error);
             }
@@ -121,7 +131,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
     const handleNextQuestion = async () => {
         if (connection && connection.state === "Connected") {
             try {
-                await connection.invoke("SubmitAnswers", currentGame?.id.toString(), user?.id.toString(), userAnswers);
+                //await connection.invoke("SubmitAnswers", currentGame?.id.toString(), user?.id.toString(), userAnswers);
                 await connection.invoke("NextQuestion", currentGame?.id.toString(), currentQuestionIndex + 1);
             } catch (error) {
                 console.error("Error invoking NextQuestion or SubmitAnswers:", error);
@@ -145,18 +155,19 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
 
     const handleEndGame = async () => {
         if (connection) {
-            connection.invoke("EndGame", currentGame!.id.toString());
+            //connection.invoke("EndGame", currentGame!.id.toString());
 
             const response = await serverFetch(`/game/${currentGame?.id}/end`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
             });
 
-            const data = await response.json();
-            console.log(data);
             if (response.ok) {
                 alert("ok ok ");
-
+            }
+            else {
+                const data = await response.json();
+                console.warn(data);
             }
         }
     };
@@ -207,7 +218,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                                         </h1>
                                     </CardTitle>
                                 </CardHeader>
-                                <CardContent className="flex flex-wrap sm:flex-row flex-col">
+                                <CardContent className="flex flex-wrap sm:flex-row flex-col" >
                                     {currentGame.questions[currentQuestionIndex].answerOptions.map((option, index) => (
                                         <div
                                             key={index}
@@ -218,7 +229,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                                             <Button
                                                 variant={selectedAnswer === index ? "default" : "outline"}
                                                 onClick={() => handleAnswerSelect(index)}
-                                                disabled={selectedAnswer !== null}
+                                                disabled={selectedAnswer !== null || currentGame.hostId == user.id}
                                                 className={`m-2 sm:m-3 w-full text-md ${option.isCorrect && currentGame.hostId == user.id ? "border-green-900 animate-bounce" : ""}`}
                                             >
                                                 {option.text}

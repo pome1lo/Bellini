@@ -61,9 +61,8 @@ namespace GameService.Controllers
         [HttpPost("{id:int}/end")]
         public async Task<IActionResult> EndGame(int id, CancellationToken cancellationToken)
         {
-            return Ok(
-                await _gameService.CompleteGameAsync(id, cancellationToken)
-            );
+            await _gameService.CompleteGameAsync(id, cancellationToken);
+            return Ok();
         }
     }
 }

@@ -25,7 +25,7 @@ export const GameListPage = () => {
     return (
         <>
             <Breadcrumbs items={breadcrumbItems}/>
-            <main className="grid flex-1 items-start gap-4 sm:py-0 md:gap-8">
+            <main className="grid flex-1 items-start gap-4 sm:py-0 md:gap-8  h-[76vh]">
                 <Tabs defaultValue="all">
                     <div className="flex items-center">
                         <TabsList>

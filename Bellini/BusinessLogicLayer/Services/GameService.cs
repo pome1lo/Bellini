@@ -207,7 +207,7 @@ namespace BusinessLogicLayer.Services
             return result;
         }
 
-        public async Task<EndGameDto> CompleteGameAsync(int gameId, CancellationToken cancellationToken = default)
+        public async Task CompleteGameAsync(int gameId, CancellationToken cancellationToken = default)
         {
             var db = _redis.GetDatabase();
 
@@ -272,10 +272,7 @@ namespace BusinessLogicLayer.Services
             await _gameRepository.UpdateAsync(gameId, game, cancellationToken);
 
             // Уведомляем клиентов об окончании игры
-            await _gameHub.Clients.Group(gameId.ToString()).SendAsync("GameCompleted", gameId);
-
-            return new EndGameDto();
-        }
-
+            await _gameHub.Clients.Group(gameId.ToString()).SendAsync("GameCompleted", gameId, game);
+        } 
     }
 }

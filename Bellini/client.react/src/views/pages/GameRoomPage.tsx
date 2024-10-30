@@ -84,11 +84,18 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart}) => {
                 setCurrentGame(data);
                 console.log(data);
                 setIsCurrentUserHost(user.id === data.hostId);
+
             })
             .catch(error => {
                 console.error('Error fetching game:', error.message);
             });
     }, [id, isAuthenticated, user, navigate, isQuestionCreated, isQuestionDeleted]);
+
+    useEffect(() => {
+        if(user.id == currentGame?.hostId) {
+            connect();
+        }
+    }, [user, connection, currentGame]);
 
     useEffect(() => {
         if (!isAuthenticated || !user || !id) {
@@ -131,6 +138,8 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart}) => {
             .catch(error => console.error('Connection failed: ', error));
 
         setConnection(newConnection);
+
+
 
         const handleBeforeUnload = (event: BeforeUnloadEvent) => {
             event.preventDefault();

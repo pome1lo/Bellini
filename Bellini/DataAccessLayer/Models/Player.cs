@@ -1,4 +1,6 @@
-﻿namespace DataAccessLayer.Models
+﻿using System.Text.Json.Serialization;
+
+namespace DataAccessLayer.Models
 {
     public class Player : BaseModel
     {
@@ -8,6 +10,6 @@
         public int Score { get; set; }
         public int UserId { get; set; }
         public User? User { get; set; }
-        public Game? Game { get; set; }
+        [JsonIgnore] public Game? Game { get; set; }
     }
 }

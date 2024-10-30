@@ -39,10 +39,10 @@ namespace BusinessLogicLayer.Hubs
             }
         }
 
-        public async Task EndGame(string gameId)
-        {
-            await Clients.Group(gameId).SendAsync("GameEnded");
-        }
+        //public async Task EndGame(string gameId)
+        //{
+        //    await Clients.Group(gameId).SendAsync("GameEnded");
+        //}
 
         public async Task JoinRunningGame(string gameId)
         {

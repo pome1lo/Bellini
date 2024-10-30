@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace DataAccessLayer.Models
 {
     public class Game : BaseModel
@@ -16,10 +14,10 @@ namespace DataAccessLayer.Models
         public string RoomPassword { get; set; } = "";
         public int GameStatusId { get; set; }
 
-        [JsonIgnore] public GameStatus Status { get; set; } = null!;
-        [JsonIgnore] public List<Comment> Comments { get; set; } = null!;
-        [JsonIgnore] public List<Player> Players { get; set; } = null!;
-        [JsonIgnore] public List<Question> Questions { get; set; } = null!;
+        public GameStatus Status { get; set; } = null!;
+        public List<Comment> Comments { get; set; } = null!;
+        public List<Player> Players { get; set; } = null!;
+        public List<Question> Questions { get; set; } = null!;
         public List<CompletedAnswer> CompletedAnswers { get; set; } = new();
     }
 }
