@@ -29,6 +29,7 @@ namespace DataAccessLayer.Data.Repositories
                                  .Include(g => g.Status)
                                  .Include(g => g.Players)
                                  .Include(g => g.Comments)
+                                 .Include(g => g.CompletedAnswers)
                                  .Include(g => g.Questions)
                                     .ThenInclude(q => q.AnswerOptions)
                                  .FirstOrDefaultAsync(g => g.Id == id, cancellationToken);

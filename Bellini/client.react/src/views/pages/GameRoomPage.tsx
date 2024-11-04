@@ -16,6 +16,7 @@ import {Badge} from "@/components/ui/badge";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {GameQuestionItem} from "@/views/partials/GameQuestionItem.tsx";
 import {StartedGame} from "@/utils/interfaces/StartedGame.ts";
+import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
 
 interface CurrentGame {
     id: number;
@@ -52,9 +53,11 @@ interface Player {
 
 interface GameRoomPageProps {
     onStart: (game: StartedGame) => void;
+    isFinished: (isFinished: boolean) => void;
+    onFinish: (game: FinishedGame) => void;
 }
 
-export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart}) => {
+export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, onFinish}) => {
     const {id} = useParams();
     const navigate = useNavigate();
     const {isAuthenticated, user} = useAuth();
@@ -81,8 +84,13 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart}) => {
         serverFetch(`/game/${id}`)
             .then(response => response.json())
             .then(data => {
-                setCurrentGame(data);
                 console.log(data);
+                if(data.gameStatus.name == "Completed") {
+                    isFinished(true);
+                    onFinish(data);
+                    return;
+                }
+                setCurrentGame(data);
                 setIsCurrentUserHost(user.id === data.hostId);
 
             })

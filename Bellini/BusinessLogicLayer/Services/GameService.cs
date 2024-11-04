@@ -86,7 +86,10 @@ namespace BusinessLogicLayer.Services
                 GameCoverImageUrl = game.GameCoverImageUrl,
                 IsPrivate = game.IsPrivate,
                 RoomPassword = game.RoomPassword,
-                Questions = game.Questions
+                Questions = game.Questions,
+                Comments = game.Comments,
+                Players = game.Players,
+                CompletedAnswers = game.CompletedAnswers
             };
         }
 
@@ -125,15 +128,15 @@ namespace BusinessLogicLayer.Services
 
             if (availability == GameStatusEnum.Public)
             {
-                filteredGames = allGames.Where(g => !g.IsPrivate);
+                filteredGames = allGames.Where(g => !g.IsPrivate && g.Status.Name.Equals("Not started", StringComparison.OrdinalIgnoreCase));
             }
             else if (availability == GameStatusEnum.Private)
             {
-                filteredGames = allGames.Where(g => g.IsPrivate);
+                filteredGames = allGames.Where(g => g.IsPrivate && g.Status.Name.Equals("Not started", StringComparison.OrdinalIgnoreCase));
             }
-            else if (availability == GameStatusEnum.Archived)
+            else if (availability == GameStatusEnum.Completed)
             {
-                filteredGames = allGames.Where(g => g.Status.Name.Equals("Archived", StringComparison.OrdinalIgnoreCase));
+                filteredGames = allGames.Where(g => g.Status.Name.Equals("Completed", StringComparison.OrdinalIgnoreCase));
             }
             else
             {
@@ -232,6 +235,7 @@ namespace BusinessLogicLayer.Services
             foreach (var key in keys)
             {
                 var userAnswersJson = await db.StringGetAsync(key);
+                var currentGameId = int.Parse(key.ToString().Split(':')[2]);
                 if (userAnswersJson.HasValue)
                 {
                     var userAnswers = JsonSerializer.Deserialize<List<AnswerSubmitedDto>>(userAnswersJson);
@@ -247,7 +251,7 @@ namespace BusinessLogicLayer.Services
                         {
                             GameId = gameId,
                             PlayerId = _playerRepository.GetElementsAsync(cancellationToken).Result.FirstOrDefault(x =>
-                                x.UserId == int.Parse(key.ToString().Split(':').Last())).Id,
+                                x.GameId == currentGameId && x.UserId == int.Parse(key.ToString().Split(':').Last())).Id,
                             QuestionId = answer.QuestionId,
                             SelectedOptionId = answer.AnswerId,
                             IsCorrect = isCorrect
@@ -273,6 +277,6 @@ namespace BusinessLogicLayer.Services
 
             // Уведомляем клиентов об окончании игры
             await _gameHub.Clients.Group(gameId.ToString()).SendAsync("GameCompleted", gameId, game);
-        } 
+        }
     }
 }

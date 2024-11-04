@@ -46,6 +46,8 @@ function App() {
         setGameStarted(false);
     };
 
+
+
     return (
         <>
             <AuthProvider>
@@ -78,16 +80,16 @@ function App() {
                                     currentFinishedGame ? (
                                         <GameFinishedPage currentGame={currentFinishedGame} />
                                     ) : (
-                                        <div>Loading...</div>  //todo add Skeleton
+                                        <div> Loading... GameFinishedPage</div>  //todo add Skeleton
                                     )
                                 ) : gameStarted ? (
                                     currentStartedGame ? (
                                         <GameStartedPage currentGame={currentStartedGame} onFinish={handleFinish} />
                                     ) : (
-                                        <div>Loading...</div>  //todo add Skeleton
+                                        <div>Loading... GameStartedPage</div>  //todo add Skeleton
                                     )
                                 ) : (
-                                    <GameRoomPage onStart={handleStart} />
+                                    <GameRoomPage onStart={handleStart} isFinished={setGameFinished} onFinish={handleFinish} />
                                 )
                             }
                             />

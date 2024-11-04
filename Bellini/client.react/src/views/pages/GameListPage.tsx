@@ -25,14 +25,14 @@ export const GameListPage = () => {
     return (
         <>
             <Breadcrumbs items={breadcrumbItems}/>
-            <main className="grid flex-1 items-start gap-4 sm:py-0 md:gap-8  h-[76vh]">
+            <main className="grid mt-2 flex-1 items-start gap-4 sm:py-0 md:gap-8  h-[76vh]">
                 <Tabs defaultValue="all">
                     <div className="flex items-center">
                         <TabsList>
                             <TabsTrigger value="all">All</TabsTrigger>
                             <TabsTrigger value="public">Public</TabsTrigger>
                             <TabsTrigger value="private">Private</TabsTrigger>
-                            <TabsTrigger value="archived" className="hidden sm:flex">Archived</TabsTrigger>
+                            <TabsTrigger value="completed" className="hidden sm:flex">Completed</TabsTrigger>
                         </TabsList>
                         <div className="ml-auto flex items-center gap-2">
                             <DropdownMenu>
@@ -47,7 +47,7 @@ export const GameListPage = () => {
                                     <DropdownMenuSeparator/>
                                     <DropdownMenuCheckboxItem checked>Public</DropdownMenuCheckboxItem>
                                     <DropdownMenuCheckboxItem>Private</DropdownMenuCheckboxItem>
-                                    <DropdownMenuCheckboxItem>Archived</DropdownMenuCheckboxItem>
+                                    <DropdownMenuCheckboxItem>Completed</DropdownMenuCheckboxItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                             <Button size="sm" variant="outline" className="h-8 gap-1"
@@ -70,8 +70,8 @@ export const GameListPage = () => {
                     <TabsContent value="private">
                         <GamesListTabContent tabContentName="private" isUpdated={isUpdated} isCreated={isCreated}/>
                     </TabsContent>
-                    <TabsContent value="archived">
-                        <GamesListTabContent tabContentName="archived" isUpdated={isUpdated} isCreated={isCreated}/>
+                    <TabsContent value="completed">
+                        <GamesListTabContent tabContentName="completed" isUpdated={isUpdated} isCreated={isCreated}/>
                     </TabsContent>
                 </Tabs>
             </main>

@@ -4,6 +4,6 @@
     {
         Public,
         Private,
-        Archived
+        Completed
     }
 }
