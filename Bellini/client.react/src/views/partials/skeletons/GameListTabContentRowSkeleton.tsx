@@ -8,7 +8,7 @@ export const GameListTabContentRowSkeleton = () => {
             <CardHeader>
                 <CardTitle>Games</CardTitle>
                 <CardDescription>
-                    description description description
+                    Here you will see the available games for your chosen category
                 </CardDescription>
             </CardHeader>
             <CardContent>

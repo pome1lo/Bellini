@@ -11,4 +11,7 @@ export interface Game {
     gameCoverImageUrl: string;
     players: Player[];
     questions: Question[];
+    gameStatus: {
+        name: string;
+    };
 }

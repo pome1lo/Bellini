@@ -13,7 +13,8 @@ import {GameListItem} from "@/views/partials/GameListItem";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {Table, TableBody} from "@/components/ui/table.tsx";
 import {GameListTabContentRowSkeleton} from "@/views/partials/skeletons/GameListTabContentRowSkeleton.tsx";
-import {ActiveGame} from "@/utils/interfaces/ActiveGame.ts";
+import {GameListTabContentNotFoundSkeleton} from "@/views/partials/skeletons/GameListTabContentNotFoundSkeleton.tsx";
+import {Game} from "@/utils/interfaces/Game.ts";
 
 
 interface GamesListTabContentProps {
@@ -23,7 +24,7 @@ interface GamesListTabContentProps {
 }
 
 export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({tabContentName, isUpdated, isCreated}) => {
-    const [games, setGames] = useState<ActiveGame[]>([]);
+    const [games, setGames] = useState<Game[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -68,8 +69,7 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({tabCont
     if (games.length === 0) {
         return (
             <>
-                We didn't find anything
-                <span>😪</span>
+                <GameListTabContentNotFoundSkeleton/>
             </>
         );
     }
@@ -80,7 +80,7 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({tabCont
                 <CardHeader>
                     <CardTitle>Games</CardTitle>
                     <CardDescription>
-                        description description description
+                        Here you will see the available games for your chosen category
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -94,6 +94,7 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({tabCont
                                     maxPlayers={item.maxPlayers}
                                     gameName={item.gameName}
                                     startTime={item.startTime}
+                                    status={item.gameStatus.name}
                                     gameCoverImageUrl={item.gameCoverImageUrl}
                                 />
                             ))}

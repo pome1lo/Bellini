@@ -21,7 +21,8 @@ export const GameListItem: React.FC<ActiveGame> = ({
                                                        startTime,
                                                        maxPlayers,
                                                        gameCoverImageUrl,
-                                                       isPrivate
+                                                       isPrivate,
+                                                       status
                                                    }) => {
     const {user, isAuthenticated} = useAuth();
     const navigate = useNavigate();
@@ -62,10 +63,10 @@ export const GameListItem: React.FC<ActiveGame> = ({
                     {gameName}
                 </TableCell>
                 <TableCell>
-                    <Badge variant="outline">{isPrivate ? "private" : "public"}</Badge>
+                    <Badge variant="outline">{isPrivate ? "Private" : "Public"}</Badge>
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
-                    $499.99
+                    <Badge variant="outline">{status}</Badge>
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
                     {maxPlayers}
@@ -73,7 +74,7 @@ export const GameListItem: React.FC<ActiveGame> = ({
                 <TableCell className="hidden md:table-cell">
                     {new Date(startTime).toLocaleString()}
                 </TableCell>
-                <TableCell>
+                <TableCell> 
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button

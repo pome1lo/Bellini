@@ -6,4 +6,5 @@ export interface ActiveGame {
     maxPlayers: number;
     gameCoverImageUrl: string;
     isPrivate: boolean;
+    status: string;
 }
