@@ -1,12 +1,5 @@
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import React from "react";
-import {
-    Pagination,
-    PaginationContent, PaginationEllipsis,
-    PaginationItem,
-    PaginationLink, PaginationNext,
-    PaginationPrevious
-} from "@/components/ui/pagination.tsx";
+import {Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious} from "@/components/ui/pagination.tsx";
 
 export const GameListTabContentNotFoundSkeleton = () => {
     return (

@@ -11,8 +11,8 @@ import {MoreHorizontal} from "lucide-react";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {useNavigate} from "react-router-dom";
 import {toast} from "@/components/ui/use-toast.ts";
-import {ActiveGame} from "@/views/partials/GamesListTabContent.tsx";
 import React from "react";
+import {ActiveGame} from "@/utils/interfaces/ActiveGame.ts";
 
 
 export const GameListItem: React.FC<ActiveGame> = ({
@@ -74,7 +74,7 @@ export const GameListItem: React.FC<ActiveGame> = ({
                 <TableCell className="hidden md:table-cell">
                     {new Date(startTime).toLocaleString()}
                 </TableCell>
-                <TableCell> 
+                <TableCell>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <Button

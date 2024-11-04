@@ -61,17 +61,11 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({tabCont
     };
 
     if (isLoading) {
-        return (
-            <GameListTabContentRowSkeleton/>
-        );
+        return <GameListTabContentRowSkeleton/>;
     }
 
     if (games.length === 0) {
-        return (
-            <>
-                <GameListTabContentNotFoundSkeleton/>
-            </>
-        );
+        return <GameListTabContentNotFoundSkeleton/>;
     }
 
     return (
