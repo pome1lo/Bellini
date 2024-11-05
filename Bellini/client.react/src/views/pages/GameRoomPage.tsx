@@ -17,6 +17,7 @@ import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {GameQuestionItem} from "@/views/partials/GameQuestionItem.tsx";
 import {StartedGame} from "@/utils/interfaces/StartedGame.ts";
 import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
+import {GameRoomSkeleton} from "@/views/partials/skeletons/GameRoomSkeleton.tsx";
 
 interface CurrentGame {
     id: number;
@@ -597,7 +598,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                     </>
                     :
                     <>
-                        ЗАГРУЗОЧКА
+                        <GameRoomSkeleton/>
                     </>
             }
         </>

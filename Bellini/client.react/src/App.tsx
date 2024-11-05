@@ -55,7 +55,6 @@ function App() {
                 <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
                     <Routes>
                         <Route path='/' element={<BasicLayout/>}>
-                            <Route index element={<MainPage/>}/>
                             <Route path='settings' element={<SettingsPage/>}/>
                             <Route path='contacts' element={<ContactsPage/>}/>
                             <Route path='about' element={<AboutPage/>}/>
@@ -69,6 +68,7 @@ function App() {
                             </Route>
                         </Route>
                         <Route path='/' element={<GameLayout/>}>
+                            <Route index element={<MainPage/>}/>
                             <Route path='login' element={<LoginPage/>}/>
                             <Route path='register' element={<RegisterPage/>}/>
 

@@ -73,6 +73,38 @@ export const GameRoomSkeleton = () => {
                                                 <TableHead><Skeleton className="w-28 h-8"/></TableHead>
                                                 <TableHead><Skeleton className="w-28 h-8"/></TableHead>
                                             </TableRow>
+                                            <TableRow>
+                                                <TableHead className="w-[100px]">
+                                                    <Skeleton className="w-40 h-8"/>
+                                                </TableHead>
+                                                <TableHead><Skeleton className="w-28 h-8"/></TableHead>
+                                                <TableHead><Skeleton className="w-28 h-8"/></TableHead>
+                                                <TableHead><Skeleton className="w-28 h-8"/></TableHead>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableHead className="w-[100px]">
+                                                    <Skeleton className="w-40 h-8"/>
+                                                </TableHead>
+                                                <TableHead><Skeleton className="w-28 h-8"/></TableHead>
+                                                <TableHead><Skeleton className="w-28 h-8"/></TableHead>
+                                                <TableHead><Skeleton className="w-28 h-8"/></TableHead>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableHead className="w-[100px]">
+                                                    <Skeleton className="w-40 h-8"/>
+                                                </TableHead>
+                                                <TableHead><Skeleton className="w-28 h-8"/></TableHead>
+                                                <TableHead><Skeleton className="w-28 h-8"/></TableHead>
+                                                <TableHead><Skeleton className="w-28 h-8"/></TableHead>
+                                            </TableRow>
+                                            <TableRow>
+                                                <TableHead className="w-[100px]">
+                                                    <Skeleton className="w-40 h-8"/>
+                                                </TableHead>
+                                                <TableHead><Skeleton className="w-28 h-8"/></TableHead>
+                                                <TableHead><Skeleton className="w-28 h-8"/></TableHead>
+                                                <TableHead><Skeleton className="w-28 h-8"/></TableHead>
+                                            </TableRow>
                                         </TableHeader>
                                         <TableBody>
 
@@ -120,7 +152,7 @@ export const GameRoomSkeleton = () => {
                                 <Skeleton className="w-48 h-48 xl:block hidden"/>
                             </CardContent>
                         </Card>
-                        <Card className="xl:block hidden">
+                        <Card className="xl:block hidden h-full">
                             <CardHeader>
                                 <Skeleton className="w-32 h-8"/>
                                 <Skeleton className="w-48 h-8"/>
