@@ -1,5 +1,4 @@
-﻿using DataAccessLayer.Data;
-using DataAccessLayer.Data.Interfaces;
+﻿using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,25 +17,34 @@ namespace DataAccessLayer.Data.Repositories
         {
             return await _context.Comments.AsNoTracking().ToListAsync(cancellationToken);
         }
+
         public async Task<Comment> GetItemAsync(int id, CancellationToken cancellationToken = default)
         {
             return await _context.Comments.FindAsync(new object[] { id }, cancellationToken);
         }
+
         public async Task CreateAsync(Comment item, CancellationToken cancellationToken = default)
         {
+            item.CommentDate = DateTime.UtcNow;
             await _context.Comments.AddAsync(item, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
         }
+
         public async Task UpdateAsync(int id, Comment item, CancellationToken cancellationToken = default)
         {
             await _context.Comments.Where(e => e.Id == id)
                 .ExecuteUpdateAsync(s => s
                     .SetProperty(e => e.Content, item.Content)
-                    .SetProperty(e => e.GameId, item.GameId),
+                    .SetProperty(e => e.GameId, item.GameId)
+                    .SetProperty(e => e.UserId, item.UserId)
+                    .SetProperty(e => e.Username, item.Username)
+                    .SetProperty(e => e.ProfileImageUrl, item.ProfileImageUrl)
+                    .SetProperty(e => e.CommentDate, DateTime.UtcNow),
                     cancellationToken
                 );
             await _context.SaveChangesAsync(cancellationToken);
         }
+
         public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
             await _context.Comments.Where(e => e.Id == id).ExecuteDeleteAsync(cancellationToken);

@@ -273,12 +273,11 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                             </>
                         }
                     </ScrollArea>
-                    {isCurrentUserPlayer ?
+                    {!isCurrentUserPlayer ? <></> :
                         <form className={`flex justify-end flex-wrap mt-4 gap-2 ${isCurrentUserPlayer ? "" : "hidden"}`}>
                             <Textarea placeholder="Type your message here." className="w-full"/>
                             <Button>Send</Button>
                         </form>
-                    :  <></>
                     }
                 </CardContent>
             </Card>
