@@ -14,8 +14,7 @@ namespace GameService.Controllers
         {
             _commentService = commentService;
         }
-
-        // POST: api/comments/{gameId}
+         
         [HttpPost("{gameId}")]
         public async Task<IActionResult> CreateComment(int gameId, [FromBody] CreateCommentDto createCommentDto, CancellationToken cancellationToken = default)
         {
@@ -23,8 +22,7 @@ namespace GameService.Controllers
                 await _commentService.CreateCommentAsync(gameId, createCommentDto, cancellationToken)
             );
         }
-
-        // DELETE: api/comments/{commentId}
+         
         [HttpDelete("{commentId}")]
         public async Task<IActionResult> DeleteComment(int commentId, CancellationToken cancellationToken = default)
         {
@@ -32,8 +30,7 @@ namespace GameService.Controllers
                 await _commentService.DeleteCommentAsync(commentId, cancellationToken)
             );
         }
-
-        // GET: api/comments/game/{gameId}
+         
         [HttpGet("game/{gameId}")]
         public async Task<IActionResult> GetCommentsByGameId(int gameId, CancellationToken cancellationToken = default)
         {

@@ -9,7 +9,6 @@ import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {DialogEditProfile} from "@/views/partials/dialogs/DialogEditProfile.tsx";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {DividerHorizontalIcon} from "@radix-ui/react-icons";
 import {Separator} from "@/components/ui/separator.tsx";
 import {DialogShareButton} from "@/views/partials/dialogs/DialogShareButton.tsx";
 
