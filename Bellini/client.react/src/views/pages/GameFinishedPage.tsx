@@ -32,7 +32,6 @@ interface GameFinishedPageProps {
     currentGame?: FinishedGame;
 }
 
-// Функция для подсчета количества правильных ответов каждого игрока
 const getCorrectAnswersData = (currentGame: FinishedGame | undefined) => {
     if (!currentGame) return [];
 
@@ -142,37 +141,37 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
 
 
     async function deleteComment(id: number) {
-            try {
-                if (!isAuthenticated || !user) {
-                    navigate('/login');
-                    return;
-                }
+        try {
+            if (!isAuthenticated || !user) {
+                navigate('/login');
+                return;
+            }
 
-                const response = await serverFetch(`/comments/${id}`, {
-                    method: "DELETE",
-                    headers: {"Content-Type": "application/json"},
-                });
+            const response = await serverFetch(`/comments/${id}`, {
+                method: "DELETE",
+                headers: {"Content-Type": "application/json"},
+            });
 
-                const responseData = await response.json();
+            const responseData = await response.json();
 
-                if (response.ok) {
-                    setIsUpdated(!isUpdated);
-                    toast({title: "Comment Deleted", description: "The comment was successfully deleted."});
-                } else {
-                    toast({
-                        title: "Error",
-                        description: responseData.message || "An error occurred.",
-                        variant: "destructive"
-                    });
-                }
-            } catch (ex: unknown) {
-                const errorMessage = (ex as Error).message || "An unexpected error occurred.";
+            if (response.ok) {
+                setIsUpdated(!isUpdated);
+                toast({title: "Comment Deleted", description: "The comment was successfully deleted."});
+            } else {
                 toast({
                     title: "Error",
-                    description: errorMessage,
+                    description: responseData.message || "An error occurred.",
                     variant: "destructive"
                 });
             }
+        } catch (ex: unknown) {
+            const errorMessage = (ex as Error).message || "An unexpected error occurred.";
+            toast({
+                title: "Error",
+                description: errorMessage,
+                variant: "destructive"
+            });
+        }
     }
 
     return (
@@ -363,7 +362,8 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                             :
                             <>
                                 {comments.map((comment, index) => (
-                                    <div  key={index} className="flex ps-4 pt-3 pb-2 pe-4 justify-between gap-4 hover:bg-neutral-900 ">
+                                    <div key={index}
+                                         className="flex ps-4 pt-3 pb-2 pe-4 justify-between gap-4 hover:bg-neutral-900 ">
                                         <a className="flex gap-4" href={`/profile/${comment.userId}`}>
                                             <Avatar className="hidden h-9 w-9 sm:flex">
                                                 <AvatarImage
@@ -385,9 +385,10 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                                                 <p>{comment.content}</p>
                                             </div>
                                         </a>
-                                        { currentGame.hostId != user?.id  ? <></> :
+                                        {currentGame.hostId != user?.id ? <></> :
                                             <div className="">
-                                                <Button variant="destructive" onClick={() => deleteComment(comment.id)}>Delete</Button>
+                                                <Button variant="destructive"
+                                                        onClick={() => deleteComment(comment.id)}>Delete</Button>
                                             </div>
                                         }
                                     </div>

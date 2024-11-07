@@ -60,7 +60,10 @@ function App() {
                             <Route path='about' element={<AboutPage/>}/>
                             <Route path='support' element={<SupportPage/>}/>
                             <Route path='profile/:id' element={<ProfilePage/>}/>
+
                             <Route path='games' element={<GameListPage/>}/>
+                            <Route path='games/:tabName' element={<GameListPage/>}/>
+
                             <Route path='quizzes' element={<QuizzesListPage/>}/>
 
                             <Route element={<PrivateRoute/>}>
