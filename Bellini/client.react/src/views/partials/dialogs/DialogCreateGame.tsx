@@ -6,10 +6,11 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog.tsx"
+} from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
+import {Checkbox} from "@/components/ui/checkbox.tsx";
 import {PlusCircle} from "lucide-react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -18,36 +19,44 @@ import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {toast} from "@/components/ui/use-toast.ts";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {useNavigate} from "react-router-dom";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 const createGameSchema = z.object({
     gameName: z.string().min(1, "Game name is required"),
-    maxPlayers: z
-        .number()
-        .min(1, "At least 1 player required")
-        .max(10, "Maximum 10 players allowed"),
+    maxPlayers: z.number().min(1, "At least 1 player required").max(10, "Maximum 10 players allowed"),
+    isPrivate: z.boolean().optional(),
+    password: z.string().optional()
+}).refine((data) => {
+    return !data.isPrivate || (data.password && data.password.length > 0);
+}, {
+    message: "Password is required for private games",
+    path: ["password"]
 });
 
 type CreateGameFormData = z.infer<typeof createGameSchema>;
 
 interface DialogCreateGameProps {
     isCreated: boolean;
-    setIsCreated: (isCreated: boolean) => void
+    setIsCreated: (isCreated: boolean) => void;
 }
 
-export const DialogCreateGame:React.FC<DialogCreateGameProps> = ({setIsCreated, isCreated}) => {
+export const DialogCreateGame: React.FC<DialogCreateGameProps> = ({setIsCreated, isCreated}) => {
     const {isAuthenticated, user} = useAuth();
     const navigate = useNavigate();
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: {errors},
-    } = useForm<CreateGameFormData>({
+    useEffect(() => {
+        if (isDialogOpen && (!isAuthenticated || !user)) {
+            navigate('/login');
+        }
+    }, [isDialogOpen, isAuthenticated, user, navigate]);
+
+    const {register, handleSubmit, setValue, watch, reset, formState: {errors}} = useForm<CreateGameFormData>({
         resolver: zodResolver(createGameSchema),
+        defaultValues: {isPrivate: false}
     });
+
+    const isPrivate = watch("isPrivate");
 
     const onSubmit = async (data: CreateGameFormData) => {
         try {
@@ -55,6 +64,7 @@ export const DialogCreateGame:React.FC<DialogCreateGameProps> = ({setIsCreated, 
                 navigate('/login');
                 return;
             }
+            alert("isPrivate " + data.isPrivate + "\nPassword" + data.password);
             const response = await serverFetch("/game/create", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
@@ -62,7 +72,9 @@ export const DialogCreateGame:React.FC<DialogCreateGameProps> = ({setIsCreated, 
                     GameName: data.gameName,
                     HostId: user.id,
                     MaxPlayers: data.maxPlayers,
-                    DifficultyLevel: ''
+                    DifficultyLevel: '',
+                    IsPrivate: data.isPrivate,
+                    Password: data.password,
                 }),
             });
 
@@ -79,10 +91,13 @@ export const DialogCreateGame:React.FC<DialogCreateGameProps> = ({setIsCreated, 
                     variant: "destructive"
                 });
             }
-        } catch (ex) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            toast({title: "Error", description: ex.message || "An unexpected error occurred.", variant: "destructive"});
+        } catch (ex: unknown) {
+            const errorMessage = (ex as Error).message || "An unexpected error occurred.";
+            toast({
+                title: "Error",
+                description: errorMessage,
+                variant: "destructive"
+            });
         }
     };
 
@@ -101,7 +116,7 @@ export const DialogCreateGame:React.FC<DialogCreateGameProps> = ({setIsCreated, 
                     <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Create game</span>
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[410px]">
                 <DialogHeader>
                     <DialogTitle>Create game</DialogTitle>
                     <DialogDescription>
@@ -119,7 +134,8 @@ export const DialogCreateGame:React.FC<DialogCreateGameProps> = ({setIsCreated, 
                                 {...register("gameName")}
                                 className="col-span-3"
                             />
-                            {errors.gameName && <p className="col-span-4 text-red-500">{errors.gameName.message}</p>}
+                            {errors.gameName &&
+                                <p className="col-span-4 text-red-500">{String(errors.gameName.message)}</p>}
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="maxPlayers" className="text-right">
@@ -132,7 +148,33 @@ export const DialogCreateGame:React.FC<DialogCreateGameProps> = ({setIsCreated, 
                                 className="col-span-3"
                             />
                             {errors.maxPlayers &&
-                                <p className="col-span-4 text-red-500">{errors.maxPlayers.message}</p>}
+                                <p className="col-span-4 text-red-500">{String(errors.maxPlayers.message)}</p>}
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="isPrivate" className="text-right">
+                                Private
+                            </Label>
+                            <Checkbox
+                                id="isPrivate"
+                                checked={isPrivate}
+                                onClick={() => setValue("isPrivate", !isPrivate)}
+                                {...register("isPrivate")}
+                            />
+                        </div>
+                        <div
+                            className={`grid grid-cols-4 items-center gap-4 transition-opacity duration-300 ${isPrivate ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}
+                        >
+                            <Label htmlFor="password" className="text-right">
+                                Password
+                            </Label>
+                            <Input
+                                id="password"
+                                type="text"
+                                {...register("password")}
+                                className="col-span-3"
+                            />
+                            {errors.password &&
+                                <p className="col-span-4 text-red-500">{String(errors.password.message)}</p>}
                         </div>
                     </div>
                     <DialogFooter>
@@ -144,5 +186,5 @@ export const DialogCreateGame:React.FC<DialogCreateGameProps> = ({setIsCreated, 
                 </form>
             </DialogContent>
         </Dialog>
-    )
-}
+    );
+};
