@@ -38,7 +38,7 @@ namespace ProfileService.Controllers
         [ProfileOwnerAuthorize]
         public async Task<IActionResult> UpdateProfile(int id, [FromForm] UpdateProfileDto updateProfileDto, [FromForm] IFormFile? profileImage, CancellationToken cancellationToken)
         {
-            if (profileImage != null)
+            if (profileImage is not null)
             {
                 var profileImageUrl = await _fileService.UploadFileAsync(profileImage, cancellationToken);
                 updateProfileDto.ProfileImageUrl = "https://localhost:7292" + profileImageUrl;

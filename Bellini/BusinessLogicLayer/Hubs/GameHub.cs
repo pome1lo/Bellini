@@ -116,7 +116,7 @@ namespace BusinessLogicLayer.Hubs
                 var playerList = playersInGame.Select(p => JsonSerializer.Deserialize<PlayerDto>(p)).ToList();
 
                 var playerToRemove = playerList.FirstOrDefault(p => p.UserId == userId);
-                if (playerToRemove != null)
+                if (playerToRemove is not null)
                 {
                     var serializedPlayer = JsonSerializer.Serialize(playerToRemove);
                     await db.ListRemoveAsync(gameKey, serializedPlayer);

@@ -10,7 +10,7 @@ namespace BusinessLogicLayer.Attribute
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var userIdClaim = context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-            if (userIdClaim == null)
+            if (userIdClaim is null)
             {
                 context.Result = new UnauthorizedResult();
                 return;
@@ -18,7 +18,7 @@ namespace BusinessLogicLayer.Attribute
 
             var userId = int.Parse(userIdClaim.Value);
             var routeData = context.RouteData.Values["id"];
-            if (routeData == null || !int.TryParse(routeData.ToString(), out int routeId) || userId != routeId)
+            if (routeData is null || !int.TryParse(routeData.ToString(), out int routeId) || userId != routeId)
             {
                 context.Result = new ForbidResult();
             }

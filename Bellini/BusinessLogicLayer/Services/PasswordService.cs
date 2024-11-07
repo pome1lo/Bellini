@@ -39,7 +39,7 @@ namespace BusinessLogicLayer.Services
             }
 
             var user = await _repository.GetItemAsync(changePasswordDto.UserId, cancellationToken);
-            if (user == null)
+            if (user is null)
             {
                 throw new NotFoundException("User not found.");
             }
@@ -63,7 +63,7 @@ namespace BusinessLogicLayer.Services
 
             var users = await _repository.GetElementsAsync(cancellationToken);
             var user = users.FirstOrDefault(u => u.Email == forgotPasswordDto.Email);
-            if (user == null)
+            if (user is null)
             {
                 throw new NotFoundException("User not found.");
             }
@@ -86,7 +86,7 @@ namespace BusinessLogicLayer.Services
         {
             var users = await _repository.GetElementsAsync(cancellationToken);
             var user = users.FirstOrDefault(u => u.Email == verifyCodeDto.Email);
-            if (user == null || user.VerificationCode != verifyCodeDto.VerificationCode || user.VerificationCodeExpiry < DateTime.UtcNow)
+            if (user is null || user.VerificationCode != verifyCodeDto.VerificationCode || user.VerificationCodeExpiry < DateTime.UtcNow)
             {
                 throw new UnauthorizedAccessException("Invalid or expired verification code.");
             }
@@ -101,7 +101,7 @@ namespace BusinessLogicLayer.Services
             }
 
             var user = await _repository.GetItemAsync(resetPasswordDto.UserId, cancellationToken);
-            if (user == null)
+            if (user is null)
             {
                 throw new NotFoundException("User not found.");
             }

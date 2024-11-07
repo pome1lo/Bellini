@@ -1,5 +1,4 @@
-﻿using DataAccessLayer.Data;
-using DataAccessLayer.Data.Interfaces;
+﻿using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,15 +47,15 @@ namespace DataAccessLayer.Data.Repositories
         public async Task UpdateAsync(int id, Quiz item, CancellationToken cancellationToken = default)
         {
             var existingItem = await _dbSet.FindAsync(new object[] { id }, cancellationToken);
-            if (existingItem != null)
+            if (existingItem is not null)
             {
                 _context.Entry(existingItem).CurrentValues.SetValues(item);
                 // Обновление связанных сущностей (вопросов и результатов), если необходимо
-                if (item.Questions != null)
+                if (item.Questions is not null)
                 {
                     _context.Entry(existingItem).Collection(e => e.Questions).IsModified = true;
                 }
-                if (item.QuizResults != null)
+                if (item.QuizResults is not null)
                 {
                     _context.Entry(existingItem).Collection(e => e.QuizResults).IsModified = true;
                 }
@@ -68,7 +67,7 @@ namespace DataAccessLayer.Data.Repositories
         public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
             var item = await _dbSet.FindAsync(new object[] { id }, cancellationToken);
-            if (item != null)
+            if (item is not null)
             {
                 _dbSet.Remove(item);
                 await _context.SaveChangesAsync(cancellationToken);

@@ -25,7 +25,7 @@ namespace DataAccessLayer.Data.Repositories
         public async Task<CompletedAnswer> GetItemAsync(int id, CancellationToken cancellationToken = default)
         {
             var item = await _dbSet.FindAsync(new object[] { id }, cancellationToken);
-            if (item == null)
+            if (item is null)
             {
                 throw new NotFoundException($"CompletedAnswer with ID {id} not found.");
             }
@@ -41,7 +41,7 @@ namespace DataAccessLayer.Data.Repositories
         public async Task UpdateAsync(int id, CompletedAnswer item, CancellationToken cancellationToken = default)
         {
             var existingItem = await GetItemAsync(id, cancellationToken);
-            if (existingItem == null)
+            if (existingItem is null)
             {
                 throw new NotFoundException($"CompletedAnswer with ID {id} not found.");
             }
@@ -53,7 +53,7 @@ namespace DataAccessLayer.Data.Repositories
         public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
             var item = await GetItemAsync(id, cancellationToken);
-            if (item == null)
+            if (item is null)
             {
                 throw new NotFoundException($"CompletedAnswer with ID {id} not found.");
             }

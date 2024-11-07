@@ -36,6 +36,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Conn
 
 builder.Services.AddScoped<IGameService, BusinessLogicLayer.Services.GameService>();
 builder.Services.AddScoped<IQuizService, BusinessLogicLayer.Services.QuizService>();
+builder.Services.AddScoped<ICommentService, BusinessLogicLayer.Services.CommentService>();
 builder.Services.AddScoped<IQuestionService, BusinessLogicLayer.Services.QuestionService>();
 
 builder.Services.AddAutoMapper(typeof(Program));

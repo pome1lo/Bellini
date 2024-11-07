@@ -45,7 +45,7 @@ namespace BusinessLogicLayer.Services
             var gameStatus = await _gameStatusRepository.GetElementsAsync(cancellationToken);
             var notStartedStatus = gameStatus.FirstOrDefault(s => s.Name.Equals("Not started", StringComparison.OrdinalIgnoreCase));
 
-            if (notStartedStatus == null)
+            if (notStartedStatus is null)
             {
                 throw new InvalidOperationException("Статус 'Not started' не найден в базе данных.");
             }
@@ -70,7 +70,7 @@ namespace BusinessLogicLayer.Services
         {
             var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
 
-            if (game == null)
+            if (game is null)
             {
                 throw new NotFoundException($"Game with ID {gameId} not found.");
             }
@@ -168,12 +168,12 @@ namespace BusinessLogicLayer.Services
         {
             var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
 
-            if (game == null)
+            if (game is null)
             {
                 throw new NotFoundException($"Game with ID {gameId} not found.");
             }
 
-            if (game.Questions == null || !game.Questions.Any())
+            if (game.Questions is null || !game.Questions.Any())
             {
                 throw new NotFoundGameQuestionsException("Cannot start a game without any questions.");
             }
@@ -181,7 +181,7 @@ namespace BusinessLogicLayer.Services
             var gameStatus = await _gameStatusRepository.GetElementsAsync(cancellationToken);
             var inProcessingStatus = gameStatus.FirstOrDefault(s => s.Name.Equals("In process", StringComparison.OrdinalIgnoreCase));
 
-            if (inProcessingStatus == null)
+            if (inProcessingStatus is null)
             {
                 throw new InvalidOperationException("No status found for StatusName 'Not started'");
             }
@@ -216,7 +216,7 @@ namespace BusinessLogicLayer.Services
 
             // Извлекаем информацию об игре из базы данных
             var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
-            if (game == null)
+            if (game is null)
             {
                 throw new NotFoundException($"Game with ID {gameId} not found.");
             }
@@ -266,7 +266,7 @@ namespace BusinessLogicLayer.Services
             // Обновляем статус игры на "Completed"
             var gameStatuses = await _gameStatusRepository.GetElementsAsync(cancellationToken);
             var completedStatus = gameStatuses.FirstOrDefault(s => s.Name.Equals("Completed", StringComparison.OrdinalIgnoreCase));
-            if (completedStatus == null)
+            if (completedStatus is null)
             {
                 throw new InvalidOperationException("Status 'Completed' not found in database.");
             }

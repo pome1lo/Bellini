@@ -46,7 +46,7 @@ namespace BusinessLogicLayer.Services
             if (string.IsNullOrEmpty(cachedUser))
             {
                 user = (await _userRepository.GetElementsAsync(cancellationToken)).FirstOrDefault(u => u.Email == loginDto.Email);
-                if (user != null)
+                if (user is not null)
                 {
                     await _cache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(user), new DistributedCacheEntryOptions
                     {
@@ -131,7 +131,7 @@ namespace BusinessLogicLayer.Services
                 var email = principal.FindFirst(ClaimTypes.Email)?.Value;
                 var user = (await _userRepository.GetElementsAsync(cancellationToken)).FirstOrDefault(u => u.Email == email);
 
-                if (user == null)
+                if (user is null)
                 {
                     throw new SecurityTokenException("Invalid token");
                 }

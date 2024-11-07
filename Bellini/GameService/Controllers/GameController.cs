@@ -30,7 +30,7 @@ namespace GameService.Controllers
         public async Task<IActionResult> GetGameById(int id, CancellationToken cancellationToken)
         {
             var game = await _gameService.GetGameByIdAsync(id, cancellationToken);
-            if (game == null)
+            if (game is null)
                 return NotFound();
 
             return Ok(game);

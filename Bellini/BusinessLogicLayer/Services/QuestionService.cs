@@ -31,7 +31,7 @@ namespace BusinessLogicLayer.Services
             }
 
             var game = await _gameRepository.GetItemAsync(createQuestionDto.GameId, cancellationToken);
-            if (game == null)
+            if (game is null)
             {
                 throw new NotFoundException("Game not found.");
             }
@@ -56,7 +56,7 @@ namespace BusinessLogicLayer.Services
         public async Task<QuestionDto> GetQuestionByIdAsync(int questionId, CancellationToken cancellationToken = default)
         {
             var question = await _questionRepository.GetItemAsync(questionId, cancellationToken);
-            if (question == null)
+            if (question is null)
             {
                 throw new KeyNotFoundException("Question not found.");
             }
@@ -81,13 +81,13 @@ namespace BusinessLogicLayer.Services
         public async Task DeleteQuestionAsync(int questionId, int gameId, CancellationToken cancellationToken = default)
         {
             var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);
-            if (game == null)
+            if (game is null)
             {
                 throw new NotFoundException("Game not found.");
             }
 
             var question = await _questionRepository.GetItemAsync(questionId, cancellationToken);
-            if (question == null || question.GameId != gameId)
+            if (question is null || question.GameId != gameId)
             {
                 throw new NotFoundException("Question not found or does not belong to the game.");
             }

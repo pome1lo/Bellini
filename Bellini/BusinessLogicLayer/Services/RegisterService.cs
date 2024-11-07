@@ -2,8 +2,6 @@
 using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
-using BusinessLogicLayer.Services.DTOs;
-using BusinessLogicLayer.Services.Interfaces;
 using BusinessLogicLayer.Utils;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
@@ -115,7 +113,7 @@ namespace BusinessLogicLayer.Services
         {
             var users = await _repository.GetElementsAsync(cancellationToken);
             var user = users.FirstOrDefault(u => u.Email == verifyCodeDto.Email);
-            if (user == null || user.RegistrationCode != verifyCodeDto.VerificationCode || user.VerificationCodeExpiry < DateTime.UtcNow)
+            if (user is null || user.RegistrationCode != verifyCodeDto.VerificationCode || user.VerificationCodeExpiry < DateTime.UtcNow)
             {
                 throw new ValidationException("Invalid or expired registration code.");
             }

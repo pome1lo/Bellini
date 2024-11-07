@@ -1,6 +1,4 @@
 using AuthenticationService.MiddlewareExtensions;
-using BusinessLogicLayer.Services.DTOs;
-using BusinessLogicLayer.Services.Validators;
 using BusinessLogicLayer.Services.Configs;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
@@ -40,7 +38,7 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.CreateMap<User, ProfileDto>();
     cfg.CreateMap<ProfileDto, User>();
     cfg.CreateMap<UpdateProfileDto, User>()
-            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember is not null));
 }, typeof(Program));
 
 builder.Services.AddJwtAuthentication(builder.Configuration);

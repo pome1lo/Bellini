@@ -42,7 +42,7 @@ namespace DataAccessLayer.Data.Repositories
         public async Task UpdateAsync(int id, Game item, CancellationToken cancellationToken = default)
         {
             var gameToUpdate = await _context.Games.FindAsync(id);
-            if (gameToUpdate != null)
+            if (gameToUpdate is not null)
             {
                 gameToUpdate.GameName = item.GameName;
                 gameToUpdate.HostId = item.HostId;
@@ -59,7 +59,7 @@ namespace DataAccessLayer.Data.Repositories
         public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
             var gameToDelete = await _context.Games.FindAsync(id);
-            if (gameToDelete != null)
+            if (gameToDelete is not null)
             {
                 _context.Games.Remove(gameToDelete);
                 await _context.SaveChangesAsync(cancellationToken);

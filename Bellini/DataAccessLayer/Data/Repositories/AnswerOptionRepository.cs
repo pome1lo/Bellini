@@ -1,5 +1,4 @@
-﻿using DataAccessLayer.Data;
-using DataAccessLayer.Data.Interfaces;
+﻿using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,7 +35,7 @@ namespace DataAccessLayer.Data.Repositories
         public async Task UpdateAsync(int id, AnswerOption item, CancellationToken cancellationToken = default)
         {
             var answerToUpdate = await _context.AnswerOptions.FindAsync(id);
-            if (answerToUpdate != null)
+            if (answerToUpdate is not null)
             {
                 answerToUpdate.Text = item.Text;
                 answerToUpdate.IsCorrect = item.IsCorrect;
@@ -49,7 +48,7 @@ namespace DataAccessLayer.Data.Repositories
         public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
         {
             var answerToDelete = await _context.AnswerOptions.FindAsync(id);
-            if (answerToDelete != null)
+            if (answerToDelete is not null)
             {
                 _context.AnswerOptions.Remove(answerToDelete);
                 await _context.SaveChangesAsync(cancellationToken);
