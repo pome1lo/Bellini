@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {FinishedGame} from "@/utils/interfaces/FinishedGame";
 import {Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis} from "recharts";
 import {ChartConfig, ChartContainer, ChartTooltipContent} from "@/components/ui/chart";
@@ -16,6 +16,11 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import {FileType, TrendingUp, Users} from "lucide-react";
+import {Button} from "@/components/ui/button.tsx";
+import {Textarea} from "@/components/ui/textarea.tsx";
+import {ScrollArea} from "@/components/ui/scroll-area.tsx";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
+import {useAuth} from "@/utils/context/authContext.tsx";
 
 interface GameFinishedPageProps {
     currentGame?: FinishedGame;
@@ -34,10 +39,19 @@ const getCorrectAnswersData = (currentGame: FinishedGame | undefined) => {
 };
 
 export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame}) => {
-    // Данные для диаграммы
+    const [isCurrentUserPlayer, setIsCurrentUserPlayer] = useState(false);
+    const {isAuthenticated, user} = useAuth();
+
+    useEffect(() => {
+        if (user && currentGame?.players) {
+            const isPlayer = currentGame.players.some(player => player.userId == user.id);
+            setIsCurrentUserPlayer(isPlayer);
+        }
+    }, [currentGame, user]);
+
+
     const chartData = getCorrectAnswersData(currentGame);
 
-    // Настройки диаграммы
     const chartConfig: ChartConfig = {
         correctAnswers: {
             label: "Correct Answers ",
@@ -112,7 +126,7 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                         <Card className="lg:w-1/2 w-full">
                             <CardHeader>
                                 <CardTitle>
-                                    <h1 className="text-2xl font-bold mb-4">Players</h1>
+                                    <h1 className="text-2xl font-bold">Players</h1>
                                 </CardTitle>
                                 <CardDescription>
                                     You can share the link to the game with other users
@@ -152,7 +166,7 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                         <Card className="w-full ">
                             <CardHeader>
                                 <CardTitle>
-                                    <h1 className="text-2xl font-bold mb-4">Game Results</h1>
+                                    <h1 className="text-2xl font-bold">Game Results</h1>
                                 </CardTitle>
                                 <CardDescription>
                                     You can share the link to the game with other users
@@ -220,6 +234,54 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                     </Card>
                 </div>
             </div>
+            <Card className="w-full mt-4">
+                <CardHeader>
+                    <CardTitle>
+                        <h1 className="text-2xl font-bold">Comments</h1>
+                    </CardTitle>
+                    <CardDescription>
+                        Here you can view comments from other users and leave your own opinion about the game
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+
+                    <ScrollArea className="h-[220px]  p-4 border rounded-md">
+                        {currentGame?.comments.length == 0 ?
+                            <>
+                                <div className="h-[170px] flex items-center justify-center">
+                                    <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There are no comments here yet. Be the first!</h1>
+                                </div>
+                            </>
+                            :
+                            <>
+                                {currentGame?.comments.map((comment, index) => (
+                                    <div key={index} className="flex items-center gap-4 mt-2">
+                                        <Avatar className="hidden h-9 w-9 sm:flex">
+                                            <AvatarImage
+                                                src={comment.profileImageUrl}
+                                                alt={`${comment.username}'s profile`}
+                                            />
+                                            <AvatarFallback>
+                                                {(comment.username.charAt(0) + comment.username.charAt(1)).toUpperCase()}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <div className="grid">
+                                            <p className="text-sm font-medium leading-none">{comment.username}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </>
+                        }
+                    </ScrollArea>
+                    {isCurrentUserPlayer ?
+                        <form className={`flex justify-end flex-wrap mt-4 gap-2 ${isCurrentUserPlayer ? "" : "hidden"}`}>
+                            <Textarea placeholder="Type your message here." className="w-full"/>
+                            <Button>Send</Button>
+                        </form>
+                    :  <></>
+                    }
+                </CardContent>
+            </Card>
         </div>
     );
 };
