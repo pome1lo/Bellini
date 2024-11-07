@@ -56,6 +56,18 @@
       "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
     },
     {
+      "DownstreamPathTemplate": "/api/comments/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/comments/{everything}",
+      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/questions/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

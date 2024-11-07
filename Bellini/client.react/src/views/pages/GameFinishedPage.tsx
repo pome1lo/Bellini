@@ -21,6 +21,11 @@ import {Textarea} from "@/components/ui/textarea.tsx";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {useAuth} from "@/utils/context/authContext.tsx";
+import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
+import {toast} from "@/components/ui/use-toast.ts";
+import {useNavigate} from "react-router-dom";
+import {Comment} from "@/utils/interfaces/Comment.ts";
+import {formatDate} from "@/utils/functions/formatDate";
 
 interface GameFinishedPageProps {
     currentGame?: FinishedGame;
@@ -39,16 +44,83 @@ const getCorrectAnswersData = (currentGame: FinishedGame | undefined) => {
 };
 
 export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame}) => {
+    const [comments, setComments] = useState<Comment[]>([]);
+    const [content, setContent] = useState("");
+    const [isUpdated, setIsUpdated] = useState(false);
     const [isCurrentUserPlayer, setIsCurrentUserPlayer] = useState(false);
     const {isAuthenticated, user} = useAuth();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (user && currentGame?.players) {
+        if (isAuthenticated && user && currentGame?.players) {
             const isPlayer = currentGame.players.some(player => player.userId == user.id);
             setIsCurrentUserPlayer(isPlayer);
         }
-    }, [currentGame, user]);
+    }, [currentGame, isAuthenticated, user]);
 
+    useEffect(() => {
+        const fetchComments = async () => {
+            try {
+                const response = await serverFetch(`/comments/game/${currentGame?.id}`);
+                const data = await response.json();
+                console.log(data);
+
+                if (response.status === 204 || !Array.isArray(data)) {
+                    setComments([]);
+                } else {
+                    setComments(data);
+                }
+            } catch (ex: unknown) {
+                console.error('Error fetching games:', (ex as Error).message);
+                setComments([]);
+            }
+        };
+
+        fetchComments();
+    }, [currentGame, isUpdated]);
+
+    const OnSubmitCreateComment = async (event) => {
+        event.preventDefault()
+        try {
+            if (!isAuthenticated || !user) {
+                navigate('/login');
+                return;
+            }
+
+            const response = await serverFetch(`/comments/${currentGame?.id}`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    gameId: currentGame?.id,
+                    userId: user.id,
+                    content: content,
+                    username: user.username,
+                    profileImageUrl: user.profileImageUrl
+                }),
+            });
+
+            const responseData = await response.json();
+
+            if (response.ok) {
+                setIsUpdated(!isUpdated);
+                setContent("");
+                toast({title: "Comment Created", description: "The comment was successfully created."});
+            } else {
+                toast({
+                    title: "Error",
+                    description: responseData.message || "An error occurred.",
+                    variant: "destructive"
+                });
+            }
+        } catch (ex: unknown) {
+            const errorMessage = (ex as Error).message || "An unexpected error occurred.";
+            toast({
+                title: "Error",
+                description: errorMessage,
+                variant: "destructive"
+            });
+        }
+    };
 
     const chartData = getCorrectAnswersData(currentGame);
 
@@ -245,38 +317,52 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                 </CardHeader>
                 <CardContent>
 
-                    <ScrollArea className="h-[220px]  p-4 border rounded-md">
-                        {currentGame?.comments.length == 0 ?
+                    <ScrollArea className="h-[300px]   border rounded-md">
+                        {comments.length == 0 ?
                             <>
                                 <div className="h-[170px] flex items-center justify-center">
-                                    <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There are no comments here yet. Be the first!</h1>
+                                    <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There are no
+                                        comments here yet. Be the first!</h1>
                                 </div>
                             </>
                             :
                             <>
-                                {currentGame?.comments.map((comment, index) => (
-                                    <div key={index} className="flex items-center gap-4 mt-2">
-                                        <Avatar className="hidden h-9 w-9 sm:flex">
-                                            <AvatarImage
-                                                src={comment.profileImageUrl}
-                                                alt={`${comment.username}'s profile`}
-                                            />
-                                            <AvatarFallback>
-                                                {(comment.username.charAt(0) + comment.username.charAt(1)).toUpperCase()}
-                                            </AvatarFallback>
-                                        </Avatar>
-                                        <div className="grid">
-                                            <p className="text-sm font-medium leading-none">{comment.username}</p>
+                                {comments.map((comment, index) => (
+                                    <a href={`/profile/${comment.userId}`} key={index} className="flex ps-4 pt-3 pb-2 pe-4 justify-between gap-4 hover:bg-neutral-900 ">
+                                        <div className="flex gap-4">
+                                            <Avatar className="hidden h-9 w-9 sm:flex">
+                                                <AvatarImage
+                                                    src={comment.profileImageUrl}
+                                                    alt={`${comment.username}'s profile`}
+                                                />
+                                                <AvatarFallback>
+                                                    {(comment.username.charAt(0) + comment.username.charAt(1)).toUpperCase()}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div>
+                                                <div className="flex w-full items-">
+                                                    <p className="font-medium">{comment.username}</p>
+                                                    <p className="ms-3 text-sm opacity-45">{formatDate(new Date(comment.commentDate))}</p>
+                                                </div>
+                                                <p>{comment.content}</p>
+                                            </div>
                                         </div>
-                                    </div>
+                                        <Button variant="destructive">Delete</Button>
+                                    </a>
                                 ))}
                             </>
                         }
                     </ScrollArea>
                     {!isCurrentUserPlayer ? <></> :
-                        <form className={`flex justify-end flex-wrap mt-4 gap-2 ${isCurrentUserPlayer ? "" : "hidden"}`}>
-                            <Textarea placeholder="Type your message here." className="w-full"/>
-                            <Button>Send</Button>
+                        <form className="flex justify-end flex-wrap mt-4 gap-4" onSubmit={OnSubmitCreateComment}>
+                            <Textarea
+                                placeholder="Type your message here."
+                                className="w-full" required
+                                onChange={(e) => {
+                                    setContent(e.target.value)
+                                }}
+                            />
+                            <Button type="submit">Send</Button>
                         </form>
                     }
                 </CardContent>

@@ -2,7 +2,7 @@ import {Player} from "@/utils/interfaces/Player.ts";
 import {Question} from "@/utils/interfaces/Question.ts";
 import {GameStatus} from "@/utils/interfaces/GameStatus.ts";
 import {CompletedAnswer} from "@/utils/interfaces/CompletedAnswer.ts";
-import {Comment} from "@/utils/interfaces/Comment.tsx";
+import {Comment} from "@/utils/interfaces/Comment.ts";
 
 export interface FinishedGame {
     id: number;

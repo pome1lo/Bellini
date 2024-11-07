@@ -14,7 +14,7 @@ import {Skeleton} from "@/components/ui/skeleton.tsx";
 export const GameRoomSkeleton = () => {
     return (
         <>
-            <div className="bg-muted/40 p-4 h-[80vh]">
+            <div className="bg-muted/40 p-4">
                 <Skeleton className="w-40 h-8"/>
 
                 <div className="flex flex-col xl:flex-row gap-4 mt-5">
