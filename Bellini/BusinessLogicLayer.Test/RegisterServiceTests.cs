@@ -3,8 +3,6 @@ using BusinessLogicLayer.Exceptions;
 using BusinessLogicLayer.Services;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
-using BusinessLogicLayer.Services.DTOs;
-using BusinessLogicLayer.Services.Interfaces;
 using BusinessLogicLayer.Services.Validators;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
@@ -35,7 +33,7 @@ namespace BusinessLogicLayer.Test
             _emailService = new Mock<INotificationService>();
             _codeVerificationValidator = new Mock<IValidator<CodeVerificationDto>>();
             _checkEmailDtoValidator = new Mock<IValidator<CheckEmailDto>>();
-            _registerService = new RegisterService(_userServiceMock.Object, _mapperMock.Object, _repository.Object, _emailService.Object, _registerValidator, _checkEmailDtoValidator.Object, _codeVerificationValidator.Object);
+            // _registerService = new RegisterService(_userServiceMock.Object, _mapperMock.Object, _repository.Object, _emailService.Object, _registerValidator, _checkEmailDtoValidator.Object, _codeVerificationValidator.Object);
         }
 
         [Test]

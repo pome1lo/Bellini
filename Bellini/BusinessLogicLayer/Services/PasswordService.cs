@@ -15,19 +15,22 @@ namespace BusinessLogicLayer.Services
         private readonly IValidator<ChangePasswordDto> _changePasswordValidator;
         private readonly IValidator<ForgotPasswordDto> _forgotPasswordValidator;
         private readonly IValidator<ResetPasswordDto> _resetPasswordValidator;
+        private readonly ICacheService _cacheService;
 
         public PasswordService(
             INotificationService emailService,
             IRepository<User> repository,
             IValidator<ChangePasswordDto> changePasswordValidator,
             IValidator<ForgotPasswordDto> forgotPasswordValidator,
-            IValidator<ResetPasswordDto> resetPasswordValidator)
+            IValidator<ResetPasswordDto> resetPasswordValidator,
+            ICacheService cacheService)
         {
             _emailService = emailService;
             _repository = repository;
             _changePasswordValidator = changePasswordValidator;
             _forgotPasswordValidator = forgotPasswordValidator;
             _resetPasswordValidator = resetPasswordValidator;
+            _cacheService = cacheService;
         }
 
         public async Task ChangePasswordAsync(ChangePasswordDto changePasswordDto, CancellationToken cancellationToken = default)
@@ -61,17 +64,17 @@ namespace BusinessLogicLayer.Services
                 throw new ValidationException(validationResult.Errors);
             }
 
-            var users = await _repository.GetElementsAsync(cancellationToken);
-            var user = users.FirstOrDefault(u => u.Email == forgotPasswordDto.Email);
+            var user = (await _repository.GetElementsAsync(cancellationToken)).FirstOrDefault(u => u.Email == forgotPasswordDto.Email);
             if (user is null)
             {
                 throw new NotFoundException("User not found.");
             }
 
             var verificationCode = VerificationCodeGenerator.GenerateVerificationCode();
-            user.VerificationCode = verificationCode;
-            user.VerificationCodeExpiry = DateTime.UtcNow.AddMinutes(15);
-            await _repository.UpdateAsync(user.Id, user, cancellationToken);
+            var expiry = TimeSpan.FromMinutes(15);
+
+            // Сохраняем код подтверждения во временном хранилище Redis
+            await _cacheService.SetAsync(forgotPasswordDto.Email, new { Code = verificationCode }, expiry);
 
             var notificationDto = new BaseEmailNotificationDto
             {
@@ -84,9 +87,8 @@ namespace BusinessLogicLayer.Services
 
         public async Task VerifyCodeAsync(VerifyCodeDto verifyCodeDto, CancellationToken cancellationToken = default)
         {
-            var users = await _repository.GetElementsAsync(cancellationToken);
-            var user = users.FirstOrDefault(u => u.Email == verifyCodeDto.Email);
-            if (user is null || user.VerificationCode != verifyCodeDto.VerificationCode || user.VerificationCodeExpiry < DateTime.UtcNow)
+            var cachedData = await _cacheService.GetAsync<dynamic>(verifyCodeDto.Email);
+            if (cachedData == null || cachedData.Code != verifyCodeDto.VerificationCode)
             {
                 throw new UnauthorizedAccessException("Invalid or expired verification code.");
             }
@@ -106,15 +108,17 @@ namespace BusinessLogicLayer.Services
                 throw new NotFoundException("User not found.");
             }
 
-            if (user.VerificationCode != resetPasswordDto.VerificationCode || user.VerificationCodeExpiry < DateTime.UtcNow)
+            var cachedData = await _cacheService.GetAsync<dynamic>(resetPasswordDto.Email);
+            if (cachedData == null || cachedData.Code != resetPasswordDto.VerificationCode)
             {
                 throw new ValidationException("Invalid or expired verification code.");
             }
 
             user.Password = BCrypt.Net.BCrypt.HashPassword(resetPasswordDto.NewPassword);
-            user.VerificationCode = null;
-            user.VerificationCodeExpiry = DateTime.MinValue;
             await _repository.UpdateAsync(user.Id, user, cancellationToken);
+
+            // Удаляем временные данные из Redis
+            await _cacheService.RemoveAsync(resetPasswordDto.Email);
         }
     }
 }

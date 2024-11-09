@@ -1,9 +1,5 @@
 using AuthenticationService.MiddlewareExtensions;
 using BusinessLogicLayer.Services;
-using BusinessLogicLayer.Services.DTOs;
-using BusinessLogicLayer.Services.Interfaces;
-using BusinessLogicLayer.Services.Validators;
-using BusinessLogicLayer.Services;
 using BusinessLogicLayer.Services.Configs;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
@@ -14,6 +10,7 @@ using DataAccessLayer.Data.Repositories;
 using DataAccessLayer.Models;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +22,8 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
     options.InstanceName = "local";
 });
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost:6379")); 
 
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
 
@@ -42,6 +41,7 @@ builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IRegisterService, RegisterService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
+builder.Services.AddScoped<ICacheService, CacheService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddAutoMapper(cfg =>

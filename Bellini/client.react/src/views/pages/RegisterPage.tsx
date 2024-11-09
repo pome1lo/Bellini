@@ -64,7 +64,7 @@ export const RegisterPage = () => {
             const response = await serverFetch('/auth/register/check-email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ Email: values.email }),
+                body: JSON.stringify({ email: values.email }),
             });
 
             if (response.ok) {
