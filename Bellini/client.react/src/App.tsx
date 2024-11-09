@@ -27,12 +27,20 @@ import {GameFinishedPage} from "@/views/pages/GameFinishedPage.tsx";
 import {QuizzesListPage} from "@/views/pages/QuizzesListPage.tsx";
 import {QuizRoomPage} from "@/views/pages/QuizRoomPage.tsx";
 import {ForgotPasswordPage} from "@/views/pages/ForgotPasswordPage.tsx";
+import {QuizFinishedPage} from "@/views/pages/QuizFinishedPage.tsx";
+import {QuizStartedPage} from "@/views/pages/QuizStartedPage.tsx";
+import {FinishedQuiz} from "@/utils/interfaces/FinishedQuiz.ts";
+import {StartedQuiz} from "@/utils/interfaces/StartedQuiz.ts";
 
 function App() {
     const [gameStarted, setGameStarted] = useState(false);
+    const [quizStarted, setQuizStarted] = useState(false);
     const [gameFinished, setGameFinished] = useState(false);
+    const [quizFinished, setQuizFinished] = useState(false);
     const [currentStartedGame, setCurrentStartedGame] = useState<StartedGame>();
+    const [currentStartedQuiz, setCurrentStartedQuiz] = useState<StartedQuiz>();
     const [currentFinishedGame, setCurrentFinishedGame] = useState<FinishedGame>();
+    const [currentFinishedQuiz, setCurrentFinishedQuiz] = useState<FinishedQuiz>();
 
     useEffect(() => AOS.init , []);
 
@@ -45,6 +53,17 @@ function App() {
         setCurrentFinishedGame(game);
         setGameFinished(true);
         setGameStarted(false);
+    };
+
+    const handleQuizStart = (quiz: StartedQuiz) => {
+        setCurrentStartedQuiz(quiz);
+        setQuizStarted(true);
+    };
+
+    const handleQuizFinish = (quiz: FinishedQuiz) => {
+        setCurrentFinishedQuiz(quiz);
+        setQuizFinished(true);
+        setQuizStarted(false);
     };
 
 
@@ -77,7 +96,7 @@ function App() {
                             <Route path='register' element={<RegisterPage/>}/>
                             <Route path='forgot-password' element={<ForgotPasswordPage/>}/>
 
-                            <Route path='quizzes/:id' element={<QuizRoomPage/>}/>
+                            {/*<Route path='quizzes/:id' element={<QuizRoomPage/>}/>*/}
 
 
                             <Route path='games/:id' element={
@@ -98,6 +117,26 @@ function App() {
                                 )
                             }
                             />
+
+                            <Route path='quizzes/:id' element={
+                                quizFinished ? (
+                                    currentFinishedQuiz ? (
+                                        <QuizFinishedPage currentQuiz={currentFinishedQuiz} />
+                                    ) : (
+                                        <div> Loading... QuizFinishedPage</div>  //todo add Skeleton
+                                    )
+                                ) : quizStarted ? (
+                                    currentStartedQuiz ? (
+                                        <QuizStartedPage currentQuiz={currentStartedQuiz} onQuizFinish={handleQuizFinish} />
+                                    ) : (
+                                        <div>Loading... QuizStartedPage</div>  //todo add Skeleton
+                                    )
+                                ) : (
+                                    <QuizRoomPage onQuizStart={handleQuizStart} isQuizFinished={setQuizFinished} onQuizFinish={handleQuizFinish} />
+                                )
+                            }
+                            />
+
                         </Route>
                         <Route path="500" element={<InternalServerErrorPage/>}/>
                         <Route path="404" element={<NotFoundPage/>}/>

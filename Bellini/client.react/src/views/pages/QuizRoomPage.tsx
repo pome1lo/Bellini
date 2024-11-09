@@ -3,8 +3,20 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {Quiz} from "@/utils/interfaces/Quiz.ts";
+import {StartedGame} from "@/utils/interfaces/StartedGame.ts";
+import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
+import {toast} from "@/components/ui/use-toast.ts";
+import {StartedQuiz} from "@/utils/interfaces/StartedQuiz.ts";
+import {Button} from "@/components/ui/button.tsx";
+import {CirclePlay} from "lucide-react";
 
-export const QuizRoomPage = () => {
+interface QuizRoomPageProps {
+    onQuizStart: (game: StartedGame) => void;
+    isQuizFinished: (isFinished: boolean) => void;
+    onQuizFinish: (game: FinishedGame) => void;
+}
+
+export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFinished, onQuizFinish}) => {
     const {id} = useParams();
     const [currentQUiz, setCurrentQUiz] = useState<Quiz>();
     const navigate = useNavigate();
@@ -27,10 +39,62 @@ export const QuizRoomPage = () => {
             });
     }, [id, isAuthenticated, user, navigate]);
 
+    async function startQuiz() {
+        try {
+            if (!isAuthenticated || !user) {
+                navigate('/login');
+                return;
+            }
+
+            const response = await serverFetch(`/game/${id}/start`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    // players: serverPlayers,
+                    // gameId: id,
+                    // hostId: user.id,
+                }),
+            });
+            const responseData: StartedQuiz = await response.json();
+
+
+            if (response.ok) {
+                onQuizStart(responseData);
+            } else {
+                toast({
+                    title: "Error",
+                    description: responseData.Message || "An error occurred.",
+                    variant: "destructive"
+                });
+            }
+            // else if (responseData.ErrorCode == "NotFoundGameQuestionsException") {
+            //     toast({
+            //         title: "Error",
+            //         description: responseData.Message || "An error occurred.",
+            //         variant: "destructive"
+            //     });
+            // }
+
+        } catch (error) {
+            console.error('Error while disconnecting:', error);
+            toast({
+                title: "Error",
+                description: error.message || "An unexpected error occurred.",
+                variant: "destructive"
+            });
+        }
+        // finally { }
+    }
+
+
     return (
         <>
             {id}
             {currentQUiz?.gameName}
+            <Button size="sm" className="h-8 ms-3 gap-1" onClick={startQuiz}>
+                <CirclePlay className="h-3.5 w-3.5"/>
+                Start Game
+            </Button>
         </>
     );
 }
