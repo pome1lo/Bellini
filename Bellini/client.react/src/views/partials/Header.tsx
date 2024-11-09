@@ -25,39 +25,27 @@ import {useAuth} from "@/utils/context/authContext.tsx";
 
 const components: { title: string; href: string; description: string }[] = [
     {
-        title: "Alert Dialog",
-        href: "/games",
+        title: "All games",
+        href: "/games/all",
         description:
-            "A modal dialog that interrupts the user with important content and expects a response.",
+            "This section contains all the games from the Private and Public categories.",
     },
     {
-        title: "Hover Card",
-        href: "/games",
+        title: "Public games",
+        href: "/games/public",
         description:
-            "For sighted users to preview content available behind a link.",
+            "This section contains all the games from the Public category.",
     },
     {
-        title: "Progress",
-        href: "/games",
+        title: "Private games",
+        href: "/games/private",
         description:
-            "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+            "This section contains all the games from the Private category.",
     },
     {
-        title: "Scroll-area",
-        href: "/games",
-        description: "Visually or semantically separates content.",
-    },
-    {
-        title: "Tabs",
-        href: "/games",
-        description:
-            "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-    },
-    {
-        title: "Tooltip",
-        href: "/games",
-        description:
-            "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+        title: "Completed games",
+        href: "/games/completed",
+        description: "All completed games are presented in this section.",
     },
 ]
 
