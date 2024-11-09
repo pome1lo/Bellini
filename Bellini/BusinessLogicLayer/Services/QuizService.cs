@@ -14,6 +14,11 @@ namespace BusinessLogicLayer.Services
             _quizRepository = quizRepository;
         }
 
+        public Task<QuizResultDto> EndQuizAsync(int quizSessionId, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<(IEnumerable<QuizDto> Quizzes, int TotalCount)> GetAllQuizzesAsync(int limit, int offset, CancellationToken cancellationToken = default)
         {
             var allQuizzes = await _quizRepository.GetElementsAsync(cancellationToken);
@@ -38,10 +43,19 @@ namespace BusinessLogicLayer.Services
             return (paginatedQuizzes, totalCount);
         }
 
+        public Task<QuizQuestionDto> GetNextQuestionAsync(int quizSessionId, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task<Quiz> GetQuizByIdAsync(int id, CancellationToken cancellationToken = default)
         {
             return await _quizRepository.GetItemAsync(id, cancellationToken);
+        }
+
+        public Task<QuizSessionDto> StartQuizAsync(int quizId, int userId, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
     }
 }

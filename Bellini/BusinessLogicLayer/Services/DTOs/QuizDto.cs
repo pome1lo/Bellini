@@ -7,6 +7,6 @@
         public string GameCoverImageUrl { get; set; } = null!;
         public DateTime StartTime { get; set; } = DateTime.MinValue;
         public DateTime EndTime { get; set; } = DateTime.MinValue;
-        public int NumberOfQuestions = 0;
+        public int NumberOfQuestions { get; set; } = 0;
     }
 }
