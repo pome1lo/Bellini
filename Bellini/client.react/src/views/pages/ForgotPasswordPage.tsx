@@ -108,73 +108,98 @@ export const ForgotPasswordPage = () => {
 
     return (
         <div className="flex align-middle h-[78dvh] rounded-md">
-            <div className="w-96 m-auto">
+            <div className="w-96 m-auto" >
                 {!showCodeForm ? (
                     <Form {...emailForm}>
                         <p className="font-bold text-2xl text-center">Reset Password</p>
+                        <p className="text-center mb-3">Enter your email address to recover your password</p>
                         <form onSubmit={emailForm.handleSubmit(onSubmitEmailForm)}>
                             <FormField
                                 control={emailForm.control}
                                 name="email"
-                                render={({ field }) => (
+                                render={({field}) => (
                                     <FormItem>
                                         <FormControl>
-                                            <Input placeholder="name@example.com" type="email" {...field} required />
+                                            <Input placeholder="name@example.com" type="email" {...field} required/>
                                         </FormControl>
                                         <FormMessage>{errorMessage}</FormMessage>
                                     </FormItem>
                                 )}
                             />
-                            <Button type="submit">Send Code</Button>
+                            <Button type="submit" className="w-full mt-3">Send Code</Button>
                         </form>
                     </Form>
                 ) : showPasswordForm ? (
                     <Form {...resetPasswordForm}>
                         <p className="font-bold text-2xl text-center">Enter New Password</p>
+                        <p className="text-center mb-3">Enter your new password to log in to your account</p>
                         <form onSubmit={resetPasswordForm.handleSubmit(onSubmitResetPasswordForm)}>
                             <FormField
                                 control={resetPasswordForm.control}
                                 name="newPassword"
-                                render={({ field }) => (
+                                render={({field}) => (
                                     <FormItem>
                                         <FormControl>
-                                            <Input type="password" placeholder="New Password" {...field} required />
+                                            <Input type="password" placeholder="New Password" {...field} required/>
                                         </FormControl>
                                         <FormMessage>{errorMessage}</FormMessage>
                                     </FormItem>
                                 )}
                             />
-                            <Button type="submit">Reset Password</Button>
+                            <Button type="submit" className="w-full mt-3">Reset Password</Button>
                         </form>
                     </Form>
                 ) : (
                     <Form {...codeForm}>
-                        <p className="font-bold text-2xl text-center">Verify Code</p>
-                        <form onSubmit={codeForm.handleSubmit(onSubmitCodeForm)}>
+                    <p className="font-bold text-2xl text-center">Verify Code</p>
+                        <p className="text-center mb-3">
+                            The password reset code will be sent to your email
+                        </p>
+                        <form onSubmit={codeForm.handleSubmit(onSubmitCodeForm)}className="space-y-4 mt-2 text-center">
+                            <div className="flex items-center flex-col">
                             <Controller
                                 name="code"
                                 control={codeForm.control}
-                                render={({ field }) => (
-                                    <InputOTP value={field.value} onChange={field.onChange} maxLength={6} required>
+                                render={({field}) => (
+                                    <InputOTP value={field.value} onChange={field.onChange} maxLength={6} required className="ms-4">
                                         <InputOTPGroup className="p-2">
-                                            <InputOTPSlot index={0} />
-                                            <InputOTPSlot index={1} />
-                                            <InputOTPSlot index={2} />
+                                            <InputOTPSlot index={0}/>
+                                            <InputOTPSlot index={1}/>
+                                            <InputOTPSlot index={2}/>
                                         </InputOTPGroup>
-                                        <InputOTPSeparator />
+                                        <InputOTPSeparator/>
                                         <InputOTPGroup>
-                                            <InputOTPSlot index={3} />
-                                            <InputOTPSlot index={4} />
-                                            <InputOTPSlot index={5} />
+                                            <InputOTPSlot index={3}/>
+                                            <InputOTPSlot index={4}/>
+                                            <InputOTPSlot index={5}/>
                                         </InputOTPGroup>
                                     </InputOTP>
                                 )}
                             />
-                            <Button type="submit">Verify Code</Button>
+                            </div>
+                            <Button type="submit" className="w-full">Verify Code</Button>
                         </form>
                     </Form>
                 )}
+                <div className="flex flex-col gap-2 mt-3">
+                    <div className="relative">
+                        <div className="absolute inset-0 flex items-center"><span
+                            className="w-full border-t"></span></div>
+                        <div className="relative flex justify-center text-xs uppercase"><span
+                            className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                        </div>
+                    </div>
+                    <Button onClick={() => navigate('/register')} variant="outline"
+                            className="w-full">Register</Button>
+                    <p className="px-8 text-center text-sm text-muted-foreground">
+                        By clicking continue, you agree to our
+                        <a className="underline hover:text-primary" href=""> Terms of Service </a>
+                        and
+                        <a className="underline hover:text-primary" href=""> Privacy Policy</a>.
+                    </p>
+                </div>
             </div>
+
         </div>
     );
 };
