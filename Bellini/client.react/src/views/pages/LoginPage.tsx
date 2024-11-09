@@ -101,7 +101,7 @@ export const LoginPage = () => {
                                     <FormItem>
                                         <div className="flex justify-between items-center">
                                             <FormLabel>Password</FormLabel>
-                                            <Link to='/forgot-password'>Forgot password?</Link>
+                                            <Link className="text-sm" to='/forgot-password'>Forgot password?</Link>
                                         </div>
                                         <FormControl>
                                             <Input type="password" {...field} required/>

@@ -26,6 +26,7 @@ import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
 import {GameFinishedPage} from "@/views/pages/GameFinishedPage.tsx";
 import {QuizzesListPage} from "@/views/pages/QuizzesListPage.tsx";
 import {QuizRoomPage} from "@/views/pages/QuizRoomPage.tsx";
+import {ForgotPasswordPage} from "@/views/pages/ForgotPasswordPage.tsx";
 
 function App() {
     const [gameStarted, setGameStarted] = useState(false);
@@ -74,6 +75,7 @@ function App() {
                             <Route index element={<MainPage/>}/>
                             <Route path='login' element={<LoginPage/>}/>
                             <Route path='register' element={<RegisterPage/>}/>
+                            <Route path='forgot-password' element={<ForgotPasswordPage/>}/>
 
                             <Route path='quizzes/:id' element={<QuizRoomPage/>}/>
 

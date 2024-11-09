@@ -76,8 +76,6 @@ export const RegisterPage = () => {
                 setErrorMessage(data.Message || 'An error occurred');
             }
         } catch (ex) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             setErrorMessage(ex.Message || 'An unexpected error occurred');
         }
     }
@@ -103,8 +101,6 @@ export const RegisterPage = () => {
                 setErrorMessage(data.Message || 'An error occurred');
             }
         } catch (ex) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             setErrorMessage(ex.Message || 'An unexpected error occurred');
         }
     }
@@ -137,8 +133,6 @@ export const RegisterPage = () => {
                 }
             }
         } catch (ex) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
             setErrorMessage(ex.Message || 'An unexpected error occurred');
         }
     }

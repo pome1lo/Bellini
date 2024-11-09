@@ -34,15 +34,17 @@ namespace AuthenticationService.Controllers
         [HttpPost("forgot")]
         public async Task<IActionResult> Forgot([FromBody] ForgotPasswordDto forgotPasswordDto, CancellationToken cancellationToken = default)
         {
-            await _passwordService.ForgotPasswordAsync(forgotPasswordDto, cancellationToken);
-            return Ok();
+            return Ok(
+                await _passwordService.ForgotPasswordAsync(forgotPasswordDto, cancellationToken)
+            );
         }
 
         [HttpPost("verify")]
         public async Task<IActionResult> Verify([FromBody] VerifyCodeDto verifyCodeDto, CancellationToken cancellationToken = default)
         {
-            await _passwordService.VerifyCodeAsync(verifyCodeDto, cancellationToken);
-            return Ok();
+            return Ok(
+                await _passwordService.VerifyCodeAsync(verifyCodeDto, cancellationToken)
+            );
         }
     }
 }

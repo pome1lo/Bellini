@@ -56,7 +56,7 @@ namespace BusinessLogicLayer.Services
             await _repository.UpdateAsync(user.Id, user, cancellationToken);
         }
 
-        public async Task ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto, CancellationToken cancellationToken = default)
+        public async Task<int> ForgotPasswordAsync(ForgotPasswordDto forgotPasswordDto, CancellationToken cancellationToken = default)
         {
             var validationResult = await _forgotPasswordValidator.ValidateAsync(forgotPasswordDto, cancellationToken);
             if (!validationResult.IsValid)
@@ -74,7 +74,7 @@ namespace BusinessLogicLayer.Services
             var expiry = TimeSpan.FromMinutes(15);
 
             // Сохраняем код подтверждения во временном хранилище Redis
-            await _cacheService.SetAsync(forgotPasswordDto.Email, new { Code = verificationCode }, expiry);
+            await _cacheService.SetAsync(forgotPasswordDto.Email, new VerificationCodeDataDto { Code = verificationCode }, expiry);
 
             var notificationDto = new BaseEmailNotificationDto
             {
@@ -83,15 +83,17 @@ namespace BusinessLogicLayer.Services
                 Body = $"Your verification code is {verificationCode}"
             };
             await _emailService.SendEmailNotificationAsync(notificationDto, cancellationToken);
+            return user.Id;
         }
 
-        public async Task VerifyCodeAsync(VerifyCodeDto verifyCodeDto, CancellationToken cancellationToken = default)
+        public async Task<string> VerifyCodeAsync(VerifyCodeDto verifyCodeDto, CancellationToken cancellationToken = default)
         {
-            var cachedData = await _cacheService.GetAsync<dynamic>(verifyCodeDto.Email);
+            var cachedData = await _cacheService.GetAsync<VerificationCodeDataDto>(verifyCodeDto.Email);
             if (cachedData == null || cachedData.Code != verifyCodeDto.VerificationCode)
             {
                 throw new UnauthorizedAccessException("Invalid or expired verification code.");
             }
+            return verifyCodeDto.VerificationCode;
         }
 
         public async Task ResetPasswordAsync(ResetPasswordDto resetPasswordDto, CancellationToken cancellationToken = default)
@@ -108,7 +110,7 @@ namespace BusinessLogicLayer.Services
                 throw new NotFoundException("User not found.");
             }
 
-            var cachedData = await _cacheService.GetAsync<dynamic>(resetPasswordDto.Email);
+            var cachedData = await _cacheService.GetAsync<VerificationCodeDataDto>(resetPasswordDto.Email);
             if (cachedData == null || cachedData.Code != resetPasswordDto.VerificationCode)
             {
                 throw new ValidationException("Invalid or expired verification code.");
