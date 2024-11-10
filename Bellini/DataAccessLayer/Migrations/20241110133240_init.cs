@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -118,6 +118,7 @@ namespace DataAccessLayer.Migrations
                     NumberOfCorrectAnswers = table.Column<int>(type: "int", nullable: false),
                     NumberOfQuestions = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     QuizId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -135,6 +136,35 @@ namespace DataAccessLayer.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuizSessions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuizId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsCompleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuizSessions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuizSessions_Quizzes_QuizId",
+                        column: x => x.QuizId,
+                        principalTable: "Quizzes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_QuizSessions_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -229,6 +259,33 @@ namespace DataAccessLayer.Migrations
                         principalTable: "QuizQuestions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuizAnsweredQuestions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuestionId = table.Column<int>(type: "int", nullable: false),
+                    IsCorrect = table.Column<bool>(type: "bit", nullable: false),
+                    QuizSessionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuizAnsweredQuestions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuizAnsweredQuestions_QuizQuestions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "QuizQuestions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_QuizAnsweredQuestions_QuizSessions_QuizSessionId",
+                        column: x => x.QuizSessionId,
+                        principalTable: "QuizSessions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -474,6 +531,16 @@ namespace DataAccessLayer.Migrations
                 column: "GameId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_QuizAnsweredQuestions_QuestionId",
+                table: "QuizAnsweredQuestions",
+                column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuizAnsweredQuestions_QuizSessionId",
+                table: "QuizAnsweredQuestions",
+                column: "QuizSessionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_QuizAnswerOptions_QuizQuestionId",
                 table: "QuizAnswerOptions",
                 column: "QuizQuestionId");
@@ -492,6 +559,16 @@ namespace DataAccessLayer.Migrations
                 name: "IX_QuizResults_UserId",
                 table: "QuizResults",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuizSessions_QuizId",
+                table: "QuizSessions",
+                column: "QuizId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuizSessions_UserId",
+                table: "QuizSessions",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -504,6 +581,9 @@ namespace DataAccessLayer.Migrations
                 name: "CompletedAnswers");
 
             migrationBuilder.DropTable(
+                name: "QuizAnsweredQuestions");
+
+            migrationBuilder.DropTable(
                 name: "QuizAnswerOptions");
 
             migrationBuilder.DropTable(
@@ -514,6 +594,9 @@ namespace DataAccessLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Players");
+
+            migrationBuilder.DropTable(
+                name: "QuizSessions");
 
             migrationBuilder.DropTable(
                 name: "QuizQuestions");

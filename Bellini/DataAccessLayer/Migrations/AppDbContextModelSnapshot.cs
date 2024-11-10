@@ -895,6 +895,32 @@ namespace DataAccessLayer.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.QuizAnsweredQuestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuizSessionId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("QuizSessionId");
+
+                    b.ToTable("QuizAnsweredQuestions");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.QuizQuestion", b =>
                 {
                     b.Property<int>("Id")
@@ -1048,6 +1074,9 @@ namespace DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("NumberOfCorrectAnswers")
                         .HasColumnType("int");
 
@@ -1067,6 +1096,38 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("QuizResults", (string)null);
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.QuizSession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("QuizId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuizId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("QuizSessions");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.User", b =>
@@ -1216,6 +1277,25 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("QuizQuestion");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.QuizAnsweredQuestion", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.QuizQuestion", "QuizQuestion")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.QuizSession", "QuizSession")
+                        .WithMany("QuizAnsweredQuestions")
+                        .HasForeignKey("QuizSessionId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("QuizQuestion");
+
+                    b.Navigation("QuizSession");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.QuizQuestion", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.Quiz", "Quiz")
@@ -1239,6 +1319,25 @@ namespace DataAccessLayer.Migrations
                         .WithMany("QuizResults")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Quiz");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.QuizSession", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Quiz", "Quiz")
+                        .WithMany()
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Quiz");
@@ -1277,6 +1376,11 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("DataAccessLayer.Models.QuizQuestion", b =>
                 {
                     b.Navigation("AnswerOptions");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.QuizSession", b =>
+                {
+                    b.Navigation("QuizAnsweredQuestions");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.User", b =>

@@ -29,6 +29,7 @@ namespace DataAccessLayer.Data.Repositories
         {
             var obj = await _dbSet
                 .Include(q => q.Questions) // Включение связанных вопросов
+                    .ThenInclude(q => q.AnswerOptions)
                 .Include(q => q.QuizResults) // Включение результатов квиза
                 .AsSplitQuery()
                 .FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
