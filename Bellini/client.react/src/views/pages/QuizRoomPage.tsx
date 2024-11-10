@@ -3,22 +3,20 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {Quiz} from "@/utils/interfaces/Quiz.ts";
-import {StartedGame} from "@/utils/interfaces/StartedGame.ts";
-import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
 import {toast} from "@/components/ui/use-toast.ts";
 import {StartedQuiz} from "@/utils/interfaces/StartedQuiz.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {CirclePlay} from "lucide-react";
 
 interface QuizRoomPageProps {
-    onQuizStart: (game: StartedGame) => void;
+    onQuizStart: (game: StartedQuiz) => void;
     isQuizFinished: (isFinished: boolean) => void;
-    onQuizFinish: (game: FinishedGame) => void;
+    onQuizFinish: (game: Quiz) => void;
 }
 
 export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFinished, onQuizFinish}) => {
     const {id} = useParams();
-    const [currentQUiz, setCurrentQUiz] = useState<Quiz>();
+    const [currentQuiz, setCurrentQUiz] = useState<Quiz>();
     const navigate = useNavigate();
     const {isAuthenticated, user} = useAuth();
 
@@ -27,17 +25,22 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
             navigate('/login');
             return;
         }
-
         serverFetch(`/quizzes/${id}`)
             .then(response => response.json())
             .then(data => {
                 setCurrentQUiz(data);
                 console.log(data);
+                if (data.quizResults.some(result => result.userId === user.id)) {
+                    isQuizFinished(true);
+                    onQuizFinish(data);
+                }
             })
             .catch(error => {
                 console.error('Error fetching game:', error.message);
             });
     }, [id, isAuthenticated, user, navigate]);
+
+
 
     async function startQuiz() {
         try {
@@ -45,35 +48,25 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
                 navigate('/login');
                 return;
             }
-
-            const response = await serverFetch(`/game/${id}/start`, {
+            const response = await serverFetch(`/quizzes/${id}/start`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
-                    // players: serverPlayers,
-                    // gameId: id,
-                    // hostId: user.id,
+                    userId: user.id,
                 }),
             });
             const responseData: StartedQuiz = await response.json();
-
+            console.log(responseData);
 
             if (response.ok) {
                 onQuizStart(responseData);
             } else {
                 toast({
                     title: "Error",
-                    description: responseData.Message || "An error occurred.",
+                    description: responseData.message || "An error occurred.",
                     variant: "destructive"
                 });
             }
-            // else if (responseData.ErrorCode == "NotFoundGameQuestionsException") {
-            //     toast({
-            //         title: "Error",
-            //         description: responseData.Message || "An error occurred.",
-            //         variant: "destructive"
-            //     });
-            // }
 
         } catch (error) {
             console.error('Error while disconnecting:', error);
@@ -83,18 +76,21 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
                 variant: "destructive"
             });
         }
-        // finally { }
     }
 
 
     return (
         <>
             {id}
-            {currentQUiz?.gameName}
+            <p>Имя {currentQuiz?.gameName}</p>
+            <p>Количество вопросов {currentQuiz?.questions.length}</p>
+
             <Button size="sm" className="h-8 ms-3 gap-1" onClick={startQuiz}>
                 <CirclePlay className="h-3.5 w-3.5"/>
                 Start Game
             </Button>
+
+
         </>
     );
 }

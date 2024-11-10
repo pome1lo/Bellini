@@ -31,6 +31,7 @@ import {QuizFinishedPage} from "@/views/pages/QuizFinishedPage.tsx";
 import {QuizStartedPage} from "@/views/pages/QuizStartedPage.tsx";
 import {FinishedQuiz} from "@/utils/interfaces/FinishedQuiz.ts";
 import {StartedQuiz} from "@/utils/interfaces/StartedQuiz.ts";
+import {Quiz} from "@/utils/interfaces/Quiz.ts";
 
 function App() {
     const [gameStarted, setGameStarted] = useState(false);
@@ -40,7 +41,7 @@ function App() {
     const [currentStartedGame, setCurrentStartedGame] = useState<StartedGame>();
     const [currentStartedQuiz, setCurrentStartedQuiz] = useState<StartedQuiz>();
     const [currentFinishedGame, setCurrentFinishedGame] = useState<FinishedGame>();
-    const [currentFinishedQuiz, setCurrentFinishedQuiz] = useState<FinishedQuiz>();
+    const [currentFinishedQuiz, setCurrentFinishedQuiz] = useState<Quiz>();
 
     useEffect(() => AOS.init , []);
 
@@ -60,7 +61,7 @@ function App() {
         setQuizStarted(true);
     };
 
-    const handleQuizFinish = (quiz: FinishedQuiz) => {
+    const handleQuizFinish = (quiz: Quiz) => {
         setCurrentFinishedQuiz(quiz);
         setQuizFinished(true);
         setQuizStarted(false);
