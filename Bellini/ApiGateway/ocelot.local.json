@@ -115,6 +115,42 @@
       "UpstreamPathTemplate": "/game/{id:int}/start",
       "UpstreamHttpMethod": [ "POST" ]
     },
+    {
+      "DownstreamPathTemplate": "/api/quizzes/{id:int}/start",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes/{id:int}/start",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    //{
+    //  "DownstreamPathTemplate": "/api/quizzes/sessions/{quizSessionId:int}/next-question",
+    //  "DownstreamScheme": "https",
+    //  "DownstreamHostAndPorts": [
+    //    {
+    //      "Host": "localhost",
+    //      "Port": 7035
+    //    }
+    //  ],
+    //  "UpstreamPathTemplate": "/quizzes/sessions/{quizSessionId:int}/next-question",
+    //  "UpstreamHttpMethod": [ "GET" ]
+    //},
+    {
+      "DownstreamPathTemplate": "/api/quizzes/{id:int}/end",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes/{id:int}/end",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
     // SignalR Hub for GameService
 
     //{
