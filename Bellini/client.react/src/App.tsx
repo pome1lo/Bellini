@@ -32,6 +32,7 @@ import {QuizStartedPage} from "@/views/pages/QuizStartedPage.tsx";
 import {FinishedQuiz} from "@/utils/interfaces/FinishedQuiz.ts";
 import {StartedQuiz} from "@/utils/interfaces/StartedQuiz.ts";
 import {Quiz} from "@/utils/interfaces/Quiz.ts";
+import { NotifiactionsPage } from './views/pages/NotifiactionsPage.tsx';
 
 function App() {
     const [gameStarted, setGameStarted] = useState(false);
@@ -81,12 +82,11 @@ function App() {
                             <Route path='about' element={<AboutPage/>}/>
                             <Route path='support' element={<SupportPage/>}/>
                             <Route path='profile/:id' element={<ProfilePage/>}/>
-
                             <Route path='games' element={<GameListPage/>}/>
                             <Route path='games/:tabName' element={<GameListPage/>}/>
-
                             <Route path='quizzes' element={<QuizzesListPage/>}/>
                             <Route path='quizzes/:tabName' element={<QuizzesListPage/>}/>
+                            <Route path='notifications' element={<NotifiactionsPage/>}/>
 
                             <Route element={<PrivateRoute/>}>
 
@@ -97,9 +97,6 @@ function App() {
                             <Route path='login' element={<LoginPage/>}/>
                             <Route path='register' element={<RegisterPage/>}/>
                             <Route path='forgot-password' element={<ForgotPasswordPage/>}/>
-
-                            {/*<Route path='quizzes/:id' element={<QuizRoomPage/>}/>*/}
-
 
                             <Route path='games/:id' element={
                                 gameFinished ? (

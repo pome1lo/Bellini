@@ -58,7 +58,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                     .then(() => {
                         console.log("Joined running game room");
                     })
-                    .catch((error) => {
+                    .catch((error: unknown) => {
                         console.error("Error joining running game:", error);
                     });
 
@@ -86,7 +86,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                     // Логика для отображения списка игроков
                     console.log("Players in the game:", playerList);
                 });
-            }).catch(error => {
+            }).catch((error: unknown) => {
                 console.error("Connection failed:", error);
             });
 

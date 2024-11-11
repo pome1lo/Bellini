@@ -37,12 +37,7 @@ const breadcrumbItems = [
     {path: '/quizzes', name: 'Quizzes'},
 ];
 
-interface QuizzesListPageProps {
-    tabContentName: string;
-}
-
-
-export const QuizzesListPage: React.FC<QuizzesListPageProps> = ({tabContentName}) => {
+export const QuizzesListPage = () =>{
     const [isUpdated, setIsUpdated] = useState<boolean>(false);
     const {tabName} = useParams();
     const navigate = useNavigate();

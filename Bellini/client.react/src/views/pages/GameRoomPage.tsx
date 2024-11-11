@@ -268,11 +268,11 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                         variant: "destructive"
                     });
                 }
-            } catch (error) {
+            } catch (error: unknown) {
                 console.error('Error while disconnecting:', error);
                 toast({
                     title: "Error",
-                    description: error.message || "An unexpected error occurred.",
+                    description: (error as Error).message || "An unexpected error occurred.",
                     variant: "destructive"
                 });
             }
@@ -303,10 +303,8 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                     variant: "destructive",
                 });
             }
-        } catch (ex) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            toast({title: "Error", description: ex.message || "An unexpected error occurred.", variant: "destructive"});
+        } catch (ex: unknown) {
+            toast({title: "Error", description: (ex as Error).message || "An unexpected error occurred.", variant: "destructive"});
         }
     }
 

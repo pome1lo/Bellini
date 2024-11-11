@@ -66,10 +66,8 @@ export const LoginPage = () => {
             } else {
                 setErrorMessage(data.Message || 'An error occurred');
             }
-        } catch (ex) {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            setErrorMessage(ex.message || 'An unexpected error occurred');
+        } catch (ex: unknown) {
+            setErrorMessage((ex as Error).message || 'An unexpected error occurred');
         }
     }
 

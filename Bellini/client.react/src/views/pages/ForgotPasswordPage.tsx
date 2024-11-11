@@ -61,7 +61,8 @@ export const ForgotPasswordPage = () => {
             } else {
                 setErrorMessage(data.message || 'An error occurred');
             }
-        } catch (ex) {
+        } catch (ex: unknown) {
+            console.log((ex as Error).message);
             setErrorMessage('An unexpected error occurred');
         }
     }

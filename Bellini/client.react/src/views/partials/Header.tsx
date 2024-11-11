@@ -127,7 +127,7 @@ export const Header = () => {
                         </NavigationMenuList>
                     </NavigationMenu>
                     <div className="flex items-center space-x-4">
-                        <Button variant="ghost" onClick={() => navigate("profile/notifications")}>
+                        <Button variant="ghost" onClick={() => navigate("/notifications")}>
                             <IoNotificationsOutline className="text-xl" />
                         </Button>
                         <ModeToggle />
