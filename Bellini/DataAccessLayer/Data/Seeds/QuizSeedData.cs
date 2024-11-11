@@ -59,7 +59,7 @@ namespace DataAccessLayer.Data.Seeds
                 new QuizQuestion { Id = 17, Text = "Какой язык был официальным в Риме?", QuizId = 2 },
                 new QuizQuestion { Id = 18, Text = "Какое искусство было популярно в Риме?", QuizId = 2 },
                 new QuizQuestion { Id = 19, Text = "Какой строй был установлен в Риме?", QuizId = 2 },
-                new QuizQuestion { Id = 20, Text = "Какой век считается временем расцвета Рима?", QuizId = 2 }
+                new QuizQuestion { Id = 20, Text = "Какой век считается временем расцвета Рима?", QuizId = 2 },
 
                 new QuizQuestion { Id = 22, Text = "Какой сервис используется для хранения проектов с контролем версий?", QuizId = 3 },
                 new QuizQuestion { Id = 23, Text = "Какая компания разработала язык Swift?", QuizId = 3 },
@@ -194,9 +194,9 @@ namespace DataAccessLayer.Data.Seeds
                 new QuizAnswerOption { Id = 77, Text = "V веке до н.э.", IsCorrect = false, QuizQuestionId = 20 },
                 new QuizAnswerOption { Id = 78, Text = "IV веке н.э.", IsCorrect = true, QuizQuestionId = 20 },
                 new QuizAnswerOption { Id = 79, Text = "III веке до н.э.", IsCorrect = false, QuizQuestionId = 20 },
-                new QuizAnswerOption { Id = 80, Text = "I веке до н.э.", IsCorrect = false, QuizQuestionId = 20 }
+                new QuizAnswerOption { Id = 80, Text = "I веке до н.э.", IsCorrect = false, QuizQuestionId = 20 },
                 
-            // Вопрос 22
+                // Вопрос 22
                 new QuizAnswerOption { Id = 85, Text = "GitHub", IsCorrect = true, QuizQuestionId = 22 },
                 new QuizAnswerOption { Id = 86, Text = "Docker", IsCorrect = false, QuizQuestionId = 22 },
                 new QuizAnswerOption { Id = 87, Text = "Google Drive", IsCorrect = false, QuizQuestionId = 22 },

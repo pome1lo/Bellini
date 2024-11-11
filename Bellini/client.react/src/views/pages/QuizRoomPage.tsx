@@ -41,7 +41,6 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
     }, [id, isAuthenticated, user, navigate]);
 
 
-
     async function startQuiz() {
         try {
             if (!isAuthenticated || !user) {
@@ -80,17 +79,13 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
 
 
     return (
-        <>
-            {id}
-            <p>Имя {currentQuiz?.gameName}</p>
-            <p>Количество вопросов {currentQuiz?.questions.length}</p>
+        <div className="flex flex-col justify-center items-center h-[78vh]">
+            <h1 className="text-4xl font-bold">{currentQuiz?.gameName}</h1>
+            <p className="mt-3 mb-3">Количество вопросов {currentQuiz?.questions.length}</p>
 
-            <Button size="sm" className="h-8 ms-3 gap-1" onClick={startQuiz}>
-                <CirclePlay className="h-3.5 w-3.5"/>
+            <Button className="h-8 ms-3 gap-1" onClick={startQuiz}>
                 Start Game
             </Button>
-
-
-        </>
+        </div>
     );
 }

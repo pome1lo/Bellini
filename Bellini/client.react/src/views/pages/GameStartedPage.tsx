@@ -180,7 +180,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
             {currentGame ? (
                 <>
                     {!showQuestion ? (
-                        <div className="flex justify-center items-center h-[80vh]">
+                        <div className="flex justify-center items-center h-[78vh]">
                             <h1 className="animate-pulse text-[35rem] text-roboto">{countdown}</h1>
                         </div>
                     ) : (
