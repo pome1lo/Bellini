@@ -81,12 +81,10 @@ export const Header = () => {
                                                     href="/quizzes"
                                                 >
                                                     <div className="mb-2 mt-4 text-lg font-medium">
-                                                        shadcn/ui
+                                                        Bellini
                                                     </div>
                                                     <p className="text-sm leading-tight text-muted-foreground">
-                                                        Beautifully designed components that you can copy and
-                                                        paste into your apps. Accessible. Customizable. Open
-                                                        Source.
+                                                        A web application designed to organize and manage intellectual games with integrated social network elements,
                                                     </p>
                                                 </a>
                                             </NavigationMenuLink>

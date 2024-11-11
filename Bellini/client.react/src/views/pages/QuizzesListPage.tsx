@@ -2,17 +2,17 @@ import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
 import React, {useEffect, useState} from "react";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {GameListTabContentRowSkeleton} from "@/views/partials/skeletons/GameListTabContentRowSkeleton.tsx";
-import {ActiveGame} from "@/views/partials/GamesListTabContent.tsx";
+import {ActiveGame, GamesListTabContent} from "@/views/partials/GamesListTabContent.tsx";
 import {Table, TableBody, TableCell, TableRow} from "@/components/ui/table.tsx";
 import {Badge} from "@/components/ui/badge.tsx";
 import {
-    DropdownMenu,
+    DropdownMenu, DropdownMenuCheckboxItem,
     DropdownMenuContent, DropdownMenuItem,
-    DropdownMenuLabel,
+    DropdownMenuLabel, DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {MoreHorizontal} from "lucide-react";
+import {ListFilter, MoreHorizontal, RefreshCcw} from "lucide-react";
 import {GameListItem} from "@/views/partials/GameListItem.tsx";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {
@@ -26,8 +26,11 @@ import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Quiz} from "@/utils/interfaces/Quiz.ts";
 import {useAuth} from "@/utils/context/authContext.tsx";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {toast} from "@/components/ui/use-toast.ts";
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
+import {DialogCreateGame} from "@/views/partials/dialogs/DialogCreateGame.tsx";
+import {QuizzesListTabContent} from "@/views/partials/QuizzesListTabContent.tsx";
 
 const breadcrumbItems = [
     {path: '/', name: 'Home'},
@@ -40,72 +43,19 @@ interface QuizzesListPageProps {
 
 
 export const QuizzesListPage: React.FC<QuizzesListPageProps> = ({tabContentName}) => {
-    const [quizzes, setQuizzes] = useState<Quiz[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const itemsPerPage = 10;
-
-    useEffect(() => {
-        const fetchGames = async () => {
-            setIsLoading(true);
-            try {
-                const response = await serverFetch(`/quizzes?limit=${itemsPerPage}&offset=${(currentPage - 1) * itemsPerPage}`);
-                const data = await response.json();
-                if (response.status === 204 || !Array.isArray(data.quizzes)) {
-                    setQuizzes([]);
-                } else {
-                    setQuizzes(data.quizzes);
-                    setTotalPages(Math.ceil(data.total / itemsPerPage));
-                }
-            } catch (error) {
-                console.error('Error fetching games:', error.message);
-                setQuizzes([]);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchGames();
-    }, [tabContentName, currentPage]);
-
-    const handlePageChange = (page: number) => {
-        if (page > 0 && page <= totalPages) {
-            setCurrentPage(page);
-        }
-    };
-
-
-    const {user, isAuthenticated} = useAuth();
+    const [isUpdated, setIsUpdated] = useState<boolean>(false);
+    const {tabName} = useParams();
     const navigate = useNavigate();
 
-    async function handleNavigateToQuiz(id: number) {
-        try {
-            if (!isAuthenticated || !user) {
-                navigate('/login');
-            } else {
-                navigate(`/quizzes/${id}`);
-            }
-        } catch (error) {
-            console.error('Connection failed: ', error);
-            toast({title: "Connection failed!", description: "Please try again.", variant: "destructive"});
-        }
-    }
+    const validTabs = ["all", "new", "completed"];
 
-    // if (isLoading) {
-    //     return (
-    //         <GameListTabContentRowSkeleton/>
-    //     );
-    // }
-    //
-    // if (quizzes.length === 0) {
-    //     return (
-    //         <>
-    //             We didn't find anything
-    //             <span>😪</span>
-    //         </>
-    //     );
-    // }
+    useEffect(() => {
+        if (tabName) {
+            if (!validTabs.includes(tabName)) {
+                navigate('/404');
+            }
+        }
+    }, [tabName, navigate]);
 
     return (
         <div className="h-[77vh]">
@@ -120,99 +70,38 @@ export const QuizzesListPage: React.FC<QuizzesListPageProps> = ({tabContentName}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <ScrollArea className="h-auto rounded-md">
-                            <Table>
-                                <TableBody>
-                                    {quizzes.map((item) => (
-                                        <TableRow onClick={() => handleNavigateToQuiz(item.id)} key={item.id}>
-                                            <TableCell>
-                                                <img
-                                                    alt={item.gameName + " image"}
-                                                    className="aspect-square border rounded-md object-cover"
-                                                    height="64"
-                                                    src={item.gameCoverImageUrl}
-                                                    width="64"
-                                                />
-                                            </TableCell>
-                                            <TableCell className="font-medium">
-                                                {item.gameName}
-                                            </TableCell>
-                                            <TableCell className="font-medium">
-                                                <Badge variant="secondary">прошел</Badge>
-                                            </TableCell>
-                                            <TableCell>
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button
-                                                            aria-haspopup="true"
-                                                            size="icon"
-                                                            variant="ghost"
-                                                        >
-                                                            <MoreHorizontal className="h-4 w-4"/>
-                                                            <span className="sr-only">Toggle menu</span>
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </ScrollArea>
+
+
+                        <Tabs defaultValue={tabName && validTabs.includes(tabName) ? tabName : "all"}>
+                            <div className="flex items-center">
+                                <TabsList>
+                                    <TabsTrigger value="all">All</TabsTrigger>
+                                    <TabsTrigger value="new">New</TabsTrigger>
+                                    <TabsTrigger value="completed">Completed</TabsTrigger>
+                                </TabsList>
+                                <div className="ml-auto flex items-center gap-2">
+                                    <Button size="sm" variant="outline" className="h-8 gap-1"
+                                            onClick={() => setIsUpdated(!isUpdated)}>
+                                        <RefreshCcw className="h-3.5 w-3.5"/>
+                                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Update</span>
+                                    </Button>
+                                </div>
+                            </div>
+                            <TabsContent value="all">
+                                <QuizzesListTabContent tabContentName="all" isUpdated={isUpdated}/>
+                            </TabsContent>
+                            <TabsContent value="new">
+                                <QuizzesListTabContent tabContentName="new" isUpdated={isUpdated}/>
+                            </TabsContent>
+                            <TabsContent value="completed">
+                                <QuizzesListTabContent tabContentName="completed" isUpdated={isUpdated}/>
+                            </TabsContent>
+                        </Tabs>
+
+
                     </CardContent>
                     <CardFooter>
-                        <div className="flex justify-between w-full items-center">
-                            <div className="text-xs text-muted-foreground">
-                                Showing <strong>{(currentPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentPage * itemsPerPage, quizzes.length)}</strong> of <strong>{totalPages * itemsPerPage}</strong> quizzes
-                            </div>
-                            <div>
-                                <Pagination>
-                                    <PaginationContent>
-                                        <PaginationPrevious
-                                            onClick={() => handlePageChange(currentPage - 1)}
-                                            disabled={currentPage === 1}
-                                        />
-                                        {currentPage > 2 && (
-                                            <PaginationItem>
-                                                <PaginationLink onClick={() => handlePageChange(1)}>1</PaginationLink>
-                                            </PaginationItem>
-                                        )}
-                                        {currentPage > 3 && <PaginationEllipsis/>}
-                                        {currentPage > 1 && (
-                                            <PaginationItem>
-                                                <PaginationLink
-                                                    onClick={() => handlePageChange(currentPage - 1)}>{currentPage - 1}</PaginationLink>
-                                            </PaginationItem>
-                                        )}
-                                        <PaginationItem>
-                                            <PaginationLink isActive>{currentPage}</PaginationLink>
-                                        </PaginationItem>
-                                        {currentPage < totalPages && (
-                                            <PaginationItem>
-                                                <PaginationLink
-                                                    onClick={() => handlePageChange(currentPage + 1)}>{currentPage + 1}</PaginationLink>
-                                            </PaginationItem>
-                                        )}
-                                        {currentPage < totalPages - 2 && <PaginationEllipsis/>}
-                                        {currentPage < totalPages - 1 && (
-                                            <PaginationItem>
-                                                <PaginationLink
-                                                    onClick={() => handlePageChange(totalPages)}>{totalPages}</PaginationLink>
-                                            </PaginationItem>
-                                        )}
-                                        <PaginationNext
-                                            onClick={() => handlePageChange(currentPage + 1)}
-                                            disabled={currentPage === totalPages}
-                                        />
-                                    </PaginationContent>
-                                </Pagination>
-                            </div>
-                        </div>
+
                     </CardFooter>
                 </Card>
                 <Card className="w-full lg:w-1/2">

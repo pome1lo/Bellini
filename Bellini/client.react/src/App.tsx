@@ -86,6 +86,7 @@ function App() {
                             <Route path='games/:tabName' element={<GameListPage/>}/>
 
                             <Route path='quizzes' element={<QuizzesListPage/>}/>
+                            <Route path='quizzes/:tabName' element={<QuizzesListPage/>}/>
 
                             <Route element={<PrivateRoute/>}>
 
