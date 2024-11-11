@@ -36,15 +36,13 @@ export const QuizStartedPage: React.FC<QuizStartedPageProps> = ({currentQuiz, on
     }, [countdown]);
 
     const handleAnswerSelect = (index: number) => {
-        if (selectedAnswer === null) {
-            setSelectedAnswer(index);
-            const updatedAnswers = [...userAnswers];
-            updatedAnswers[currentQuestionIndex] = {
-                questionId: currentQuiz!.questions[currentQuestionIndex].id,
-                answerId: currentQuiz!.questions[currentQuestionIndex].answerOptions[index].id,
-            };
-            setUserAnswers(updatedAnswers);
-        }
+        setSelectedAnswer(index);
+        const updatedAnswers = [...userAnswers];
+        updatedAnswers[currentQuestionIndex] = {
+            questionId: currentQuiz!.questions[currentQuestionIndex].id,
+            answerId: currentQuiz!.questions[currentQuestionIndex].answerOptions[index].id,
+        };
+        setUserAnswers(updatedAnswers);
     };
 
     const handleNextQuestion = () => {
@@ -103,8 +101,11 @@ export const QuizStartedPage: React.FC<QuizStartedPageProps> = ({currentQuiz, on
                 <div className="question-section flex flex-col items-center justify-center h-[78vh]">
                     <div className="absolute flex flex-wrap justify-center items-center top-20 sm:w-1/2 w-[250px]">
                         <Progress value={progressValue} className="h-2 mb-5"/>
-                        <Button className="me-4"
-                            onClick={currentQuestionIndex < currentQuiz!.questions.length - 1 ? handleNextQuestion : handleFinishQuiz}>
+                        <Button
+                            className="me-4"
+                            onClick={currentQuestionIndex < currentQuiz!.questions.length - 1 ? handleNextQuestion : handleFinishQuiz}
+                            disabled={selectedAnswer === null}
+                        >
                             {currentQuestionIndex < currentQuiz!.questions.length - 1 ? "Next" : "Finish"}
                         </Button>
                         <Button disabled={true} variant="outline">
@@ -119,7 +120,7 @@ export const QuizStartedPage: React.FC<QuizStartedPageProps> = ({currentQuiz, on
                             {currentQuiz?.questions[currentQuestionIndex].answerOptions.map((option, index) => (
                                 <Button
                                     className="m-2 sm:m-3 w-full text-md"
-                                    variant={selectedAnswer !== null && selectedAnswer == index ? "default" : "outline"}
+                                    variant={selectedAnswer !== null && selectedAnswer === index ? "default" : "outline"}
                                     key={index}
                                     onClick={() => handleAnswerSelect(index)}
                                     disabled={selectedAnswer !== null}

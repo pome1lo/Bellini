@@ -7,6 +7,7 @@ import {toast} from "@/components/ui/use-toast.ts";
 import {StartedQuiz} from "@/utils/interfaces/StartedQuiz.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {CirclePlay} from "lucide-react";
+import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
 
 interface QuizRoomPageProps {
     onQuizStart: (game: StartedQuiz) => void;
@@ -78,14 +79,23 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
     }
 
 
-    return (
-        <div className="flex flex-col justify-center items-center h-[78vh]">
-            <h1 className="text-4xl font-bold">{currentQuiz?.gameName}</h1>
-            <p className="mt-3 mb-3">Количество вопросов {currentQuiz?.questions.length}</p>
+     const breadcrumbItems = [
+        {path: '/', name: 'Home'},
+        {path: '/quizzes', name: 'Quizzes'},
+        {path: `/quizzes/${currentQuiz?.id}`, name: currentQuiz?.gameName},
+    ];
 
-            <Button className="h-8 ms-3 gap-1" onClick={startQuiz}>
-                Start Game
-            </Button>
+    return (
+        <div className="p-4">
+            <Breadcrumbs items={breadcrumbItems}/>
+            <div className="mt-4 flex flex-col justify-center items-center h-[78vh]">
+                <h1 className="text-4xl font-bold">{currentQuiz?.gameName}</h1>
+                <p className="mt-3 mb-3">Количество вопросов {currentQuiz?.questions.length}</p>
+
+                <Button className="h-8 ms-3 gap-1" onClick={startQuiz}>
+                    Start Game
+                </Button>
+            </div>
         </div>
     );
 }
