@@ -64,7 +64,7 @@ export const Header = () => {
     return (
         <>
             <header className="sticky top-0 z-50 w-full shadow-md backdrop-blur">
-                <div className="flex items-center justify-between p-2">
+                <div className="flex items-center justify-between p-2 max-w-[1440px] w-full mx-auto">
                     <Link to={"/"} className="text-3xl text-shrikhand">
                         Bellini
                     </Link>
@@ -89,14 +89,14 @@ export const Header = () => {
                                                 </a>
                                             </NavigationMenuLink>
                                         </li>
-                                        <ListItem href="/quizzes" title="Introduction">
-                                            Re-usable components built using Radix UI and Tailwind CSS.
+                                        <ListItem href="/quizzes" title="All quizzes">
+                                            All the quizzes will be displayed here.
                                         </ListItem>
-                                        <ListItem href="/quizzes" title="Installation">
-                                            How to install dependencies and structure your app.
+                                        <ListItem href="/quizzes" title="New quizzes">
+                                            All new quizzes will be displayed here.
                                         </ListItem>
-                                        <ListItem href="/quizzes" title="Typography">
-                                            Styles for headings, paragraphs, lists...etc
+                                        <ListItem href="/quizzes" title="Completed quizzes">
+                                            All the quizzes you have completed will be displayed here.
                                         </ListItem>
                                     </ul>
                                 </NavigationMenuContent>
@@ -126,9 +126,10 @@ export const Header = () => {
                             </NavigationMenuItem>
                         </NavigationMenuList>
                     </NavigationMenu>
-                    <div className="flex items-center space-x-4">
-                        <Button variant="ghost" onClick={() => navigate("/notifications")}>
+                    <div className="flex items-center space-x-4  ">
+                        <Button variant="ghost" onClick={() => navigate("/notifications")} className="relative animate-bounce">
                             <IoNotificationsOutline className="text-xl" />
+                            <span className="bg-red-700 p-1 absolute top-[10px] left-[28px] rounded-full"></span>
                         </Button>
                         <ModeToggle />
                         {user && isAuthenticated ? (

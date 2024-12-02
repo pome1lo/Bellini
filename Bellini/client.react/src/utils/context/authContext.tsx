@@ -1,5 +1,6 @@
 import React, {createContext, useContext, useState, useEffect} from 'react';
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 
 interface User {
     id: string;
@@ -24,7 +25,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
     const [accessToken, setAccessToken] = useState<string | null>(null);
     const [refreshToken, setRefreshToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
-
+    const navigate = useNavigate();
     useEffect(() => {
         const storedUser = sessionStorage.getItem('user');
         const storedAccessToken = sessionStorage.getItem('access-token');
@@ -62,6 +63,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
         sessionStorage.removeItem('user');
         sessionStorage.removeItem('access-token');
         sessionStorage.removeItem('refresh-token');
+
+        navigate('/');
     };
 
     const getAccessToken = async (): Promise<string | null> => {

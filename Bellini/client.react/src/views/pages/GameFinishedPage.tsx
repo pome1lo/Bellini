@@ -363,7 +363,7 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                             <>
                                 {comments.map((comment, index) => (
                                     <div key={index}
-                                         className="flex ps-4 pt-3 pb-2 pe-4 justify-between gap-4 hover:bg-neutral-900 ">
+                                         className="flex ps-4 pt-3 pb-2 pe-4 justify-between gap-4 hover:bg-secondary ">
                                         <a className="flex gap-4" href={`/profile/${comment.userId}`}>
                                             <Avatar className="hidden h-9 w-9 sm:flex">
                                                 <AvatarImage

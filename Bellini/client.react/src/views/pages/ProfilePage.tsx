@@ -51,7 +51,7 @@ export const ProfilePage = () => {
             <Breadcrumbs items={breadcrumbItems}/>
 
             {currentUser ? (
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-4 max-w-[1440px] w-full mx-auto">
                     <div className="">
                         <Card>
                             <CardHeader>

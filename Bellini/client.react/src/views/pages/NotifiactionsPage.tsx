@@ -20,6 +20,17 @@ import {Badge} from "@/components/ui/badge.tsx";
 import {formatDate} from "@/utils/functions/formatDate.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {authFetch} from "@/utils/fetchs/authFetch.ts";
+import {useAuth} from "@/utils/context/authContext.tsx";
+import {useNavigate} from "react-router-dom";
+
+interface Notification {
+ id : number;
+ userId : number;
+ title  : string;
+ message   : string;
+ createdAt : Date;
+ isRead : boolean;
+}
 
 const breadcrumbItems = [
     { path: '/', name: 'Home' },
@@ -28,22 +39,28 @@ const breadcrumbItems = [
 export const NotifiactionsPage = () => {
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const {isAuthenticated, user} = useAuth();
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const navigate = useNavigate();
     const itemsPerPage = 10;
 
     useEffect(() => {
+        if (!isAuthenticated || !user) {
+            navigate('/login');
+            return;
+        }
         const fetchNotifications = async () => {
             setIsLoading(true);
             try {
-                const response = await authFetch(`/notifications?limit=${itemsPerPage}&offset=${(currentPage - 1) * itemsPerPage}`);
+                const response = await serverFetch(`/notifications/${user.id}?limit=${itemsPerPage}&offset=${(currentPage - 1) * itemsPerPage}`);
                 const data = await response.json();
-                if (response.status === 204 || !Array.isArray(data.games)) {
+                console.log(data)
+                if (response.status === 204 || !Array.isArray(data.items)) {
                     setNotifications([]);
                 } else {
-                    setNotifications(data.comments);
-                    console.log(data)
-                    setTotalPages(Math.ceil(data.total / itemsPerPage));
+                    setNotifications(data.items);
+                    setTotalPages(Math.ceil(data.totalCount / itemsPerPage));
                 }
             } catch (error: unknown) {
                 console.error('Error fetching games:', (error as Error).message);
@@ -63,25 +80,29 @@ export const NotifiactionsPage = () => {
     };
 
     if (isLoading) {
-        return <>LOADING</>
+        return <>
+            LOADING
+        </>
     }
 
     if (notifications.length === 0) {
-        return <>0 ELEMENTOV</>
+        return <>
+            0 ELEMENTOV
+        </>
     }
 
     return (
         <>
             <Breadcrumbs items={breadcrumbItems}    />
-            <Card>
+            <Card className="max-w-[1440px] w-full mx-auto">
                 <CardHeader>
-                    <CardTitle>Games</CardTitle>
+                    <CardTitle>Notifications</CardTitle>
                     <CardDescription>
-                        Here you will see the available games for your chosen category
+                        Here you will see the all notifications for your account
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <ScrollArea className="h-[300px] border rounded-md">
+                    <ScrollArea className="h-[52vh] min-h-[300px] border rounded-md">
                         {notifications.length == 0 ?
                             <>
                                 <div className="h-[170px] flex items-center justify-center">
@@ -93,28 +114,25 @@ export const NotifiactionsPage = () => {
                             <>
                                 {notifications.map((item, index) => (
                                     <div key={index}
-                                         className="flex ps-4 pt-3 pb-2 pe-4 justify-between gap-4 hover:bg-neutral-900 ">
-                                        <a className="flex gap-4" href={`/profile/${comment.userId}`}>
-                                            <Avatar className="hidden h-9 w-9 sm:flex">
+                                         className="flex ps-4 pt-3 pb-2 pe-4 justify-between gap-4 hover:bg-secondary ">
+                                        <div className="flex gap-4">
+                                            <Avatar className="h-9 w-9 flex border p-2 bg-white">
                                                 <AvatarImage
-                                                    src={comment.profileImageUrl}
-                                                    alt={`${comment.username}'s profile`}
+                                                    src="/logo.svg"
+                                                    alt={`logo`}
                                                 />
                                                 <AvatarFallback>
-                                                    {(comment.username.charAt(0) + comment.username.charAt(1)).toUpperCase()}
+                                                    BL
                                                 </AvatarFallback>
                                             </Avatar>
                                             <div>
                                                 <div className="flex w-full items-">
-                                                    <p className="font-medium">{comment.username}</p>
-                                                    {currentGame?.hostId != comment.userId ? <></> :
-                                                        <Badge variant="default" className="ms-3 text-sm">Host</Badge>
-                                                    }
-                                                    <p className="ms-3 text-sm opacity-45">{formatDate(new Date(comment.commentDate))}</p>
+                                                    <p className="font-medium">{item.title}</p>
+                                                    <p className="ms-3 text-sm opacity-45">{formatDate(new Date(item.createdAt))}</p>
                                                 </div>
-                                                <p>{comment.content}</p>
+                                                <p>{item.message}</p>
                                             </div>
-                                        </a>
+                                        </div>
                                     </div>
                                 ))}
                             </>
@@ -124,7 +142,7 @@ export const NotifiactionsPage = () => {
                 <CardFooter>
                     <div className="flex justify-between w-full items-center">
                         <div className="text-xs text-muted-foreground">
-                            Showing <strong>{(currentPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentPage * itemsPerPage, games.length)}</strong> of <strong>{totalPages * itemsPerPage}</strong> games
+                            Showing <strong>{(currentPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentPage * itemsPerPage, notifications.length)}</strong> of <strong>{totalPages * itemsPerPage}</strong> notifications
                         </div>
                         <div>
 

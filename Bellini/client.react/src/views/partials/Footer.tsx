@@ -5,7 +5,7 @@ export const Footer = () => {
     return (
         <>
             <footer className="bg-black text-white py-8">
-                <div className="mx-auto px-4">
+                <div className="mx-auto px-4  max-w-[1440px] w-full">
                     <div className="flex flex-col md:flex-row justify-between">
                         <div className="flex justify-between order-2 md:mb-0 md:order-1">
                             <div>

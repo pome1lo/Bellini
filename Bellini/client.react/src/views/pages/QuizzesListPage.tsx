@@ -56,12 +56,12 @@ export const QuizzesListPage = () =>{
         <div className="h-[77vh]">
             <Breadcrumbs items={breadcrumbItems}/>
 
-            <div className="flex gap-4 flex-col lg:flex-row w-full">
+            <div className="flex gap-4 flex-col lg:flex-row w-full max-w-[1440px] mx-auto">
                 <Card className="w-full lg:w-1/2">
                     <CardHeader>
                         <CardTitle>Quizzes</CardTitle>
                         <CardDescription>
-                            description description description
+                            Here you will see the available quizzes for your chosen category
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
