@@ -1,4 +1,5 @@
 using AuthenticationService.MiddlewareExtensions;
+using BusinessLogicLayer.Services;
 using BusinessLogicLayer.Services.Configs;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
@@ -28,6 +29,10 @@ builder.Services.AddScoped<IValidator<UserDto>, UserDtoValidator>();
 builder.Services.AddScoped<IValidator<ProfileDto>, ProfileDtoValidator>();
 builder.Services.AddScoped<IValidator<UpdateProfileDto>, UpdateProfileDtoValidator>();
 
+
+builder.Services.AddScoped<IRepository<Notification>, NotificationRepository>();
+
+builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IProfileService, BusinessLogicLayer.Services.ProfileService>();
 builder.Services.AddScoped<IFileService, BusinessLogicLayer.Services.FileService>();
 

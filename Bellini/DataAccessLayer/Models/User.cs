@@ -11,6 +11,7 @@
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? ProfileImageUrl { get; set; }
+        public List<Notification> Notifications { get; set; } = new();
         public List<QuizResults> QuizResults { get; set; } = new();
     }
 }

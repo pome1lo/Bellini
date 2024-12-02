@@ -1,4 +1,5 @@
 using BusinessLogicLayer.Hubs;
+using BusinessLogicLayer.Services;
 using BusinessLogicLayer.Services.Configs;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
@@ -26,6 +27,8 @@ builder.Services.AddScoped<IRepository<Question>, QuestionRepository>();
 builder.Services.AddScoped<IRepository<GameStatus>, GameStatusRepository>();
 builder.Services.AddScoped<IRepository<AnswerOption>, AnswerOptionRepository>();
 builder.Services.AddScoped<IRepository<CompletedAnswer>, CompletedAnswerRepository>();
+builder.Services.AddScoped<IRepository<Notification>, NotificationRepository>();
+builder.Services.AddScoped<IRepository<User>, UserRepository>();
 
 builder.Services.AddScoped<IRepository<Quiz>, QuizRepository>();
 builder.Services.AddScoped<IRepository<QuizQuestion>, QuizQuestionRepository>();
@@ -34,8 +37,12 @@ builder.Services.AddScoped<IRepository<QuizResults>, QuizResultsRepository>();
 //builder.Services.AddScoped<IRepository<QuizAnsweredQuestion>, QuizAnsweredQuestionRepository>();
 //builder.Services.AddScoped<IRepository<QuizSession>, QuizSessionRepository>();
 
+
+
+
 builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost"));
 
+builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IGameService, BusinessLogicLayer.Services.GameService>();
 builder.Services.AddScoped<IQuizService, BusinessLogicLayer.Services.QuizService>();
 builder.Services.AddScoped<ICommentService, BusinessLogicLayer.Services.CommentService>();

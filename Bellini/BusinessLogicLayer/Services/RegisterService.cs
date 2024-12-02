@@ -12,9 +12,9 @@ namespace BusinessLogicLayer.Services
     public class RegisterService : IRegisterService
     {
         private readonly IMapper _mapper;
-        private readonly IRepository<User> _repository;
+        private readonly IRepository<User> _userRepository;
         private readonly IUserService _userService;
-        private readonly INotificationService _emailService;
+        private readonly INotificationService _notificationService;
         private readonly IValidator<RegisterDto> _registerValidator;
         private readonly IValidator<CodeVerificationDto> _codeVerificationValidator;
         private readonly IValidator<CheckEmailDto> _checkEmailDtoValidator;
@@ -32,8 +32,8 @@ namespace BusinessLogicLayer.Services
         {
             _mapper = mapper;
             _userService = userService;
-            _repository = repository;
-            _emailService = notificationService;
+            _userRepository = repository;
+            _notificationService = notificationService;
             _cacheService = cacheService;
             _checkEmailDtoValidator = checkEmailDtoValidator;
             _registerValidator = registerValidator;
@@ -48,7 +48,7 @@ namespace BusinessLogicLayer.Services
                 throw new ValidationException(validationResult.Errors);
             }
 
-            var user = await _repository.GetElementsAsync(cancellationToken);
+            var user = await _userRepository.GetElementsAsync(cancellationToken);
             var existingUser = user.FirstOrDefault(u => u.Email == checkEmailDto.Email);
 
             if (existingUser != null)
@@ -78,7 +78,7 @@ namespace BusinessLogicLayer.Services
                 Subject = "Registration Code",
                 Body = $"Your registration code is {registrationCode}"
             };
-            await _emailService.SendEmailNotificationAsync(notificationDto, cancellationToken);
+        //    await _notificationService.SendEmailNotificationAsync(notificationDto, cancellationToken); РАСКОМЕНТИТЬ 
         }
 
         public async Task VerifyCodeAsync(VerifyCodeDto verifyCodeDto, CancellationToken cancellationToken = default)
@@ -122,8 +122,14 @@ namespace BusinessLogicLayer.Services
                 IsActive = true
             };
 
-            await _repository.CreateAsync(user, cancellationToken);
-        }
+            await _userRepository.CreateAsync(user, cancellationToken);
 
+            await _notificationService.CreateNotificationForUserAsync(new CreateNotificationDto
+            {
+                Message = "Welcome to Bellini",
+                Title = "Registration notification",
+                UserId = _userRepository.GetElementsAsync().Result.FirstOrDefault(x => x.Email == user.Email).Id
+            });
+        }
     }
 }

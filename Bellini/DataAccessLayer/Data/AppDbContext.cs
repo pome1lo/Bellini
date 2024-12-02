@@ -20,6 +20,7 @@ namespace DataAccessLayer.Data
         public DbSet<AnswerOption> AnswerOptions { get; set; } = null!;
         public DbSet<CompletedAnswer> CompletedAnswers { get; set; } = null!;
 
+        public DbSet<Notification> Notifications { get; set; } = null!;
 
         public DbSet<Quiz> Quizzes { get; set; } = null!;
         public DbSet<QuizQuestion> QuizQuestions { get; set; } = null!;
@@ -38,6 +39,8 @@ namespace DataAccessLayer.Data
             modelBuilder.ApplyConfiguration(new QuestionConfiguration());
             modelBuilder.ApplyConfiguration(new AnswerOptionConfiguration());
             modelBuilder.ApplyConfiguration(new CompletedAnswerConfiguration());
+
+            modelBuilder.ApplyConfiguration(new NotificationConfiguration());
 
             modelBuilder.ApplyConfiguration(new QuizConfiguration());
             modelBuilder.ApplyConfiguration(new QuizAnswerOptionConfiguration());

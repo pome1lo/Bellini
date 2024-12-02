@@ -1,5 +1,4 @@
-﻿using BusinessLogicLayer.Attribute;
-using BusinessLogicLayer.Services.Interfaces;
+﻿using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NotificationService.Controllers
@@ -16,10 +15,20 @@ namespace NotificationService.Controllers
         }
 
         [HttpGet("{userId:int}")]
-        [ProfileOwnerAuthorize(IdParameterName = "userId")]
+        //[ProfileOwnerAuthorize(IdParameterName = "userId")]
         public async Task<IActionResult> GetNotificationsByUserId(int userId, [FromQuery] int limit = 10, [FromQuery] int offset = 0, CancellationToken cancellationToken = default)
         {
-            return Ok();
+            var (notifications, totalCount) = await _notificationService.GetAllNotificationsForUserAsync(
+                userId,
+                limit,
+                offset,
+                cancellationToken);
+
+            return Ok(new
+            {
+                TotalCount = totalCount,
+                Items = notifications
+            });
         }
     }
 }

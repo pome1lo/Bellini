@@ -203,6 +203,42 @@ namespace DataAccessLayer.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRead")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications", (string)null);
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Player", b =>
                 {
                     b.Property<int>("Id")
@@ -303,6 +339,14 @@ namespace DataAccessLayer.Migrations
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://i.pinimg.com/originals/b3/7e/4f/b37e4fd167bd9e14558dd14301ec6487.jpg",
                             GameName = "Древний Рим",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://example.com/tech.jpg",
+                            GameName = "Современные технологии",
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -892,33 +936,259 @@ namespace DataAccessLayer.Migrations
                             IsCorrect = false,
                             QuizQuestionId = 20,
                             Text = "I веке до н.э."
+                        },
+                        new
+                        {
+                            Id = 85,
+                            IsCorrect = true,
+                            QuizQuestionId = 22,
+                            Text = "GitHub"
+                        },
+                        new
+                        {
+                            Id = 86,
+                            IsCorrect = false,
+                            QuizQuestionId = 22,
+                            Text = "Docker"
+                        },
+                        new
+                        {
+                            Id = 87,
+                            IsCorrect = false,
+                            QuizQuestionId = 22,
+                            Text = "Google Drive"
+                        },
+                        new
+                        {
+                            Id = 88,
+                            IsCorrect = false,
+                            QuizQuestionId = 22,
+                            Text = "Slack"
+                        },
+                        new
+                        {
+                            Id = 89,
+                            IsCorrect = true,
+                            QuizQuestionId = 23,
+                            Text = "Apple"
+                        },
+                        new
+                        {
+                            Id = 90,
+                            IsCorrect = false,
+                            QuizQuestionId = 23,
+                            Text = "Microsoft"
+                        },
+                        new
+                        {
+                            Id = 91,
+                            IsCorrect = false,
+                            QuizQuestionId = 23,
+                            Text = "Google"
+                        },
+                        new
+                        {
+                            Id = 92,
+                            IsCorrect = false,
+                            QuizQuestionId = 23,
+                            Text = "Amazon"
+                        },
+                        new
+                        {
+                            Id = 93,
+                            IsCorrect = false,
+                            QuizQuestionId = 24,
+                            Text = "JavaScript"
+                        },
+                        new
+                        {
+                            Id = 94,
+                            IsCorrect = false,
+                            QuizQuestionId = 24,
+                            Text = "Python"
+                        },
+                        new
+                        {
+                            Id = 95,
+                            IsCorrect = true,
+                            QuizQuestionId = 24,
+                            Text = "PHP"
+                        },
+                        new
+                        {
+                            Id = 96,
+                            IsCorrect = false,
+                            QuizQuestionId = 24,
+                            Text = "C++"
+                        },
+                        new
+                        {
+                            Id = 97,
+                            IsCorrect = false,
+                            QuizQuestionId = 25,
+                            Text = "MySQL"
+                        },
+                        new
+                        {
+                            Id = 98,
+                            IsCorrect = false,
+                            QuizQuestionId = 25,
+                            Text = "SQLite"
+                        },
+                        new
+                        {
+                            Id = 99,
+                            IsCorrect = true,
+                            QuizQuestionId = 25,
+                            Text = "Hadoop"
+                        },
+                        new
+                        {
+                            Id = 100,
+                            IsCorrect = false,
+                            QuizQuestionId = 25,
+                            Text = "Redis"
+                        },
+                        new
+                        {
+                            Id = 101,
+                            IsCorrect = false,
+                            QuizQuestionId = 26,
+                            Text = "TCP"
+                        },
+                        new
+                        {
+                            Id = 102,
+                            IsCorrect = false,
+                            QuizQuestionId = 26,
+                            Text = "UDP"
+                        },
+                        new
+                        {
+                            Id = 103,
+                            IsCorrect = true,
+                            QuizQuestionId = 26,
+                            Text = "TLS"
+                        },
+                        new
+                        {
+                            Id = 104,
+                            IsCorrect = false,
+                            QuizQuestionId = 26,
+                            Text = "FTP"
+                        },
+                        new
+                        {
+                            Id = 105,
+                            IsCorrect = false,
+                            QuizQuestionId = 27,
+                            Text = "Angular"
+                        },
+                        new
+                        {
+                            Id = 106,
+                            IsCorrect = false,
+                            QuizQuestionId = 27,
+                            Text = "Vue"
+                        },
+                        new
+                        {
+                            Id = 107,
+                            IsCorrect = true,
+                            QuizQuestionId = 27,
+                            Text = "React"
+                        },
+                        new
+                        {
+                            Id = 108,
+                            IsCorrect = false,
+                            QuizQuestionId = 27,
+                            Text = "Svelte"
+                        },
+                        new
+                        {
+                            Id = 109,
+                            IsCorrect = false,
+                            QuizQuestionId = 28,
+                            Text = "Ruby"
+                        },
+                        new
+                        {
+                            Id = 110,
+                            IsCorrect = false,
+                            QuizQuestionId = 28,
+                            Text = "JavaScript"
+                        },
+                        new
+                        {
+                            Id = 111,
+                            IsCorrect = true,
+                            QuizQuestionId = 28,
+                            Text = "Python"
+                        },
+                        new
+                        {
+                            Id = 112,
+                            IsCorrect = false,
+                            QuizQuestionId = 28,
+                            Text = "Go"
+                        },
+                        new
+                        {
+                            Id = 113,
+                            IsCorrect = true,
+                            QuizQuestionId = 29,
+                            Text = "Vim"
+                        },
+                        new
+                        {
+                            Id = 114,
+                            IsCorrect = false,
+                            QuizQuestionId = 29,
+                            Text = "Notepad"
+                        },
+                        new
+                        {
+                            Id = 115,
+                            IsCorrect = false,
+                            QuizQuestionId = 29,
+                            Text = "Paint"
+                        },
+                        new
+                        {
+                            Id = 116,
+                            IsCorrect = false,
+                            QuizQuestionId = 29,
+                            Text = "MS Word"
+                        },
+                        new
+                        {
+                            Id = 117,
+                            IsCorrect = false,
+                            QuizQuestionId = 30,
+                            Text = "XML"
+                        },
+                        new
+                        {
+                            Id = 118,
+                            IsCorrect = true,
+                            QuizQuestionId = 30,
+                            Text = "JSON"
+                        },
+                        new
+                        {
+                            Id = 119,
+                            IsCorrect = false,
+                            QuizQuestionId = 30,
+                            Text = "HTML"
+                        },
+                        new
+                        {
+                            Id = 120,
+                            IsCorrect = false,
+                            QuizQuestionId = 30,
+                            Text = "CSV"
                         });
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.QuizAnsweredQuestion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsCorrect")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuizSessionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("QuizSessionId");
-
-                    b.ToTable("QuizAnsweredQuestions");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.QuizQuestion", b =>
@@ -1063,6 +1333,60 @@ namespace DataAccessLayer.Migrations
                             Id = 20,
                             QuizId = 2,
                             Text = "Какой век считается временем расцвета Рима?"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            QuizId = 3,
+                            Text = "Какой сервис используется для хранения проектов с контролем версий?"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            QuizId = 3,
+                            Text = "Какая компания разработала язык Swift?"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            QuizId = 3,
+                            Text = "Какой язык программирования чаще всего используется для веб-разработки на серверной стороне?"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            QuizId = 3,
+                            Text = "Какая система управления базами данных является популярной для больших данных?"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            QuizId = 3,
+                            Text = "Какой протокол используется для защиты данных при передаче в интернете?"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            QuizId = 3,
+                            Text = "Как называется популярный фреймворк для фронтенд-разработки от Facebook?"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            QuizId = 3,
+                            Text = "Какой язык программирования чаще всего используется для создания машинного обучения?"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            QuizId = 3,
+                            Text = "Какой текстовый редактор стал популярным благодаря расширяемости и множеству плагинов?"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            QuizId = 3,
+                            Text = "Как называется формат обмена данными, основанный на ключ-значение и часто используемый в API?"
                         });
                 });
 
@@ -1096,38 +1420,6 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("QuizResults", (string)null);
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.QuizSession", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("EndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("QuizId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuizId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("QuizSessions");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.User", b =>
@@ -1236,6 +1528,17 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Status");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.Notification", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.User", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Player", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.Game", "Game")
@@ -1277,25 +1580,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("QuizQuestion");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.QuizAnsweredQuestion", b =>
-                {
-                    b.HasOne("DataAccessLayer.Models.QuizQuestion", "QuizQuestion")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DataAccessLayer.Models.QuizSession", "QuizSession")
-                        .WithMany("QuizAnsweredQuestions")
-                        .HasForeignKey("QuizSessionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("QuizQuestion");
-
-                    b.Navigation("QuizSession");
-                });
-
             modelBuilder.Entity("DataAccessLayer.Models.QuizQuestion", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.Quiz", "Quiz")
@@ -1319,25 +1603,6 @@ namespace DataAccessLayer.Migrations
                         .WithMany("QuizResults")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Quiz");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.QuizSession", b =>
-                {
-                    b.HasOne("DataAccessLayer.Models.Quiz", "Quiz")
-                        .WithMany()
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("DataAccessLayer.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Quiz");
@@ -1378,13 +1643,10 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("AnswerOptions");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.QuizSession", b =>
-                {
-                    b.Navigation("QuizAnsweredQuestions");
-                });
-
             modelBuilder.Entity("DataAccessLayer.Models.User", b =>
                 {
+                    b.Navigation("Notifications");
+
                     b.Navigation("QuizResults");
                 });
 #pragma warning restore 612, 618

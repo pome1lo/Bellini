@@ -21,14 +21,16 @@ namespace BusinessLogicLayer.Services
         private readonly IConfiguration _configuration;
         private readonly IValidator<LoginDto> _loginValidator;
         private readonly IDistributedCache _cache;
+        private readonly INotificationService _notificationService;
 
-        public LoginService(IRepository<User> userRepository, IMapper mapper, IConfiguration configuration, IValidator<LoginDto> loginValidator, IDistributedCache cache)
+        public LoginService(IRepository<User> userRepository, IMapper mapper, IConfiguration configuration, IValidator<LoginDto> loginValidator, IDistributedCache cache, INotificationService notificationService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _configuration = configuration;
             _loginValidator = loginValidator;
             _cache = cache;
+            _notificationService = notificationService;
         }
 
         public async Task<TokenDto> AuthenticateAsync(LoginDto loginDto, CancellationToken cancellationToken = default)
@@ -63,6 +65,13 @@ namespace BusinessLogicLayer.Services
             {
                 throw new ValidationException("Invalid username or password.");
             }
+
+            await _notificationService.CreateNotificationForUserAsync(new CreateNotificationDto
+            {
+                Title = "Account",
+                Message = "Your account has been successfully logged in.",
+                UserId = user.Id
+            });
 
             return new TokenDto()
             {

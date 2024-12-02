@@ -13,6 +13,7 @@ namespace BusinessLogicLayer.Services
     {
         private readonly IRepository<User> _userRepository;
         private readonly IMapper _mapper;
+        private readonly INotificationService _notificationService;
         private readonly IValidator<ProfileDto> _profileValidator;
         private readonly IValidator<UpdateProfileDto> _updateProfileValidator;
         private readonly IDistributedCache _cache;
@@ -20,6 +21,7 @@ namespace BusinessLogicLayer.Services
         public ProfileService(
             IRepository<User> userRepository,
             IMapper mapper,
+            INotificationService notificationService,
             IValidator<ProfileDto> profileValidator,
             IValidator<UpdateProfileDto> updateProfileValidator,
             IDistributedCache cache)
@@ -29,6 +31,7 @@ namespace BusinessLogicLayer.Services
             _profileValidator = profileValidator;
             _updateProfileValidator = updateProfileValidator;
             _cache = cache;
+            _notificationService = notificationService;
         }
 
         public async Task<ProfileDto> GetProfileByIdAsync(int profileId, CancellationToken cancellationToken = default)
@@ -72,6 +75,13 @@ namespace BusinessLogicLayer.Services
             {
                 throw new NotFoundException($"Profile with ID {profileId} not found.");
             }
+
+            await _notificationService.CreateNotificationForUserAsync(new CreateNotificationDto
+            {
+                Message = "Your profile has been successfully updated",
+                Title = "Profile update",
+                UserId = profileId
+            });
 
             return _mapper.Map<ProfileDto>(updatedUser);
         }

@@ -11,9 +11,9 @@ namespace BusinessLogicLayer.Test
         [SetUp]
         public void Setup()
         {
-            _notificationService = new NotificationService();
+            //_notificationService = new NotificationService();
             _dto = new BaseEmailNotificationDto()
-            { 
+            {
                 Subject = "test",
                 Body = "test"
             };
@@ -25,7 +25,7 @@ namespace BusinessLogicLayer.Test
             try
             {
                 await _notificationService.SendEmailNotificationAsync(_dto);
-                
+
                 Assert.True(true);
             }
             catch

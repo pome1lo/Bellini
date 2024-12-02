@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -110,6 +110,29 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Notifications",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsRead = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notifications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notifications_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "QuizResults",
                 columns: table => new
                 {
@@ -136,35 +159,6 @@ namespace DataAccessLayer.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "QuizSessions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    QuizId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsCompleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuizSessions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_QuizSessions_Quizzes_QuizId",
-                        column: x => x.QuizId,
-                        principalTable: "Quizzes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_QuizSessions_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -262,33 +256,6 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "QuizAnsweredQuestions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    QuestionId = table.Column<int>(type: "int", nullable: false),
-                    IsCorrect = table.Column<bool>(type: "bit", nullable: false),
-                    QuizSessionId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuizAnsweredQuestions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_QuizAnsweredQuestions_QuizQuestions_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "QuizQuestions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_QuizAnsweredQuestions_QuizSessions_QuizSessionId",
-                        column: x => x.QuizSessionId,
-                        principalTable: "QuizSessions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AnswerOptions",
                 columns: table => new
                 {
@@ -363,7 +330,8 @@ namespace DataAccessLayer.Migrations
                 values: new object[,]
                 {
                     { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://i.pinimg.com/originals/b3/7e/4f/b37e4fd167bd9e14558dd14301ec6487.jpg", "Мифология Древней Греции", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://i.pinimg.com/originals/b3/7e/4f/b37e4fd167bd9e14558dd14301ec6487.jpg", "Древний Рим", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://i.pinimg.com/originals/b3/7e/4f/b37e4fd167bd9e14558dd14301ec6487.jpg", "Древний Рим", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://example.com/tech.jpg", "Современные технологии", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -390,7 +358,16 @@ namespace DataAccessLayer.Migrations
                     { 17, 2, "Какой язык был официальным в Риме?" },
                     { 18, 2, "Какое искусство было популярно в Риме?" },
                     { 19, 2, "Какой строй был установлен в Риме?" },
-                    { 20, 2, "Какой век считается временем расцвета Рима?" }
+                    { 20, 2, "Какой век считается временем расцвета Рима?" },
+                    { 22, 3, "Какой сервис используется для хранения проектов с контролем версий?" },
+                    { 23, 3, "Какая компания разработала язык Swift?" },
+                    { 24, 3, "Какой язык программирования чаще всего используется для веб-разработки на серверной стороне?" },
+                    { 25, 3, "Какая система управления базами данных является популярной для больших данных?" },
+                    { 26, 3, "Какой протокол используется для защиты данных при передаче в интернете?" },
+                    { 27, 3, "Как называется популярный фреймворк для фронтенд-разработки от Facebook?" },
+                    { 28, 3, "Какой язык программирования чаще всего используется для создания машинного обучения?" },
+                    { 29, 3, "Какой текстовый редактор стал популярным благодаря расширяемости и множеству плагинов?" },
+                    { 30, 3, "Как называется формат обмена данными, основанный на ключ-значение и часто используемый в API?" }
                 });
 
             migrationBuilder.InsertData(
@@ -477,7 +454,43 @@ namespace DataAccessLayer.Migrations
                     { 77, false, 20, "V веке до н.э." },
                     { 78, true, 20, "IV веке н.э." },
                     { 79, false, 20, "III веке до н.э." },
-                    { 80, false, 20, "I веке до н.э." }
+                    { 80, false, 20, "I веке до н.э." },
+                    { 85, true, 22, "GitHub" },
+                    { 86, false, 22, "Docker" },
+                    { 87, false, 22, "Google Drive" },
+                    { 88, false, 22, "Slack" },
+                    { 89, true, 23, "Apple" },
+                    { 90, false, 23, "Microsoft" },
+                    { 91, false, 23, "Google" },
+                    { 92, false, 23, "Amazon" },
+                    { 93, false, 24, "JavaScript" },
+                    { 94, false, 24, "Python" },
+                    { 95, true, 24, "PHP" },
+                    { 96, false, 24, "C++" },
+                    { 97, false, 25, "MySQL" },
+                    { 98, false, 25, "SQLite" },
+                    { 99, true, 25, "Hadoop" },
+                    { 100, false, 25, "Redis" },
+                    { 101, false, 26, "TCP" },
+                    { 102, false, 26, "UDP" },
+                    { 103, true, 26, "TLS" },
+                    { 104, false, 26, "FTP" },
+                    { 105, false, 27, "Angular" },
+                    { 106, false, 27, "Vue" },
+                    { 107, true, 27, "React" },
+                    { 108, false, 27, "Svelte" },
+                    { 109, false, 28, "Ruby" },
+                    { 110, false, 28, "JavaScript" },
+                    { 111, true, 28, "Python" },
+                    { 112, false, 28, "Go" },
+                    { 113, true, 29, "Vim" },
+                    { 114, false, 29, "Notepad" },
+                    { 115, false, 29, "Paint" },
+                    { 116, false, 29, "MS Word" },
+                    { 117, false, 30, "XML" },
+                    { 118, true, 30, "JSON" },
+                    { 119, false, 30, "HTML" },
+                    { 120, false, 30, "CSV" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -516,6 +529,11 @@ namespace DataAccessLayer.Migrations
                 column: "GameStatusId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Notifications_UserId",
+                table: "Notifications",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Players_GameId",
                 table: "Players",
                 column: "GameId");
@@ -529,16 +547,6 @@ namespace DataAccessLayer.Migrations
                 name: "IX_Questions_GameId",
                 table: "Questions",
                 column: "GameId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuizAnsweredQuestions_QuestionId",
-                table: "QuizAnsweredQuestions",
-                column: "QuestionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuizAnsweredQuestions_QuizSessionId",
-                table: "QuizAnsweredQuestions",
-                column: "QuizSessionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuizAnswerOptions_QuizQuestionId",
@@ -559,16 +567,6 @@ namespace DataAccessLayer.Migrations
                 name: "IX_QuizResults_UserId",
                 table: "QuizResults",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuizSessions_QuizId",
-                table: "QuizSessions",
-                column: "QuizId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_QuizSessions_UserId",
-                table: "QuizSessions",
-                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -581,7 +579,7 @@ namespace DataAccessLayer.Migrations
                 name: "CompletedAnswers");
 
             migrationBuilder.DropTable(
-                name: "QuizAnsweredQuestions");
+                name: "Notifications");
 
             migrationBuilder.DropTable(
                 name: "QuizAnswerOptions");
@@ -594,9 +592,6 @@ namespace DataAccessLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Players");
-
-            migrationBuilder.DropTable(
-                name: "QuizSessions");
 
             migrationBuilder.DropTable(
                 name: "QuizQuestions");
