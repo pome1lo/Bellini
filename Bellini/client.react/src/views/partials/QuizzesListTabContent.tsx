@@ -75,7 +75,7 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
             if (!isAuthenticated || !user) {
                 navigate('/login');
             } else {
-                navigate(`/quizzes/${id}`);
+                navigate(`/quizzes/room/${id}`);
             }
         } catch (error) {
             console.error('Connection failed: ', error);

@@ -19,6 +19,7 @@ namespace BusinessLogicLayer.Services
         private readonly IRepository<GameStatus> _gameStatusRepository;
         private readonly IHubContext<GameHub> _gameHub;
         private readonly IConnectionMultiplexer _redis;
+        private readonly INotificationService _notificationService;
 
         public GameService(
             IRepository<Game> gameRepository,
@@ -26,7 +27,8 @@ namespace BusinessLogicLayer.Services
             IRepository<CompletedAnswer> completedAnswerRepository,
             IRepository<GameStatus> gameStatusRepository,
             IHubContext<GameHub> gameHub,
-            IConnectionMultiplexer redis)
+            IConnectionMultiplexer redis,
+            INotificationService notificationService)
         {
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
@@ -34,6 +36,7 @@ namespace BusinessLogicLayer.Services
             _gameStatusRepository = gameStatusRepository;
             _gameHub = gameHub;
             _redis = redis;
+            _notificationService = notificationService;
         }
 
         public async Task<int> CreateGameRoomAsync(CreateGameRoomDto createGameRoomDto, CancellationToken cancellationToken = default)
@@ -207,6 +210,13 @@ namespace BusinessLogicLayer.Services
 
             await _gameHub.Clients.All.SendAsync("GameStarted", result, cancellationToken);
 
+            await _notificationService.CreateNotificationForUserAsync(new CreateNotificationDto
+            {
+                Message = $"Your game {game.GameName} has been successfully launched. The number of players at the start is {startGameDto.Players.Count}.",
+                Title = "Game started",
+                UserId = startGameDto.HostId
+            });
+
             return result;
         }
 
@@ -277,6 +287,13 @@ namespace BusinessLogicLayer.Services
 
             // Уведомляем клиентов об окончании игры
             await _gameHub.Clients.Group(gameId.ToString()).SendAsync("GameCompleted", gameId, game);
+
+            await _notificationService.CreateNotificationForUserAsync(new CreateNotificationDto
+            {
+                Message = $"Your game {game.GameName} has been successfully finished.",
+                Title = "Game finished",
+                UserId = game.HostId
+            });
         }
     }
 }

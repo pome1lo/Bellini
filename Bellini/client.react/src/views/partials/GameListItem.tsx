@@ -32,7 +32,7 @@ export const GameListItem: React.FC<ActiveGame> = ({
             if (!isAuthenticated || !user) {
                 navigate('/login');
             } else {
-                navigate(`/games/${id}`);
+                navigate(`/games/room/${id}`);
             }
         } catch (error) {
             console.error('Connection failed: ', error);

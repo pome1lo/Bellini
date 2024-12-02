@@ -1,5 +1,5 @@
 import './assets/styles/App.css'
-import { Route, Routes } from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import {BasicLayout} from "@/utils/layouts/BasicLayout.tsx";
 import {MainPage} from "./views/pages/MainPage.tsx";
 import {ThemeProvider} from "@/components/theme-provider.tsx";
@@ -32,7 +32,7 @@ import {QuizStartedPage} from "@/views/pages/QuizStartedPage.tsx";
 import {FinishedQuiz} from "@/utils/interfaces/FinishedQuiz.ts";
 import {StartedQuiz} from "@/utils/interfaces/StartedQuiz.ts";
 import {Quiz} from "@/utils/interfaces/Quiz.ts";
-import { NotifiactionsPage } from './views/pages/NotifiactionsPage.tsx';
+import {NotifiactionsPage} from './views/pages/NotifiactionsPage.tsx';
 
 function App() {
     const [gameStarted, setGameStarted] = useState(false);
@@ -44,7 +44,7 @@ function App() {
     const [currentFinishedGame, setCurrentFinishedGame] = useState<FinishedGame>();
     const [currentFinishedQuiz, setCurrentFinishedQuiz] = useState<Quiz>();
 
-    useEffect(() => AOS.init , []);
+    useEffect(() => AOS.init, []);
 
     const handleStart = (game: StartedGame) => {
         setCurrentStartedGame(game);
@@ -69,11 +69,10 @@ function App() {
     };
 
 
-
     return (
         <>
             <AuthProvider>
-                <Toaster />
+                <Toaster/>
                 <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
                     <Routes>
                         <Route path='/' element={<BasicLayout/>}>
@@ -98,43 +97,44 @@ function App() {
                             <Route path='register' element={<RegisterPage/>}/>
                             <Route path='forgot-password' element={<ForgotPasswordPage/>}/>
 
-                            <Route path='games/:id' element={
+                            <Route path='games/room/:id' element={
                                 gameFinished ? (
                                     currentFinishedGame ? (
-                                        <GameFinishedPage currentGame={currentFinishedGame} />
+                                        <GameFinishedPage currentGame={currentFinishedGame}/>
                                     ) : (
                                         <div> Loading... GameFinishedPage</div>  //todo add Skeleton
                                     )
                                 ) : gameStarted ? (
                                     currentStartedGame ? (
-                                        <GameStartedPage currentGame={currentStartedGame} onFinish={handleFinish} />
+                                        <GameStartedPage currentGame={currentStartedGame} onFinish={handleFinish}/>
                                     ) : (
                                         <div>Loading... GameStartedPage</div>  //todo add Skeleton
                                     )
                                 ) : (
-                                    <GameRoomPage onStart={handleStart} isFinished={setGameFinished} onFinish={handleFinish} />
+                                    <GameRoomPage onStart={handleStart} isFinished={setGameFinished}
+                                                  onFinish={handleFinish}/>
                                 )
-                            }
-                            />
+                            }/>
 
-                            <Route path='quizzes/:id' element={
+                            <Route path='quizzes/room/:id' element={
                                 quizFinished ? (
                                     currentFinishedQuiz ? (
-                                        <QuizFinishedPage currentQuiz={currentFinishedQuiz} />
+                                        <QuizFinishedPage currentQuiz={currentFinishedQuiz}/>
                                     ) : (
                                         <div> Loading... QuizFinishedPage</div>  //todo add Skeleton
                                     )
                                 ) : quizStarted ? (
                                     currentStartedQuiz ? (
-                                        <QuizStartedPage currentQuiz={currentStartedQuiz} onQuizFinish={handleQuizFinish} />
+                                        <QuizStartedPage currentQuiz={currentStartedQuiz}
+                                                         onQuizFinish={handleQuizFinish}/>
                                     ) : (
                                         <div>Loading... QuizStartedPage</div>  //todo add Skeleton
                                     )
                                 ) : (
-                                    <QuizRoomPage onQuizStart={handleQuizStart} isQuizFinished={setQuizFinished} onQuizFinish={handleQuizFinish} />
+                                    <QuizRoomPage onQuizStart={handleQuizStart} isQuizFinished={setQuizFinished}
+                                                  onQuizFinish={handleQuizFinish}/>
                                 )
-                            }
-                            />
+                            }/>
 
                         </Route>
                         <Route path="500" element={<InternalServerErrorPage/>}/>
