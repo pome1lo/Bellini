@@ -61,7 +61,11 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({tabCont
     };
 
     if (isLoading) {
-        return <GameListTabContentRowSkeleton/>;
+        return <GameListTabContentRowSkeleton
+            title="Games"
+            items={[{ path: '/', name: 'Home' },{ path: '/games', name: 'Games' },]}
+            description="Here you will see the available games for your chosen category">
+        </GameListTabContentRowSkeleton>;
     }
 
     if (games.length === 0) {

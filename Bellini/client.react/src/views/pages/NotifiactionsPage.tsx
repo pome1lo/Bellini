@@ -22,19 +22,20 @@ import {Button} from "@/components/ui/button.tsx";
 import {authFetch} from "@/utils/fetchs/authFetch.ts";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {useNavigate} from "react-router-dom";
+import {NotificationsPageSkeleton} from "@/views/partials/skeletons/NotificationsPageSkeleton.tsx";
 
 interface Notification {
- id : number;
- userId : number;
- title  : string;
- message   : string;
- createdAt : Date;
- isRead : boolean;
+    id: number;
+    userId: number;
+    title: string;
+    message: string;
+    createdAt: Date;
+    isRead: boolean;
 }
 
 const breadcrumbItems = [
-    { path: '/', name: 'Home' },
-    { path: '/notifications', name: 'Notifications' },
+    {path: '/', name: 'Home'},
+    {path: '/notifications', name: 'Notifications'},
 ];
 export const NotifiactionsPage = () => {
     const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -80,20 +81,17 @@ export const NotifiactionsPage = () => {
     };
 
     if (isLoading) {
-        return <>
-            LOADING
-        </>
-    }
-
-    if (notifications.length === 0) {
-        return <>
-            0 ELEMENTOV
-        </>
+        return <GameListTabContentRowSkeleton
+            title="Notifications"
+            items={breadcrumbItems}
+            description="Here you will see the all notifications for your account">
+        </GameListTabContentRowSkeleton>;
     }
 
     return (
         <>
-            <Breadcrumbs items={breadcrumbItems}    />
+            <Breadcrumbs items={breadcrumbItems}/>
+
             <Card className="max-w-[1440px] w-full mx-auto">
                 <CardHeader>
                     <CardTitle>Notifications</CardTitle>
