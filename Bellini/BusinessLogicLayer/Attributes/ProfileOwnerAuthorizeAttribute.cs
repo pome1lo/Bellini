@@ -7,6 +7,8 @@ namespace BusinessLogicLayer.Attribute
 {
     public class ProfileOwnerAuthorizeAttribute : AuthorizeAttribute, IAuthorizationFilter
     {
+        public string IdParameterName { get; set; } = "id";
+
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var userIdClaim = context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
@@ -17,7 +19,7 @@ namespace BusinessLogicLayer.Attribute
             }
 
             var userId = int.Parse(userIdClaim.Value);
-            var routeData = context.RouteData.Values["id"];
+            var routeData = context.RouteData.Values[IdParameterName];
             if (routeData is null || !int.TryParse(routeData.ToString(), out int routeId) || userId != routeId)
             {
                 context.Result = new ForbidResult();

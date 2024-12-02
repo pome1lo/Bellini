@@ -22,11 +22,12 @@ namespace GameService.Controllers
             return Ok(new { quizzes, total = totalCount });
         }
 
+        // refacotr
         [HttpGet("{quizId:int}")]
         public async Task<IActionResult> GetQuizByQuizId(int quizId, CancellationToken cancellationToken)
         {
             var quiz = await _quizService.GetQuizByIdAsync(quizId, cancellationToken);
-            return quiz == null ? NotFound() : Ok(quiz);
+            return quiz == null ? NotFound() : Ok(quiz); 
         }
 
         [HttpPost("{quizId:int}/start")]
