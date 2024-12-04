@@ -1,5 +1,5 @@
-using DataAccessLayer.Services.DTOs;
-using DataAccessLayer.Services.Interfaces;
+using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Utils;
 using Microsoft.AspNetCore.Mvc;
 

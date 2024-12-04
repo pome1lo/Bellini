@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 
-namespace DataAccessLayer.Attribute
+namespace BusinessLogicLayer.Attribute
 {
     public class ProfileOwnerAuthorizeAttribute : AuthorizeAttribute, IAuthorizationFilter
     {

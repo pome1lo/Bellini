@@ -41,6 +41,8 @@ export const QuizzesListPage = () =>{
     const [isUpdated, setIsUpdated] = useState<boolean>(false);
     const {tabName} = useParams();
     const navigate = useNavigate();
+    const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const validTabs = ["all", "new", "completed"];
 
@@ -51,6 +53,29 @@ export const QuizzesListPage = () =>{
             }
         }
     }, [tabName, navigate]);
+
+    useEffect(() => {
+        const fetchGames = async () => {
+            setIsLoading(true);
+            try {
+                const response = await serverFetch(`/quizzes?limit=100&offset=0`);
+                const data = await response.json();
+                console.log(data);
+                if (response.status === 204 || !Array.isArray(data.quizzes)) {
+                    setQuizzes([]);
+                } else {
+                    setQuizzes(data.quizzes);
+                }
+            } catch (error) {
+                console.error('Error fetching games:', error.message);
+                setQuizzes([]);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchGames();
+    }, [isUpdated]);
 
     return (
         <div className="h-[77vh]">

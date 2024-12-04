@@ -1,5 +1,5 @@
-﻿using DataAccessLayer.Services.DTOs;
-using DataAccessLayer.Services.Interfaces;
+﻿using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameService.Controllers
@@ -27,7 +27,7 @@ namespace GameService.Controllers
         public async Task<IActionResult> GetQuizByQuizId(int quizId, CancellationToken cancellationToken)
         {
             var quiz = await _quizService.GetQuizByIdAsync(quizId, cancellationToken);
-            return quiz == null ? NotFound() : Ok(quiz); 
+            return quiz == null ? NotFound() : Ok(quiz);
         }
 
         [HttpPost("{quizId:int}/start")]

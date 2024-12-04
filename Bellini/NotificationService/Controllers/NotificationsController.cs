@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.Services.Interfaces;
+﻿using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NotificationService.Controllers

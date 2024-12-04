@@ -12,7 +12,6 @@ import {PrivateRoute} from "@/utils/routers/PrivateRoute.tsx";
 import {ContactsPage} from "@/views/pages/ContactsPage.tsx";
 import {AboutPage} from "@/views/pages/AboutPage.tsx";
 import {ProfilePage} from "@/views/pages/ProfilePage.tsx";
-import {SupportPage} from "@/views/pages/SupportPage.tsx";
 import {GameListPage} from "@/views/pages/GameListPage.tsx";
 import {useEffect, useState} from "react";
 import AOS from 'aos';
@@ -29,7 +28,6 @@ import {QuizRoomPage} from "@/views/pages/QuizRoomPage.tsx";
 import {ForgotPasswordPage} from "@/views/pages/ForgotPasswordPage.tsx";
 import {QuizFinishedPage} from "@/views/pages/QuizFinishedPage.tsx";
 import {QuizStartedPage} from "@/views/pages/QuizStartedPage.tsx";
-import {FinishedQuiz} from "@/utils/interfaces/FinishedQuiz.ts";
 import {StartedQuiz} from "@/utils/interfaces/StartedQuiz.ts";
 import {Quiz} from "@/utils/interfaces/Quiz.ts";
 import {NotifiactionsPage} from './views/pages/NotifiactionsPage.tsx';
@@ -79,7 +77,6 @@ function App() {
                             <Route path='settings' element={<SettingsPage/>}/>
                             <Route path='contacts' element={<ContactsPage/>}/>
                             <Route path='about' element={<AboutPage/>}/>
-                            <Route path='support' element={<SupportPage/>}/>
                             <Route path='profile/:id' element={<ProfilePage/>}/>
                             <Route path='games' element={<GameListPage/>}/>
                             <Route path='games/:tabName' element={<GameListPage/>}/>

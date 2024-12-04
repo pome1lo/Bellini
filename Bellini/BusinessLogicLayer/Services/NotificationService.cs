@@ -1,12 +1,12 @@
-﻿using DataAccessLayer.Data.Interfaces;
+﻿using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
+using BusinessLogicLayer.Utils;
+using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 using EmailSenderLibrary;
-using DataAccessLayer.Services.DTOs;
-using DataAccessLayer.Services.Interfaces;
-using DataAccessLayer.Utils;
 using UtilsModelsLibrary.Exceptions;
 
-namespace DataAccessLayer.Services
+namespace BusinessLogicLayer.Services
 {
     public class NotificationService : INotificationService
     {

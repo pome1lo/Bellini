@@ -1,4 +1,4 @@
-﻿namespace DataAccessLayer.Utils
+﻿namespace BusinessLogicLayer.Utils
 {
     public class VerificationCodeDataDto
     {

@@ -1,8 +1,7 @@
-﻿using System.IO;
-using DataAccessLayer.Services.DTOs;
+﻿using BusinessLogicLayer.Services.DTOs;
 using Microsoft.Extensions.Configuration;
 
-namespace DataAccessLayer.Utils
+namespace BusinessLogicLayer.Utils
 {
     public class ConfigurationHelper
     {

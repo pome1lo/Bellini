@@ -39,7 +39,6 @@ export const Footer = () => {
                             <div>
                                 <Button variant="link" className="text-start text-white">Contacts</Button>
                                 <Button variant="link" className="text-white">About</Button>
-                                <Button variant="link" className="text-white">Support</Button>
                                 <Button variant="link" className="text-white">Contacts</Button>
                             </div>
                         </div>

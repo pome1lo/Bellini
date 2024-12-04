@@ -1,4 +1,4 @@
-﻿namespace DataAccessLayer.Services.DTOs
+﻿namespace BusinessLogicLayer.Services.DTOs
 {
     public class UpdateQuestionDto
     {

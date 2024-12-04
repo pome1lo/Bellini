@@ -1,9 +1,9 @@
 using AuthenticationService.MiddlewareExtensions;
-using DataAccessLayer.Services;
-using DataAccessLayer.Services.Configs;
-using DataAccessLayer.Services.DTOs;
-using DataAccessLayer.Services.Interfaces;
-using DataAccessLayer.Services.Validators;
+using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Services.Configs;
+using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
+using BusinessLogicLayer.Services.Validators;
 using DataAccessLayer.Data;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Data.Repositories;

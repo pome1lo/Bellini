@@ -1,7 +1,7 @@
 ﻿using DataAccessLayer.Models;
 using System.Text.Json.Serialization;
 
-namespace DataAccessLayer.Services.DTOs
+namespace BusinessLogicLayer.Services.DTOs
 {
     public class EndGameDto
     {

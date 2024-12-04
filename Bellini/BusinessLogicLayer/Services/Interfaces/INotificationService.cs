@@ -1,6 +1,6 @@
-﻿using DataAccessLayer.Services.DTOs;
+﻿using BusinessLogicLayer.Services.DTOs;
 
-namespace DataAccessLayer.Services.Interfaces
+namespace BusinessLogicLayer.Services.Interfaces
 {
     public interface INotificationService
     {

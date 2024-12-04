@@ -1,9 +1,9 @@
-﻿using DataAccessLayer.Services.DTOs;
-using DataAccessLayer.Services.Interfaces;
+﻿using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 
-namespace DataAccessLayer.Services
+namespace BusinessLogicLayer.Services
 {
     public class QuizService : IQuizService
     {
@@ -85,6 +85,11 @@ namespace DataAccessLayer.Services
             await _quizResultsRepository.CreateAsync(quizResult, cancellationToken);
 
             return await _quizRepository.GetItemAsync(quizId, cancellationToken);
+        }
+
+        public Task<QuizRatingDto> GetQuizRatingAsync(CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
     }
 }

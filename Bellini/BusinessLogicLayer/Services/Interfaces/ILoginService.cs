@@ -1,7 +1,7 @@
-﻿using DataAccessLayer.Services.DTOs;
+﻿using BusinessLogicLayer.Services.DTOs;
 using DataAccessLayer.Models;
 
-namespace DataAccessLayer.Services.Interfaces
+namespace BusinessLogicLayer.Services.Interfaces
 {
     public interface ILoginService
     {

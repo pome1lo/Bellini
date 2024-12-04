@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
-using DataAccessLayer.Services.DTOs;
-using DataAccessLayer.Services.Interfaces;
 using UtilsModelsLibrary.Exceptions;
 
-namespace DataAccessLayer.Services
+namespace BusinessLogicLayer.Services
 {
     public class UserService : IUserService
     {

@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
+using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 using FluentValidation;
 using Microsoft.Extensions.Caching.Distributed;
-using DataAccessLayer.Services.DTOs;
-using DataAccessLayer.Services.Interfaces;
 using UtilsModelsLibrary.Exceptions;
 
-namespace DataAccessLayer.Services
+namespace BusinessLogicLayer.Services
 {
     public class ProfileService : IProfileService
     {

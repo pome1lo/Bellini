@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using DataAccessLayer.Services.DTOs;
-using DataAccessLayer.Services.Interfaces;
+using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 using FluentValidation;
@@ -12,7 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace DataAccessLayer.Services
+namespace BusinessLogicLayer.Services
 {
     public class LoginService : ILoginService
     {

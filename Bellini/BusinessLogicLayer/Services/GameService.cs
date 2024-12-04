@@ -1,15 +1,15 @@
-﻿using DataAccessLayer.Data.Interfaces;
+﻿using BusinessLogicLayer.Hubs;
+using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
+using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 using DataAccessLayer.Utils;
 using Microsoft.AspNetCore.SignalR;
 using StackExchange.Redis;
 using System.Text.Json;
-using DataAccessLayer.Hubs;
-using DataAccessLayer.Services.DTOs;
-using DataAccessLayer.Services.Interfaces;
 using UtilsModelsLibrary.Exceptions;
 
-namespace DataAccessLayer.Services
+namespace BusinessLogicLayer.Services
 {
     public class GameService : IGameService
     {

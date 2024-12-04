@@ -29,7 +29,7 @@ namespace DataAccessLayer.Data.Seeds
                 {
                     Id = 3,
                     GameName = "Современные технологии",
-                    GameCoverImageUrl = "https://example.com/tech.jpg",
+                    GameCoverImageUrl = "https://i.pinimg.com/originals/b3/7e/4f/b37e4fd167bd9e14558dd14301ec6487.jpg",
                     StartTime = DateTime.MinValue,
                     EndTime = DateTime.MinValue
                 }

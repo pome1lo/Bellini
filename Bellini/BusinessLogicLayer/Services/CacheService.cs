@@ -1,8 +1,8 @@
-﻿using DataAccessLayer.Services.Interfaces;
+﻿using BusinessLogicLayer.Services.Interfaces;
 using StackExchange.Redis;
 using System.Text.Json;
 
-namespace DataAccessLayer.Services
+namespace BusinessLogicLayer.Services
 {
     public class CacheService : ICacheService
     {

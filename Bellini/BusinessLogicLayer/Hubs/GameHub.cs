@@ -1,9 +1,9 @@
-﻿using DataAccessLayer.Services.DTOs;
+﻿using BusinessLogicLayer.Services.DTOs;
 using Microsoft.AspNetCore.SignalR;
 using StackExchange.Redis;
 using System.Text.Json;
 
-namespace DataAccessLayer.Hubs
+namespace BusinessLogicLayer.Hubs
 {
     public class GameHub : Hub
     {

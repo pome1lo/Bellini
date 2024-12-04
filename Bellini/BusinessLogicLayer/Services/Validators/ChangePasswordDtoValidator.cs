@@ -1,7 +1,7 @@
-﻿using DataAccessLayer.Services.DTOs;
+﻿using BusinessLogicLayer.Services.DTOs;
 using FluentValidation;
 
-namespace DataAccessLayer.Services.Validators
+namespace BusinessLogicLayer.Services.Validators
 {
     public class ChangePasswordDtoValidator : AbstractValidator<ChangePasswordDto>
     {

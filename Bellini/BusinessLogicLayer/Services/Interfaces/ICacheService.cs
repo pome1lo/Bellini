@@ -1,4 +1,4 @@
-﻿namespace DataAccessLayer.Services.Interfaces
+﻿namespace BusinessLogicLayer.Services.Interfaces
 {
     public interface ICacheService
     {

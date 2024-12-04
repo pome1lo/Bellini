@@ -1,8 +1,8 @@
-using DataAccessLayer.Hubs;
-using DataAccessLayer.Services;
-using DataAccessLayer.Services.Configs;
-using DataAccessLayer.Services.DTOs;
-using DataAccessLayer.Services.Interfaces;
+using BusinessLogicLayer.Hubs;
+using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Services.Configs;
+using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Data;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Data.Repositories;
@@ -44,10 +44,10 @@ builder.Services.AddScoped<IRepository<QuizResults>, QuizResultsRepository>();
 builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost"));
 
 builder.Services.AddScoped<INotificationService, NotificationService>();
-builder.Services.AddScoped<IGameService, DataAccessLayer.Services.GameService>();
-builder.Services.AddScoped<IQuizService, DataAccessLayer.Services.QuizService>();
-builder.Services.AddScoped<ICommentService, DataAccessLayer.Services.CommentService>();
-builder.Services.AddScoped<IQuestionService, DataAccessLayer.Services.QuestionService>();
+builder.Services.AddScoped<IGameService, BusinessLogicLayer.Services.GameService>();
+builder.Services.AddScoped<IQuizService, QuizService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IQuestionService, QuestionService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddAutoMapper(cfg =>

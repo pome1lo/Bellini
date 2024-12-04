@@ -1,9 +1,9 @@
 using AuthenticationService.MiddlewareExtensions;
-using DataAccessLayer.Services;
-using DataAccessLayer.Services.Configs;
-using DataAccessLayer.Services.DTOs;
-using DataAccessLayer.Services.Interfaces;
-using DataAccessLayer.Services.Validators;
+using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Services.Configs;
+using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
+using BusinessLogicLayer.Services.Validators;
 using DataAccessLayer.Data;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Data.Repositories;
@@ -33,8 +33,8 @@ builder.Services.AddScoped<IValidator<UpdateProfileDto>, UpdateProfileDtoValidat
 builder.Services.AddScoped<IRepository<Notification>, NotificationRepository>();
 
 builder.Services.AddScoped<INotificationService, NotificationService>();
-builder.Services.AddScoped<IProfileService, DataAccessLayer.Services.ProfileService>();
-builder.Services.AddScoped<IFileService, DataAccessLayer.Services.FileService>();
+builder.Services.AddScoped<IProfileService, BusinessLogicLayer.Services.ProfileService>();
+builder.Services.AddScoped<IFileService, FileService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddAutoMapper(cfg =>

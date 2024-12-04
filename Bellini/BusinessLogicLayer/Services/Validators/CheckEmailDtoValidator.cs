@@ -1,8 +1,8 @@
-﻿using DataAccessLayer.Services.DTOs;
-using FluentValidation.Validators;
+﻿using BusinessLogicLayer.Services.DTOs;
 using FluentValidation;
+using FluentValidation.Validators;
 
-namespace DataAccessLayer.Services.Validators
+namespace BusinessLogicLayer.Services.Validators
 {
     public class CheckEmailDtoValidator : AbstractValidator<CheckEmailDto>
     {

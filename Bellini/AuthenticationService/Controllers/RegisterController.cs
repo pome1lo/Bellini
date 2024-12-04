@@ -1,6 +1,5 @@
-﻿using DataAccessLayer.Services.DTOs;
-using DataAccessLayer.Services.Interfaces;
-using DataAccessLayer.Services.DTOs;
+﻿using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthenticationService.Controllers
