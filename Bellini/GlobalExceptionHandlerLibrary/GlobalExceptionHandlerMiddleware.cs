@@ -1,10 +1,9 @@
-﻿using BusinessLogicLayer.Exceptions;
-using BusinessLogicLayer.Exceptions;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Text.Json;
+using UtilsModelsLibrary.Exceptions;
 
 namespace GlobalExceptionHandlerLibrary
 {
