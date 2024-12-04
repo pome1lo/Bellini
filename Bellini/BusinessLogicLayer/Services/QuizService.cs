@@ -87,9 +87,39 @@ namespace BusinessLogicLayer.Services
             return await _quizRepository.GetItemAsync(quizId, cancellationToken);
         }
 
-        public Task<QuizRatingDto> GetQuizRatingAsync(CancellationToken cancellationToken = default)
+        public async Task<List<QuizRatingDto>> GetQuizRatingAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var quizResults = await _quizResultsRepository.GetElementsAsync(cancellationToken);
+
+            var topPlayers = quizResults
+                .GroupBy(qr => qr.User)  // Группируем по пользователю
+                .Select(group => new
+                {
+                    User = group.Key,
+                    TotalCorrectAnswers = group.Sum(qr => qr.NumberOfCorrectAnswers),
+                    TotalQuestions = group.Sum(qr => qr.NumberOfQuestions),
+                    LastEndTime = group.Max(qr => qr.EndTime)
+                })
+                .OrderByDescending(x => x.TotalCorrectAnswers)
+                .ThenBy(x => x.LastEndTime)
+                .Take(10)  // Топ-10 игроков
+                .ToList();
+
+            var result = topPlayers.Select((player, index) => new QuizRatingDto
+            {
+                Rank = index + 1,
+                Username = player.User.Username,
+                Email = player.User.Email,
+                CorrectAnswers = player.TotalCorrectAnswers,
+                TotalQuestions = player.TotalQuestions,
+                Accuracy = player.TotalQuestions > 0
+                    ? Math.Round((double)player.TotalCorrectAnswers / player.TotalQuestions * 100, 2)
+                    : 0,
+                EndTime = player.LastEndTime
+            }).ToList();
+
+            return result;
         }
+
     }
 }

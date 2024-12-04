@@ -24,6 +24,8 @@ import {useNavigate} from "react-router-dom";
 import {toast} from "@/components/ui/use-toast.ts";
 import {GameListTabContentRowSkeleton} from "@/views/partials/skeletons/GameListTabContentRowSkeleton.tsx";
 import {GameListTabContentNotFoundSkeleton} from "@/views/partials/skeletons/GameListTabContentNotFoundSkeleton.tsx";
+import {GameListTabContentTableRow} from "@/views/partials/skeletons/GameListSkeleton.tsx";
+import {QuizListSkeleton} from "@/views/partials/skeletons/QuizListSkeleton.tsx";
 
 interface QuizzesListTabContentProps {
     tabContentName: string;
@@ -86,13 +88,10 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
 
     if (isLoading) {
         return  <>
-            LOADING
-        </>;
-    }
-
-    if (quizzes.length === 0) {
-        return <>
-            0 elementov
+            <QuizListSkeleton/>
+            <QuizListSkeleton/>
+            <QuizListSkeleton/>
+            <QuizListSkeleton/>
         </>;
     }
 

@@ -3,7 +3,16 @@ import React, {useEffect, useState} from "react";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {GameListTabContentRowSkeleton} from "@/views/partials/skeletons/GameListTabContentRowSkeleton.tsx";
 import {ActiveGame, GamesListTabContent} from "@/views/partials/GamesListTabContent.tsx";
-import {Table, TableBody, TableCell, TableRow} from "@/components/ui/table.tsx";
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow
+} from "@/components/ui/table.tsx";
 import {Badge} from "@/components/ui/badge.tsx";
 import {
     DropdownMenu, DropdownMenuCheckboxItem,
@@ -37,11 +46,21 @@ const breadcrumbItems = [
     {path: '/quizzes', name: 'Quizzes'},
 ];
 
-export const QuizzesListPage = () =>{
+interface RatingItem {
+    rank: number;
+    username: string;
+    email: string;
+    correctAnswers: number;
+    totalQuestions: number;
+    accuracy: number;
+    endTime: Date;
+}
+
+export const QuizzesListPage = () => {
     const [isUpdated, setIsUpdated] = useState<boolean>(false);
     const {tabName} = useParams();
     const navigate = useNavigate();
-    const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+    const [rating, setRating] = useState<RatingItem[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const validTabs = ["all", "new", "completed"];
@@ -55,30 +74,30 @@ export const QuizzesListPage = () =>{
     }, [tabName, navigate]);
 
     useEffect(() => {
-        const fetchGames = async () => {
+        const fetchRating = async () => {
             setIsLoading(true);
             try {
-                const response = await serverFetch(`/quizzes?limit=100&offset=0`);
+                const response = await serverFetch(`/quizzes/rating`);
                 const data = await response.json();
                 console.log(data);
-                if (response.status === 204 || !Array.isArray(data.quizzes)) {
-                    setQuizzes([]);
+                if (response.status === 204 || !Array.isArray(data)) {
+                    setRating([]);
                 } else {
-                    setQuizzes(data.quizzes);
+                    setRating(data);
                 }
             } catch (error) {
-                console.error('Error fetching games:', error.message);
-                setQuizzes([]);
+                console.error('Error fetching players rating:', error.message);
+                setRating([]);
             } finally {
                 setIsLoading(false);
             }
         };
 
-        fetchGames();
+        fetchRating();
     }, [isUpdated]);
 
     return (
-        <div className="h-[77vh]">
+        <div className="lg:h-[77vh]">
             <Breadcrumbs items={breadcrumbItems}/>
 
             <div className="flex gap-4 flex-col lg:flex-row w-full max-w-[1440px] mx-auto">
@@ -126,22 +145,45 @@ export const QuizzesListPage = () =>{
                 </Card>
                 <Card className="w-full lg:w-1/2">
                     <CardHeader>
-                        <CardTitle>Rating</CardTitle>
+                        <CardTitle>Player Ratings</CardTitle>
                         <CardDescription>
-                            Players connected to this game room
+                            Here is a top 10 player rating
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="grid gap-8">
-                        <ScrollArea className="h-[220px] w-full rounded-md border p-4">
+                        {rating.length == 0 ?
+                            <div className="h-[170px] flex items-center justify-center">
+                                <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There
+                                    are no rating users yet... 😪</h1>
+                            </div>
+                            :
+                            <Table>
+                                <TableCaption>Here is a top 10 player rating.</TableCaption>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Rank</TableHead>
+                                        <TableHead>Username</TableHead>
+                                        <TableHead>Correct Answers</TableHead>
+                                        <TableHead>Total Questions</TableHead>
+                                        <TableHead className="text-right">Accuracy</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {rating.map((item, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell className="font-bold">{item.rank}</TableCell>
+                                            <TableCell>{item.username}</TableCell>
+                                            <TableCell>{item.correctAnswers}</TableCell>
+                                            <TableCell>{item.totalQuestions}</TableCell>
+                                            <TableCell className="font-bold text-right">{item.accuracy} %</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
 
-                            <>
-                                <div className="h-[170px] flex items-center justify-center">
-                                    <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There
-                                        are no connected users yet... 😪</h1>
-                                </div>
-                            </>
+                        }
 
-                        </ScrollArea>
+
                     </CardContent>
                     <CardFooter>
 

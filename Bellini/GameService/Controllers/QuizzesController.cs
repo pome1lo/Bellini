@@ -30,6 +30,14 @@ namespace GameService.Controllers
             return quiz == null ? NotFound() : Ok(quiz);
         }
 
+        [HttpGet("rating")]
+        public async Task<IActionResult> GetQuizRating(CancellationToken cancellationToken)
+        {
+            return Ok(
+                await _quizService.GetQuizRatingAsync(cancellationToken)
+            );
+        }
+
         [HttpPost("{quizId:int}/start")]
         public async Task<IActionResult> StartQuiz(int quizId, [FromBody] QuizStartDto quizStart, CancellationToken cancellationToken = default)
         {
