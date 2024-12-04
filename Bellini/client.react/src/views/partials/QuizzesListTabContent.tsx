@@ -22,9 +22,6 @@ import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {useNavigate} from "react-router-dom";
 import {toast} from "@/components/ui/use-toast.ts";
-import {GameListTabContentRowSkeleton} from "@/views/partials/skeletons/GameListTabContentRowSkeleton.tsx";
-import {GameListTabContentNotFoundSkeleton} from "@/views/partials/skeletons/GameListTabContentNotFoundSkeleton.tsx";
-import {GameListTabContentTableRow} from "@/views/partials/skeletons/GameListSkeleton.tsx";
 import {QuizListSkeleton} from "@/views/partials/skeletons/QuizListSkeleton.tsx";
 
 interface QuizzesListTabContentProps {
@@ -105,7 +102,7 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
                                 <TableCell>
                                     <img
                                         alt={item.gameName + " image"}
-                                        className="aspect-square border rounded-md object-cover"
+                                        className="min-w-[50px] aspect-square border rounded-md object-cover"
                                         height="64"
                                         src={item.gameCoverImageUrl}
                                         width="64"

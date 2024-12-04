@@ -97,7 +97,7 @@ export const QuizzesListPage = () => {
     }, [isUpdated]);
 
     return (
-        <div className="lg:h-[77vh]">
+        <div className="">
             <Breadcrumbs items={breadcrumbItems}/>
 
             <div className="flex gap-4 flex-col lg:flex-row w-full max-w-[1440px] mx-auto">

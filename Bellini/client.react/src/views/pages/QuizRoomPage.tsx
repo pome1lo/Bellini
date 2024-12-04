@@ -89,7 +89,7 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
         <div className="p-4">
             <Breadcrumbs items={breadcrumbItems}/>
             <div className="mt-4 flex flex-col justify-center items-center h-[78vh]">
-                <h1 className="text-4xl font-bold">{currentQuiz?.gameName}</h1>
+                <h1 className="text-4xl text-center font-bold">{currentQuiz?.gameName}</h1>
                 <p className="mt-3 mb-3">Количество вопросов {currentQuiz?.questions.length}</p>
 
                 <Button className="h-8 ms-3 gap-1" onClick={startQuiz}>
