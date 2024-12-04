@@ -15,7 +15,7 @@ namespace DataAccessLayer.Models
         public int GameStatusId { get; set; }
 
         public GameStatus Status { get; set; } = null!;
-        public List<Comment> Comments { get; set; } = null!;
+        public List<GameComment> Comments { get; set; } = null!;
         public List<Player> Players { get; set; } = null!;
         public List<Question> Questions { get; set; } = null!;
         public List<CompletedAnswer> CompletedAnswers { get; set; } = new();

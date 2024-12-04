@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241119060441_Init")]
+    [Migration("20241204085641_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -49,43 +49,6 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("QuestionId");
 
                     b.ToTable("AnswerOptions", (string)null);
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CommentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProfileImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId");
-
-                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.CompletedAnswer", b =>
@@ -172,6 +135,43 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("GameStatusId");
 
                     b.ToTable("Games", (string)null);
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.GameComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CommentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProfileImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("GameComments", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.GameStatus", b =>
@@ -1194,6 +1194,43 @@ namespace DataAccessLayer.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.QuizComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CommentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("ProfileImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("QuizId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuizId");
+
+                    b.ToTable("QuizComments", (string)null);
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.QuizQuestion", b =>
                 {
                     b.Property<int>("Id")
@@ -1474,17 +1511,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.Comment", b =>
-                {
-                    b.HasOne("DataAccessLayer.Models.Game", "Game")
-                        .WithMany("Comments")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-                });
-
             modelBuilder.Entity("DataAccessLayer.Models.CompletedAnswer", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.Game", "Game")
@@ -1529,6 +1555,17 @@ namespace DataAccessLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.GameComment", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Game", "Game")
+                        .WithMany("Comments")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Notification", b =>
@@ -1581,6 +1618,17 @@ namespace DataAccessLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("QuizQuestion");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.QuizComment", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Quiz", "Quiz")
+                        .WithMany("Comments")
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Quiz");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.QuizQuestion", b =>
@@ -1636,6 +1684,8 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Models.Quiz", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Questions");
 
                     b.Navigation("QuizResults");

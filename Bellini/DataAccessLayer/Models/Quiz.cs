@@ -9,5 +9,6 @@
         public DateTime EndTime { get; set; } = DateTime.MinValue;
         public List<QuizQuestion> Questions { get; set; } = null!;
         public List<QuizResults> QuizResults { get; set; } = null!;
+        public List<QuizComment> Comments { get; set; } = null!;
     }
 }

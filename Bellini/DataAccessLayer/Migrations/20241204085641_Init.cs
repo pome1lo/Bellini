@@ -90,6 +90,30 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "QuizComments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    QuizId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProfileImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CommentDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuizComments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuizComments_Quizzes_QuizId",
+                        column: x => x.QuizId,
+                        principalTable: "Quizzes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "QuizQuestions",
                 columns: table => new
                 {
@@ -162,7 +186,7 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comments",
+                name: "GameComments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -176,9 +200,9 @@ namespace DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.PrimaryKey("PK_GameComments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comments_Games_GameId",
+                        name: "FK_GameComments_Games_GameId",
                         column: x => x.GameId,
                         principalTable: "Games",
                         principalColumn: "Id",
@@ -499,11 +523,6 @@ namespace DataAccessLayer.Migrations
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_GameId",
-                table: "Comments",
-                column: "GameId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CompletedAnswers_GameId",
                 table: "CompletedAnswers",
                 column: "GameId");
@@ -522,6 +541,11 @@ namespace DataAccessLayer.Migrations
                 name: "IX_CompletedAnswers_SelectedOptionId",
                 table: "CompletedAnswers",
                 column: "SelectedOptionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GameComments_GameId",
+                table: "GameComments",
+                column: "GameId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Games_GameStatusId",
@@ -554,6 +578,11 @@ namespace DataAccessLayer.Migrations
                 column: "QuizQuestionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_QuizComments_QuizId",
+                table: "QuizComments",
+                column: "QuizId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_QuizQuestions_QuizId",
                 table: "QuizQuestions",
                 column: "QuizId");
@@ -573,16 +602,19 @@ namespace DataAccessLayer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comments");
+                name: "CompletedAnswers");
 
             migrationBuilder.DropTable(
-                name: "CompletedAnswers");
+                name: "GameComments");
 
             migrationBuilder.DropTable(
                 name: "Notifications");
 
             migrationBuilder.DropTable(
                 name: "QuizAnswerOptions");
+
+            migrationBuilder.DropTable(
+                name: "QuizComments");
 
             migrationBuilder.DropTable(
                 name: "QuizResults");

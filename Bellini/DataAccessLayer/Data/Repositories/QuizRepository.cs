@@ -21,6 +21,7 @@ namespace DataAccessLayer.Data.Repositories
             return await _dbSet
                 .Include(q => q.Questions) // Включение связанных вопросов
                 .Include(q => q.QuizResults) // Включение результатов квиза
+                .Include(g => g.Comments)
                 .ToListAsync(cancellationToken);
         }
 
@@ -31,6 +32,7 @@ namespace DataAccessLayer.Data.Repositories
                 .Include(q => q.Questions) // Включение связанных вопросов
                     .ThenInclude(q => q.AnswerOptions)
                 .Include(q => q.QuizResults) // Включение результатов квиза
+                .Include(g => g.Comments)
                 .AsSplitQuery()
                 .FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
 

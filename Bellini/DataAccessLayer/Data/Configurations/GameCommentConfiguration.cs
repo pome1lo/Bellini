@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DataAccessLayer.Data.Configurations
 {
-    public class CommentConfiguration : IEntityTypeConfiguration<Comment>
+    public class GameCommentConfiguration : IEntityTypeConfiguration<GameComment>
     {
-        public void Configure(EntityTypeBuilder<Comment> builder)
+        public void Configure(EntityTypeBuilder<GameComment> builder)
         {
-            builder.ToTable("Comments");
+            builder.ToTable("GameComments");
 
             builder.HasKey(c => c.Id);
 
