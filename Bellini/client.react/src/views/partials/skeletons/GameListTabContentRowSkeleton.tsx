@@ -13,7 +13,7 @@ interface GameListTabContentRowSkeletonProps {
 export const GameListTabContentRowSkeleton:React.FC<GameListTabContentRowSkeletonProps> = ({title, description, items}) => {
     return (
         <>
-            <Breadcrumbs items={items}/>
+            {items.length > 0 ? <Breadcrumbs items={items}/> : <></>}
             <Card className="max-w-[1440px] w-full mx-auto">
                 <CardHeader>
                     <CardTitle>{title}</CardTitle>

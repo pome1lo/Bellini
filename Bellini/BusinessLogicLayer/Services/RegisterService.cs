@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using BusinessLogicLayer.Exceptions;
-using BusinessLogicLayer.Services.DTOs;
-using BusinessLogicLayer.Services.Interfaces;
-using BusinessLogicLayer.Utils;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 using FluentValidation;
+using DataAccessLayer.Services.DTOs;
+using DataAccessLayer.Services.Interfaces;
+using DataAccessLayer.Utils;
+using UtilsModelsLibrary.Exceptions;
 
-namespace BusinessLogicLayer.Services
+namespace DataAccessLayer.Services
 {
     public class RegisterService : IRegisterService
     {
@@ -78,7 +78,7 @@ namespace BusinessLogicLayer.Services
                 Subject = "Registration Code",
                 Body = $"Your registration code is {registrationCode}"
             };
-        //    await _notificationService.SendEmailNotificationAsync(notificationDto, cancellationToken); РАСКОМЕНТИТЬ 
+            //    await _notificationService.SendEmailNotificationAsync(notificationDto, cancellationToken); РАСКОМЕНТИТЬ 
         }
 
         public async Task VerifyCodeAsync(VerifyCodeDto verifyCodeDto, CancellationToken cancellationToken = default)

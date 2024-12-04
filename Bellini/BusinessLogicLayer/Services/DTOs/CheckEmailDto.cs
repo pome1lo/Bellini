@@ -1,4 +1,4 @@
-﻿namespace BusinessLogicLayer.Services.DTOs
+﻿namespace DataAccessLayer.Services.DTOs
 {
     public class CheckEmailDto
     {

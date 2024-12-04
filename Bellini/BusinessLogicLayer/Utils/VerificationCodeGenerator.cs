@@ -1,4 +1,4 @@
-﻿namespace BusinessLogicLayer.Utils
+﻿namespace DataAccessLayer.Utils
 {
     public static class VerificationCodeGenerator
     {

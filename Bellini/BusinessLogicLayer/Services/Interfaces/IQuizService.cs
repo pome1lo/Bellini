@@ -1,7 +1,7 @@
-﻿using BusinessLogicLayer.Services.DTOs;
+﻿using DataAccessLayer.Services.DTOs;
 using DataAccessLayer.Models;
 
-namespace BusinessLogicLayer.Services.Interfaces
+namespace DataAccessLayer.Services.Interfaces
 {
     public interface IQuizService
     {

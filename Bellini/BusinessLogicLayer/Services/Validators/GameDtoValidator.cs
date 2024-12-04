@@ -1,7 +1,7 @@
-﻿using BusinessLogicLayer.Services.DTOs;
+﻿using DataAccessLayer.Services.DTOs;
 using FluentValidation;
 
-namespace BusinessLogicLayer.Services.Validators
+namespace DataAccessLayer.Services.Validators
 {
     public class GameDtoValidator : AbstractValidator<GameDto>
     {

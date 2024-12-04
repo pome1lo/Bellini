@@ -1,12 +1,12 @@
-﻿using BusinessLogicLayer.Exceptions;
-using BusinessLogicLayer.Services.DTOs;
-using BusinessLogicLayer.Services.Interfaces;
-using BusinessLogicLayer.Utils;
-using DataAccessLayer.Data.Interfaces;
+﻿using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 using FluentValidation;
+using DataAccessLayer.Services.DTOs;
+using DataAccessLayer.Services.Interfaces;
+using DataAccessLayer.Utils;
+using UtilsModelsLibrary.Exceptions;
 
-namespace BusinessLogicLayer.Services
+namespace DataAccessLayer.Services
 {
     public class PasswordService : IPasswordService
     {

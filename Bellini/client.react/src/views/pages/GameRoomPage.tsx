@@ -316,7 +316,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                         <Breadcrumbs items={breadcrumbItems}/>
 
                         {isCurrentUserHost ?
-                            <div className="flex items-center justify-between my-3 w-full mx-auto max-w-[1440px]">
+                            <div className="flex items-center justify-between my-3 w-full mx-auto max-w-[1440px] p-4">
                                 <Badge>You are the creator of the room</Badge>
                                 <div>
 
@@ -331,7 +331,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                         }
 
 
-                        <div className="flex flex-col-reverse lg:flex-row gap-4 w-full mx-auto max-w-[1440px]">
+                        <div className="flex flex-col-reverse lg:flex-row gap-4 w-full mx-auto lg:h-[69vh] items-center max-w-[1440px] p-4">
                             <div className="w-full flex flex-col gap-4 lg:order-2">
                                 <div className="flex gap-4 flex-col sm:flex-row">
                                     <Card className="w-full">

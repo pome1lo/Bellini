@@ -1,7 +1,7 @@
-﻿using BusinessLogicLayer.Services.DTOs;
-using BusinessLogicLayer.Services.DTOs;
+﻿using DataAccessLayer.Services.DTOs;
+using DataAccessLayer.Services.DTOs;
 
-namespace BusinessLogicLayer.Services.Interfaces
+namespace DataAccessLayer.Services.Interfaces
 {
     public interface IRegisterService
     {

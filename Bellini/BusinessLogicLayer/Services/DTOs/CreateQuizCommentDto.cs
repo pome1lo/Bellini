@@ -1,8 +1,8 @@
-﻿namespace BusinessLogicLayer.Services.DTOs
+﻿namespace DataAccessLayer.Services.DTOs
 {
-    public class CreateCommentDto
+    public class CreateQuizCommentDto
     {
-        public int GameId { get; set; }
+        public int QuizId { get; set; }
         public int UserId { get; set; }
         public string Content { get; set; } = null!;
         public string Username { get; set; } = null!;

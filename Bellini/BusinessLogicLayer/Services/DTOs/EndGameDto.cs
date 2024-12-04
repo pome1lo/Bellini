@@ -1,7 +1,7 @@
 ﻿using DataAccessLayer.Models;
 using System.Text.Json.Serialization;
 
-namespace BusinessLogicLayer.Services.DTOs
+namespace DataAccessLayer.Services.DTOs
 {
     public class EndGameDto
     {
@@ -17,7 +17,7 @@ namespace BusinessLogicLayer.Services.DTOs
         public int GameStatusId { get; set; }
 
         [JsonIgnore] public GameStatus Status { get; set; } = null!;
-        [JsonIgnore] public List<Comment> Comments { get; set; } = null!;
+        [JsonIgnore] public List<GameComment> Comments { get; set; } = null!;
         [JsonIgnore] public List<Player> Players { get; set; } = null!;
         [JsonIgnore] public List<Question> Questions { get; set; } = null!;
         public List<CompletedAnswer> CompletedAnswers { get; set; } = new();

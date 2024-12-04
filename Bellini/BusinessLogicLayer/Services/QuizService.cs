@@ -1,9 +1,9 @@
-﻿using BusinessLogicLayer.Services.DTOs;
-using BusinessLogicLayer.Services.Interfaces;
+﻿using DataAccessLayer.Services.DTOs;
+using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 
-namespace BusinessLogicLayer.Services
+namespace DataAccessLayer.Services
 {
     public class QuizService : IQuizService
     {

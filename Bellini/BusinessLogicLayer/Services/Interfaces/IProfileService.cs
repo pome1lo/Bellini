@@ -1,6 +1,6 @@
-﻿using BusinessLogicLayer.Services.DTOs;
+﻿using DataAccessLayer.Services.DTOs;
 
-namespace BusinessLogicLayer.Services.Interfaces
+namespace DataAccessLayer.Services.Interfaces
 {
     public interface IProfileService
     {

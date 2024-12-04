@@ -1,6 +1,6 @@
 ﻿using DataAccessLayer.Models;
 
-namespace BusinessLogicLayer.Services.DTOs
+namespace DataAccessLayer.Services.DTOs
 {
     public class GameDto
     {
@@ -15,7 +15,7 @@ namespace BusinessLogicLayer.Services.DTOs
         public string RoomPassword { get; set; } = "";
         public GameStatus GameStatus { get; set; } = null!;
         public List<Question> Questions { get; set; } = null!;
-        public List<Comment> Comments { get; set; } = null!;
+        public List<GameComment> Comments { get; set; } = null!;
         public List<Player> Players { get; set; } = null!;
         public List<CompletedAnswer> CompletedAnswers { get; set; } = new();
     }

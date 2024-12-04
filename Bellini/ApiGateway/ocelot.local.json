@@ -66,8 +66,9 @@
       "UpstreamPathTemplate": "/game/{everything}",
       "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
     },
+
     {
-      "DownstreamPathTemplate": "/api/comments/{everything}",
+      "DownstreamPathTemplate": "/api/comments/game/{gameId:int}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -75,9 +76,35 @@
           "Port": 7035
         }
       ],
-      "UpstreamPathTemplate": "/comments/{everything}",
-      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+      "UpstreamPathTemplate": "/comments/game/{gameId:int}",
+      "UpstreamHttpMethod": [ "POST", "GET" ]
     },
+    {
+      "DownstreamPathTemplate": "/api/comments/quiz/{quizId:int}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/comments/quiz/{quizId:int}",
+      "UpstreamHttpMethod": [ "POST", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/comments/{id:int}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/comments/{id:int}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+
+
     {
       "DownstreamPathTemplate": "/api/questions/{everything}",
       "DownstreamScheme": "https",

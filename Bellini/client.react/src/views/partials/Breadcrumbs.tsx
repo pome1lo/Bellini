@@ -17,7 +17,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({items}) => {
     const maxItems = 4;
 
     return (
-        <div className="max-w-[1440px] w-full mx-auto mb-5">
+        <div className="max-w-[1440px] w-full mx-auto mb-5 p-4">
             <Breadcrumb>
                 <BreadcrumbList>
                     {items.length > maxItems ? (

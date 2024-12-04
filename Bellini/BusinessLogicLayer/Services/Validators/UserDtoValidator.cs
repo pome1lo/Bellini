@@ -1,8 +1,8 @@
-﻿using BusinessLogicLayer.Services.DTOs;
+﻿using DataAccessLayer.Services.DTOs;
 using FluentValidation;
 using FluentValidation.Validators;
 
-namespace BusinessLogicLayer.Services.Validators
+namespace DataAccessLayer.Services.Validators
 {
     public class UserDtoValidator : AbstractValidator<UserDto>
     {

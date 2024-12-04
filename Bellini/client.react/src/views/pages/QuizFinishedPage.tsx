@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Quiz} from "@/utils/interfaces/Quiz";
 import {RadialBarChart, RadialBar, PolarGrid, PolarRadiusAxis, Label} from "recharts";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
@@ -46,6 +46,28 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
         },
     } satisfies ChartConfig
 
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            try {
+                const response = await serverFetch(`/comments/quiz/${currentQuiz?.id}`);
+                const data = await response.json();
+                console.log(data);
+
+                if (response.status === 204 || !Array.isArray(data)) {
+                    setComments([]);
+                } else {
+                    setComments(data);
+                }
+            } catch (ex: unknown) {
+                console.error('Error fetching games:', (ex as Error).message);
+                setComments([]);
+            }
+        };
+
+        fetchComments();
+    }, [currentQuiz, isUpdated]);
+
     const OnSubmitCreateComment = async (event) => {
         event.preventDefault()
         try {
@@ -54,11 +76,11 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
                 return;
             }
 
-            const response = await serverFetch(`/comments/${currentGame?.id}`, {
+            const response = await serverFetch(`/comments/quiz/${currentQuiz?.id}`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
-                    gameId: currentGame?.id,
+                    gameId: currentQuiz?.id,
                     userId: user.id,
                     content: content,
                     username: user.username,

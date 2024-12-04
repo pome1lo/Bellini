@@ -1,5 +1,5 @@
-﻿using BusinessLogicLayer.Services.DTOs;
-using BusinessLogicLayer.Services.Interfaces;
+﻿using DataAccessLayer.Services.DTOs;
+using DataAccessLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameService.Controllers
@@ -14,28 +14,44 @@ namespace GameService.Controllers
         {
             _commentService = commentService;
         }
-         
-        [HttpPost("{gameId}")]
-        public async Task<IActionResult> CreateComment(int gameId, [FromBody] CreateCommentDto createCommentDto, CancellationToken cancellationToken = default)
+
+        [HttpGet("game/{gameId:int}")]
+        public async Task<IActionResult> GetCommentsByGameId(int gameId, CancellationToken cancellationToken = default)
         {
             return Ok(
-                await _commentService.CreateCommentAsync(gameId, createCommentDto, cancellationToken)
+                await _commentService.GetAllCommentsByGameIdAsync(gameId, cancellationToken)
             );
         }
-         
-        [HttpDelete("{commentId}")]
+
+        [HttpGet("quiz/{quizId:int}")]
+        public async Task<IActionResult> GetCommentsByQuizId(int quizId, CancellationToken cancellationToken = default)
+        {
+            return Ok(
+                await _commentService.GetAllCommentsByQuizIdAsync(quizId, cancellationToken)
+            );
+        }
+
+        [HttpPost("game/{gameId:int}")]
+        public async Task<IActionResult> CreateGameComment(int gameId, [FromBody] CreateGameCommentDto createCommentDto, CancellationToken cancellationToken = default)
+        {
+            return Ok(
+                await _commentService.CreateGameCommentAsync(gameId, createCommentDto, cancellationToken)
+            );
+        }
+
+        [HttpPost("quiz/{quizId:int}")]
+        public async Task<IActionResult> CreateQuizComment(int quizId, [FromBody] CreateQuizCommentDto createCommentDto, CancellationToken cancellationToken = default)
+        {
+            return Ok(
+                await _commentService.CreateQuizCommentAsync(quizId, createCommentDto, cancellationToken)
+            );
+        }
+
+        [HttpDelete("{commentId:int}")]
         public async Task<IActionResult> DeleteComment(int commentId, CancellationToken cancellationToken = default)
         {
             return Ok(
                 await _commentService.DeleteCommentAsync(commentId, cancellationToken)
-            );
-        }
-         
-        [HttpGet("game/{gameId}")]
-        public async Task<IActionResult> GetCommentsByGameId(int gameId, CancellationToken cancellationToken = default)
-        {
-            return Ok(
-                await _commentService.GetAllActiveGamesAsync(gameId, cancellationToken)
             );
         }
     }

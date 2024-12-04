@@ -1,9 +1,9 @@
-﻿using BusinessLogicLayer.Services.DTOs;
+﻿using DataAccessLayer.Services.DTOs;
 using DataAccessLayer.Models;
 using DataAccessLayer.Utils;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BusinessLogicLayer.Services.Interfaces
+namespace DataAccessLayer.Services.Interfaces
 {
     public interface IGameService
     {

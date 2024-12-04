@@ -1,6 +1,6 @@
 using AuthenticationService.MiddlewareExtensions;
-using BusinessLogicLayer.Services.Configs;
-using BusinessLogicLayer.Services.Interfaces;
+using DataAccessLayer.Services.Configs;
+using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Data;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Data.Repositories;
@@ -21,7 +21,7 @@ builder.Services.AddScoped<IRepository<Notification>, NotificationRepository>();
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
 
 
-builder.Services.AddScoped<INotificationService, BusinessLogicLayer.Services.NotificationService>();
+builder.Services.AddScoped<INotificationService, DataAccessLayer.Services.NotificationService>();
 
 
 var app = builder.Build();

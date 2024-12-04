@@ -1,5 +1,5 @@
-﻿using BusinessLogicLayer.Services.DTOs;
-using BusinessLogicLayer.Services.Interfaces;
+﻿using DataAccessLayer.Services.DTOs;
+using DataAccessLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameService.Controllers

@@ -1,15 +1,12 @@
 ﻿namespace DataAccessLayer.Services.DTOs
 {
-    public class PlayerDto
+    public class CreateGameCommentDto
     {
-
-        //todo add VALIDATOR
-
-        public int Id { get; set; }
         public int GameId { get; set; }
-        public string UserId { get; set; } = null!;
+        public int UserId { get; set; }
+        public string Content { get; set; } = null!;
         public string Username { get; set; } = null!;
-        public string Email { get; set; } = null!;
         public string ProfileImageUrl { get; set; } = null!;
+        public DateTime CommentDate { get; set; }
     }
 }

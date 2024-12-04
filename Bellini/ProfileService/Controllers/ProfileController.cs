@@ -1,6 +1,6 @@
-﻿using BusinessLogicLayer.Attribute;
-using BusinessLogicLayer.Services.DTOs;
-using BusinessLogicLayer.Services.Interfaces;
+﻿using DataAccessLayer.Attribute;
+using DataAccessLayer.Services.DTOs;
+using DataAccessLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ProfileService.Controllers

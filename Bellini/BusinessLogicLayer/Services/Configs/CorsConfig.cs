@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BusinessLogicLayer.Services.Configs
+namespace DataAccessLayer.Services.Configs
 {
     public static class CorsConfig
     {

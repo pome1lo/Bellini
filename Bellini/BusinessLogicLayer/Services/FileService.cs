@@ -1,7 +1,7 @@
-﻿using BusinessLogicLayer.Services.Interfaces;
+﻿using DataAccessLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 
-namespace BusinessLogicLayer.Services
+namespace DataAccessLayer.Services
 {
     public class FileService : IFileService
     {

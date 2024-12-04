@@ -1,4 +1,4 @@
-using BusinessLogicLayer.Services.Configs;
+using DataAccessLayer.Services.Configs;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 

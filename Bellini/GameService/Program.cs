@@ -1,8 +1,8 @@
-using BusinessLogicLayer.Hubs;
-using BusinessLogicLayer.Services;
-using BusinessLogicLayer.Services.Configs;
-using BusinessLogicLayer.Services.DTOs;
-using BusinessLogicLayer.Services.Interfaces;
+using DataAccessLayer.Hubs;
+using DataAccessLayer.Services;
+using DataAccessLayer.Services.Configs;
+using DataAccessLayer.Services.DTOs;
+using DataAccessLayer.Services.Interfaces;
 using DataAccessLayer.Data;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Data.Repositories;
@@ -22,7 +22,8 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IRepository<Game>, GameRepository>();
 builder.Services.AddScoped<IRepository<Player>, PlayerRepository>();
-builder.Services.AddScoped<IRepository<Comment>, CommentRepository>();
+builder.Services.AddScoped<IRepository<GameComment>, GameCommentRepository>();
+builder.Services.AddScoped<IRepository<QuizComment>, QuizCommentRepository>();
 builder.Services.AddScoped<IRepository<Question>, QuestionRepository>();
 builder.Services.AddScoped<IRepository<GameStatus>, GameStatusRepository>();
 builder.Services.AddScoped<IRepository<AnswerOption>, AnswerOptionRepository>();
@@ -43,10 +44,10 @@ builder.Services.AddScoped<IRepository<QuizResults>, QuizResultsRepository>();
 builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost"));
 
 builder.Services.AddScoped<INotificationService, NotificationService>();
-builder.Services.AddScoped<IGameService, BusinessLogicLayer.Services.GameService>();
-builder.Services.AddScoped<IQuizService, BusinessLogicLayer.Services.QuizService>();
-builder.Services.AddScoped<ICommentService, BusinessLogicLayer.Services.CommentService>();
-builder.Services.AddScoped<IQuestionService, BusinessLogicLayer.Services.QuestionService>();
+builder.Services.AddScoped<IGameService, DataAccessLayer.Services.GameService>();
+builder.Services.AddScoped<IQuizService, DataAccessLayer.Services.QuizService>();
+builder.Services.AddScoped<ICommentService, DataAccessLayer.Services.CommentService>();
+builder.Services.AddScoped<IQuestionService, DataAccessLayer.Services.QuestionService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddAutoMapper(cfg =>
@@ -55,7 +56,7 @@ builder.Services.AddAutoMapper(cfg =>
         .ForMember(dest => dest.GameStatus, opt => opt.MapFrom(src => src.Status));
     cfg.CreateMap<CreateGameRoomDto, Game>();
     cfg.CreateMap<Player, PlayerDto>();
-    cfg.CreateMap<Comment, CommentDto>();
+    cfg.CreateMap<GameComment, CommentDto>();
     cfg.CreateMap<CreateQuestionDto, Question>();
     cfg.CreateMap<CreateAnswerDto, AnswerOption>();
 }, typeof(Program));

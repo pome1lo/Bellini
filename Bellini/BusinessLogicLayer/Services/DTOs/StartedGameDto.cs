@@ -1,7 +1,7 @@
 ﻿using DataAccessLayer.Models;
 using DataAccessLayer.Models;
 
-namespace BusinessLogicLayer.Services.DTOs
+namespace DataAccessLayer.Services.DTOs
 {
     public class StartedGameDto
     {
