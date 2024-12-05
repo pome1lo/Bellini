@@ -210,6 +210,34 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GameResults",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NumberOfCorrectAnswers = table.Column<int>(type: "int", nullable: false),
+                    NumberOfQuestions = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    GameId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GameResults", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GameResults_Games_GameId",
+                        column: x => x.GameId,
+                        principalTable: "Games",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GameResults_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Players",
                 columns: table => new
                 {
@@ -655,6 +683,16 @@ namespace DataAccessLayer.Migrations
                 column: "GameId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GameResults_GameId",
+                table: "GameResults",
+                column: "GameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GameResults_UserId",
+                table: "GameResults",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Games_GameStatusId",
                 table: "Games",
                 column: "GameStatusId");
@@ -713,6 +751,9 @@ namespace DataAccessLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "GameComments");
+
+            migrationBuilder.DropTable(
+                name: "GameResults");
 
             migrationBuilder.DropTable(
                 name: "Notifications");

@@ -28,7 +28,9 @@ namespace DataAccessLayer.Data
         public DbSet<Quiz> Quizzes { get; set; } = null!;
         public DbSet<QuizQuestion> QuizQuestions { get; set; } = null!;
         public DbSet<QuizAnswerOption> QuizAnswerOptions { get; set; } = null!;
+
         public DbSet<QuizResults> QuizResults { get; set; } = null!;
+        public DbSet<GameResults> GameResults { get; set; } = null!;
 
 
 

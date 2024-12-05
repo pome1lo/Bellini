@@ -171,6 +171,35 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("GameComments", (string)null);
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.GameResults", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfCorrectAnswers")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfQuestions")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("GameResults");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.GameStatus", b =>
                 {
                     b.Property<int>("Id")
@@ -2295,6 +2324,25 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Game");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.GameResults", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Game", "Game")
+                        .WithMany("GameResults")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataAccessLayer.Models.User", "User")
+                        .WithMany("GameResults")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Notification", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.User", "User")
@@ -2394,6 +2442,8 @@ namespace DataAccessLayer.Migrations
 
                     b.Navigation("CompletedAnswers");
 
+                    b.Navigation("GameResults");
+
                     b.Navigation("Players");
 
                     b.Navigation("Questions");
@@ -2425,6 +2475,8 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Models.User", b =>
                 {
+                    b.Navigation("GameResults");
+
                     b.Navigation("Notifications");
 
                     b.Navigation("QuizResults");

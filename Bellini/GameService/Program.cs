@@ -35,6 +35,7 @@ builder.Services.AddScoped<IRepository<Quiz>, QuizRepository>();
 builder.Services.AddScoped<IRepository<QuizQuestion>, QuizQuestionRepository>();
 builder.Services.AddScoped<IRepository<QuizAnswerOption>, QuizAnswerOptionRepository>();
 builder.Services.AddScoped<IRepository<QuizResults>, QuizResultsRepository>();
+builder.Services.AddScoped<IRepository<GameResults>, GameResultsRepository>();
 //builder.Services.AddScoped<IRepository<QuizAnsweredQuestion>, QuizAnsweredQuestionRepository>();
 //builder.Services.AddScoped<IRepository<QuizSession>, QuizSessionRepository>();
 

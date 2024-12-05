@@ -19,5 +19,6 @@ namespace DataAccessLayer.Models
         public List<Player> Players { get; set; } = null!;
         public List<Question> Questions { get; set; } = null!;
         public List<CompletedAnswer> CompletedAnswers { get; set; } = new();
+        public List<GameResults> GameResults { get; set; } = null!;
     }
 }

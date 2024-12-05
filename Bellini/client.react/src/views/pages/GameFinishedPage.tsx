@@ -27,24 +27,42 @@ import {useNavigate} from "react-router-dom";
 import {Comment} from "@/utils/interfaces/Comment.ts";
 import {formatDate} from "@/utils/functions/formatDate";
 import {Badge} from "@/components/ui/badge.tsx";
+import {
+    TooltipCustom,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface GameFinishedPageProps {
     currentGame?: FinishedGame;
 }
 
+interface GameRating {
+    accuracy: number;
+    correctAnswers: number;
+    profileImageUrl: string;
+    rank: number;
+    username: string;
+}
+
+
 const getCorrectAnswersData = (currentGame: FinishedGame | undefined) => {
     if (!currentGame) return [];
 
-    return currentGame.players.map(player => ({
-        name: player.name,
-        correctAnswers: currentGame.completedAnswers.filter(
-            answer => answer.playerId === player.id && answer.isCorrect
-        ).length
-    }));
+    return currentGame.players
+        .filter(player => player.id !== currentGame.hostId) // Исключаем создателя комнаты
+        .map(player => ({
+            name: player.name,
+            correctAnswers: currentGame.completedAnswers.filter(
+                answer => answer.playerId === player.id && answer.isCorrect
+            ).length
+        }));
 };
 
 export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame}) => {
     const [comments, setComments] = useState<Comment[]>([]);
+    const [rating, setRating] = useState<GameRating[]>([]);
     const [content, setContent] = useState("");
     const [isUpdated, setIsUpdated] = useState(false);
     const [isCurrentUserPlayer, setIsCurrentUserPlayer] = useState(false);
@@ -77,6 +95,27 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
         };
 
         fetchComments();
+    }, [currentGame, isUpdated]);
+
+    useEffect(() => {
+        const fetchStatisticks = async () => {
+            try {
+                const response = await serverFetch(`/game/${currentGame?.id}/statistics`);
+                const data = await response.json();
+                console.log(data);
+
+                if (response.status === 204 || !Array.isArray(data)) {
+                    setRating([]);
+                } else {
+                    setRating(data);
+                }
+            } catch (ex: unknown) {
+                console.error('Error fetching games:', (ex as Error).message);
+                setRating([]);
+            }
+        };
+
+        fetchStatisticks();
     }, [currentGame, isUpdated]);
 
     const OnSubmitCreateComment = async (event) => {
@@ -232,7 +271,7 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                         <Card className="lg:w-1/2 w-full">
                             <CardHeader>
                                 <CardTitle>
-                                    <h1 className="text-2xl font-bold">Players</h1>
+                                    <h1 className="text-2xl font-bold">Rating </h1>
                                 </CardTitle>
                                 <CardDescription>
                                     You can share the link to the game with other users
@@ -244,28 +283,47 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                                     <TableCaption>A list of your recent invoices.</TableCaption>
                                     <TableHeader>
                                         <TableRow>
-                                            <TableHead className="w-[100px]">Name</TableHead>
-                                            <TableHead>Status</TableHead>
-                                            <TableHead>Method</TableHead>
-                                            <TableHead className="text-right">Amount</TableHead>
+                                            <TableHead>Rank</TableHead>
+                                            <TableHead>User</TableHead>
+                                            <TableHead>
+                                                <TooltipProvider>
+                                                    <TooltipCustom>
+                                                        <TooltipTrigger>C/A</TooltipTrigger>
+                                                        <TooltipContent>
+                                                            <p>Correct Answers</p>
+                                                        </TooltipContent>
+                                                    </TooltipCustom>
+                                                </TooltipProvider>
+
+                                            </TableHead>
+                                            <TableHead className="text-right">Accuracy</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {currentGame?.players.map((player, index) => (
+                                        {rating.map((item, index) => (
                                             <TableRow key={index}>
-                                                <TableCell className="font-medium">{player.name}</TableCell>
-                                                <TableCell>{player.score}</TableCell>
-                                                {/*<TableCell>{invoice.paymentMethod}</TableCell>*/}
-                                                {/*<TableCell className="text-right">{invoice.totalAmount}</TableCell>*/}
+                                                <TableCell className="font-medium">{item.rank}</TableCell>
+                                                <TableCell>
+                                                    <div className="flex items-center">
+                                                        <Avatar className="hidden h-9 w-9 sm:flex me-2">
+                                                            <AvatarImage
+                                                                src={item.profileImageUrl}
+                                                                alt={`${item.username}'s profile`}
+                                                            />
+                                                            <AvatarFallback>
+                                                                {(item.username.charAt(0) + item.username.charAt(1)).toUpperCase()}
+                                                            </AvatarFallback>
+                                                        </Avatar>
+                                                        <p>{item.username}</p>
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell>{item.correctAnswers}</TableCell>
+                                                <TableCell
+                                                    className="font-bold text-right">{item.accuracy} %</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
-                                    <TableFooter>
-                                        <TableRow>
-                                            <TableCell colSpan={3}>Total</TableCell>
-                                            <TableCell className="text-right">$2,500.00</TableCell>
-                                        </TableRow>
-                                    </TableFooter>
+                                    <TableFooter/>
                                 </Table>
                             </CardContent>
                         </Card>
@@ -354,8 +412,8 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                     <ScrollArea className="h-[300px]   border rounded-md">
                         {comments.length == 0 ?
                             <>
-                                <div className="h-[170px] flex items-center justify-center">
-                                    <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There are no
+                                <div className="h-full w-full flex items-center justify-center">
+                                    <h1 className="scroll-m-20 text-center text-2xl p- font-semibold tracking-tight">There are no
                                         comments here yet. Be the first!</h1>
                                 </div>
                             </>

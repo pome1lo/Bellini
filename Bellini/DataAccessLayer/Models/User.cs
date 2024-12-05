@@ -13,5 +13,6 @@
         public string? ProfileImageUrl { get; set; }
         public List<Notification> Notifications { get; set; } = new();
         public List<QuizResults> QuizResults { get; set; } = new();
+        public List<GameResults> GameResults { get; set; } = new();
     }
 }
