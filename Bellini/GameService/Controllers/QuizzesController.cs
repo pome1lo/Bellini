@@ -16,9 +16,9 @@ namespace GameService.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllQuizzes([FromQuery] int limit = 10, [FromQuery] int offset = 0, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetAllQuizzes([FromQuery] int limit = 10, [FromQuery] int offset = 0, [FromQuery] int userId = 0, CancellationToken cancellationToken = default)
         {
-            var (quizzes, totalCount) = await _quizService.GetAllQuizzesAsync(limit, offset, cancellationToken);
+            var (quizzes, totalCount) = await _quizService.GetAllQuizzesAsync(limit, offset, userId, cancellationToken);
             return Ok(new { quizzes, total = totalCount });
         }
 

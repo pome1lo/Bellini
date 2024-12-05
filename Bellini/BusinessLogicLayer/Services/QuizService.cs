@@ -18,7 +18,7 @@ namespace BusinessLogicLayer.Services
             _questionRepository = questionRepository;
         }
 
-        public async Task<(IEnumerable<QuizDto> Quizzes, int TotalCount)> GetAllQuizzesAsync(int limit, int offset, CancellationToken cancellationToken = default)
+        public async Task<(IEnumerable<QuizDto> Quizzes, int TotalCount)> GetAllQuizzesAsync(int limit, int offset, int userId, CancellationToken cancellationToken = default)
         {
             var allQuizzes = await _quizRepository.GetElementsAsync(cancellationToken);
 
@@ -33,12 +33,15 @@ namespace BusinessLogicLayer.Services
                     GameName = q.GameName,
                     StartTime = q.StartTime,
                     EndTime = q.EndTime,
-                    GameCoverImageUrl = q.GameCoverImageUrl
+                    GameCoverImageUrl = q.GameCoverImageUrl,
+                    NumberOfQuestions = q.Questions.Count,
+                    HasUserCompleted = userId != 0 && q.QuizResults.Any(qr => qr.UserId == userId)
                 })
                 .ToList();
 
             return (paginatedQuizzes, totalCount);
         }
+
 
         public async Task<Quiz> GetQuizByIdAsync(int id, CancellationToken cancellationToken = default)
         {

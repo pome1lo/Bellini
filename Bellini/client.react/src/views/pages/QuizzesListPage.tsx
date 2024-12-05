@@ -59,6 +59,7 @@ interface RatingItem {
 export const QuizzesListPage = () => {
     const [isUpdated, setIsUpdated] = useState<boolean>(false);
     const {tabName} = useParams();
+    const {isAuthenticated, user} = useAuth();
     const navigate = useNavigate();
     const [rating, setRating] = useState<RatingItem[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -115,8 +116,12 @@ export const QuizzesListPage = () => {
                             <div className="flex items-center">
                                 <TabsList>
                                     <TabsTrigger value="all">All</TabsTrigger>
-                                    <TabsTrigger value="new">New</TabsTrigger>
-                                    <TabsTrigger value="completed">Completed</TabsTrigger>
+                                    {!isAuthenticated || !user ? <></> :
+                                        <>
+                                            <TabsTrigger value="new">New</TabsTrigger>
+                                            <TabsTrigger value="completed">Completed</TabsTrigger>
+                                        </>
+                                    }
                                 </TabsList>
                                 <div className="ml-auto flex items-center gap-2">
                                     <Button size="sm" variant="outline" className="h-8 gap-1"

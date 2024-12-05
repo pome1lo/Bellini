@@ -90,7 +90,7 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
 
             const responseData = await response.json();
 
-            if (response.ok) {
+            if (response.ok ) {
                 setIsUpdated(!isUpdated);
                 setContent("");
                 toast({title: "Comment Created", description: "The comment was successfully created."});
@@ -305,6 +305,7 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
                                 <Textarea
                                     placeholder="Type your message here."
                                     className="w-full" required
+                                    value={content}
                                     onChange={(e) => {
                                         setContent(e.target.value)
                                     }}

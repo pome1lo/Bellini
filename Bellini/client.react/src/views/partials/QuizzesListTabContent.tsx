@@ -31,6 +31,7 @@ interface QuizzesListTabContentProps {
 
 export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tabContentName, isUpdated}) => {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+    const [filteredQuizzes, setFilteredQuizzes] = useState<Quiz[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -40,7 +41,7 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
         const fetchGames = async () => {
             setIsLoading(true);
             try {
-                const response = await serverFetch(`/quizzes?limit=${itemsPerPage}&offset=${(currentPage - 1) * itemsPerPage}`);
+                const response = await serverFetch(`/quizzes?limit=${itemsPerPage}&offset=${(currentPage - 1) * itemsPerPage}${!isAuthenticated || !user ? "" : "&userId=" + user.id}`);
                 const data = await response.json();
                 if (response.status === 204 || !Array.isArray(data.quizzes)) {
                     setQuizzes([]);
@@ -58,6 +59,20 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
 
         fetchGames();
     }, [tabContentName, currentPage, isUpdated]);
+
+    useEffect(() => {
+        // Логика фильтрации квизов в зависимости от выбранной вкладки
+        let filtered: Quiz[] = [];
+        switch (tabContentName) {
+            case 'completed': filtered = quizzes.filter((quiz) => quiz.hasUserCompleted);  break;
+            case 'new':       filtered = quizzes.filter((quiz) => !quiz.hasUserCompleted); break;
+            case 'all':
+            default:
+                filtered = quizzes;
+                break;
+        }
+        setFilteredQuizzes(filtered);
+    }, [tabContentName, quizzes]);
 
     const handlePageChange = (page: number) => {
         if (page > 0 && page <= totalPages) {
@@ -89,6 +104,8 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
             <QuizListSkeleton/>
             <QuizListSkeleton/>
             <QuizListSkeleton/>
+            <QuizListSkeleton/>
+            <QuizListSkeleton/>
         </>;
     }
 
@@ -97,44 +114,62 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
             <ScrollArea className="h-auto rounded-md">
                 <Table>
                     <TableBody>
-                        {quizzes.map((item) => (
-                            <TableRow onClick={() => handleNavigateToQuiz(item.id)} key={item.id}>
-                                <TableCell>
-                                    <img
-                                        alt={item.gameName + " image"}
-                                        className="min-w-[50px] aspect-square border rounded-md object-cover"
-                                        height="64"
-                                        src={item.gameCoverImageUrl}
-                                        width="64"
-                                    />
-                                </TableCell>
-                                <TableCell className="font-medium">
-                                    {item.gameName}
-                                </TableCell>
-                                <TableCell className="font-medium">
-                                    <Badge variant="secondary">прошел</Badge>
-                                </TableCell>
-                                <TableCell>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button
-                                                aria-haspopup="true"
-                                                size="icon"
-                                                variant="ghost"
-                                            >
-                                                <MoreHorizontal className="h-4 w-4"/>
-                                                <span className="sr-only">Toggle menu</span>
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end">
-                                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                            <DropdownMenuItem>Edit</DropdownMenuItem>
-                                            <DropdownMenuItem>Delete</DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        {filteredQuizzes.length == 0 ?
+                            <div className="h-[170px] flex items-center justify-center">
+                                <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There
+                                    are no quizzes yet... 😪</h1>
+                            </div>
+                            :
+                            <>
+                                {filteredQuizzes.map((item) => (
+                                    <TableRow onClick={() => handleNavigateToQuiz(item.id)} key={item.id}>
+                                        <TableCell>
+                                            <img
+                                                alt={item.gameName + " image"}
+                                                className="min-w-[50px] aspect-square border rounded-md object-cover"
+                                                height="64"
+                                                src={item.gameCoverImageUrl}
+                                                width="64"
+                                            />
+                                        </TableCell>
+                                        <TableCell className="font-medium">
+                                            {item.gameName}
+                                        </TableCell>
+                                        <TableCell className="font-medium text-center">
+                                            {!isAuthenticated || !user ? <></>
+                                                : <>
+                                                    {item.hasUserCompleted ?
+                                                        <Badge variant="secondary">Completed</Badge>
+                                                        :
+                                                        <Badge>New</Badge>
+                                                    }
+                                                </>
+                                            }
+                                        </TableCell>
+                                        <TableCell>
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button
+                                                        aria-haspopup="true"
+                                                        size="icon"
+                                                        variant="ghost"
+                                                    >
+                                                        <MoreHorizontal className="h-4 w-4"/>
+                                                        <span className="sr-only">Toggle menu</span>
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end">
+                                                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                                                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </>
+                        }
+
                     </TableBody>
                 </Table>
             </ScrollArea>

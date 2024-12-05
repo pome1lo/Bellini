@@ -112,11 +112,11 @@ export const QuizStartedPage: React.FC<QuizStartedPageProps> = ({currentQuiz, on
                             {currentQuestionIndex + 1} / {currentQuiz.questions.length}
                         </Button>
                     </div>
-                    <div>
+                    <div className="flex flex-col items-center lg:max-w-1/2">
 
-                        <h1 className="text-xl mb-4 text-center font-bold">{currentQuiz?.questions[currentQuestionIndex].text}</h1>
+                        <h1 className="text-xl w-full lg:w-2/3 mb-4 p-4 text-center font-bold">{currentQuiz?.questions[currentQuestionIndex].text}</h1>
 
-                        <div className="flex items-center w-full sm:w-1/2">
+                        <div className="flex items-center sm:w-full flex-wrap w-3/4">
                             {currentQuiz?.questions[currentQuestionIndex].answerOptions.map((option, index) => (
                                 <Button
                                     className="m-2 sm:m-3 w-full text-md"
