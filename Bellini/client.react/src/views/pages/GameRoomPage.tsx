@@ -18,32 +18,8 @@ import {GameQuestionItem} from "@/views/partials/GameQuestionItem.tsx";
 import {StartedGame} from "@/utils/interfaces/StartedGame.ts";
 import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
 import {GameRoomSkeleton} from "@/views/partials/skeletons/GameRoomSkeleton.tsx";
-
-interface CurrentGame {
-    id: number;
-    gameName: string;
-    hostId: number;
-    startTime: Date;
-    createTime: Date;
-    gameCoverImageUrl: string;
-    maxPlayers: number;
-    isPrivate: boolean;
-    roomPassword: string;
-    gameStatus: {
-        id: number;
-        name: string;
-    };
-    questions: Array<{
-        id: number;
-        text: string;
-        isCustom: boolean;
-        answerOptions: Array<{
-            id: number;
-            text: string;
-            isCorrect: boolean;
-        }>;
-    }>;
-}
+import {DialogGamePassword} from "@/views/partials/dialogs/DialogGamePassword.tsx";
+import {CurrentGame} from "@/utils/interfaces/CurrentGame.ts";
 
 interface Player {
     userId: string;
@@ -69,12 +45,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
     const [isUserJoined, setIsUserJoined] = useState(false);
     const [isQuestionCreated, setIsQuestionCreated] = useState(false);
     const [isQuestionDeleted, setIsQuestionDeleted] = useState(false);
-
-    const breadcrumbItems = [
-        {path: '/', name: 'Home'},
-        {path: '/games', name: 'Games'},
-        {path: `/games/${id}`, name: currentGame?.gameName},
-    ];
+    const [isPasswordCorrect, setIsPasswordCorrect] = useState<boolean>(false);
 
     useEffect(() => {
         if (!isAuthenticated || !user || !id) {
@@ -84,30 +55,33 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
         serverFetch(`/game/${id}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
-                if(data.gameStatus.name == "Completed") {
+                if (data.gameStatus.name == "Completed") {
                     isFinished(true);
                     onFinish(data);
                     return;
                 }
                 setCurrentGame(data);
                 setIsCurrentUserHost(user.id === data.hostId);
-
             })
             .catch(error => {
                 console.error('Error fetching game:', error.message);
             });
     }, [id, isAuthenticated, user, navigate, isQuestionCreated, isQuestionDeleted]);
 
-    useEffect(() => {
-        if(user.id == currentGame?.hostId) {
-            connect();
-        }
-    }, [user, connection, currentGame]);
+
+    // useEffect(() => {
+    //     if(user.id == currentGame?.hostId) {
+    //         connect();
+    //     }
+    // }, [user, connection, currentGame]);
 
     useEffect(() => {
+
         if (!isAuthenticated || !user || !id) {
             navigate('/login');
+            return;
+        }
+        if (currentGame && currentGame.isPrivate && !isPasswordCorrect) {
             return;
         }
 
@@ -130,7 +104,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
         });
 
         newConnection.on('GameStarted', (gameStarted: StartedGame) => {
-            if(gameStarted.hostId == gameStarted.hostId) {
+            if (gameStarted.hostId == gameStarted.hostId) {
                 onStart(gameStarted);
             }
         });
@@ -148,7 +122,6 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
         setConnection(newConnection);
 
 
-
         const handleBeforeUnload = (event: BeforeUnloadEvent) => {
             event.preventDefault();
             event.returnValue = "Are you sure you want to leave the game?";
@@ -164,7 +137,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                 connection.stop();
             }
         };
-    }, [id, isAuthenticated, user, navigate]);
+    }, [id, isPasswordCorrect, isAuthenticated, user, navigate]);
 
 
     useEffect(() => {
@@ -219,9 +192,9 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
             } finally {
                 connection.invoke("GetPlayers", id.toString())
                     .then((playerList: Player[]) => {
-                        setPlayers(playerList);
-                    }
-                );
+                            setPlayers(playerList);
+                        }
+                    );
             }
         }
     }
@@ -251,7 +224,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                         hostId: user.id,
                     }),
                 });
-                const responseData : StartedGame = await response.json();
+                const responseData: StartedGame = await response.json();
                 if (response.ok) {
                     onStart(responseData);
                 } else if (responseData.ErrorCode == "NotFoundGameQuestionsException") {
@@ -303,109 +276,112 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                 });
             }
         } catch (ex: unknown) {
-            toast({title: "Error", description: (ex as Error).message || "An unexpected error occurred.", variant: "destructive"});
+            toast({
+                title: "Error",
+                description: (ex as Error).message || "An unexpected error occurred.",
+                variant: "destructive"
+            });
         }
     }
 
+    const breadcrumbItems = [
+        {path: '/', name: 'Home'},
+        {path: '/games', name: 'Games'},
+        {path: `/games/${id}`, name: currentGame?.gameName},
+    ];
+
     return (
         <>
-            {
-                currentGame
-                    ?
-                    <>
-                        <Breadcrumbs items={breadcrumbItems}/>
+            {!isPasswordCorrect && currentGame?.isPrivate ?
+                <DialogGamePassword
+                    correctPassword={currentGame?.roomPassword ?? ""}
+                    isPasswordCorrect={isPasswordCorrect}
+                    setIsPasswordCorrect={setIsPasswordCorrect}
+                />
+                :
+                <>
+                    {currentGame ?
+                        <>
+                            <Breadcrumbs items={breadcrumbItems}/>
 
-                        {isCurrentUserHost ?
-                            <div className="flex items-center justify-between my-3 w-full mx-auto max-w-[1440px] p-4">
-                                <Badge>You are the creator of the room</Badge>
-                                <div>
-
+                            {isCurrentUserHost ?
+                                <div
+                                    className="flex items-center justify-between mt-3 w-full mx-auto max-w-[1440px] pb-0 p-4">
+                                    <Badge>You are the creator of the room</Badge>
                                     <Button size="sm" className="h-8 ms-3 gap-1" onClick={startGame}>
                                         <CirclePlay className="h-3.5 w-3.5"/>
                                         Start Game
                                     </Button>
                                 </div>
-                            </div>
-                            :
-                            <span className="bg-red-700">USER</span>
-                        }
-
-
-                        <div className="flex flex-col-reverse lg:flex-row gap-4 w-full mx-auto lg:h-[69vh] items-center max-w-[1440px] p-4">
-                            <div className="w-full flex flex-col gap-4 lg:order-2">
-                                <div className="flex gap-4 flex-col sm:flex-row">
-                                    <Card className="w-full">
-                                        <CardHeader
-                                            className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                            <CardTitle className="text-sm font-medium">
-                                                Maximum players
-                                            </CardTitle>
-                                            <Users className="h-4 w-4 text-muted-foreground"/>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="text-2xl font-bold">{currentGame.maxPlayers} player(s)</div>
-                                            <p className="text-xs text-muted-foreground">
-                                                No more than this number of players
-                                            </p>
-                                        </CardContent>
-                                    </Card>
-                                    <Card className="w-full">
-                                        <CardHeader
-                                            className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                            <CardTitle className="text-sm font-medium">
-                                                Game status
-                                            </CardTitle>
-                                            <TrendingUp className="h-4 w-4 text-muted-foreground"/>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div className="text-2xl font-bold">{currentGame.gameStatus.name}</div>
-                                            <p className="text-xs text-muted-foreground">
-                                                The game will start soon
-                                            </p>
-                                        </CardContent>
-                                    </Card>
-                                    <Card className="w-full">
-                                        <CardHeader
-                                            className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                            <CardTitle className="text-sm font-medium">
-                                                Game room type
-                                            </CardTitle>
-                                            <FileType className="h-4 w-4 text-muted-foreground"/>
-                                        </CardHeader>
-                                        <CardContent>
-                                            <div
-                                                className="text-2xl font-bold">{currentGame.isPrivate ? "Private" : "Public"}</div>
-                                            <p className="text-xs text-muted-foreground">
-                                                The game will start soon
-                                            </p>
-                                        </CardContent>
-                                    </Card>
-                                </div>
-
-                                <div className="flex gap-4 flex-col lg:flex-row w-full">
-                                    <Card className="w-full lg:w-1/2">
-                                        {isCurrentUserHost ?
-                                            <>
-                                                <CardHeader>
-                                                    <CardTitle>Questions</CardTitle>
-                                                    <CardDescription>
-                                                        Here you can select a list of questions that will participate in
-                                                        the game
-                                                    </CardDescription>
-                                                </CardHeader>
-                                                <CardContent>
-                                                    <ScrollArea className="h-[220px] p-4 border rounded-md">
-                                                        {
-                                                            currentGame.questions.length == 0 ?
-                                                                <>
-                                                                    <div
-                                                                        className="h-[170px] flex items-center justify-center">
-                                                                        <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There
-                                                                            are no questions yet... 😪</h1>
-                                                                    </div>
-                                                                </>
-                                                                :
-                                                                <>
+                                :
+                                <span className="bg-red-700">USER</span>
+                            }
+                            <div
+                                className="flex flex-col-reverse lg:flex-row gap-4 w-full mb-[59px] mx-auto items-center max-w-[1440px] p-4">
+                                <div className="w-full flex flex-col gap-4 lg:order-2">
+                                    <div className="flex gap-4 flex-col sm:flex-row">
+                                        <Card className="w-full">
+                                            <CardHeader
+                                                className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                                <CardTitle className="text-sm font-medium">
+                                                    Maximum players
+                                                </CardTitle>
+                                                <Users className="h-4 w-4 text-muted-foreground"/>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <div className="text-2xl font-bold">{currentGame.maxPlayers} player(s)
+                                                </div>
+                                                <p className="text-xs text-muted-foreground">No more than this number of
+                                                    players</p>
+                                            </CardContent>
+                                        </Card>
+                                        <Card className="w-full">
+                                            <CardHeader
+                                                className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                                <CardTitle className="text-sm font-medium">Game status</CardTitle>
+                                                <TrendingUp className="h-4 w-4 text-muted-foreground"/>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <div className="text-2xl font-bold">{currentGame.gameStatus.name}</div>
+                                                <p className="text-xs text-muted-foreground">The game will start
+                                                    soon</p>
+                                            </CardContent>
+                                        </Card>
+                                        <Card className="w-full">
+                                            <CardHeader
+                                                className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                                <CardTitle className="text-sm font-medium">Game room type</CardTitle>
+                                                <FileType className="h-4 w-4 text-muted-foreground"/>
+                                            </CardHeader>
+                                            <CardContent>
+                                                <div
+                                                    className="text-2xl font-bold">{currentGame.isPrivate ? "Private" : "Public"}</div>
+                                                <p className="text-xs text-muted-foreground">The game will start
+                                                    soon</p>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+                                    <div className="flex gap-4 flex-col lg:flex-row w-full">
+                                        <Card className="w-full lg:w-1/2">
+                                            {isCurrentUserHost ?
+                                                <>
+                                                    <CardHeader>
+                                                        <CardTitle>Questions</CardTitle>
+                                                        <CardDescription>
+                                                            Here you can select a list of questions that will
+                                                            participate in the game
+                                                        </CardDescription>
+                                                    </CardHeader>
+                                                    <CardContent>
+                                                        <ScrollArea className="h-[220px] p-4 border rounded-md">
+                                                            {currentGame.questions.length == 0 ?
+                                                                <div
+                                                                    className="h-[170px] flex items-center justify-center">
+                                                                    <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+                                                                        There are no questions yet... 😪
+                                                                    </h1>
+                                                                </div>
+                                                                : <>
                                                                     {currentGame.questions.map((item, index) => (
                                                                         <div key={index} className="mb-2">
                                                                             <GameQuestionItem
@@ -417,38 +393,31 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                                         </div>
                                                                     ))}
                                                                 </>
-                                                        }
-                                                    </ScrollArea>
-                                                </CardContent>
-                                                <CardFooter>
-                                                    {id ? <DialogCreateQuestion
-                                                        currentGameId={id.toString()}
-                                                        setIsQuestionCreated={setIsQuestionCreated}
-                                                        isQuestionCreated={isQuestionCreated}
-                                                    /> : <></>}
-                                                </CardFooter>
-                                            </>
-                                            :
-                                            <>
+                                                            }
+                                                        </ScrollArea>
+                                                    </CardContent>
+                                                    <CardFooter>
+                                                        {id ? <DialogCreateQuestion
+                                                            currentGameId={id.toString()}
+                                                            setIsQuestionCreated={setIsQuestionCreated}
+                                                            isQuestionCreated={isQuestionCreated}
+                                                        /> : <></>}
+                                                    </CardFooter>
+                                                </>
+                                                :
                                                 <CardContent>
                                                     <ScrollArea className="mt-5 h-[370px] p-4  rounded-md">
-                                                        <h2 className="text-xl font-bold mb-4">Welcome to the Game
-                                                            Room!</h2>
-                                                        <p className="mb-4">Before we begin, here's a quick guide to
-                                                            help you understand how to play:</p>
+                                                        <h2 className="text-xl font-bold mb-4">Welcome to the Game Room!</h2>
+                                                        <p className="mb-4">Before we begin, here's a quick guide to help you understand how to play:</p>
 
                                                         <h3 className="text-lg font-semibold mb-2">Objective</h3>
-                                                        <p className="mb-4">Answer questions correctly to earn points.
-                                                            The player or team with the highest score at the end
-                                                            wins!</p>
+                                                        <p className="mb-4">Answer questions correctly to earn points. The player or team with the highest score at the end wins!</p>
 
                                                         <h3 className="text-lg font-semibold mb-2">Question Format</h3>
                                                         <ul className="list-disc ml-6 mb-4">
                                                             <li>Each question has 4 answer options.</li>
                                                             <li>Only one answer is correct.</li>
-                                                            <li>You have a limited time to answer each question, so
-                                                                think fast!
-                                                            </li>
+                                                            <li>You have a limited time to answer each question, so think fast!</li>
                                                         </ul>
 
                                                         <h3 className="text-lg font-semibold mb-2">Scoring</h3>
@@ -458,24 +427,16 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                             <li>No points are awarded for incorrect answers.</li>
                                                         </ul>
 
-                                                        <h3 className="text-lg font-semibold mb-2">Hints & Lifelines (if
-                                                            available)</h3>
+                                                        <h3 className="text-lg font-semibold mb-2">Hints & Lifelines (if available)</h3>
                                                         <ul className="list-disc ml-6 mb-4">
-                                                            <li><strong>50/50:</strong> Two incorrect answers will be
-                                                                removed.
-                                                            </li>
-                                                            <li><strong>Skip:</strong> Skip the question without losing
-                                                                points (limited usage).
-                                                            </li>
+                                                            <li><strong>50/50:</strong> Two incorrect answers will be removed.</li>
+                                                            <li><strong>Skip:</strong> Skip the question without losing points (limited usage).</li>
                                                         </ul>
 
-                                                        <h3 className="text-lg font-semibold mb-2">Team Play (if
-                                                            applicable)</h3>
+                                                        <h3 className="text-lg font-semibold mb-2">Team Play (if applicable)</h3>
                                                         <ul className="list-disc ml-6 mb-4">
                                                             <li>Discuss answers with your team.</li>
-                                                            <li>Only one person needs to submit the answer on behalf of
-                                                                the team.
-                                                            </li>
+                                                            <li>Only one person needs to submit the answer on behalf of the team.</li>
                                                             <li>Team coordination is key!</li>
                                                         </ul>
 
@@ -485,118 +446,93 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                             <li>Be respectful to other players and enjoy the game.</li>
                                                         </ul>
 
-                                                        <p className="text-lg font-semibold">Ready to start? Good luck,
-                                                            and may the best player win!</p>
+                                                        <p className="text-lg font-semibold">Ready to start? Good luck, and may the best player win!</p>
                                                     </ScrollArea>
                                                 </CardContent>
-                                            </>
-                                        }
-                                    </Card>
-                                    <Card className="w-full lg:w-1/2">
-                                        <CardHeader>
-                                            <CardTitle>Connected Users</CardTitle>
-                                            <CardDescription>
-                                                Players connected to this game room
-                                            </CardDescription>
-                                        </CardHeader>
-                                        <CardContent className="grid gap-8">
-                                            <ScrollArea className="h-[220px] w-full rounded-md border p-4">
-                                                {players.length == 0 ?
-                                                    <>
+                                            }
+                                        </Card>
+                                        <Card className="w-full lg:w-1/2">
+                                            <CardHeader>
+                                                <CardTitle>Connected Users</CardTitle>
+                                                <CardDescription>Players connected to this game room</CardDescription>
+                                            </CardHeader>
+                                            <CardContent className="grid gap-8">
+                                                <ScrollArea className="h-[220px] w-full rounded-md border p-4">
+                                                    {players.length == 0 ?
                                                         <div className="h-[170px] flex items-center justify-center">
-                                                            <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There
-                                                                are no connected users yet... 😪</h1>
+                                                            <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There are no connected users yet... 😪</h1>
                                                         </div>
-                                                    </>
-                                                    :
-                                                    <>
-                                                        {players.map((player) => (
-                                                            <div key={player.userId}
-                                                                 className="flex items-center gap-4 mt-2">
-                                                                <Avatar className="hidden h-9 w-9 sm:flex">
-                                                                    <AvatarImage
-                                                                        src={player.profileImageUrl}
-                                                                        alt={`${player.username}'s profile`}
-                                                                    />
-                                                                    <AvatarFallback>
-                                                                        {(player.username.charAt(0) + player.email.charAt(0)).toUpperCase()}
-                                                                    </AvatarFallback>
-                                                                </Avatar>
-                                                                <div className="grid">
-                                                                    <p className="text-sm font-medium leading-none">{player.username}</p>
-                                                                    <p className="text-sm text-muted-foreground">{player.email}</p>
+                                                        : <>
+                                                            {players.map((player) => (
+                                                                <div key={player.userId} className="flex items-center gap-4 mt-2">
+                                                                    <Avatar className="hidden h-9 w-9 sm:flex">
+                                                                        <AvatarImage
+                                                                            src={player.profileImageUrl}
+                                                                            alt={`${player.username}'s profile`}
+                                                                        />
+                                                                        <AvatarFallback>
+                                                                            {(player.username.charAt(0) + player.email.charAt(0)).toUpperCase()}
+                                                                        </AvatarFallback>
+                                                                    </Avatar>
+                                                                    <div className="grid">
+                                                                        <p className="text-sm font-medium leading-none">{player.username}</p>
+                                                                        <p className="text-sm text-muted-foreground">{player.email}</p>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        ))}
-                                                    </>
-                                                }
-                                            </ScrollArea>
+                                                            ))}
+                                                        </>
+                                                    }
+                                                </ScrollArea>
+                                            </CardContent>
+                                            <CardFooter>
+                                                {!isUserJoined ? (
+                                                    <Button onClick={connect}>Connect</Button>
+                                                ) : (
+                                                    <Button variant="destructive" onClick={disconnect}>Disconnect</Button>
+                                                )}
+                                            </CardFooter>
+                                        </Card>
+                                    </div>
+                                    <Card className="block lg:hidden">
+                                        <CardHeader>
+                                            <CardTitle>Share</CardTitle>
+                                            <CardDescription>You can share the link to the game with other users</CardDescription>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <DialogShareButton link={window.location.href}/>
                                         </CardContent>
-                                        <CardFooter>
-                                            {!isUserJoined ? (
-                                                <Button onClick={connect}>Connect</Button>
-                                            ) : (
-                                                <Button variant="destructive" onClick={disconnect}>Disconnect</Button>
-                                            )}
-                                        </CardFooter>
                                     </Card>
-
                                 </div>
-
-
-                                <Card className="block lg:hidden">
-                                    <CardHeader>
-                                        <CardTitle>Share</CardTitle>
-                                        <CardDescription>
-                                            You can share the link to the game with other users
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <DialogShareButton link={window.location.href}/>
-                                    </CardContent>
-                                </Card>
+                                <div className="flex gap-4 flex-col w-full lg:w-[20rem] order-1 lg:order-2 ">
+                                    <Card>
+                                        <CardHeader>
+                                            <CardTitle>{currentGame.gameName}</CardTitle>
+                                            <CardDescription>Lipsum dolor sit amet, consectetur adipiscing elit</CardDescription>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div className="grid gap-2">
+                                                <img
+                                                    alt="Product image"
+                                                    className="hidden lg:block aspect-square w-full rounded-md object-cover"
+                                                    height="300" width="300" src={currentGame.gameCoverImageUrl}
+                                                />
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                    <Card className="hidden lg:block">
+                                        <CardHeader>
+                                            <CardTitle>Share</CardTitle>
+                                            <CardDescription>You can share the link to the game with other users</CardDescription>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <DialogShareButton link={window.location.href}/>
+                                        </CardContent>
+                                    </Card>
+                                </div>
                             </div>
-
-                            <div className="flex gap-4 flex-col w-full lg:w-[20rem] order-1 lg:order-2 ">
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle>{currentGame.gameName}</CardTitle>
-                                        <CardDescription>
-                                            Lipsum dolor sit amet, consectetur adipiscing elit
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="grid gap-2">
-                                            <img
-                                                alt="Product image"
-                                                className="hidden lg:block aspect-square w-full rounded-md object-cover"
-                                                height="300"
-                                                src={currentGame.gameCoverImageUrl}
-                                                width="300"
-                                            />
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                                <Card className="hidden lg:block">
-                                    <CardHeader>
-                                        <CardTitle>Share</CardTitle>
-                                        <CardDescription>
-                                            You can share the link to the game with other users
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <DialogShareButton link={window.location.href}/>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        </div>
-
-
-                    </>
-                    :
-                    <>
-                        <GameRoomSkeleton/>
-                    </>
+                        </> : <GameRoomSkeleton/>
+                    }
+                </>
             }
         </>
     );

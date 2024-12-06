@@ -64,7 +64,6 @@ export const DialogCreateGame: React.FC<DialogCreateGameProps> = ({setIsCreated,
                 navigate('/login');
                 return;
             }
-            alert("isPrivate " + data.isPrivate + "\nPassword" + data.password);
             const response = await serverFetch("/game/create", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
@@ -74,7 +73,7 @@ export const DialogCreateGame: React.FC<DialogCreateGameProps> = ({setIsCreated,
                     MaxPlayers: data.maxPlayers,
                     DifficultyLevel: '',
                     IsPrivate: data.isPrivate,
-                    Password: data.password,
+                    RoomPassword: data.password,
                 }),
             });
 

@@ -64,6 +64,8 @@ namespace BusinessLogicLayer.Services
                 GameCoverImageUrl = randomCoverUrl,
                 GameStatusId = notStartedStatus.Id,
                 CreateTime = DateTime.Now,
+                RoomPassword = createGameRoomDto.RoomPassword,
+                IsPrivate = createGameRoomDto.IsPrivate
             };
 
             await _gameRepository.CreateAsync(game, cancellationToken);
