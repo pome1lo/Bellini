@@ -24,13 +24,15 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.InstanceName = "local";
 });
 
-builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IValidator<UserDto>, UserDtoValidator>();
 builder.Services.AddScoped<IValidator<ProfileDto>, ProfileDtoValidator>();
 builder.Services.AddScoped<IValidator<UpdateProfileDto>, UpdateProfileDtoValidator>();
 
 
+builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IRepository<Notification>, NotificationRepository>();
+builder.Services.AddScoped<IRepository<QuizResults>, QuizResultsRepository>();
+builder.Services.AddScoped<IRepository<GameResults>, GameResultsRepository>();
 
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IProfileService, BusinessLogicLayer.Services.ProfileService>();

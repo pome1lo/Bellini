@@ -22,18 +22,20 @@ namespace GameService.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var gameId = await _gameService.CreateGameRoomAsync(createGameRoomDto, cancellationToken);
-            return Ok(new { GameId = gameId });
+            return Ok(
+                new
+                {
+                    GameId = await _gameService.CreateGameRoomAsync(createGameRoomDto, cancellationToken)
+                }
+            );
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetGameById(int id, CancellationToken cancellationToken)
         {
-            var game = await _gameService.GetGameByIdAsync(id, cancellationToken);
-            if (game is null)
-                return NotFound();
-
-            return Ok(game);
+            return Ok(
+                await _gameService.GetGameByIdAsync(id, cancellationToken)
+            );
         }
 
         [HttpGet("all")]

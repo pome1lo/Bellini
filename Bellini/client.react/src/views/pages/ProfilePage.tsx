@@ -11,6 +11,7 @@ import {useAuth} from "@/utils/context/authContext.tsx";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
 import {DialogShareButton} from "@/views/partials/dialogs/DialogShareButton.tsx";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 
 const breadcrumbItems = [
     {path: '/', name: 'Home'},
@@ -23,13 +24,23 @@ interface UserProfile {
     email: string;
     firstName: string;
     lastName: string;
-    dateOfBirth: string;
     profileImageUrl?: string;
 }
 
+interface UserInfo {
+    totalQuizzesCompleted: number;
+    totalGamesCompleted: number;
+    averageQuizAccuracy: number;
+    averageGameAccuracy: number;
+    lastCompletedQuiz: string;
+    lastCompletedGame: string;
+    bestQuiz: string;
+    bestGame: string;
+}
 
 export const ProfilePage = () => {
     const [currentUser, setCurrentUser] = useState<UserProfile>();
+    const [userInfo, setUserInfo] = useState<UserInfo>();
     const [isProfileUpdated, setIsProfileUpdated] = useState(false);
     const {user, isAuthenticated, update} = useAuth();
     const {id} = useParams();
@@ -43,6 +54,14 @@ export const ProfilePage = () => {
                     update(data);
                 }
             });
+
+        serverFetch(`/profile/${id}/info`)
+            .then(response => response.json())
+            .then(data => {
+                setUserInfo(data);
+                console.log(data) 
+            });
+
     }, [id, isProfileUpdated]);
 
 
@@ -51,7 +70,7 @@ export const ProfilePage = () => {
             <Breadcrumbs items={breadcrumbItems}/>
 
             {currentUser ? (
-                <div className="flex items-center space-x-4 max-w-[1440px] w-full mx-auto">
+                <div className="flex lg:flex-row lg:space-x-4 flex-col  max-w-[1440px] w-full mx-auto">
                     <div className="">
                         <Card>
                             <CardHeader>
@@ -81,12 +100,14 @@ export const ProfilePage = () => {
                             </CardHeader>
                             <CardContent>
                                 <Separator />
+                                <h4><span className="font-bold">First name: </span>{currentUser.firstName ?? "unknown"}</h4>
+                                <h4><span className="font-bold">Last name:</span>  {currentUser.lastName ?? "unknown"}</h4>
                             </CardContent>
                             <CardFooter>
 
                             </CardFooter>
                         </Card>
-                        <Card className="mt-4">
+                        <Card className="mt-4 mb-5">
                             <CardHeader>
                                 <CardTitle>Share</CardTitle>
                                 <CardDescription>
@@ -99,14 +120,72 @@ export const ProfilePage = () => {
                         </Card>
                     </div>
 
-                    <Button variant="secondary" size="icon" className="rounded-full h-12 w-12">
-                        <CircleUser className="h-15 w-15"/>
-                        <span className="sr-only">Toggle user menu</span>
-                    </Button>
-                    <div className="space-y-2">
-                        <h3>{currentUser.email}</h3>
-                        <p>{currentUser.username}</p>
-                    </div>
+                    <Card className="w-full">
+                        <CardHeader>
+                            <CardTitle>
+                                User Performance Overview
+                            </CardTitle>
+                            <CardDescription>
+                                Detailed statistics of the user's performance in quizzes and games.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <Table className="w-full">
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Statistic</TableHead>
+                                        <TableHead>Description</TableHead>
+                                        <TableHead>Value</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell>Quizzes Completed</TableCell>
+                                        <TableCell>Total quizzes completed by the user</TableCell>
+                                        <TableCell className="font-bold">{userInfo?.totalQuizzesCompleted}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Games Completed</TableCell>
+                                        <TableCell>Total games completed by the user</TableCell>
+                                        <TableCell className="font-bold">{userInfo?.totalGamesCompleted}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Average Quiz Accuracy</TableCell>
+                                        <TableCell>Percentage of correct answers in quizzes</TableCell>
+                                        <TableCell className="font-bold">{userInfo?.averageQuizAccuracy.toFixed(2)}%</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Average Game Accuracy</TableCell>
+                                        <TableCell>Percentage of correct answers in games</TableCell>
+                                        <TableCell className="font-bold">{userInfo?.averageGameAccuracy.toFixed(2)}%</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Last Completed Quiz</TableCell>
+                                        <TableCell>The most recent quiz played by the user</TableCell>
+                                        <TableCell className="font-bold">{userInfo?.lastCompletedQuiz ?? "-"}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Last Completed Game</TableCell>
+                                        <TableCell>The most recent game played by the user</TableCell>
+                                        <TableCell className="font-bold">{userInfo?.lastCompletedGame ?? "-"}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Best Quiz</TableCell>
+                                        <TableCell>The quiz with the highest performance</TableCell>
+                                        <TableCell className="font-bold">{userInfo?.bestQuiz ?? "-"}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Best Game</TableCell>
+                                        <TableCell>The game with the highest performance</TableCell>
+                                        <TableCell className="font-bold">{userInfo?.bestGame ?? "-"}</TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </CardContent>
+                        <CardFooter className="text-center">
+                            <p className="text-sm text-muted-foreground">Updated: {new Date().toLocaleDateString()}</p>
+                        </CardFooter>
+                    </Card>
 
 
                 </div>

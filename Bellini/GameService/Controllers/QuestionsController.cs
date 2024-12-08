@@ -19,29 +19,33 @@ namespace GameService.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateQuestion([FromBody] CreateQuestionDto createQuestionDto, CancellationToken cancellationToken)
         {
-            var questionId = await _questionService.CreateQuestionAsync(createQuestionDto, cancellationToken);
-            return Ok(questionId);
+            return Ok(
+                await _questionService.CreateQuestionAsync(createQuestionDto, cancellationToken)    
+            );
         }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetQuestionById(int id, CancellationToken cancellationToken)
         {
-            var question = await _questionService.GetQuestionByIdAsync(id, cancellationToken);
-            return Ok(question);
+            return Ok(
+                await _questionService.GetQuestionByIdAsync(id, cancellationToken)
+            );
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllQuestions(CancellationToken cancellationToken)
         {
-            var questions = await _questionService.GetAllQuestionsAsync(cancellationToken);
-            return Ok(questions);
+            return Ok(
+                await _questionService.GetAllQuestionsAsync(cancellationToken)
+            );
         }
 
         [HttpGet("game/{gameId:int}")]
         public async Task<IActionResult> GetQuestionsByGameId(int gameId, CancellationToken cancellationToken)
         {
-            var questions = await _questionService.GetQuestionsByGameIdAsync(gameId, cancellationToken);
-            return Ok(questions);
+            return Ok(
+                await _questionService.GetQuestionsByGameIdAsync(gameId, cancellationToken)
+            );
         }
 
         [HttpDelete("{id:int}")]

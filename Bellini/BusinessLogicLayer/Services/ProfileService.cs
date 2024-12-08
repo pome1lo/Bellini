@@ -12,6 +12,8 @@ namespace BusinessLogicLayer.Services
     public class ProfileService : IProfileService
     {
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<QuizResults> _quizResultsRepository;
+        private readonly IRepository<GameResults> _gameResultsRepository;
         private readonly IMapper _mapper;
         private readonly INotificationService _notificationService;
         private readonly IValidator<ProfileDto> _profileValidator;
@@ -34,7 +36,7 @@ namespace BusinessLogicLayer.Services
             _notificationService = notificationService;
         }
 
-        public async Task<ProfileDto> GetProfileByIdAsync(int profileId, CancellationToken cancellationToken = default)
+        public async Task<ProfileDto> GetUserByIdAsync(int profileId, CancellationToken cancellationToken = default)
         {
             var user = await _userRepository.GetItemAsync(profileId, cancellationToken);
 
@@ -44,6 +46,59 @@ namespace BusinessLogicLayer.Services
             }
 
             return _mapper.Map<ProfileDto>(user);
+        }
+
+        public async Task<UserProfileDto> GetProfileByUserIdAsync(int profileId, CancellationToken cancellationToken = default)
+        {
+            var user = await _userRepository.GetItemAsync(profileId);
+
+            if (user == null)
+            {
+                throw new KeyNotFoundException("User not found.");
+            }
+
+            // Общая статистика
+            int totalQuizzes = user.QuizResults.Count;
+            int totalGames = user.GameResults.Count;
+
+            // Средняя точность
+            double averageQuizAccuracy = totalQuizzes > 0
+                ? user.QuizResults.Average(q => (double)q.NumberOfCorrectAnswers / q.NumberOfQuestions * 100)
+                : 0;
+
+            double averageGameAccuracy = totalGames > 0
+                ? user.GameResults.Average(g => (double)g.NumberOfCorrectAnswers / g.NumberOfQuestions * 100)
+                : 0;
+
+            // Последние завершенные
+            var lastQuiz = user.QuizResults
+                .OrderByDescending(q => q.EndTime)
+                .FirstOrDefault();
+
+            var lastGame = user.GameResults
+                .OrderByDescending(g => g.Game.EndTime)
+                .FirstOrDefault();
+
+            // Лучшие результаты
+            var bestQuiz = user.QuizResults
+                .OrderByDescending(q => q.NumberOfCorrectAnswers)
+                .FirstOrDefault();
+
+            var bestGame = user.GameResults
+                .OrderByDescending(g => g.NumberOfCorrectAnswers)
+                .FirstOrDefault();
+
+            return new UserProfileDto
+            {
+                TotalQuizzesCompleted = totalQuizzes,
+                TotalGamesCompleted = totalGames,
+                AverageQuizAccuracy = Math.Round(averageQuizAccuracy, 2),
+                AverageGameAccuracy = Math.Round(averageGameAccuracy, 2),
+                LastCompletedQuiz = lastQuiz?.Quiz?.GameName,
+                LastCompletedGame = lastGame?.Game?.GameName,
+                BestQuiz = bestQuiz?.Quiz?.GameName,
+                BestGame = bestGame?.Game?.GameName
+            };
         }
 
         public async Task<IEnumerable<ProfileDto>> GetAllProfilesAsync(CancellationToken cancellationToken = default)

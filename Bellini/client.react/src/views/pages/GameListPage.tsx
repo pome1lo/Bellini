@@ -49,21 +49,6 @@ export const GameListPage = () => {
                             <TabsTrigger value="completed" className="hidden sm:flex">Completed</TabsTrigger>
                         </TabsList>
                         <div className="ml-auto flex items-center gap-2">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="outline" size="sm" className="h-8 gap-1">
-                                        <ListFilter className="h-3.5 w-3.5" />
-                                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Filter</span>
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                    <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuCheckboxItem checked>Public</DropdownMenuCheckboxItem>
-                                    <DropdownMenuCheckboxItem>Private</DropdownMenuCheckboxItem>
-                                    <DropdownMenuCheckboxItem>Completed</DropdownMenuCheckboxItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
                             <Button size="sm" variant="outline" className="h-8 gap-1"
                                     onClick={() => setIsUpdated(!isUpdated)}>
                                 <RefreshCcw className="h-3.5 w-3.5" />

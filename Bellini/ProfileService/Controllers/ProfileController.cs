@@ -19,10 +19,18 @@ namespace ProfileService.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProfileById(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetUserById(int id, CancellationToken cancellationToken)
         {
             return Ok(
-                await _profileService.GetProfileByIdAsync(id, cancellationToken)
+                await _profileService.GetUserByIdAsync(id, cancellationToken)
+            );
+        }
+
+        [HttpGet("{id}/info")]
+        public async Task<IActionResult> GetProfileByUserIdAsync(int id, CancellationToken cancellationToken)
+        {
+            return Ok(
+                await _profileService.GetProfileByUserIdAsync(id, cancellationToken)
             );
         }
 

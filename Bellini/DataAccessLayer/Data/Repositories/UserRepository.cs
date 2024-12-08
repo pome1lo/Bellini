@@ -15,12 +15,18 @@ namespace DataAccessLayer.Data.Repositories
 
         public async Task<IEnumerable<User>> GetElementsAsync(CancellationToken cancellationToken = default)
         {
-            return await _context.Users.AsNoTracking().ToListAsync(cancellationToken);
+            return await _context.Users.AsNoTracking()
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<User> GetItemAsync(int id, CancellationToken cancellationToken = default)
         {
-            return await _context.Users.FindAsync(id, cancellationToken);
+            return await _context.Users
+                .Include(x => x.GameResults)
+                .ThenInclude(x => x.Game)
+                .Include(x => x.QuizResults)
+                .ThenInclude(x => x.Quiz)
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task CreateAsync(User item, CancellationToken cancellationToken = default)

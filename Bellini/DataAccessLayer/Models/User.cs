@@ -11,8 +11,8 @@
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? ProfileImageUrl { get; set; }
-        public List<Notification> Notifications { get; set; } = new();
-        public List<QuizResults> QuizResults { get; set; } = new();
-        public List<GameResults> GameResults { get; set; } = new();
+        public List<Notification> Notifications { get; set; } = null!;
+        public List<QuizResults> QuizResults { get; set; } = null!;
+        public List<GameResults> GameResults { get; set; } = null!;
     }
 }

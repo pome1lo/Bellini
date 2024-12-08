@@ -42,6 +42,18 @@
       "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
     },
     {
+    "DownstreamPathTemplate": "/api/profile/{everything}/info",
+    "DownstreamScheme": "https",
+    "DownstreamHostAndPorts": [
+      {
+        "Host": "localhost",
+        "Port": 7256
+      }
+    ],
+    "UpstreamPathTemplate": "/profile/{everything}/info",
+    "UpstreamHttpMethod": [ "GET" ]
+  },
+    {
       "DownstreamPathTemplate": "/images/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
