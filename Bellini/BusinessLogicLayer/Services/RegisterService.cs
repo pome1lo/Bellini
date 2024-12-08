@@ -65,7 +65,7 @@ namespace BusinessLogicLayer.Services
                 }
             }
 
-            var registrationCode = "111111";//VerificationCodeGenerator.GenerateRegistrationCode();
+            var registrationCode = VerificationCodeGenerator.GenerateRegistrationCode();
             var expiry = TimeSpan.FromMinutes(15);  // Время истечения кэша
 
             // Сохраняем код в кэш
@@ -78,7 +78,7 @@ namespace BusinessLogicLayer.Services
                 Subject = "Registration Code",
                 Body = $"Your registration code is {registrationCode}"
             };
-            //    await _notificationService.SendEmailNotificationAsync(notificationDto, cancellationToken); РАСКОМЕНТИТЬ 
+            await _notificationService.SendEmailNotificationAsync(notificationDto, cancellationToken);
         }
 
         public async Task VerifyCodeAsync(VerifyCodeDto verifyCodeDto, CancellationToken cancellationToken = default)

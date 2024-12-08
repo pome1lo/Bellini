@@ -12,6 +12,7 @@ import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} f
 import {Separator} from "@/components/ui/separator.tsx";
 import {DialogShareButton} from "@/views/partials/dialogs/DialogShareButton.tsx";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
+import {ProfileSkeleton} from "@/views/partials/skeletons/ProfileSkeleton.tsx";
 
 const breadcrumbItems = [
     {path: '/', name: 'Home'},
@@ -50,7 +51,7 @@ export const ProfilePage = () => {
             .then(response => response.json())
             .then(data => {
                 setCurrentUser(data);
-                if(isAuthenticated || user || user.id === id) {
+                if(isAuthenticated && user && user.id === id) {
                     update(data);
                 }
             });
@@ -91,21 +92,25 @@ export const ProfilePage = () => {
                                         <h3 className="leading-none text-muted-foreground">{currentUser.email}</h3>
                                     </div>
                                 </div>
-                                <DialogEditProfile
-                                    className={"w-full"}
-                                    contextId={currentUser.id}
-                                    isProfileUpdated={isProfileUpdated}
-                                    setIsProfileUpdated={setIsProfileUpdated}
-                                />
+                                <Separator/>
+                                <div className="mb-5">
+                                    <h4><span className="font-bold">First name: </span>{currentUser.firstName ?? "unknown"}</h4>
+                                    <h4><span className="font-bold">Last name:</span> {currentUser.lastName ?? "unknown"}</h4>
+                                </div>
+                                <Separator/>
                             </CardHeader>
                             <CardContent>
-                                <Separator />
-                                <h4><span className="font-bold">First name: </span>{currentUser.firstName ?? "unknown"}</h4>
-                                <h4><span className="font-bold">Last name:</span>  {currentUser.lastName ?? "unknown"}</h4>
+                                {id != user?.id ?
+                                    <></>
+                                    :
+                                    <DialogEditProfile
+                                        className={"w-full"}
+                                        contextId={currentUser.id}
+                                        isProfileUpdated={isProfileUpdated}
+                                        setIsProfileUpdated={setIsProfileUpdated}
+                                    />
+                                }
                             </CardContent>
-                            <CardFooter>
-
-                            </CardFooter>
                         </Card>
                         <Card className="mt-4 mb-5">
                             <CardHeader>
@@ -190,13 +195,7 @@ export const ProfilePage = () => {
 
                 </div>
             ) : (
-                <div className="flex items-center space-x-4">
-                    <Skeleton className="h-12 w-12 rounded-full"/>
-                    <div className="space-y-2">
-                        <Skeleton className="h-4"/>
-                        <Skeleton className="h-4"/>
-                    </div>
-                </div>
+                <ProfileSkeleton/>
             )}
         </>
     )

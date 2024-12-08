@@ -31,7 +31,6 @@ interface DialogEditProfileProps {
 const updateProfileSchema = z.object({
     firstName: z.string().optional(),
     lastName: z.string().optional(),
-    dateOfBirth: z.string().optional(),
     profileImage: z.any().optional(),
 });
 
@@ -60,7 +59,6 @@ export const DialogEditProfile: React.FC<DialogEditProfileProps> = ({
         formData.append("id", user.id);
         formData.append("FirstName", data.firstName || "");
         formData.append("LastName", data.lastName || "");
-        formData.append("DateOfBirth", data.dateOfBirth || "");
         if (data.profileImage && data.profileImage[0]) {
             formData.append("profileImage", data.profileImage[0]);
         }
@@ -111,12 +109,7 @@ export const DialogEditProfile: React.FC<DialogEditProfileProps> = ({
                                 <Input id="lastName" {...register("lastName")} />
                                 {errors.lastName && <p>{errors.lastName.message}</p>}
                             </div>
-                            <div>
-                                <Label htmlFor="dateOfBirth">Date of Birth</Label>
-                                <Input id="dateOfBirth" type="date" {...register("dateOfBirth")} />
-                                {errors.dateOfBirth && <p>{errors.dateOfBirth.message}</p>}
-                            </div>
-                            <div className="grid w-full max-w-sm items-center gap-1.5">
+                            <div className="grid w-full items-center gap-1.5">
                                 <Label htmlFor="profileImage">Profile Image</Label>
                                 <Input id="profileImage" type="file" {...register("profileImage")} />
                             </div>
