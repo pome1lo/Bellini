@@ -43,7 +43,7 @@ namespace ProfileService.Controllers
         }
 
         [HttpPut("{id}")]
-        [ProfileOwnerAuthorize]
+        [ProfileOwnerAuthorizeFromQuery]
         public async Task<IActionResult> UpdateProfile(int id, [FromForm] UpdateProfileDto updateProfileDto, [FromForm] IFormFile? profileImage, CancellationToken cancellationToken)
         {
             if (profileImage is not null)
@@ -58,7 +58,7 @@ namespace ProfileService.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ProfileOwnerAuthorize]
+        [ProfileOwnerAuthorizeFromQuery]
         public async Task<IActionResult> DeleteProfile(int id, CancellationToken cancellationToken)
         {
             await _profileService.DeleteProfileAsync(id, cancellationToken);

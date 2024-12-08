@@ -7,7 +7,6 @@ import {TrendingUp} from "lucide-react";
 import {DialogShareButton} from "@/views/partials/dialogs/DialogShareButton.tsx";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import {Badge} from "@/components/ui/badge.tsx";
 import {formatDate} from "@/utils/functions/formatDate.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {Textarea} from "@/components/ui/textarea.tsx";
@@ -17,18 +16,33 @@ import {toast} from "@/components/ui/use-toast.ts";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {useNavigate} from "react-router-dom";
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {z} from "zod";
 
 interface QuizFinishedPageProps {
     currentQuiz: Quiz;
 }
 
+interface CommentForm {
+    content: string;
+}
+
+const commentSchema = z.object({
+    content: z
+        .string()
+        .max(255, "The comment cannot exceed 255 characters")
+        .nonempty("The comment cannot be empty"),
+});
+
 export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz}) => {
     const [comments, setComments] = useState<Comment[]>([]);
-    const [content, setContent] = useState("");
     const {isAuthenticated, user} = useAuth();
     const [isUpdated, setIsUpdated] = useState(false);
     const navigate = useNavigate();
-
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<CommentForm>({
+        resolver: zodResolver(commentSchema),
+    });
 
     const totalQuestions = currentQuiz.questions.length;
     const correctAnswers = currentQuiz.quizResults?.[0]?.numberOfCorrectAnswers || 0;
@@ -68,41 +82,39 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
         fetchComments();
     }, [currentQuiz, isUpdated]);
 
-    const OnSubmitCreateComment = async (event) => {
-        event.preventDefault()
-        try {
-            if (!isAuthenticated || !user) {
-                navigate('/login');
-                return;
-            }
+    const onSubmit = async (data: CommentForm) => {
+        if (!isAuthenticated || !user) {
+            navigate('/login');
+            return;
+        }
 
-            const response = await serverFetch(`/comments/quiz/${currentQuiz?.id}`, {
+        try {
+            const response = await serverFetch(`/comments/quiz/${currentQuiz.id}`, {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    gameId: currentQuiz?.id,
+                    gameId: currentQuiz.id,
                     userId: user.id,
-                    content: content,
+                    content: data.content,
                     username: user.username,
-                    profileImageUrl: user.profileImageUrl ?? ""
+                    profileImageUrl: user.profileImageUrl ?? "",
                 }),
             });
 
-            const responseData = await response.json();
-
-            if (response.ok ) {
-                setIsUpdated(!isUpdated);
-                setContent("");
+            if (response.ok) {
                 toast({title: "Comment Created", description: "The comment was successfully created."});
+                reset();
+                setIsUpdated(!isUpdated);
             } else {
+                const responseData = await response.json();
                 toast({
                     title: "Error",
                     description: responseData.message || "An error occurred.",
                     variant: "destructive"
                 });
             }
-        } catch (ex: unknown) {
-            const errorMessage = (ex as Error).message || "An unexpected error occurred.";
+        } catch (error: unknown) {
+            const errorMessage = (error as Error).message || "An unexpected error occurred.";
             toast({
                 title: "Error",
                 description: errorMessage,
@@ -293,7 +305,7 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
                                                             <p className="font-medium">{comment.username}</p>
                                                             <p className="ms-3 text-sm opacity-45">{formatDate(new Date(comment.commentDate))}</p>
                                                         </div>
-                                                        <p>{comment.content}</p>
+                                                        <p className="max-w-[418px]">{comment.content}</p>
                                                     </div>
                                                 </a>
                                             </div>
@@ -301,16 +313,14 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
                                     </>
                                 }
                             </ScrollArea>
-                            <form className="flex justify-end flex-wrap mt-4 gap-4" onSubmit={OnSubmitCreateComment}>
+                            <form onSubmit={handleSubmit(onSubmit)} className="flex justify-end flex-wrap mt-4 gap-4">
                                 <Textarea
+                                    {...register("content")}
                                     placeholder="Type your message here."
-                                    className="w-full" required
-                                    value={content}
-                                    onChange={(e) => {
-                                        setContent(e.target.value)
-                                    }}
+                                    className={`w-full ${errors.content ? "border-red-500" : ""}`}
                                 />
-                                <Button type="submit">Send</Button>
+                                {errors.content && <p className="text-red-500">{errors.content.message}</p>}
+                                <Button type="submit">Отправить</Button>
                             </form>
                         </CardContent>
                     </Card>

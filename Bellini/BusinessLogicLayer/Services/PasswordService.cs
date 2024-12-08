@@ -4,6 +4,7 @@ using BusinessLogicLayer.Utils;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 using FluentValidation;
+using Microsoft.Extensions.Caching.Distributed;
 using UtilsModelsLibrary.Exceptions;
 
 namespace BusinessLogicLayer.Services
@@ -16,6 +17,7 @@ namespace BusinessLogicLayer.Services
         private readonly IValidator<ForgotPasswordDto> _forgotPasswordValidator;
         private readonly IValidator<ResetPasswordDto> _resetPasswordValidator;
         private readonly ICacheService _cacheService;
+        private readonly IDistributedCache _cache;
 
         public PasswordService(
             INotificationService emailService,
@@ -23,7 +25,8 @@ namespace BusinessLogicLayer.Services
             IValidator<ChangePasswordDto> changePasswordValidator,
             IValidator<ForgotPasswordDto> forgotPasswordValidator,
             IValidator<ResetPasswordDto> resetPasswordValidator,
-            ICacheService cacheService)
+            ICacheService cacheService,
+            IDistributedCache cache)
         {
             _emailService = emailService;
             _repository = repository;
@@ -31,6 +34,7 @@ namespace BusinessLogicLayer.Services
             _forgotPasswordValidator = forgotPasswordValidator;
             _resetPasswordValidator = resetPasswordValidator;
             _cacheService = cacheService;
+            _cache = cache;
         }
 
         public async Task ChangePasswordAsync(ChangePasswordDto changePasswordDto, CancellationToken cancellationToken = default)
@@ -121,6 +125,7 @@ namespace BusinessLogicLayer.Services
 
             // Удаляем временные данные из Redis
             await _cacheService.RemoveAsync(resetPasswordDto.Email);
+            await _cache.RemoveAsync("User_" + resetPasswordDto.Email);
         }
     }
 }

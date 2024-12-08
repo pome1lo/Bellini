@@ -1,24 +1,11 @@
 import { Breadcrumbs } from "@/views/partials/Breadcrumbs.tsx";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ListFilter, RefreshCcw } from "lucide-react";
+import { RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button.tsx";
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu.tsx";
 import { DialogCreateGame } from "@/views/partials/dialogs/DialogCreateGame.tsx";
 import { GamesListTabContent } from "@/views/partials/GamesListTabContent.tsx";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
-const breadcrumbItems = [
-    { path: '/', name: 'Home' },
-    { path: '/games', name: 'Games' },
-];
 
 export const GameListPage = () => {
     const [isUpdated, setIsUpdated] = useState<boolean>(false);
@@ -38,7 +25,11 @@ export const GameListPage = () => {
 
     return (
         <>
-            <Breadcrumbs items={breadcrumbItems} />
+            <Breadcrumbs items={[
+                { path: '/', name: 'Home' },
+                { path: '/games', name: 'Games' },
+            ]}/>
+
             <main className="grid mt-2 flex-1 items-start gap-4 sm:py-0 md:gap-8 max-w-[1440px] w-full mx-auto">
                 <Tabs defaultValue={tabName && validTabs.includes(tabName) ? tabName : "all"}>
                     <div className="flex items-center">

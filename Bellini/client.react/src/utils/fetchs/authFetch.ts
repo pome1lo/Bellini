@@ -1,5 +1,4 @@
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
-import {useAuth} from "@/utils/context/authContext.tsx";
 
 export const authFetch = async (
     endpoint: string,
@@ -27,9 +26,9 @@ export const authFetch = async (
         };
 
         return await serverFetch(endpoint, authOptions);
-    } catch (error) {
+    } catch (ex: unknown) {
         logout();
         window.location.href = '/login';
-        return Promise.reject(new Error("Failed to fetch, redirecting to login."));
+        return Promise.reject(new Error("Failed to fetch, redirecting to login. " + (ex as Error).message));
     }
 };

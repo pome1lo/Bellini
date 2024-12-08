@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Services.DTOs;
+﻿using BusinessLogicLayer.Attributes;
+using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,6 +40,7 @@ namespace GameService.Controllers
         }
 
         [HttpPost("{quizId:int}/start")]
+        [ProfileOwnerAuthorizeFromBody(UserIdPropertyName = "userId")]
         public async Task<IActionResult> StartQuiz(int quizId, [FromBody] QuizStartDto quizStart, CancellationToken cancellationToken = default)
         {
             return Ok(

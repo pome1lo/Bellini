@@ -1,11 +1,7 @@
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
-import React, {useEffect, useState} from "react";
-import {CircleUser, Divide} from "lucide-react";
-import {Button} from "@/components/ui/button.tsx";
-import {Skeleton} from "@/components/ui/skeleton.tsx";
+import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
-// import { toast } from "sonner"
 import {DialogEditProfile} from "@/views/partials/dialogs/DialogEditProfile.tsx";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx";
@@ -15,10 +11,7 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/c
 import {ProfileSkeleton} from "@/views/partials/skeletons/ProfileSkeleton.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 
-const breadcrumbItems = [
-    {path: '/', name: 'Home'},
-    {path: '/profile', name: 'Profile'},
-];
+
 
 interface UserProfile {
     id: number;
@@ -69,7 +62,10 @@ export const ProfilePage = () => {
 
     return (
         <>
-            <Breadcrumbs items={breadcrumbItems}/>
+            <Breadcrumbs items={[
+                {path: '/', name: 'Home'},
+                {path: '/profile', name: 'Profile'},
+            ]}/>
 
             {currentUser ? (
                 <div className="flex lg:flex-row lg:space-x-4 flex-col  max-w-[1440px] w-full mx-auto">

@@ -154,13 +154,13 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
         if (currentGame?.maxPlayers > players.length) {
             try {
                 await connection.invoke("JoinGame", {
-                    GameId: id.toString(),
-                    UserId: user.id.toString(),
-                    Username: user.username,
-                    Email: user.email,
-                    ProfileImageUrl: user.profileImageUrl
+                    GameId: id?.toString(),
+                    UserId: user?.id.toString(),
+                    Username: user?.username,
+                    Email: user?.email,
+                    ProfileImageUrl: user?.profileImageUrl
                 });
-                connection.invoke("GetPlayers", id.toString())
+                connection.invoke("GetPlayers", id?.toString())
                     .then((playerList: Player[]) => {
                             setPlayers(playerList);
                         }
@@ -182,7 +182,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
         if (connection) {
             try {
                 if (connection.state === signalR.HubConnectionState.Connected) {
-                    await connection.invoke("LeaveGame", id.toString(), user.id.toString());
+                    await connection.invoke("LeaveGame", id?.toString(), user?.id.toString());
                     setIsUserJoined(false);
                     toast({title: "You have left the game."});
 
@@ -190,7 +190,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
             } catch (error) {
                 console.error('Error while disconnecting:', error);
             } finally {
-                connection.invoke("GetPlayers", id.toString())
+                connection.invoke("GetPlayers", id?.toString())
                     .then((playerList: Player[]) => {
                             setPlayers(playerList);
                         }
@@ -284,12 +284,6 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
         }
     }
 
-    const breadcrumbItems = [
-        {path: '/', name: 'Home'},
-        {path: '/games', name: 'Games'},
-        {path: `/games/${id}`, name: currentGame?.gameName},
-    ];
-
     return (
         <>
             {!isPasswordCorrect && currentGame?.isPrivate ?
@@ -302,7 +296,11 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                 <>
                     {currentGame ?
                         <>
-                            <Breadcrumbs items={breadcrumbItems}/>
+                            <Breadcrumbs items={[
+                                {path: '/', name: 'Home'},
+                                {path: '/games', name: 'Games'},
+                                {path: `/games/${id}`, name: currentGame?.gameName ?? "unknown"},
+                            ]}/>
 
                             {isCurrentUserHost ?
                                 <div

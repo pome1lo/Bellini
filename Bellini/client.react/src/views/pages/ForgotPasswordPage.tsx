@@ -78,6 +78,7 @@ export const ForgotPasswordPage = () => {
             if (response.ok) {
                 setVerificationCode(data);
                 setShowPasswordForm(true);
+                setErrorMessage(null);
             }
             else setErrorMessage('Invalid or expired verification code');
         } catch {
@@ -156,7 +157,7 @@ export const ForgotPasswordPage = () => {
                         <p className="text-center mb-3">
                             The password reset code will be sent to your email
                         </p>
-                        <form onSubmit={codeForm.handleSubmit(onSubmitCodeForm)}className="space-y-4 mt-2 text-center">
+                        <form onSubmit={codeForm.handleSubmit(onSubmitCodeForm)} className="space-y-4 mt-2 text-center">
                             <div className="flex items-center flex-col">
                             <Controller
                                 name="code"
@@ -177,6 +178,7 @@ export const ForgotPasswordPage = () => {
                                     </InputOTP>
                                 )}
                             />
+                                <FormMessage>{errorMessage}</FormMessage>
                             </div>
                             <Button type="submit" className="w-full">Verify Code</Button>
                         </form>

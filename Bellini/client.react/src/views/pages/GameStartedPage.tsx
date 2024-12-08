@@ -9,7 +9,6 @@ import * as signalR from "@microsoft/signalr";
 import {Player} from "@/utils/interfaces/Player.ts";
 import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
-import {Game} from "@/utils/interfaces/Game.ts";
 
 interface GameStartedPageProps {
     currentGame?: StartedGame;
@@ -68,22 +67,11 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                     setFadeIn(true);
                 });
 
-                // connection.on("GameEnded", (gameId: number, game: FinishedGame) => {
-                //     console.log(gameId);
-                //     console.log(game);
-                //     //alert("The game has ended.");
-                //     //onFinish(game);
-                // });
-
-                connection.on("GameCompleted", (gameId: number, game: FinishedGame) => {
-                    console.log(gameId);
-                    console.log(game);
-                    //alert("The game has ended.");
+                connection.on("GameCompleted", (game: FinishedGame) => {
                     onFinish(game);
                 });
 
                 connection.on("PlayersList", (playerList: Player[]) => {
-                    // Логика для отображения списка игроков
                     console.log("Players in the game:", playerList);
                 });
             }).catch((error: unknown) => {
@@ -163,7 +151,6 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
             });
 
             if (response.ok) {
-                alert("ok ok ");
             }
             else {
                 const data = await response.json();
@@ -189,7 +176,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                                 className="absolute flex flex-wrap justify-center items-center top-20 sm:w-1/2 w-[250px]">
                                 <Progress value={progressValue} className="h-2 mb-5"/>
                                 {currentQuestionIndex + 1} / {currentGame.questions.length}
-                                {currentGame.hostId == user?.id ? (
+                                {currentGame.hostId.toString() == user?.id ? (
                                     <div className="flex">
                                         {currentQuestionIndex < currentGame.questions.length - 1 ?
                                             <Button variant="default" className="ms-5" size="sm"
@@ -229,8 +216,8 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                                             <Button
                                                 variant={selectedAnswer === index ? "default" : "outline"}
                                                 onClick={() => handleAnswerSelect(index)}
-                                                disabled={selectedAnswer !== null || currentGame.hostId == user.id}
-                                                className={`m-2 sm:m-3 w-full text-md ${option.isCorrect && currentGame.hostId == user.id ? "border-green-900 animate-bounce" : ""}`}
+                                                disabled={selectedAnswer !== null || currentGame.hostId.toString() == user?.id}
+                                                className={`m-2 sm:m-3 w-full text-md ${option.isCorrect && currentGame.hostId.toString() == user?.id ? "border-green-900 animate-bounce" : ""}`}
                                             >
                                                 {option.text}
                                             </Button>

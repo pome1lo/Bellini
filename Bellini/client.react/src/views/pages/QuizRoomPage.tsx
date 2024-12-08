@@ -8,6 +8,7 @@ import {StartedQuiz} from "@/utils/interfaces/StartedQuiz.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {CirclePlay} from "lucide-react";
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
+import {authFetch} from "@/utils/fetchs/authFetch.ts";
 
 interface QuizRoomPageProps {
     onQuizStart: (game: StartedQuiz) => void;
@@ -19,7 +20,7 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
     const {id} = useParams();
     const [currentQuiz, setCurrentQUiz] = useState<Quiz>();
     const navigate = useNavigate();
-    const {isAuthenticated, user} = useAuth();
+    const {isAuthenticated, user, logout, getAccessToken} = useAuth();
 
     useEffect(() => {
         if (!isAuthenticated || !user || !id) {
@@ -48,7 +49,7 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
                 navigate('/login');
                 return;
             }
-            const response = await serverFetch(`/quizzes/${id}/start`, {
+            const response = await authFetch(`/quizzes/${id}/start`, getAccessToken, logout, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
@@ -68,26 +69,24 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
                 });
             }
 
-        } catch (error) {
+        } catch (error : unknown) {
             console.error('Error while disconnecting:', error);
             toast({
                 title: "Error",
-                description: error.message || "An unexpected error occurred.",
+                description: (error as Error).message || "An unexpected error occurred.",
                 variant: "destructive"
             });
         }
     }
 
 
-     const breadcrumbItems = [
-        {path: '/', name: 'Home'},
-        {path: '/quizzes', name: 'Quizzes'},
-        {path: `/quizzes/${currentQuiz?.id}`, name: currentQuiz?.gameName},
-    ];
-
     return (
         <div className="p-4">
-            <Breadcrumbs items={breadcrumbItems}/>
+            <Breadcrumbs items={[
+                {path: '/', name: 'Home'},
+                {path: '/quizzes', name: 'Quizzes'},
+                {path: `/quizzes/${currentQuiz?.id}`, name: currentQuiz?.gameName ?? "unknown"},
+            ]}/>
             <div className="mt-4 flex flex-col justify-center items-center h-[78vh]">
                 <h1 className="text-4xl text-center font-bold">{currentQuiz?.gameName}</h1>
                 <p className="mt-3 mb-3">Количество вопросов {currentQuiz?.questions.length}</p>

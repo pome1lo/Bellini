@@ -33,6 +33,9 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import {z} from "zod";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
 
 interface GameFinishedPageProps {
     currentGame?: FinishedGame;
@@ -46,12 +49,31 @@ interface GameRating {
     username: string;
 }
 
+interface CommentForm {
+    content: string;
+}
+
+const commentSchema = z.object({
+    content: z
+        .string()
+        .max(255, "The comment cannot exceed 255 characters")
+        .nonempty("The comment cannot be empty"),
+});
 
 const getCorrectAnswersData = (currentGame: FinishedGame | undefined) => {
     if (!currentGame) return [];
 
+    console.log("current game");
+    console.log(currentGame);
+
+    console.log("host id");
+    console.log(currentGame.hostId);
+
+    console.log("players");
+    console.log(currentGame.players);
+
     return currentGame.players
-        .filter(player => player.id !== currentGame.hostId) // Исключаем создателя комнаты
+        .filter(player => player.userId !== currentGame.hostId)
         .map(player => ({
             name: player.name,
             correctAnswers: currentGame.completedAnswers.filter(
@@ -63,15 +85,18 @@ const getCorrectAnswersData = (currentGame: FinishedGame | undefined) => {
 export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame}) => {
     const [comments, setComments] = useState<Comment[]>([]);
     const [rating, setRating] = useState<GameRating[]>([]);
-    const [content, setContent] = useState("");
     const [isUpdated, setIsUpdated] = useState(false);
     const [isCurrentUserPlayer, setIsCurrentUserPlayer] = useState(false);
     const {isAuthenticated, user} = useAuth();
     const navigate = useNavigate();
 
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<CommentForm>({
+        resolver: zodResolver(commentSchema),
+    });
+
     useEffect(() => {
         if (isAuthenticated && user && currentGame?.players) {
-            const isPlayer = currentGame.players.some(player => player.userId == user.id);
+            const isPlayer = currentGame.players.some(player => player.userId.toString() == user.id);
             setIsCurrentUserPlayer(isPlayer);
         }
     }, [currentGame, isAuthenticated, user]);
@@ -98,11 +123,10 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
     }, [currentGame, isUpdated]);
 
     useEffect(() => {
-        const fetchStatisticks = async () => {
+        const fetchStatistics = async () => {
             try {
                 const response = await serverFetch(`/game/${currentGame?.id}/statistics`);
                 const data = await response.json();
-                console.log(data);
 
                 if (response.status === 204 || !Array.isArray(data)) {
                     setRating([]);
@@ -115,16 +139,15 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
             }
         };
 
-        fetchStatisticks();
+        fetchStatistics();
     }, [currentGame, isUpdated]);
 
-    const OnSubmitCreateComment = async (event) => {
-        event.preventDefault()
+    const OnSubmitCreateComment = async (data: CommentForm) => {
+        if (!isAuthenticated || !user) {
+            navigate('/login');
+            return;
+        }
         try {
-            if (!isAuthenticated || !user) {
-                navigate('/login');
-                return;
-            }
 
             const response = await serverFetch(`/comments/game/${currentGame?.id}`, {
                 method: "POST",
@@ -132,19 +155,19 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                 body: JSON.stringify({
                     gameId: currentGame?.id,
                     userId: user.id,
-                    content: content,
+                    content: data.content,
                     username: user.username,
                     profileImageUrl: user.profileImageUrl ?? ""
                 }),
             });
 
-            const responseData = await response.json();
 
             if (response.ok) {
                 setIsUpdated(!isUpdated);
-                setContent("");
+                reset();
                 toast({title: "Comment Created", description: "The comment was successfully created."});
             } else {
+                const responseData = await response.json();
                 toast({
                     title: "Error",
                     description: responseData.message || "An error occurred.",
@@ -171,12 +194,6 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
     };
 
     const totalQuestions = currentGame?.questions.length || 0;
-
-    const breadcrumbItems = [
-        {path: '/', name: 'Home'},
-        {path: '/games', name: 'Games'},
-        {path: `/games/${currentGame?.id}`, name: currentGame?.gameName},
-    ];
 
 
     async function deleteComment(id: number) {
@@ -214,8 +231,12 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
     }
 
     return (
-        <div className="bg-muted/40 p-4">
-            <Breadcrumbs items={breadcrumbItems}/>
+        <div className="p-4 max-w-[1440px] mx-auto">
+            <Breadcrumbs items={[
+                {path: '/', name: 'Home'},
+                {path: '/games', name: 'Games'},
+                {path: `/games/${currentGame?.id}`, name: currentGame?.gameName ?? "unknown"},
+            ]}/>
 
             <div className="flex flex-col xl:flex-row gap-4 mt-5">
                 <div className="flex flex-wrap gap-4 xl:order-2 order-1">
@@ -319,7 +340,7 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                                                 </TableCell>
                                                 <TableCell>{item.correctAnswers}</TableCell>
                                                 <TableCell
-                                                    className="font-bold text-right">{item.accuracy} %</TableCell>
+                                                    className="font-bold text-right">{item.accuracy.toFixed(2)} %</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -413,7 +434,8 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                         {comments.length == 0 ?
                             <>
                                 <div className="h-full w-full flex items-center justify-center">
-                                    <h1 className="scroll-m-20 text-center text-2xl p- font-semibold tracking-tight">There are no
+                                    <h1 className="scroll-m-20 text-center text-2xl p- font-semibold tracking-tight">There
+                                        are no
                                         comments here yet. Be the first!</h1>
                                 </div>
                             </>
@@ -443,7 +465,7 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                                                 <p>{comment.content}</p>
                                             </div>
                                         </a>
-                                        {currentGame.hostId != user?.id ? <></> :
+                                        {currentGame?.hostId.toString() != user?.id ? <></> :
                                             <div className="">
                                                 <Button variant="destructive"
                                                         onClick={() => deleteComment(comment.id)}>Delete</Button>
@@ -455,14 +477,13 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                         }
                     </ScrollArea>
                     {!isCurrentUserPlayer ? <></> :
-                        <form className="flex justify-end flex-wrap mt-4 gap-4" onSubmit={OnSubmitCreateComment}>
+                        <form onSubmit={handleSubmit(OnSubmitCreateComment)} className="flex justify-end flex-wrap mt-4 gap-4">
                             <Textarea
+                                {...register("content")}
                                 placeholder="Type your message here."
-                                className="w-full" required
-                                onChange={(e) => {
-                                    setContent(e.target.value)
-                                }}
+                                className={`w-full ${errors.content ? "border-red-500" : ""}`}
                             />
+                            {errors.content && <p className="text-red-500">{errors.content.message}</p>}
                             <Button type="submit">Send</Button>
                         </form>
                     }

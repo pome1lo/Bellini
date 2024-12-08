@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace BusinessLogicLayer.Attribute
 {
-    public class ProfileOwnerAuthorizeAttribute : AuthorizeAttribute, IAuthorizationFilter
+    public class ProfileOwnerAuthorizeFromQueryAttribute : AuthorizeAttribute, IAuthorizationFilter
     {
         public string IdParameterName { get; set; } = "id";
 

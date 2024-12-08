@@ -1,7 +1,5 @@
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {Table, TableBody} from "@/components/ui/table.tsx";
-import {GameListItem} from "@/views/partials/GameListItem.tsx";
 import {
     Pagination,
     PaginationContent, PaginationEllipsis,
@@ -9,20 +7,14 @@ import {
     PaginationLink, PaginationNext,
     PaginationPrevious
 } from "@/components/ui/pagination.tsx";
-import React, {useEffect, useState} from "react";
-import {Game} from "@/utils/interfaces/Game.ts";
+import  {useEffect, useState} from "react";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {GameListTabContentRowSkeleton} from "@/views/partials/skeletons/GameListTabContentRowSkeleton.tsx";
-import {GameListTabContentNotFoundSkeleton} from "@/views/partials/skeletons/GameListTabContentNotFoundSkeleton.tsx";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import {Badge} from "@/components/ui/badge.tsx";
 import {formatDate} from "@/utils/functions/formatDate.ts";
-import {Button} from "@/components/ui/button.tsx";
-import {authFetch} from "@/utils/fetchs/authFetch.ts";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {useNavigate} from "react-router-dom";
-import {NotificationsPageSkeleton} from "@/views/partials/skeletons/NotificationsPageSkeleton.tsx";
 
 interface Notification {
     id: number;
