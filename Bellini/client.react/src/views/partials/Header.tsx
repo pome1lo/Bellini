@@ -1,7 +1,7 @@
 import {Button} from "@/components/ui/button";
 import {CircleUser, Menu as MenuIcon} from 'lucide-react';
 import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {ModeToggle} from "@/components/ui/mode-toggle.tsx";
 import {
     NavigationMenu,
@@ -22,6 +22,7 @@ import {Link, useNavigate} from "react-router-dom";
 
 import { cn } from "@/lib/utils"
 import {useAuth} from "@/utils/context/authContext.tsx";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -54,12 +55,17 @@ const components: { title: string; href: string; description: string }[] = [
 export const Header = () => {
     const { user, isAuthenticated, logout } = useAuth();
     const [open, setOpen] = useState(false);
+    const [userImage, setUserImage] = useState("");
     const navigate = useNavigate();
 
     function navigateTo(str: string) : void {
         setOpen(false);
         navigate(str);
     }
+
+    useEffect(() => {
+        setUserImage(user?.profileImageUrl);
+    }, [user]);
 
     return (
         <>
@@ -136,8 +142,18 @@ export const Header = () => {
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="ghost" size="icon" className="rounded-full">
-                                        <CircleUser className="h-5 w-5" />
-                                        <span className="sr-only">Toggle user menu</span>
+                                        <>
+                                            <Avatar className="hidden h-9 w-9 sm:flex me-2">
+                                                <AvatarImage
+                                                    src={userImage}
+                                                    alt={`${user.username}'s profile`}
+                                                />
+                                                <AvatarFallback>
+                                                    {(user.username.charAt(0) + user.username.charAt(1)).toUpperCase()}
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <span className="sr-only">Toggle user menu</span>
+                                        </>
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
@@ -147,8 +163,7 @@ export const Header = () => {
                                     </DropdownMenuLabel>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem onClick={() => navigate(`/profile/${user.id}`)}>Profile</DropdownMenuItem>
-                                    <DropdownMenuItem>Settings</DropdownMenuItem>
-                                    <DropdownMenuItem>Support</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => navigate(`/settings`)}>Settings</DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
                                 </DropdownMenuContent>

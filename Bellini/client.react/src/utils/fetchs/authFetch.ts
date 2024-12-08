@@ -1,4 +1,5 @@
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
+import {useAuth} from "@/utils/context/authContext.tsx";
 
 export const authFetch = async (
     endpoint: string,

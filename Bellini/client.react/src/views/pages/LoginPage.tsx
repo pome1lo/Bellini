@@ -110,7 +110,7 @@ export const LoginPage = () => {
                             />
                             <Button type="submit" className="w-full">Login</Button>
                             <div className="relative">
-                                <FormMessage>{errorMessage}</FormMessage>
+                                <FormMessage className="mb-5">{errorMessage}</FormMessage>
                                 <div className="absolute inset-0 flex items-center"><span
                                     className="w-full border-t"></span></div>
                                 <div className="relative flex justify-center text-xs uppercase"><span

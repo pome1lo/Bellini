@@ -168,10 +168,9 @@ export const RegisterPage = () => {
                                             className="bg-background px-2 text-muted-foreground">Or continue with</span>
                                         </div>
                                     </div>
-                                    <Button onClick={() => navigate('/register')} variant="outline"
+                                    <Button onClick={() => navigate('/login')} variant="outline"
                                         className="w-full">
-                                        <DiGithubBadge className="text-2xl me-1" />
-                                        GitHub
+                                        Login
                                     </Button>
                                     <p className="px-8 text-center text-sm text-muted-foreground">
                                         By clicking continue, you agree to our

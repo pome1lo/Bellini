@@ -13,6 +13,7 @@ import {Separator} from "@/components/ui/separator.tsx";
 import {DialogShareButton} from "@/views/partials/dialogs/DialogShareButton.tsx";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {ProfileSkeleton} from "@/views/partials/skeletons/ProfileSkeleton.tsx";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 
 const breadcrumbItems = [
     {path: '/', name: 'Home'},
@@ -77,15 +78,16 @@ export const ProfilePage = () => {
                             <CardHeader>
                                 <div className="flex items-center mb-5">
                                     <div>
-                                        {currentUser.profileImageUrl ?
-                                            <img
+
+                                        <Avatar className="size-20 flex me-2">
+                                            <AvatarImage
                                                 src={currentUser.profileImageUrl}
-                                                alt=""
-                                                className="rounded-md h-20 w-20"
+                                                alt={`${currentUser.username}'s profile`}
                                             />
-                                            :
-                                            <CircleUser className="h-20 w-20"/>
-                                        }
+                                            <AvatarFallback className="text-3xl">
+                                                {(currentUser.username.charAt(0) + currentUser.username.charAt(1)).toUpperCase()}
+                                            </AvatarFallback>
+                                        </Avatar>
                                     </div>
                                     <div className="ms-4">
                                         <h3 className="font-bold text-xl">{currentUser.username}</h3>
