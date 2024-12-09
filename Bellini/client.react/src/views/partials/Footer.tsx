@@ -1,5 +1,5 @@
 import {Button} from "@/components/ui/button.tsx";
-import {Instagram, Linkedin, Twitter, Youtube} from "lucide-react";
+import {Instagram, Linkedin, Twitter} from "lucide-react";
 
 export const Footer = () => {
     return (

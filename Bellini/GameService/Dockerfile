@@ -15,6 +15,7 @@ WORKDIR /src
 COPY ["GameService/GameService.csproj", "GameService/"]
 COPY ["BusinessLogicLayer/BusinessLogicLayer.csproj", "BusinessLogicLayer/"]
 COPY ["DataAccessLayer/DataAccessLayer.csproj", "DataAccessLayer/"]
+COPY ["UtilsModelsLibrary/UtilsModelsLibrary.csproj", "UtilsModelsLibrary/"]
 COPY ["EmailSenderLibrary/EmailSenderLibrary.csproj", "EmailSenderLibrary/"]
 COPY ["GlobalExceptionHandlerLibrary/GlobalExceptionHandlerLibrary.csproj", "GlobalExceptionHandlerLibrary/"]
 RUN dotnet restore "./GameService/GameService.csproj"

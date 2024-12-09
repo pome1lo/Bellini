@@ -1,67 +1,99 @@
-version: '3.4'
-
 networks:
   backend:
   frontend:
 
+
 services:
-  apigateway:
-    image: ${DOCKER_REGISTRY-}apigateway
+  gameservice:
+    image: ${DOCKER_REGISTRY-}gameservice
+    container_name: gameservice
+    environment:
+     DOTNET_RUNNING_IN_CONTAINER: true
     build:
       context: .
-      dockerfile: ApiGateway/Dockerfile 
+      dockerfile: GameService/Dockerfile
     networks:
-      - backend
+      - backend 
+
+  apigateway:
+    image: ${DOCKER_REGISTRY-}apigateway
+    container_name: apigateway
+    environment:
+     DOTNET_RUNNING_IN_CONTAINER: true
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    networks:
+      - backend 
       - frontend
-    ports:
-      - "59101:59101"
-      - "59102:59102"
-    
+
+
   authenticationservice:
     image: ${DOCKER_REGISTRY-}authenticationservice
+    container_name: authenticationservice
+    environment:
+     DOTNET_RUNNING_IN_CONTAINER: true
     build:
       context: .
       dockerfile: AuthenticationService/Dockerfile
     networks:
-      - backend
-    ports:
-      - "59103:59103"
-      - "59104:59104"
+      - backend 
+
 
   notificationservice:
     image: ${DOCKER_REGISTRY-}notificationservice
+    container_name: notificationservice
+    environment:
+     DOTNET_RUNNING_IN_CONTAINER: true
     build:
       context: .
       dockerfile: NotificationService/Dockerfile
     networks:
-      - backend
-    ports:
-      - "59105:59105"
-      - "59106:59106"
+      - backend 
+
 
   profileservice:
     image: ${DOCKER_REGISTRY-}profileservice
+    container_name: profileservice
+    environment:
+     DOTNET_RUNNING_IN_CONTAINER: true
     build:
       context: .
       dockerfile: ProfileService/Dockerfile
     networks:
-      - backend
-    ports:
-      - "59107:59107"
-      - "59108:59108"
+      - backend 
 
-  redis:
-    container_name: Redis
+  redis_db:
     image: redis:latest
+    container_name: redis_db
     ports:
       - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
     networks:
-      - backend
-       
+      - backend 
 
-  gameservice:
-    image: ${DOCKER_REGISTRY-}gameservice
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "StrongPassword123!"
+      MSSQL_PID: Express
+    networks:
+      - backend 
+
+
+  reactapp:
     build:
-      context: .
-      dockerfile: GameService/Dockerfile
+      context: ./client.react
+      dockerfile: Dockerfile
+    container_name: reactapp
+    ports:
+      - "3000:80"
+    networks:
+      - frontend
+    depends_on:
+      - apigateway
 

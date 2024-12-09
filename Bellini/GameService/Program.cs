@@ -11,12 +11,25 @@ using GameService.MiddlewareExtensions;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 
+var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCorsClient(builder.Configuration);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString(nameof(AppDbContext))));
+{
+    var connectionString = isDocker
+        ? "Server=sqlserver;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
+        : builder.Configuration.GetConnectionString(nameof(AppDbContext));
+    options.UseSqlServer(connectionString);
+});
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(provider =>
+{
+    var redisConnection = isDocker ? "redis_db:6379" : "localhost";
+    return ConnectionMultiplexer.Connect(redisConnection);
+});
 
 builder.Services.AddControllers();
 
@@ -35,13 +48,6 @@ builder.Services.AddScoped<IRepository<QuizQuestion>, QuizQuestionRepository>();
 builder.Services.AddScoped<IRepository<QuizAnswerOption>, QuizAnswerOptionRepository>();
 builder.Services.AddScoped<IRepository<QuizResults>, QuizResultsRepository>();
 builder.Services.AddScoped<IRepository<GameResults>, GameResultsRepository>();
-//builder.Services.AddScoped<IRepository<QuizAnsweredQuestion>, QuizAnsweredQuestionRepository>();
-//builder.Services.AddScoped<IRepository<QuizSession>, QuizSessionRepository>();
-
-
-
-
-builder.Services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost"));
 
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IGameService, BusinessLogicLayer.Services.GameService>();
@@ -61,7 +67,6 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.CreateMap<CreateAnswerDto, AnswerOption>();
 }, typeof(Program));
 
-
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddSignalR();
 
@@ -70,11 +75,8 @@ var app = builder.Build();
 app.UseCors("AllowLocalhost5173");
 app.UseStaticFiles();
 
-
-
 app.UseRouting();
 app.UseGlobalExceptionHandler();
-
 
 app.UseHttpsRedirection();
 
@@ -83,15 +85,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapHub<GameHub>("/gameHub");
-    app.MapControllers();
+    endpoints.MapControllers();
 });
 
 app.MapGet("/", () => "The GameService is working.");
-
-app.Run();
 
 app.Run();

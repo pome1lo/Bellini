@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import * as signalR from '@microsoft/signalr';
 import { Button } from "@/components/ui/button.tsx";
 import {useNavigate} from "react-router-dom";
-import {ToastAction} from "@/components/ui/toast.tsx";
 import {useToast} from "@/components/ui/use-toast.ts";
 import {useAuth} from "@/utils/context/authContext.tsx";
 
@@ -11,7 +10,6 @@ interface JoinGameButtonProps {
 }
 
 export const JoinGameButton: React.FC<JoinGameButtonProps> = ({ gameId }) => {
-    const [connection, setConnection] = useState<signalR.HubConnection | null>(null);
     const [isConnected, setIsConnected] = useState(false);
     const { user, isAuthenticated } = useAuth();
     const navigate = useNavigate();

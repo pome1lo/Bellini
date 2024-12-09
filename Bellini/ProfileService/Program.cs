@@ -11,23 +11,33 @@ using DataAccessLayer.Models;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
+var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+// Настройка строки подключения к базе данных
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString(nameof(AppDbContext))));
+{
+    var connectionString = isDocker
+        ? "Server=sqlserver;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
+        : builder.Configuration.GetConnectionString(nameof(AppDbContext));
+    options.UseSqlServer(connectionString);
+});
 
+// Настройка строки подключения к Redis
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.Configuration = isDocker
+        ? "redis:6379" // Адрес Redis-сервера в Docker
+        : builder.Configuration.GetConnectionString("Redis");
     options.InstanceName = "local";
 });
 
 builder.Services.AddScoped<IValidator<UserDto>, UserDtoValidator>();
 builder.Services.AddScoped<IValidator<ProfileDto>, ProfileDtoValidator>();
 builder.Services.AddScoped<IValidator<UpdateProfileDto>, UpdateProfileDtoValidator>();
-
 
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IRepository<Notification>, NotificationRepository>();
@@ -50,7 +60,6 @@ builder.Services.AddAutoMapper(cfg =>
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddCorsClient(builder.Configuration);
-
 
 var app = builder.Build();
 

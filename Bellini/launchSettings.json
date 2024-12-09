@@ -7,7 +7,8 @@
         "apigateway": "StartDebugging",
         "authenticationservice": "StartDebugging",
         "notificationservice": "StartDebugging",
-        "profileservice": "StartDebugging"
+        "profileservice": "StartDebugging",
+        "gameservice": "StartDebugging"
       }
     }
   }

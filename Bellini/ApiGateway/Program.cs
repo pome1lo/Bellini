@@ -8,6 +8,7 @@ builder.Services.AddCorsClient(builder.Configuration);
 builder.Services.AddControllers();
 
 var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+
 var ocelotConfigFile = isDocker ? "ocelot.docker.json" : "ocelot.local.json";
 
 builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
