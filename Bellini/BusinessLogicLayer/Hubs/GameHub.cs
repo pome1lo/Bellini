@@ -95,7 +95,7 @@ namespace BusinessLogicLayer.Hubs
                 var playerList = playersInGame.Select(p => JsonSerializer.Deserialize<PlayerDto>(p)).ToList();
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, joinGameDto.GameId);
-
+                await Clients.All.SendAsync("GetPlayers", joinGameDto.GameId, playerList);
                 await Clients.Group(joinGameDto.GameId).SendAsync("PlayerJoined", playerList, joinGameDto);
             }
             catch (Exception ex)
@@ -126,7 +126,7 @@ namespace BusinessLogicLayer.Hubs
 
                 playersInGame = await db.ListRangeAsync(gameKey);
                 playerList = playersInGame.Select(p => JsonSerializer.Deserialize<PlayerDto>(p)).ToList();
-
+                await Clients.All.SendAsync("GetPlayers", gameId, playerList);
                 await Clients.Group(gameId).SendAsync("PlayerLeft", playerList);
             }
             catch (Exception ex)
@@ -136,7 +136,7 @@ namespace BusinessLogicLayer.Hubs
             }
         }
 
-        public async Task<List<PlayerDto>> GetPlayers(string gameId)
+        public async Task GetPlayers(string gameId)
         {
             var db = _redis.GetDatabase();
             string gameKey = $"game:{gameId}:players";
@@ -144,7 +144,7 @@ namespace BusinessLogicLayer.Hubs
             var playersInGame = await db.ListRangeAsync(gameKey);
             var playerList = playersInGame.Select(p => JsonSerializer.Deserialize<PlayerDto>(p)).ToList();
 
-            return playerList;
+            await Clients.All.SendAsync("GetPlayers", gameId, playerList);
         }
     }
 }

@@ -23,7 +23,7 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {toast} from "@/components/ui/use-toast.ts";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Comment} from "@/utils/interfaces/Comment.ts";
 import {formatDate} from "@/utils/functions/formatDate";
 import {Badge} from "@/components/ui/badge.tsx";
@@ -60,37 +60,30 @@ const commentSchema = z.object({
         .nonempty("The comment cannot be empty"),
 });
 
-const getCorrectAnswersData = (currentGame: FinishedGame | undefined) => {
-    if (!currentGame) return [];
-
-    console.log("current game");
-    console.log(currentGame);
-
-    console.log("host id");
-    console.log(currentGame.hostId);
-
-    console.log("players");
-    console.log(currentGame.players);
-
-    return currentGame.players
-        .filter(player => player.userId !== currentGame.hostId)
-        .map(player => ({
-            name: player.name,
-            correctAnswers: currentGame.completedAnswers.filter(
-                answer => answer.playerId === player.id && answer.isCorrect
-            ).length
-        }));
+const getRatingChartData = (rating: GameRating[]) => {
+    return rating.map((item) => ({
+        name: item.username,
+        correctAnswers: item.correctAnswers,
+        accuracy: item.accuracy,
+    }));
 };
 
 export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame}) => {
+    const {id} = useParams();
     const [comments, setComments] = useState<Comment[]>([]);
     const [rating, setRating] = useState<GameRating[]>([]);
     const [isUpdated, setIsUpdated] = useState(false);
+    const [totalQuestions, setTotalQuestions] = useState(0);
+    const [chartData, setChartData] = useState<{
+        name: string;
+        correctAnswers: number;
+        accuracy: number;
+    }[]>([]);
     const [isCurrentUserPlayer, setIsCurrentUserPlayer] = useState(false);
     const {isAuthenticated, user} = useAuth();
     const navigate = useNavigate();
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<CommentForm>({
+    const {register, handleSubmit, reset, formState: {errors}} = useForm<CommentForm>({
         resolver: zodResolver(commentSchema),
     });
 
@@ -98,15 +91,15 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
         if (isAuthenticated && user && currentGame?.players) {
             const isPlayer = currentGame.players.some(player => player.userId.toString() == user.id);
             setIsCurrentUserPlayer(isPlayer);
+            setTotalQuestions(currentGame?.questions.length || 0);
         }
     }, [currentGame, isAuthenticated, user]);
 
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const response = await serverFetch(`/comments/game/${currentGame?.id}`);
+                const response = await serverFetch(`/comments/game/${id}`);
                 const data = await response.json();
-                console.log(data);
 
                 if (response.status === 204 || !Array.isArray(data)) {
                     setComments([]);
@@ -125,9 +118,8 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
     useEffect(() => {
         const fetchStatistics = async () => {
             try {
-                const response = await serverFetch(`/game/${currentGame?.id}/statistics`);
+                const response = await serverFetch(`/game/${id}/statistics`);
                 const data = await response.json();
-
                 if (response.status === 204 || !Array.isArray(data)) {
                     setRating([]);
                 } else {
@@ -184,7 +176,9 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
         }
     };
 
-    const chartData = getCorrectAnswersData(currentGame);
+    useEffect(() => {
+        setChartData(getRatingChartData(rating));
+    }, [rating]);
 
     const chartConfig: ChartConfig = {
         correctAnswers: {
@@ -192,9 +186,6 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
             color: "hsl(var(--foreground))",
         }
     };
-
-    const totalQuestions = currentGame?.questions.length || 0;
-
 
     async function deleteComment(id: number) {
         try {
@@ -358,19 +349,25 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <ChartContainer config={chartConfig} className="max-h-[300px] w-full">
-                                    <BarChart
-                                        width={500}
-                                        height={300}
-                                        data={chartData}
-                                    >
-                                        <CartesianGrid strokeDasharray="3 3"/>
-                                        <XAxis dataKey="name"/>
-                                        <YAxis domain={[0, totalQuestions]}/>
-                                        <Tooltip content={<ChartTooltipContent/>}/>
-                                        <Bar dataKey="correctAnswers" fill={chartConfig.correctAnswers.color}/>
-                                    </BarChart>
-                                </ChartContainer>
+                                {currentGame ?
+                                    <ChartContainer config={chartConfig} className="max-h-[300px] w-full">
+                                        <BarChart
+                                            width={500}
+                                            height={300}
+                                            data={chartData}
+                                        >
+                                            <CartesianGrid strokeDasharray="3 3"/>
+                                            <XAxis dataKey="name"/>
+                                            <YAxis
+                                                domain={[0, totalQuestions]}
+                                                interval={0}
+                                                tickCount={totalQuestions + 1}
+                                            />
+                                            <Tooltip content={<ChartTooltipContent/>}/>
+                                            <Bar dataKey="correctAnswers" fill="hsl(var(--foreground))"/>
+                                        </BarChart>
+                                    </ChartContainer>
+                                    : <></>}
                             </CardContent>
                         </Card>
                         <Card className="xl:hidden block ">
@@ -477,7 +474,8 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                         }
                     </ScrollArea>
                     {!isCurrentUserPlayer ? <></> :
-                        <form onSubmit={handleSubmit(OnSubmitCreateComment)} className="flex justify-end flex-wrap mt-4 gap-4">
+                        <form onSubmit={handleSubmit(OnSubmitCreateComment)}
+                              className="flex justify-end flex-wrap mt-4 gap-4">
                             <Textarea
                                 {...register("content")}
                                 placeholder="Type your message here."

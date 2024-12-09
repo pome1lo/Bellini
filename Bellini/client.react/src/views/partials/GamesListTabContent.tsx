@@ -91,6 +91,7 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({tabCont
                                     hostId={item.hostId}
                                     maxPlayers={item.maxPlayers}
                                     gameName={item.gameName}
+                                    isPrivate={item.isPrivate}
                                     startTime={item.startTime}
                                     status={item.gameStatus.name}
                                     gameCoverImageUrl={item.gameCoverImageUrl}

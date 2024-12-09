@@ -143,7 +143,7 @@ export const Header = () => {
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="ghost" size="icon" className="rounded-full">
                                         <>
-                                            <Avatar className="hidden h-9 w-9 sm:flex me-2">
+                                            <Avatar className="h-9 w-9 flex me-2">
                                                 <AvatarImage
                                                     src={userImage}
                                                     alt={`${user.username}'s profile`}

@@ -8,6 +8,7 @@ export interface Game {
     createTime: Date;
     startTime: Date;
     maxPlayers: number;
+    isPrivate: boolean;
     gameCoverImageUrl: string;
     players: Player[];
     questions: Question[];

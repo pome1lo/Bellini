@@ -34,6 +34,14 @@ interface GameRoomPageProps {
     onFinish: (game: FinishedGame) => void;
 }
 
+interface JoinGameDto {
+    gameId: string;
+    userId: string;
+    username: string;
+    email: string;
+    profileImageUrl: string;
+}
+
 export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, onFinish}) => {
     const {id} = useParams();
     const navigate = useNavigate();
@@ -69,12 +77,6 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
     }, [id, isAuthenticated, user, navigate, isQuestionCreated, isQuestionDeleted]);
 
 
-    // useEffect(() => {
-    //     if(user.id == currentGame?.hostId) {
-    //         connect();
-    //     }
-    // }, [user, connection, currentGame]);
-
     useEffect(() => {
 
         if (!isAuthenticated || !user || !id) {
@@ -93,14 +95,25 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
             .withAutomaticReconnect()
             .build();
 
-        newConnection.on('PlayerJoined', (updatedPlayerList: Player[]) => {
+        newConnection.on('PlayerJoined', (updatedPlayerList: Player[], joinGameDto: JoinGameDto) => {
             setPlayers(updatedPlayerList);
-            console.log('A player has joined the game');
+            console.warn("PlayerJoined" + updatedPlayerList.length);
+            toast({
+                title: 'Player joined',
+                description: `User ${joinGameDto.username} joined the game!`
+            });
         });
 
         newConnection.on('PlayerLeft', (updatedPlayerList: Player[]) => {
             setPlayers(updatedPlayerList);
-            console.log('A player has left the game');
+            console.warn("PlayerLeft" + updatedPlayerList.length);
+        });
+
+        newConnection.on("GetPlayers", (gameId: string, playerList: Player[]) => {
+            if (gameId === id) {
+                setPlayers(playerList);
+                console.warn("Updated players list for game", gameId, playerList.length);
+            }
         });
 
         newConnection.on('GameStarted', (gameStarted: StartedGame) => {
@@ -139,7 +152,6 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
         };
     }, [id, isPasswordCorrect, isAuthenticated, user, navigate]);
 
-
     useEffect(() => {
         return () => {
             if (connection) {
@@ -151,7 +163,8 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
     async function connect() {
         if (!connection || isUserJoined) return;
 
-        if (currentGame?.maxPlayers > players.length) {
+
+        if (currentGame?.maxPlayers > (players ? players.length : 0)) {
             try {
                 await connection.invoke("JoinGame", {
                     GameId: id?.toString(),
@@ -160,11 +173,6 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                     Email: user?.email,
                     ProfileImageUrl: user?.profileImageUrl
                 });
-                connection.invoke("GetPlayers", id?.toString())
-                    .then((playerList: Player[]) => {
-                            setPlayers(playerList);
-                        }
-                    );
                 setIsUserJoined(true);
                 toast({title: "You have successfully joined the game!"});
             } catch (error) {
@@ -189,12 +197,6 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                 }
             } catch (error) {
                 console.error('Error while disconnecting:', error);
-            } finally {
-                connection.invoke("GetPlayers", id?.toString())
-                    .then((playerList: Player[]) => {
-                            setPlayers(playerList);
-                        }
-                    );
             }
         }
     }
@@ -248,7 +250,6 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                     variant: "destructive"
                 });
             }
-            // finally { }
         }
     }
 
@@ -311,8 +312,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                         Start Game
                                     </Button>
                                 </div>
-                                :
-                                <span className="bg-red-700">USER</span>
+                                : <></>
                             }
                             <div
                                 className="flex flex-col-reverse lg:flex-row gap-4 w-full mb-[59px] mx-auto items-center max-w-[1440px] p-4">
@@ -405,17 +405,23 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                 :
                                                 <CardContent>
                                                     <ScrollArea className="mt-5 h-[370px] p-4  rounded-md">
-                                                        <h2 className="text-xl font-bold mb-4">Welcome to the Game Room!</h2>
-                                                        <p className="mb-4">Before we begin, here's a quick guide to help you understand how to play:</p>
+                                                        <h2 className="text-xl font-bold mb-4">Welcome to the Game
+                                                            Room!</h2>
+                                                        <p className="mb-4">Before we begin, here's a quick guide to
+                                                            help you understand how to play:</p>
 
                                                         <h3 className="text-lg font-semibold mb-2">Objective</h3>
-                                                        <p className="mb-4">Answer questions correctly to earn points. The player or team with the highest score at the end wins!</p>
+                                                        <p className="mb-4">Answer questions correctly to earn points.
+                                                            The player or team with the highest score at the end
+                                                            wins!</p>
 
                                                         <h3 className="text-lg font-semibold mb-2">Question Format</h3>
                                                         <ul className="list-disc ml-6 mb-4">
                                                             <li>Each question has 4 answer options.</li>
                                                             <li>Only one answer is correct.</li>
-                                                            <li>You have a limited time to answer each question, so think fast!</li>
+                                                            <li>You have a limited time to answer each question, so
+                                                                think fast!
+                                                            </li>
                                                         </ul>
 
                                                         <h3 className="text-lg font-semibold mb-2">Scoring</h3>
@@ -425,16 +431,24 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                             <li>No points are awarded for incorrect answers.</li>
                                                         </ul>
 
-                                                        <h3 className="text-lg font-semibold mb-2">Hints & Lifelines (if available)</h3>
+                                                        <h3 className="text-lg font-semibold mb-2">Hints & Lifelines (if
+                                                            available)</h3>
                                                         <ul className="list-disc ml-6 mb-4">
-                                                            <li><strong>50/50:</strong> Two incorrect answers will be removed.</li>
-                                                            <li><strong>Skip:</strong> Skip the question without losing points (limited usage).</li>
+                                                            <li><strong>50/50:</strong> Two incorrect answers will be
+                                                                removed.
+                                                            </li>
+                                                            <li><strong>Skip:</strong> Skip the question without losing
+                                                                points (limited usage).
+                                                            </li>
                                                         </ul>
 
-                                                        <h3 className="text-lg font-semibold mb-2">Team Play (if applicable)</h3>
+                                                        <h3 className="text-lg font-semibold mb-2">Team Play (if
+                                                            applicable)</h3>
                                                         <ul className="list-disc ml-6 mb-4">
                                                             <li>Discuss answers with your team.</li>
-                                                            <li>Only one person needs to submit the answer on behalf of the team.</li>
+                                                            <li>Only one person needs to submit the answer on behalf of
+                                                                the team.
+                                                            </li>
                                                             <li>Team coordination is key!</li>
                                                         </ul>
 
@@ -444,7 +458,8 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                             <li>Be respectful to other players and enjoy the game.</li>
                                                         </ul>
 
-                                                        <p className="text-lg font-semibold">Ready to start? Good luck, and may the best player win!</p>
+                                                        <p className="text-lg font-semibold">Ready to start? Good luck,
+                                                            and may the best player win!</p>
                                                     </ScrollArea>
                                                 </CardContent>
                                             }
@@ -455,46 +470,67 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                 <CardDescription>Players connected to this game room</CardDescription>
                                             </CardHeader>
                                             <CardContent className="grid gap-8">
-                                                <ScrollArea className="h-[220px] w-full rounded-md border p-4">
-                                                    {players.length == 0 ?
-                                                        <div className="h-[170px] flex items-center justify-center">
-                                                            <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There are no connected users yet... 😪</h1>
-                                                        </div>
-                                                        : <>
-                                                            {players.map((player) => (
-                                                                <div key={player.userId} className="flex items-center gap-4 mt-2">
-                                                                    <Avatar className="hidden h-9 w-9 sm:flex">
-                                                                        <AvatarImage
-                                                                            src={player.profileImageUrl}
-                                                                            alt={`${player.username}'s profile`}
-                                                                        />
-                                                                        <AvatarFallback>
-                                                                            {(player.username.charAt(0) + player.email.charAt(0)).toUpperCase()}
-                                                                        </AvatarFallback>
-                                                                    </Avatar>
-                                                                    <div className="grid">
-                                                                        <p className="text-sm font-medium leading-none">{player.username}</p>
-                                                                        <p className="text-sm text-muted-foreground">{player.email}</p>
-                                                                    </div>
+                                                <ScrollArea
+                                                    className={`h-[220px] w-full rounded-md border p-4 ${players && players.length >= currentGame.maxPlayers ? "bg-muted" : ""}`}>
+                                                    {players ?
+                                                        <>
+                                                            {players.length == 0 ?
+                                                                <div
+                                                                    className="h-[170px] flex items-center justify-center">
+                                                                    <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There
+                                                                        are no connected users yet... 😪</h1>
                                                                 </div>
-                                                            ))}
+                                                                : <>
+                                                                    {players.map((player) => (
+                                                                        <div key={player.userId}
+                                                                             className="flex items-center gap-4 mt-2">
+                                                                            <Avatar className="hidden h-9 w-9 sm:flex">
+                                                                                <AvatarImage
+                                                                                    src={player.profileImageUrl}
+                                                                                    alt={`${player.username}'s profile`}
+                                                                                />
+                                                                                <AvatarFallback>
+                                                                                    {(player.username.charAt(0) + player.email.charAt(0)).toUpperCase()}
+                                                                                </AvatarFallback>
+                                                                            </Avatar>
+                                                                            <div className="grid">
+                                                                                <p className="text-sm font-medium leading-none">{player.username}</p>
+                                                                                <p className="text-sm text-muted-foreground">{player.email}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </>
+                                                            }
                                                         </>
+                                                        :
+                                                        <div className="h-[170px] flex items-center justify-center">
+                                                            <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There
+                                                                are no connected users yet... 😪</h1>
+                                                        </div>
                                                     }
+
                                                 </ScrollArea>
                                             </CardContent>
-                                            <CardFooter>
-                                                {!isUserJoined ? (
-                                                    <Button onClick={connect}>Connect</Button>
-                                                ) : (
-                                                    <Button variant="destructive" onClick={disconnect}>Disconnect</Button>
-                                                )}
-                                            </CardFooter>
+                                            {isCurrentUserHost ? <></> :
+                                                <CardFooter>
+                                                    {!isUserJoined ? (
+                                                        <Button
+                                                            onClick={connect}
+                                                            disabled={players && players.length >= currentGame.maxPlayers}
+                                                        >Connect</Button>
+                                                    ) : (
+                                                        <Button variant="destructive"
+                                                                onClick={disconnect}>Disconnect</Button>
+                                                    )}
+                                                </CardFooter>
+                                            }
                                         </Card>
                                     </div>
                                     <Card className="block lg:hidden">
                                         <CardHeader>
                                             <CardTitle>Share</CardTitle>
-                                            <CardDescription>You can share the link to the game with other users</CardDescription>
+                                            <CardDescription>You can share the link to the game with other
+                                                users</CardDescription>
                                         </CardHeader>
                                         <CardContent>
                                             <DialogShareButton link={window.location.href}/>
@@ -505,7 +541,8 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                     <Card>
                                         <CardHeader>
                                             <CardTitle>{currentGame.gameName}</CardTitle>
-                                            <CardDescription>Lipsum dolor sit amet, consectetur adipiscing elit</CardDescription>
+                                            <CardDescription>Lipsum dolor sit amet, consectetur adipiscing
+                                                elit</CardDescription>
                                         </CardHeader>
                                         <CardContent>
                                             <div className="grid gap-2">
@@ -520,7 +557,8 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                     <Card className="hidden lg:block">
                                         <CardHeader>
                                             <CardTitle>Share</CardTitle>
-                                            <CardDescription>You can share the link to the game with other users</CardDescription>
+                                            <CardDescription>You can share the link to the game with other
+                                                users</CardDescription>
                                         </CardHeader>
                                         <CardContent>
                                             <DialogShareButton link={window.location.href}/>

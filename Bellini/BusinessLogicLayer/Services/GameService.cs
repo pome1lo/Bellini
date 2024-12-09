@@ -186,6 +186,11 @@ namespace BusinessLogicLayer.Services
                 throw new NotFoundGameQuestionsException("Cannot start a game without any questions.");
             }
 
+            if (game.Questions.Count < 3)
+            {
+                throw new NotFoundGameQuestionsException("There must be at least 3 questions to start the game.");
+            }
+
             var gameStatus = await _gameStatusRepository.GetElementsAsync(cancellationToken);
             var inProcessingStatus = gameStatus.FirstOrDefault(s => s.Name.Equals("In process", StringComparison.OrdinalIgnoreCase));
 

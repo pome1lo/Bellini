@@ -27,13 +27,13 @@ export const Footer = () => {
                         <div className="flex justify-end sm:flex-wrap md:order-2 order-1 sm:space-x-4 flex-col sm:flex-row">
                             <div className="md:block hidden w-full text-right">
                                 <Button variant="link">
-                                    <Instagram className="hover:scale-125 transition duration-500"/>
+                                    <Instagram className="hover:scale-125 transition duration-500 text-white"/>
                                 </Button>
                                 <Button variant="link">
-                                    <Twitter className="hover:scale-125 transition duration-500"/>
+                                    <Twitter className="hover:scale-125 transition duration-500 text-white"/>
                                 </Button>
                                 <Button variant="link">
-                                    <Linkedin className="hover:scale-125 transition duration-500"/>
+                                    <Linkedin className="hover:scale-125 transition duration-500 text-white"/>
                                 </Button>
                             </div>
                             <div>

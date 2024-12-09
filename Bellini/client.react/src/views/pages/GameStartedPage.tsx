@@ -67,7 +67,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                     setFadeIn(true);
                 });
 
-                connection.on("GameCompleted", (game: FinishedGame) => {
+                connection.on("GameCompleted", (gameId: string, game: FinishedGame) => {
                     onFinish(game);
                 });
 
@@ -90,11 +90,11 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
         }
     }, [connection]);
 
-    const handleSubmitAnswers = async () => {
+    const handleSubmitAnswers = async (updatedAnswers: { questionId: number; answerId: number }[] = userAnswers) => {
         console.log(currentGame?.id.toString() + "\n" + user?.id + "\n" + userAnswers);
         if (connection && connection.state === "Connected" && userAnswers.length > 0) {
             try {
-                await connection.invoke("SubmitAnswers", currentGame?.id.toString(), user?.id.toString(), userAnswers);
+                await connection.invoke("SubmitAnswers", currentGame?.id.toString(), user?.id.toString(), updatedAnswers);
             } catch (error) {
                 console.error("Error submitting answers:", error);
             }
@@ -112,7 +112,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                 answerId: currentGame!.questions[currentQuestionIndex].answerOptions[index].id,
             };
             setUserAnswers(updatedAnswers);
-            handleSubmitAnswers();
+            handleSubmitAnswers(updatedAnswers);
         }
     };
 
