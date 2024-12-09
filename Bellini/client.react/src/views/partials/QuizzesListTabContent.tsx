@@ -49,8 +49,8 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
                     setQuizzes(data.quizzes);
                     setTotalPages(Math.ceil(data.total / itemsPerPage));
                 }
-            } catch (error) {
-                console.error('Error fetching games:', error.message);
+            } catch (error: unknown) {
+                console.error('Error fetching games:', (error as Error).message);
                 setQuizzes([]);
             } finally {
                 setIsLoading(false);

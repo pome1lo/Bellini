@@ -163,8 +163,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
     async function connect() {
         if (!connection || isUserJoined) return;
 
-
-        if (currentGame?.maxPlayers > (players ? players.length : 0)) {
+        if (currentGame && currentGame?.maxPlayers > (players ? players.length : 0)) {
             try {
                 await connection.invoke("JoinGame", {
                     GameId: id?.toString(),

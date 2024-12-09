@@ -1,44 +1,21 @@
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
-import {GameListTabContentRowSkeleton} from "@/views/partials/skeletons/GameListTabContentRowSkeleton.tsx";
-import {ActiveGame, GamesListTabContent} from "@/views/partials/GamesListTabContent.tsx";
 import {
     Table,
     TableBody,
     TableCaption,
     TableCell,
-    TableFooter,
     TableHead,
     TableHeader,
     TableRow
 } from "@/components/ui/table.tsx";
-import {Badge} from "@/components/ui/badge.tsx";
-import {
-    DropdownMenu, DropdownMenuCheckboxItem,
-    DropdownMenuContent, DropdownMenuItem,
-    DropdownMenuLabel, DropdownMenuSeparator,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {ListFilter, MoreHorizontal, RefreshCcw} from "lucide-react";
-import {GameListItem} from "@/views/partials/GameListItem.tsx";
+import {RefreshCcw} from "lucide-react";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {
-    Pagination,
-    PaginationContent, PaginationEllipsis,
-    PaginationItem,
-    PaginationLink, PaginationNext,
-    PaginationPrevious
-} from "@/components/ui/pagination.tsx";
-import {ScrollArea} from "@/components/ui/scroll-area.tsx";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import {Quiz} from "@/utils/interfaces/Quiz.ts";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {useNavigate, useParams} from "react-router-dom";
-import {toast} from "@/components/ui/use-toast.ts";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
-import {DialogCreateGame} from "@/views/partials/dialogs/DialogCreateGame.tsx";
 import {QuizzesListTabContent} from "@/views/partials/QuizzesListTabContent.tsx";
 
 const breadcrumbItems = [
@@ -61,8 +38,7 @@ export const QuizzesListPage = () => {
     const {tabName} = useParams();
     const {isAuthenticated, user} = useAuth();
     const navigate = useNavigate();
-    const [rating, setRating] = useState<RatingItem[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [rating, setRating] = useState<RatingItem[]>([]); 
 
     const validTabs = ["all", "new", "completed"];
 
@@ -76,7 +52,6 @@ export const QuizzesListPage = () => {
 
     useEffect(() => {
         const fetchRating = async () => {
-            setIsLoading(true);
             try {
                 const response = await serverFetch(`/quizzes/rating`);
                 const data = await response.json();
@@ -86,11 +61,9 @@ export const QuizzesListPage = () => {
                 } else {
                     setRating(data);
                 }
-            } catch (error) {
-                console.error('Error fetching players rating:', error.message);
+            } catch (error: unknown) {
+                console.error('Error fetching players rating:', (error as Error).message);
                 setRating([]);
-            } finally {
-                setIsLoading(false);
             }
         };
 

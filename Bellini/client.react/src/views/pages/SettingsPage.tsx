@@ -1,4 +1,3 @@
-import {Menu, Package2, Search} from "lucide-react"
 import {Button} from "@/components/ui/button"
 import {
     Card,
@@ -20,20 +19,9 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import {Input} from "@/components/ui/input"
-import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet"
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {z} from "zod";
-import {useEffect, useState} from 'react';
-import {format} from "date-fns";
-import {cn} from "@/lib/utils";
-import {useForm, Controller} from 'react-hook-form';
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
-import {CalendarIcon} from "@radix-ui/react-icons";
-import {Calendar} from "@/components/ui/calendar.tsx";
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.tsx";
-import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
+import {useEffect} from 'react';
 import {authFetch} from "@/utils/fetchs/authFetch.ts";
 import {useAuth} from "@/utils/context/authContext.tsx";
 
@@ -44,7 +32,6 @@ const breadcrumbItems = [
 
 export const SettingsPage = () => {
     const {user, isAuthenticated, getAccessToken, logout} = useAuth();
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -66,10 +53,10 @@ export const SettingsPage = () => {
                 window.location.reload();
             } else {
                 const data = await response.json();
-                setErrorMessage(data.Message || 'An error occurred');
+                alert(data.Message || 'An error occurred');
             }
-        } catch (ex) {
-            setErrorMessage(ex.Message || 'An unexpected error occurred');
+        } catch (ex: unknown) {
+            alert((ex as Error).message || 'An unexpected error occurred');
         }
     };
 

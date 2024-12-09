@@ -38,7 +38,7 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:59102",
+    "BaseUrl": "https://localhost:8081",
     "RateLimitOptions": {
       "QuotaExceededMessage": "Request not allowed",
       "HttpStatusCode": 429

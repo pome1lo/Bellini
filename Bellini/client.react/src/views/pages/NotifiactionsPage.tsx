@@ -79,7 +79,6 @@ export const NotifiactionsPage = () => {
             description="Here you will see the all notifications for your account">
         </GameListTabContentRowSkeleton>;
     }
-
     return (
         <>
             <Breadcrumbs items={breadcrumbItems}/>

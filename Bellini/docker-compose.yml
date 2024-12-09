@@ -62,6 +62,8 @@ services:
       dockerfile: ProfileService/Dockerfile
     networks:
       - backend 
+    expose:
+      - "80"
 
   redis_db:
     image: redis:latest

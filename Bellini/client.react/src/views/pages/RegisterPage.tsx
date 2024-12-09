@@ -75,8 +75,8 @@ export const RegisterPage = () => {
                 const data = await response.json();
                 setErrorMessage(data.Message || 'An error occurred');
             }
-        } catch (ex) {
-            setErrorMessage(ex.Message || 'An unexpected error occurred');
+        } catch (ex: unknown) {
+            setErrorMessage((ex as Error).message || 'An unexpected error occurred');
         }
     }
 
@@ -100,8 +100,8 @@ export const RegisterPage = () => {
                 const data = await response.json();
                 setErrorMessage(data.Message || 'An error occurred');
             }
-        } catch (ex) {
-            setErrorMessage(ex.Message || 'An unexpected error occurred');
+        } catch (ex: unknown) {
+            setErrorMessage((ex as Error).message || 'An unexpected error occurred');
         }
     }
 
@@ -132,8 +132,8 @@ export const RegisterPage = () => {
                     setErrorMessage(data.Message || 'An error occurred');
                 }
             }
-        } catch (ex) {
-            setErrorMessage(ex.Message || 'An unexpected error occurred');
+        } catch (ex: unknown) {
+            setErrorMessage((ex as Error).message || 'An unexpected error occurred');
         }
     }
 

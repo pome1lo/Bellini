@@ -51,7 +51,6 @@ export const DialogGamePassword: React.FC<DialogGamePasswordProps> = ({
         defaultValues: { password: "" },
     });
 
-    const openDialog = () => setIsOpen(true);
     const closeDialog = () => {
         navigate("/games");
         setIsOpen(false);

@@ -1,5 +1,5 @@
 import {Button} from "@/components/ui/button";
-import {CircleUser, Menu as MenuIcon} from 'lucide-react';
+import {Menu as MenuIcon} from 'lucide-react';
 import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet";
 import React, {useEffect, useState} from "react";
 import {ModeToggle} from "@/components/ui/mode-toggle.tsx";
@@ -64,7 +64,7 @@ export const Header = () => {
     }
 
     useEffect(() => {
-        setUserImage(user?.profileImageUrl);
+        setUserImage(user ? user.profileImageUrl : "");
     }, [user]);
 
     return (

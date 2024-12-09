@@ -6,7 +6,6 @@ import {Quiz} from "@/utils/interfaces/Quiz.ts";
 import {toast} from "@/components/ui/use-toast.ts";
 import {StartedQuiz} from "@/utils/interfaces/StartedQuiz.ts";
 import {Button} from "@/components/ui/button.tsx";
-import {CirclePlay} from "lucide-react";
 import {Breadcrumbs} from "@/views/partials/Breadcrumbs.tsx";
 import {authFetch} from "@/utils/fetchs/authFetch.ts";
 
@@ -32,6 +31,7 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
             .then(data => {
                 setCurrentQUiz(data);
                 console.log(data);
+                // @ts-ignore
                 if (data.quizResults.some(result => result.userId === user.id)) {
                     isQuizFinished(true);
                     onQuizFinish(data);
@@ -56,15 +56,15 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
                     userId: user.id,
                 }),
             });
-            const responseData: StartedQuiz = await response.json();
-            console.log(responseData);
 
             if (response.ok) {
+                const responseData: StartedQuiz = await response.json();
                 onQuizStart(responseData);
             } else {
+                const responseData: unknown = await response.json();
                 toast({
                     title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    description: (responseData as Error).message || "An error occurred.",
                     variant: "destructive"
                 });
             }

@@ -43,8 +43,8 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({tabCont
                     console.log(data)
                     setTotalPages(Math.ceil(data.total / itemsPerPage));
                 }
-            } catch (error) {
-                console.error('Error fetching games:', error.message);
+            } catch (error: unknown) {
+                console.error('Error fetching games:', (error as Error).message);
                 setGames([]);
             } finally {
                 setIsLoading(false);

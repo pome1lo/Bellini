@@ -70,6 +70,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
 
                 connection.on("GameCompleted", (gameId: string, game: FinishedGame) => {
                     onFinish(game);
+                    console.log("GameCompleted with id " + gameId);
                 });
 
                 connection.on("PlayersList", (playerList: Player[]) => {

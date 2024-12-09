@@ -6,4 +6,5 @@ export interface Quiz {
     gameCoverImageUrl: string;
     questions: QuizQuestion[];
     hasUserCompleted: boolean;
+
 }

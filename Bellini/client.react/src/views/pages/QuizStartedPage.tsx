@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {StartedQuiz} from "@/utils/interfaces/StartedQuiz.ts";
-import {FinishedQuiz} from "@/utils/interfaces/FinishedQuiz.ts";
 import {Button} from "@/components/ui/button.tsx";
-import {Card, CardHeader, CardTitle, CardContent} from "@/components/ui/card";
 import {Progress} from "@/components/ui/progress";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
@@ -69,21 +67,23 @@ export const QuizStartedPage: React.FC<QuizStartedPageProps> = ({currentQuiz, on
                     })),
                 }),
             });
-            const responseData: Quiz = await response.json();
+
 
             if (response.ok) {
+                const responseData: Quiz = await response.json();
                 onQuizFinish(responseData);
             } else {
+                const responseData: unknown = await response.json();
                 toast({
                     title: "Error",
-                    description: responseData.Message || "An error occurred.",
+                    description: (responseData as Error).message || "An error occurred.",
                     variant: "destructive",
                 });
             }
-        } catch (error) {
+        } catch (error: unknown) {
             toast({
                 title: "Error",
-                description: "An unexpected error occurred.",
+                description: "An unexpected error occurred." + (error as Error).message,
                 variant: "destructive",
             });
         }
@@ -109,7 +109,7 @@ export const QuizStartedPage: React.FC<QuizStartedPageProps> = ({currentQuiz, on
                             {currentQuestionIndex < currentQuiz!.questions.length - 1 ? "Next" : "Finish"}
                         </Button>
                         <Button disabled={true} variant="outline">
-                            {currentQuestionIndex + 1} / {currentQuiz.questions.length}
+                            {currentQuestionIndex + 1} / {currentQuiz?.questions.length}
                         </Button>
                     </div>
                     <div className="flex flex-col items-center lg:max-w-1/2">

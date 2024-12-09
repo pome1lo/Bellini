@@ -45,6 +45,7 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
     });
 
     const totalQuestions = currentQuiz.questions.length;
+    // @ts-ignore
     const correctAnswers = currentQuiz.quizResults?.[0]?.numberOfCorrectAnswers || 0;
 
     const chartData = [

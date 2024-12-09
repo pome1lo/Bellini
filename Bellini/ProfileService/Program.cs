@@ -66,11 +66,13 @@ var app = builder.Build();
 app.UseCors("AllowLocalhost5173");
 app.UseStaticFiles();
 
+app.UseRouting();
+
 app.UseGlobalExceptionHandler();
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseHttpsRedirection();
 
 app.MapControllers();
 
