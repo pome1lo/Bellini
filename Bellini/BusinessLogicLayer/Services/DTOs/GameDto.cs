@@ -17,6 +17,5 @@ namespace BusinessLogicLayer.Services.DTOs
         public List<Question> Questions { get; set; } = null!;
         public List<GameComment> Comments { get; set; } = null!;
         public List<Player> Players { get; set; } = null!;
-        public List<CompletedAnswer> CompletedAnswers { get; set; } = new();
     }
 }

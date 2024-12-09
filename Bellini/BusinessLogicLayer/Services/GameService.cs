@@ -15,7 +15,6 @@ namespace BusinessLogicLayer.Services
     {
         private readonly IRepository<Game> _gameRepository;
         private readonly IRepository<Player> _playerRepository;
-        private readonly IRepository<CompletedAnswer> _completedAnswerRepository;
         private readonly IRepository<GameStatus> _gameStatusRepository;
         private readonly IRepository<GameResults> _gameResultsRepository;
         private readonly IHubContext<GameHub> _gameHub;
@@ -25,7 +24,6 @@ namespace BusinessLogicLayer.Services
         public GameService(
             IRepository<Game> gameRepository,
             IRepository<Player> playerRepository,
-            IRepository<CompletedAnswer> completedAnswerRepository,
             IRepository<GameStatus> gameStatusRepository,
             IHubContext<GameHub> gameHub,
             IConnectionMultiplexer redis,
@@ -34,7 +32,6 @@ namespace BusinessLogicLayer.Services
         {
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
-            _completedAnswerRepository = completedAnswerRepository;
             _gameStatusRepository = gameStatusRepository;
             _gameHub = gameHub;
             _redis = redis;
@@ -97,7 +94,6 @@ namespace BusinessLogicLayer.Services
                 Questions = game.Questions,
                 Comments = game.Comments,
                 Players = game.Players,
-                CompletedAnswers = game.CompletedAnswers
             };
         }
 
@@ -277,23 +273,14 @@ namespace BusinessLogicLayer.Services
 
                     foreach (var answer in userAnswers)
                     {
-                        var isCorrect = game.Questions
-                            .FirstOrDefault(q => q.Id == answer.QuestionId)?
-                            .AnswerOptions.FirstOrDefault(opt => opt.Id == answer.AnswerId)?.IsCorrect ?? false;
-
-                        if (isCorrect) correctAnswersCount++;
-
-                        // Сохранение ответа в базу данных
-                        var completedAnswer = new CompletedAnswer
+                        if (answer is not null)
                         {
-                            GameId = gameId,
-                            PlayerId = _playerRepository.GetElementsAsync(cancellationToken).Result.FirstOrDefault(p =>
-                                p.GameId == gameId && p.UserId == userId)?.Id ?? 0,
-                            QuestionId = answer.QuestionId,
-                            SelectedOptionId = answer.AnswerId,
-                            IsCorrect = isCorrect
-                        };
-                        await _completedAnswerRepository.CreateAsync(completedAnswer, cancellationToken);
+                            var isCorrect = game.Questions
+                                .FirstOrDefault(q => q.Id == answer.QuestionId)?
+                                .AnswerOptions.FirstOrDefault(opt => opt.Id == answer.AnswerId)?.IsCorrect ?? false;
+
+                            if (isCorrect) correctAnswersCount++;
+                        }
                     }
 
                     // Создание и добавление результата игрока

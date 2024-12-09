@@ -89,7 +89,7 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
 
     useEffect(() => {
         if (isAuthenticated && user && currentGame?.players) {
-            const isPlayer = currentGame.players.some(player => player.userId.toString() == user.id);
+            const isPlayer = currentGame.players.some(player => player.userId.toString() == user.id || currentGame?.hostId.toString() == user.id);
             setIsCurrentUserPlayer(isPlayer);
             setTotalQuestions(currentGame?.questions.length || 0);
         }

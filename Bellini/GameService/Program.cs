@@ -27,7 +27,6 @@ builder.Services.AddScoped<IRepository<QuizComment>, QuizCommentRepository>();
 builder.Services.AddScoped<IRepository<Question>, QuestionRepository>();
 builder.Services.AddScoped<IRepository<GameStatus>, GameStatusRepository>();
 builder.Services.AddScoped<IRepository<AnswerOption>, AnswerOptionRepository>();
-builder.Services.AddScoped<IRepository<CompletedAnswer>, CompletedAnswerRepository>();
 builder.Services.AddScoped<IRepository<Notification>, NotificationRepository>();
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
 

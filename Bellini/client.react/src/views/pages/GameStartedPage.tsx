@@ -63,6 +63,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
 
                 connection.on("NextQuestion", (nextQuestionIndex: number) => {
                     setCurrentQuestionIndex(nextQuestionIndex);
+                    alert(selectedAnswer);
                     setSelectedAnswer(null);
                     setFadeIn(true);
                 });

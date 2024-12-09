@@ -17,7 +17,6 @@ namespace DataAccessLayer.Data
         public DbSet<GameStatus> GameStatuses { get; set; } = null!;
         public DbSet<Question> Questions { get; set; } = null!;
         public DbSet<AnswerOption> AnswerOptions { get; set; } = null!;
-        public DbSet<CompletedAnswer> CompletedAnswers { get; set; } = null!;
 
         public DbSet<GameComment> GameComments { get; set; } = null!;
         public DbSet<QuizComment> QuizComments { get; set; } = null!;
@@ -42,7 +41,6 @@ namespace DataAccessLayer.Data
             modelBuilder.ApplyConfiguration(new GameStatusConfiguration());
             modelBuilder.ApplyConfiguration(new QuestionConfiguration());
             modelBuilder.ApplyConfiguration(new AnswerOptionConfiguration());
-            modelBuilder.ApplyConfiguration(new CompletedAnswerConfiguration());
 
             modelBuilder.ApplyConfiguration(new GameCommentConfiguration());
             modelBuilder.ApplyConfiguration(new QuizCommentConfiguration());

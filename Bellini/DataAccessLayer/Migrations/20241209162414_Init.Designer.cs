@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241207173323_Init")]
+    [Migration("20241209162414_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -49,42 +49,6 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("QuestionId");
 
                     b.ToTable("AnswerOptions", (string)null);
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.CompletedAnswer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsCorrect")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("PlayerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SelectedOptionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId");
-
-                    b.HasIndex("PlayerId");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("SelectedOptionId");
-
-                    b.ToTable("CompletedAnswers");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Game", b =>
@@ -2276,41 +2240,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.CompletedAnswer", b =>
-                {
-                    b.HasOne("DataAccessLayer.Models.Game", "Game")
-                        .WithMany("CompletedAnswers")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("DataAccessLayer.Models.Player", "Player")
-                        .WithMany()
-                        .HasForeignKey("PlayerId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("DataAccessLayer.Models.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("DataAccessLayer.Models.AnswerOption", "SelectedOption")
-                        .WithMany()
-                        .HasForeignKey("SelectedOptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
-
-                    b.Navigation("Player");
-
-                    b.Navigation("Question");
-
-                    b.Navigation("SelectedOption");
-                });
-
             modelBuilder.Entity("DataAccessLayer.Models.Game", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.GameStatus", "Status")
@@ -2448,8 +2377,6 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("DataAccessLayer.Models.Game", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("CompletedAnswers");
 
                     b.Navigation("GameResults");
 
