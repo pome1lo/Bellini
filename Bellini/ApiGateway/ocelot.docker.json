@@ -6,42 +6,241 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "authenticationservice",
-          "Port": 59104
+          "Port": 443
         }
       ],
       "UpstreamPathTemplate": "/auth/{everything}",
-      "UpstreamHttpMethod": [ "POST", "GET" ]
+      "UpstreamHttpMethod": [ "POST", "GET" ],
+      "HttpHandlerOptions": {
+        "DangerousAcceptAnyServerCertificateValidator": true
+      }
     },
     {
-      "DownstreamPathTemplate": "/api/profile",
+      "DownstreamPathTemplate": "/api/notifications/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "profileservice",
-          "Port": 59108
+          "Host": "notificationservice",
+          "Port": 443
         }
       ],
-      "UpstreamPathTemplate": "/profile",
+      "UpstreamPathTemplate": "/notifications/{everything}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/profile/{id}",
+      "DownstreamPathTemplate": "/api/profile/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "profileservice",
-          "Port": 59108
+          "Port": 443
         }
       ],
-      "UpstreamPathTemplate": "/profile/{id}",
-      "UpstreamHttpMethod": [ "GET", "PUT", "DELETE" ]
+      "UpstreamPathTemplate": "/profile/{everything}",
+      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/profile/{everything}/info",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "profileservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/profile/{everything}/info",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/images/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "profileservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/images/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/game/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/game/{everything}",
+      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/game/{everything}/statistics",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/game/{everything}/statistics",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/comments/game/{gameId:int}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/comments/game/{gameId:int}",
+      "UpstreamHttpMethod": [ "POST", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/comments/quiz/{quizId:int}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/comments/quiz/{quizId:int}",
+      "UpstreamHttpMethod": [ "POST", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/comments/{id:int}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/comments/{id:int}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/questions/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/questions/{everything}",
+      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/quizzes/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes/{everything}",
+      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/covers/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/covers/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/game/{id:int}/start",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/game/{id:int}/start",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/quizzes/{id:int}/start",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes/{id:int}/start",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/quizzes/{id:int}/end",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes/{id:int}/end",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/gameHub/negotiate",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/gameHub/negotiate",
+      "UpstreamHttpMethod": [ "GET", "POST", "OPTIONS" ],
+      "EnableWebSockets": true,
+      "AddHeadersToRequest": {
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Credentials": "true"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/gameHub/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/gameHub/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "OPTIONS" ],
+      "EnableWebSockets": true,
+      "AddHeadersToRequest": {
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Credentials": "true"
+      }
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:8081",
+    "BaseUrl": "https://apigateway:443",
     "RateLimitOptions": {
       "QuotaExceededMessage": "Request not allowed",
       "HttpStatusCode": 429
+    },
+    "HttpHandlerOptions": {
+      "AllowAutoRedirect": true,
+      "UseCookieContainer": true,
+      "UseProxy": true,
+      "DangerousAcceptAnyServerCertificateValidator": true
     }
   }
 }

@@ -1,8 +1,8 @@
 using BusinessLogicLayer.Services.Configs;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
-
 var builder = WebApplication.CreateBuilder(args);
+System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
 builder.Services.AddCorsClient(builder.Configuration);
 builder.Services.AddControllers();
@@ -10,6 +10,10 @@ builder.Services.AddControllers();
 var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
 
 var ocelotConfigFile = isDocker ? "ocelot.docker.json" : "ocelot.local.json";
+
+Console.ForegroundColor = ConsoleColor.Red;
+Console.WriteLine(ocelotConfigFile);
+Console.ForegroundColor = ConsoleColor.White;
 
 builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
     .AddJsonFile(ocelotConfigFile, optional: false, reloadOnChange: true)

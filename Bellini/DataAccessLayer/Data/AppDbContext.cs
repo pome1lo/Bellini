@@ -59,8 +59,8 @@ namespace DataAccessLayer.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer(@"Server=localhost,1433;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;");    // DOCKER
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-FNKSKPB;Database=BELLINI;User Id=sa;Password=sa;TrustServerCertificate=true;"); // BASE
+            optionsBuilder.UseSqlServer(@"Server=sqlserver;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;Trusted_Connection=True;");    // DOCKER
+            //optionsBuilder.UseSqlServer(@"Server=DESKTOP-FNKSKPB;Database=BELLINI;User Id=sa;Password=sa;TrustServerCertificate=true;"); // BASE
         }
     }
 }

@@ -32,4 +32,13 @@ RUN dotnet publish "./GameService.csproj" -c $BUILD_CONFIGURATION -o /app/publis
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+RUN mkdir -p /app/certificates
+COPY GameService/certificates/* /app/certificates
+
+USER root
+
+RUN cp /app/certificates/ca.crt /usr/local/share/ca-certificates/ca.crt && update-ca-certificates
+
+
 ENTRYPOINT ["dotnet", "GameService.dll"]
