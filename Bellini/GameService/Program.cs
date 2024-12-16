@@ -17,15 +17,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCorsClient(builder.Configuration);
 
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//{
-//    var connectionString = isDocker
-//        ? "Server=sqlserver;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
-//        : builder.Configuration.GetConnectionString(nameof(AppDbContext));
-//    options.UseSqlServer(connectionString);
-//});
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(@"Server=sqlserver\SQLEXPRESS;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;Trusted_Connection=True;"));
+{
+    var connectionString = isDocker
+        ? "Server=sqlserver;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
+        : builder.Configuration.GetConnectionString(nameof(AppDbContext));
+    options.UseSqlServer(connectionString);
+});
 
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(provider =>

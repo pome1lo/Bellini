@@ -26,11 +26,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
+
 // Настройка строки подключения к Redis
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = isDocker
-        ? "redis:6379" // Адрес Redis-сервера в Docker
+        ? "redis_db:6379" // Адрес Redis-сервера в Docker
         : builder.Configuration.GetConnectionString("Redis");
     options.InstanceName = "local";
 });

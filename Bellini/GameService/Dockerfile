@@ -40,5 +40,4 @@ USER root
 
 RUN cp /app/certificates/ca.crt /usr/local/share/ca-certificates/ca.crt && update-ca-certificates
 
-
 ENTRYPOINT ["dotnet", "GameService.dll"]
