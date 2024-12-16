@@ -45,6 +45,9 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
                 const data = await response.json();
                 if (response.status === 204 || !Array.isArray(data.quizzes)) {
                     setQuizzes([]);
+                    console.error('# Status:', response.status);
+                    console.error('# Message:', data.message);
+                    console.error('# data:', data);
                 } else {
                     setQuizzes(data.quizzes);
                     setTotalPages(Math.ceil(data.total / itemsPerPage));

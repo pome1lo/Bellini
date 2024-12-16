@@ -11,25 +11,27 @@ namespace DataAccessLayer.Data
         {
         }
 
+        /*
+            Update-Database -TargetMigration LocalInit
+            Update-Database -TargetMigration DockerInit
+        */
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
 
             var connectionString =
             //  Migration
-            //  "Server=localhost,1434;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
+            //"Server=localhost,1434;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
 
             //  Dokcer
-              "Server=sqlserver;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
+            "Server=sqlserver;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
 
             //  Local
             //  "Server=localhost;Database=BELLINI;User Id=sa;Password=sa;TrustServerCertificate=true;";
             ;
 
             optionsBuilder.UseSqlServer(connectionString);
-
-            //optionsBuilder.UseSqlServer(@"Server=localhost,1434;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;Trusted_Connection=True;");    // DOCKER
-            //optionsBuilder.UseSqlServer(@"Server=DESKTOP-FNKSKPB;Database=BELLINI;User Id=sa;Password=sa;TrustServerCertificate=true;"); // BASE
         }
 
         public DbSet<User> Users { get; set; } = null!;

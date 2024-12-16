@@ -21,6 +21,16 @@ namespace BusinessLogicLayer.Services.Configs
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials();
+
+                        builder.WithOrigins("http://reactapp:3000")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+
+                        builder.WithOrigins("https://apigateway")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
                     });
             });
         }

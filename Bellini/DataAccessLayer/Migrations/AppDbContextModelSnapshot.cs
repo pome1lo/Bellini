@@ -322,7 +322,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 1,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/covers/quiz_1.jpg",
+                            GameCoverImageUrl = "https://apigateway/covers/quiz_1.jpg",
                             GameName = "Мифология Древней Греции",
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -330,7 +330,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 2,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/covers/quiz_2.jpg",
+                            GameCoverImageUrl = "https://apigateway/covers/quiz_2.jpg",
                             GameName = "Древний Рим",
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -338,7 +338,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 3,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/covers/quiz_3.jpg",
+                            GameCoverImageUrl = "https://apigateway/covers/quiz_3.jpg",
                             GameName = "Современные технологии",
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -346,7 +346,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 4,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/covers/quiz_4.jpg",
+                            GameCoverImageUrl = "https://apigateway/covers/quiz_4.jpg",
                             GameName = "Основы программирования",
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -354,7 +354,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 5,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/covers/quiz_5.jpg",
+                            GameCoverImageUrl = "https://apigateway/covers/quiz_5.jpg",
                             GameName = "Продвинутое программирование",
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
