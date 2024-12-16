@@ -6,7 +6,7 @@ USER app
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
-
+  
 
 # Этот этап используется для сборки проекта службы
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
@@ -35,6 +35,7 @@ COPY --from=publish /app/publish .
 
 RUN mkdir -p /app/certificates
 COPY GameService/certificates/* /app/certificates
+COPY GameService/wwwroot/* /app/wwwroot
 
 USER root
 

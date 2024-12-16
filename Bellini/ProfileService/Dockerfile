@@ -35,6 +35,7 @@ COPY --from=publish /app/publish .
 
 RUN mkdir -p /app/certificates
 COPY ProfileService/certificates/* /app/certificates
+COPY ProfileService/wwwroot/* /app/wwwroot
 
 USER root
 

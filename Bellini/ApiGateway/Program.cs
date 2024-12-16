@@ -23,6 +23,7 @@ builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
 builder.Services.AddOcelot(builder.Configuration);
 
 var app = builder.Build();
+app.UseStaticFiles();
 app.UseCors("AllowLocalhost5173");
 app.UseHttpsRedirection();
 

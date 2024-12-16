@@ -1,10 +1,11 @@
 export const serverFetch  = async (endpoint: string, options?: RequestInit): Promise<Response> => {
-    const baseUrl = "/apigateway";       //"https://localhost:7292";  
+    const baseUrl = import.meta.env.VITE_APP_SERVER_URL || "/apigateway";
     console.warn(baseUrl);
 
     if (!baseUrl) {
-        throw new Error("REACT_APP_SERVER_URL is not defined in the environment variables.");
+        throw new Error("VITE_APP_SERVER_URL is not defined in the environment variables.");
     }
+
 
     const url = `${baseUrl}${endpoint}`;
     const response = await fetch(url, options);

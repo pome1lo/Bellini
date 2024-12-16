@@ -12,6 +12,9 @@ RUN npm install
 # Скопируем все файлы проекта
 COPY . .
 
+# Удаляем файл .env
+RUN rm -f .env
+
 # Соберем проект
 RUN npm run build
 

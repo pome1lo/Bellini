@@ -33,6 +33,8 @@ COPY --from=publish /app/publish .
 RUN mkdir -p /app/certificates
 COPY ApiGateway/ocelot.docker.json /app
 COPY ApiGateway/certificates/* /app/certificates
+COPY ApiGateway/wwwroot/* /app/wwwroot
+
 
 USER root
 
