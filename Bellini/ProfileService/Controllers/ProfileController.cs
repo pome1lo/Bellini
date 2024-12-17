@@ -49,7 +49,9 @@ namespace ProfileService.Controllers
             if (profileImage is not null)
             {
                 var profileImageUrl = await _fileService.UploadFileAsync(profileImage, cancellationToken);
-                updateProfileDto.ProfileImageUrl = "https://localhost:7292" + profileImageUrl;
+
+                var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+                updateProfileDto.ProfileImageUrl = (isDocker ? "/apigateway" : "https://localhost:7292") + profileImageUrl;
             }
 
             return Ok(

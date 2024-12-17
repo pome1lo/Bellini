@@ -45,9 +45,9 @@ namespace BusinessLogicLayer.Services
             int randomImageIndex = random.Next(1, 11);
 
             var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
-            var host = isDocker ? "apigateway" : "localhost:7292";
+            var host = isDocker ? "/apigateway" : "https://localhost:7292";
 
-            string randomCoverUrl = $"https://{host}/covers/{randomImageIndex}.jpg";
+            string randomCoverUrl = $"{host}/covers/{randomImageIndex}.jpg";
 
             var gameStatus = await _gameStatusRepository.GetElementsAsync(cancellationToken);
             var notStartedStatus = gameStatus.FirstOrDefault(s => s.Name.Equals("Not started", StringComparison.OrdinalIgnoreCase));

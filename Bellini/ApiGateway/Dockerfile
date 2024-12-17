@@ -32,8 +32,7 @@ COPY --from=publish /app/publish .
 # Создаем папку для сертификатов и копируем сертификат из конкретного каталога
 RUN mkdir -p /app/certificates
 COPY ApiGateway/ocelot.docker.json /app
-COPY ApiGateway/certificates/* /app/certificates
-COPY ApiGateway/wwwroot/* /app/wwwroot
+COPY ApiGateway/certificates/* /app/certificates 
 
 
 USER root

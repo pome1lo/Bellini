@@ -8,8 +8,8 @@ namespace DataAccessLayer.Data.Seeds
         public static void Seed(ModelBuilder modelBuilder)
         {
             var host =
-                "apigateway"
-            //"localhost:7292"
+                "/apigateway"
+            //"https://localhost:7292"
             ;
 
             var defaultQuizzes = new List<Quiz>
@@ -18,7 +18,7 @@ namespace DataAccessLayer.Data.Seeds
                 {
                     Id = 1,
                     GameName = "Мифология Древней Греции",
-                    GameCoverImageUrl = $"https://{host}/covers/quiz_1.jpg",
+                    GameCoverImageUrl = $"{host}/covers/quiz_1.jpg",
                     StartTime = DateTime.MinValue,
                     EndTime = DateTime.MinValue,
                 },
@@ -26,7 +26,7 @@ namespace DataAccessLayer.Data.Seeds
                 {
                     Id = 2,
                     GameName = "Древний Рим",
-                    GameCoverImageUrl = $"https://{host}/covers/quiz_2.jpg",
+                    GameCoverImageUrl = $"{host}/covers/quiz_2.jpg",
                     StartTime = DateTime.MinValue,
                     EndTime = DateTime.MinValue
                 },
@@ -34,7 +34,7 @@ namespace DataAccessLayer.Data.Seeds
                 {
                     Id = 3,
                     GameName = "Современные технологии",
-                    GameCoverImageUrl = $"https://{host}/covers/quiz_3.jpg",
+                    GameCoverImageUrl = $"{host}/covers/quiz_3.jpg",
                     StartTime = DateTime.MinValue,
                     EndTime = DateTime.MinValue
                 },
@@ -42,7 +42,7 @@ namespace DataAccessLayer.Data.Seeds
                 {
                     Id = 4,
                     GameName = "Основы программирования",
-                    GameCoverImageUrl = $"https://{host}/covers/quiz_4.jpg",
+                    GameCoverImageUrl = $"{host}/covers/quiz_4.jpg",
                     StartTime = DateTime.MinValue,
                     EndTime = DateTime.MinValue
                 },
@@ -50,7 +50,7 @@ namespace DataAccessLayer.Data.Seeds
                 {
                     Id = 5,
                     GameName = "Продвинутое программирование",
-                    GameCoverImageUrl = $"https://{host}/covers/quiz_5.jpg",
+                    GameCoverImageUrl = $"{host}/covers/quiz_5.jpg",
                     StartTime = DateTime.MinValue,
                     EndTime = DateTime.MinValue
                 },
