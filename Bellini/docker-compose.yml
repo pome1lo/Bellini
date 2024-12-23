@@ -136,7 +136,9 @@ services:
       dockerfile: Dockerfile
     container_name: reactapp
     ports:
-      - "3000:80" 
+    - "8443:443"
+    volumes:
+      - ./certificates/local:/etc/nginx/certs
     networks:
       - frontend
     depends_on:

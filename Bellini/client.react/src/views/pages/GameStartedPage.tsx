@@ -27,7 +27,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
 
     useEffect(() => {
         const newConnection = new HubConnectionBuilder()
-            .withUrl("https://localhost:7292/gameHub", {
+            .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub", {
                 transport: signalR.HttpTransportType.ServerSentEvents,
                 withCredentials: true
             })

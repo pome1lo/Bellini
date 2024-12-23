@@ -88,7 +88,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
         }
 
         const newConnection = new HubConnectionBuilder()
-            .withUrl("https://localhost:7292/gameHub", {
+            .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub", {
                 transport: signalR.HttpTransportType.ServerSentEvents,
                 withCredentials: true
             })

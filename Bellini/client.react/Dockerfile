@@ -1,34 +1,29 @@
-# Этап 1: Сборка приложения
+# пїЅпїЅпїЅпїЅ 1: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 FROM node:18 AS builder
 
 WORKDIR /app
-
-# Скопируем только package.json и package-lock.json
-COPY package*.json ./
-
-# Установим зависимости
-RUN npm install
-
-# Скопируем все файлы проекта
-COPY . .
-
-# Удаляем файл .env
+ 
+COPY package*.json ./ 
+RUN npm install 
+COPY . . 
 RUN rm -f .env
 
-# Соберем проект
+
 RUN npm run build
-
-# Этап 2: Сервер nginx для статических файлов
-FROM nginx:alpine
-
-# Копируем билд в nginx
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Копируем конфиг nginx
+ 
+FROM nginx:alpine 
+COPY --from=builder /app/dist /usr/share/nginx/html 
+COPY /certs/local/LAB.crt /etc/nginx/certs/LAB.crt
+COPY /certs/local/LAB.key /etc/nginx/certs/LAB.key
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+ 
+EXPOSE 443
 
-# Открываем порт
-EXPOSE 80
+#RUN ls -l ./certs/ca
 
-# Запускаем nginx
+#COPY ../certs/ca/ca.crt /etc/nginx/certs/ca.crt
+#COPY ../certs/ca/ca.key /etc/nginx/certs/ca.key
+
+
+# пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ nginx%
 CMD ["nginx", "-g", "daemon off;"]
