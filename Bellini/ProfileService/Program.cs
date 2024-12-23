@@ -10,14 +10,26 @@ using DataAccessLayer.Data.Repositories;
 using DataAccessLayer.Models;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using UtilsModelsLibrary.Swagger;
 
 var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Profile Service API",
+        Version = "v1"
+    });
+
+    options.OperationFilter<SwaggerFileOperationFilter>();
+});
+
 builder.Services.AddControllers();
 
-// Настройка строки подключения к базе данных
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     var connectionString = isDocker
@@ -26,8 +38,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
-
-// Настройка строки подключения к Redis
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = isDocker
@@ -63,6 +73,16 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddCorsClient(builder.Configuration);
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseCors("AllowLocalhost5173");
 app.UseStaticFiles();

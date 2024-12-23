@@ -4,6 +4,16 @@ using Ocelot.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 System.Net.ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Gateway API",
+        Version = "v1"
+    });
+});
+
 builder.Services.AddCorsClient(builder.Configuration);
 builder.Services.AddControllers();
 
@@ -22,7 +32,15 @@ builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
 
 builder.Services.AddOcelot(builder.Configuration);
 
-var app = builder.Build(); 
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("AllowLocalhost5173");
 app.UseHttpsRedirection();

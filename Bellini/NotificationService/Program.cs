@@ -11,6 +11,16 @@ var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER")
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Notification Service API",
+        Version = "v1"
+    });
+});
+
 builder.Services.AddCorsClient(builder.Configuration);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -30,6 +40,9 @@ builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<INotificationService, BusinessLogicLayer.Services.NotificationService>();
 
 var app = builder.Build();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("AllowLocalhost5173");
 app.UseGlobalExceptionHandler();
