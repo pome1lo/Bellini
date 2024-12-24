@@ -29,7 +29,7 @@ interface Player {
 }
 
 interface GameRoomPageProps {
-    onStart: (game: StartedGame) => void;
+    onStart: (game: StartedGame, id: string) => void;
     isFinished: (isFinished: boolean) => void;
     onFinish: (game: FinishedGame) => void;
 }
@@ -92,8 +92,14 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                 transport: signalR.HttpTransportType.ServerSentEvents,
                 withCredentials: true
             })
-            .withAutomaticReconnect()
+            // .withAutomaticReconnect({
+            //     nextRetryDelayInMilliseconds: retryContext => Math.min(retryContext.elapsedMilliseconds * 2, 10000)
+            // })
+            .configureLogging(signalR.LogLevel.Information)
             .build();
+
+        newConnection.serverTimeoutInMilliseconds = 100000; // Таймаут соединения
+        newConnection.keepAliveIntervalInMilliseconds = 30000; // Период Keep-Alive
 
         newConnection.on('PlayerJoined', (updatedPlayerList: Player[], joinGameDto: JoinGameDto) => {
             setPlayers(updatedPlayerList);
@@ -118,7 +124,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
 
         newConnection.on('GameStarted', (gameStarted: StartedGame) => {
             if (gameStarted.hostId == gameStarted.hostId) {
-                onStart(gameStarted);
+                onStart(gameStarted, user?.id);
             }
         });
 
@@ -227,7 +233,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                 });
                 const responseData: StartedGame = await response.json();
                 if (response.ok) {
-                    onStart(responseData);
+                    onStart(responseData, user?.id);
                 } else if (responseData.ErrorCode == "NotFoundGameQuestionsException") {
                     toast({
                         title: "Error",

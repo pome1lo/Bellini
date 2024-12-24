@@ -44,9 +44,13 @@ function App() {
 
     useEffect(() => AOS.init, []);
 
-    const handleStart = (game: StartedGame) => {
-        setCurrentStartedGame(game);
-        setGameStarted(true);
+    const handleStart = (game: StartedGame, id: string) => {
+        console.error(id);
+        console.error(game);
+        if(game.players.some(player => player.userId.toString() == id || game.hostId.toString() == id)) {
+            setCurrentStartedGame(game);
+            setGameStarted(true);
+        }
     };
 
     const handleFinish = (game: FinishedGame) => {

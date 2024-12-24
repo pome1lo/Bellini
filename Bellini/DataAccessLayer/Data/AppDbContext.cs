@@ -25,10 +25,10 @@ namespace DataAccessLayer.Data
             //"Server=localhost,1434;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
 
             //  Dokcer
-            "Server=sqlserver;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
+            //"Server=sqlserver;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
 
             //  Local
-            //  "Server=localhost;Database=BELLINI;User Id=sa;Password=sa;TrustServerCertificate=true;";
+              "Server=localhost;Database=BELLINI;User Id=sa;Password=sa;TrustServerCertificate=true;";
             ;
 
             optionsBuilder.UseSqlServer(connectionString);

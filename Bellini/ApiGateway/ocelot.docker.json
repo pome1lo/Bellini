@@ -208,7 +208,7 @@
       "UpstreamHttpMethod": [ "GET", "POST", "OPTIONS" ],
       "EnableWebSockets": true,
       "AddHeadersToRequest": {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Origin": "https://localhost:8443",
         "Access-Control-Allow-Credentials": "true"
       }
     },
@@ -225,7 +225,7 @@
       "UpstreamHttpMethod": [ "GET", "POST", "OPTIONS" ],
       "EnableWebSockets": true,
       "AddHeadersToRequest": {
-        "Access-Control-Allow-Origin": "http://localhost:3000",
+        "Access-Control-Allow-Origin": "https://localhost:8443",
         "Access-Control-Allow-Credentials": "true"
       }
     }

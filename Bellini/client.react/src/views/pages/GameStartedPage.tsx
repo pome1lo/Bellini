@@ -8,7 +8,7 @@ import {HubConnectionBuilder} from "@microsoft/signalr";
 import * as signalR from "@microsoft/signalr";
 import {Player} from "@/utils/interfaces/Player.ts";
 import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
-import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
+import {serverFetch} from "@/utils/fetchs/serverFetch.ts"; 
 
 interface GameStartedPageProps {
     currentGame?: StartedGame;
@@ -26,6 +26,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
     const {user} = useAuth();
 
     useEffect(() => {
+
         const newConnection = new HubConnectionBuilder()
             .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub", {
                 transport: signalR.HttpTransportType.ServerSentEvents,
@@ -45,11 +46,12 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
             setShowQuestion(true);
             setTimeout(() => setFadeIn(true), 100);
         }
+
     }, [countdown]);
 
 
     useEffect(() => {
-        if (connection) {
+        if (currentGame?.players.some(player => player.id.toString()) != user?.id && connection) {
             connection.start().then(() => {
                 console.log("Connected to SignalR hub");
 
@@ -63,7 +65,6 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
 
                 connection.on("NextQuestion", (nextQuestionIndex: number) => {
                     setCurrentQuestionIndex(nextQuestionIndex);
-                    alert(selectedAnswer);
                     setSelectedAnswer(null);
                     setFadeIn(true);
                 });
@@ -152,9 +153,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                 headers: {'Content-Type': 'application/json'},
             });
 
-            if (response.ok) {
-            }
-            else {
+            if (!response.ok) {
                 const data = await response.json();
                 console.warn(data);
             }

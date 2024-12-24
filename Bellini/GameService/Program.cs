@@ -78,7 +78,20 @@ builder.Services.AddAutoMapper(cfg =>
 }, typeof(Program));
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
-builder.Services.AddSignalR();
+
+if (isDocker)
+{
+    builder.Services.AddSignalR(options =>
+    {
+        options.EnableDetailedErrors = true;
+        options.KeepAliveInterval = TimeSpan.FromSeconds(30);
+        options.ClientTimeoutInterval = TimeSpan.FromMinutes(2);
+    });
+}
+else
+{
+    builder.Services.AddSignalR();
+}
 
 var app = builder.Build();
 

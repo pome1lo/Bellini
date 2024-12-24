@@ -1,7 +1,4 @@
-version: '3.9'
-
 name: Bellini
-
 
 networks:
   backend:

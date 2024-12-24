@@ -12,25 +12,16 @@ namespace BusinessLogicLayer.Services.Configs
                 options.AddPolicy("AllowLocalhost5173",
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:5173")
+                        builder.WithOrigins(
+                            "http://localhost:5173", "https://localhost:5173",
+                            "http://localhost:3000", "https://localhost:3000",
+                            "https://localhost:8443", "http://reactapp:3000",
+                            "https://apigateway"
+                            )
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials();
 
-                        builder.WithOrigins("http://localhost:3000")
-                            .AllowAnyHeader()
-                            .AllowAnyMethod()
-                            .AllowCredentials();
-
-                        builder.WithOrigins("http://reactapp:3000")
-                            .AllowAnyHeader()
-                            .AllowAnyMethod()
-                            .AllowCredentials();
-
-                        builder.WithOrigins("https://apigateway")
-                            .AllowAnyHeader()
-                            .AllowAnyMethod()
-                            .AllowCredentials();
                     });
             });
         }
