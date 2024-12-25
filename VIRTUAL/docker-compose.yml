@@ -1,0 +1,107 @@
+services:
+  apigateway:
+    image: m0rocco/apigateway
+    container_name: apigateway
+    environment:
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/certificates/certificate.pfx
+      - ASPNETCORE_URLS=https://+:443;http://+:8080
+    networks:
+      - backend
+      - frontend
+    ports:
+      - "8080:8080"
+      - "443:443"
+    volumes:
+      - ./certificates/apigateway:/app/certificates
+
+  gameservice:
+    image: m0rocco/gameservice
+    container_name: gameservice
+    environment:
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/certificates/certificate.pfx
+      - ASPNETCORE_URLS=https://+:443;http://+:8080
+    networks:
+      - backend
+      - frontend
+    expose:
+      - "443"
+    volumes:
+      - ./certificates/gameservice:/app/certificates
+    depends_on:
+      - sqlserver
+
+  authenticationservice:
+    image: m0rocco/authenticationservice
+    container_name: authenticationservice
+    environment:
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/certificates/certificate.pfx
+      - ASPNETCORE_URLS=https://+:443;http://+:8080
+    networks:
+      - backend
+    expose:
+      - "443"
+    volumes:
+      - ./certificates/authenticationservice:/app/certificates
+    depends_on:
+      - sqlserver
+
+  notificationservice:
+    image: m0rocco/notificationservice
+    container_name: notificationservice
+    environment:
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/certificates/certificate.pfx
+      - ASPNETCORE_URLS=https://+:443;http://+:8080
+    networks:
+      - backend
+    expose:
+      - "443"
+    volumes:
+      - ./certificates/notificationservice:/app/certificates
+    depends_on:
+      - sqlserver
+
+  profileservice:
+    image: m0rocco/profileservice
+    container_name: profileservice
+    environment:
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/certificates/certificate.pfx
+      - ASPNETCORE_URLS=https://+:443;http://+:8080
+    networks:
+      - backend
+    expose:
+      - "443"
+    volumes:
+      - ./certificates/profileservice:/app/certificates
+    depends_on:
+      - sqlserver
+
+  redis_db:
+    image: redis:latest
+    container_name: redis_db
+    ports:
+      - "6379:6379"  
+    command: ["redis-server", "--appendonly", "yes"]
+    networks:
+      - backend
+
+    sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    ports:
+      - "1434:1433" 
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "StrongPassword123!"
+      MSSQL_PID: Express
+    networks:
+      - backend
