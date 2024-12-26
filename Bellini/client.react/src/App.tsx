@@ -1,5 +1,5 @@
 import './assets/styles/App.css'
-import {Route, Routes} from 'react-router-dom';
+import {Route, Routes, useNavigate} from 'react-router-dom';
 import {BasicLayout} from "@/utils/layouts/BasicLayout.tsx";
 import {MainPage} from "./views/pages/MainPage.tsx";
 import {ThemeProvider} from "@/components/theme-provider.tsx";
@@ -41,15 +41,17 @@ function App() {
     const [currentStartedQuiz, setCurrentStartedQuiz] = useState<StartedQuiz>();
     const [currentFinishedGame, setCurrentFinishedGame] = useState<FinishedGame>();
     const [currentFinishedQuiz, setCurrentFinishedQuiz] = useState<Quiz>();
+    const navigate = useNavigate();
 
     useEffect(() => AOS.init, []);
 
     const handleStart = (game: StartedGame, id: string) => {
-        console.error(id);
-        console.error(game);
         if(game.players.some(player => player.userId.toString() == id || game.hostId.toString() == id)) {
             setCurrentStartedGame(game);
             setGameStarted(true);
+        }
+        else {
+            navigate("/games");
         }
     };
 

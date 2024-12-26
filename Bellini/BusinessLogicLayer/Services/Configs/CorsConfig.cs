@@ -16,7 +16,7 @@ namespace BusinessLogicLayer.Services.Configs
                             "http://localhost:5173", "https://localhost:5173",
                             "http://localhost:3000", "https://localhost:3000",
                             "https://localhost:8443", "http://reactapp:3000",
-                            "https://apigateway"
+                            "https://apigateway", "https://reactapp:8443"
                             )
                             .AllowAnyHeader()
                             .AllowAnyMethod()

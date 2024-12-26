@@ -38,6 +38,7 @@ services:
       dockerfile: GameService/Dockerfile
     networks:
       - backend
+      - frontend
     expose:
       - "443"
     volumes:

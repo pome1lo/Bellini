@@ -5,7 +5,7 @@ import {Card, CardHeader, CardTitle, CardContent} from "@/components/ui/card";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {Progress} from "@/components/ui/progress";
 import {HubConnectionBuilder} from "@microsoft/signalr";
-import * as signalR from "@microsoft/signalr";
+//import * as signalR from "@microsoft/signalr";
 import {Player} from "@/utils/interfaces/Player.ts";
 import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts"; 
@@ -27,16 +27,22 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
 
     useEffect(() => {
 
+        //const newConnection = new HubConnectionBuilder()
+        //    .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub", {
+        //        transport: signalR.HttpTransportType.ServerSentEvents,
+        //        withCredentials: true
+        //    })
+        //    .withAutomaticReconnect()
+        //    .build();
+
         const newConnection = new HubConnectionBuilder()
-            .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub", {
-                transport: signalR.HttpTransportType.ServerSentEvents,
-                withCredentials: true
-            })
+            .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub")
             .withAutomaticReconnect()
             .build();
-
+        newConnection.serverTimeoutInMilliseconds = 60000; // Увеличить таймаут (1 минута)
+        newConnection.keepAliveIntervalInMilliseconds = 15000; // Интервал пингов
         setConnection(newConnection);
-
+   
         if (countdown > 0) {
             const timer = setTimeout(() => {
                 setCountdown((prev) => prev - 1);
@@ -51,7 +57,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
 
 
     useEffect(() => {
-        if (currentGame?.players.some(player => player.id.toString()) != user?.id && connection) {
+        if (connection) {
             connection.start().then(() => {
                 console.log("Connected to SignalR hub");
 

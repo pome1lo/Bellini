@@ -228,7 +228,20 @@
         "Access-Control-Allow-Origin": "https://localhost:8443",
         "Access-Control-Allow-Credentials": "true"
       }
+    },
+    {
+      "DownstreamPathTemplate": "/gameHub/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/signalr/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST" ]
     }
+
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://apigateway:443",

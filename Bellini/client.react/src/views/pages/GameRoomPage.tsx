@@ -88,18 +88,25 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
         }
 
         const newConnection = new HubConnectionBuilder()
-            .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub", {
-                transport: signalR.HttpTransportType.ServerSentEvents,
-                withCredentials: true
-            })
-            // .withAutomaticReconnect({
-            //     nextRetryDelayInMilliseconds: retryContext => Math.min(retryContext.elapsedMilliseconds * 2, 10000)
-            // })
-            .configureLogging(signalR.LogLevel.Information)
+            .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub")
+            .withAutomaticReconnect()
             .build();
+        newConnection.serverTimeoutInMilliseconds = 60000; // Увеличить таймаут (1 минута)
+        newConnection.keepAliveIntervalInMilliseconds = 15000; // Интервал пингов
 
-        newConnection.serverTimeoutInMilliseconds = 100000; // Таймаут соединения
-        newConnection.keepAliveIntervalInMilliseconds = 30000; // Период Keep-Alive
+        //const newConnection = new HubConnectionBuilder()
+        //    .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub", {
+        //        transport: signalR.HttpTransportType.ServerSentEvents,
+        //        withCredentials: true
+        //    })
+        //    // .withAutomaticReconnect({
+        //    //     nextRetryDelayInMilliseconds: retryContext => Math.min(retryContext.elapsedMilliseconds * 2, 10000)
+        //    // })
+        //    .configureLogging(signalR.LogLevel.Information)
+        //    .build();
+
+        // newConnection.serverTimeoutInMilliseconds = 100000; // Таймаут соединения
+        // newConnection.keepAliveIntervalInMilliseconds = 30000; // Период Keep-Alive
 
         newConnection.on('PlayerJoined', (updatedPlayerList: Player[], joinGameDto: JoinGameDto) => {
             setPlayers(updatedPlayerList);
@@ -112,13 +119,13 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
 
         newConnection.on('PlayerLeft', (updatedPlayerList: Player[]) => {
             setPlayers(updatedPlayerList);
-            console.warn("PlayerLeft" + updatedPlayerList.length);
+            //console.warn("PlayerLeft" + updatedPlayerList.length);
         });
 
         newConnection.on("GetPlayers", (gameId: string, playerList: Player[]) => {
             if (gameId === id) {
                 setPlayers(playerList);
-                console.warn("Updated players list for game", gameId, playerList.length);
+                //console.warn("Updated players list for game", gameId, playerList.length);
             }
         });
 

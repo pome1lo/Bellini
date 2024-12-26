@@ -95,6 +95,11 @@ else
 
 var app = builder.Build();
 
+app.UseWebSockets(new WebSocketOptions
+{
+    KeepAliveInterval = TimeSpan.FromSeconds(120)
+});
+
 app.UseSwagger();
 app.UseSwaggerUI();
 

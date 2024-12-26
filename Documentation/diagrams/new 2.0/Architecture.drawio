@@ -1,14 +1,11 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0" version="25.0.3" pages="2">
   <diagram name="Page-1" id="-ow4DpQ6KdscyZ0m3crN">
-    <mxGraphModel dx="4088" dy="412" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="3105" dy="-211" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-15" value="&lt;div&gt;OC Windows 11 Pro 23H2&lt;/div&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="-1170" y="1270" width="2040" height="1400" as="geometry" />
-        </mxCell>
-        <mxCell id="ckAOM5WRGEyRrlcUhF3o-13" value="ОС Windows Server 2022 Datacenter Evaluation 21H2&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="-1140" y="1320" width="1970" height="1180" as="geometry" />
+          <mxGeometry x="-1150" y="1320" width="1980" height="1350" as="geometry" />
         </mxCell>
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-14" value="&lt;div&gt;Docker Engine 27.1.1&lt;/div&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" parent="1" vertex="1">
           <mxGeometry x="-1110" y="1370" width="1900" height="1090" as="geometry" />
@@ -16,7 +13,7 @@
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-2" value="ОС Linux. Debian GNU/Linux 12" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="-1080" y="2115" width="260" height="240" as="geometry" />
         </mxCell>
-        <mxCell id="ckAOM5WRGEyRrlcUhF3o-29" value="" style="endArrow=block;html=1;rounded=0;startArrow=block;startFill=1;endFill=1;entryX=0.003;entryY=0.282;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1.017;exitY=0.349;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" target="ckAOM5WRGEyRrlcUhF3o-27" edge="1" source="ckAOM5WRGEyRrlcUhF3o-2">
+        <mxCell id="ckAOM5WRGEyRrlcUhF3o-29" value="" style="endArrow=block;html=1;rounded=0;startArrow=block;startFill=1;endFill=1;entryX=0.003;entryY=0.282;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1.017;exitY=0.349;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="ckAOM5WRGEyRrlcUhF3o-2" target="ckAOM5WRGEyRrlcUhF3o-27" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="-801" y="2415" as="sourcePoint" />
             <mxPoint x="-870" y="2475" as="targetPoint" />
@@ -61,7 +58,7 @@
             <mxPoint x="-2" y="-2" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ckAOM5WRGEyRrlcUhF3o-73" value="" style="endArrow=block;html=1;rounded=0;startArrow=block;startFill=1;endFill=1;exitX=0;exitY=0;exitDx=120.00000000000001;exitDy=329.31000000000006;exitPerimeter=0;elbow=vertical;edgeStyle=orthogonalEdgeStyle;entryX=-0.004;entryY=0.732;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="ckAOM5WRGEyRrlcUhF3o-42" edge="1" target="ckAOM5WRGEyRrlcUhF3o-37">
+        <mxCell id="ckAOM5WRGEyRrlcUhF3o-73" value="" style="endArrow=block;html=1;rounded=0;startArrow=block;startFill=1;endFill=1;exitX=0;exitY=0;exitDx=120.00000000000001;exitDy=329.31000000000006;exitPerimeter=0;elbow=vertical;edgeStyle=orthogonalEdgeStyle;entryX=-0.004;entryY=0.732;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="ckAOM5WRGEyRrlcUhF3o-42" target="ckAOM5WRGEyRrlcUhF3o-37" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="-510" y="1837" as="sourcePoint" />
             <mxPoint x="-509" y="1840" as="targetPoint" />
@@ -72,7 +69,7 @@
             <mxPoint x="-1" y="8" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ckAOM5WRGEyRrlcUhF3o-75" value="" style="endArrow=block;html=1;rounded=0;startArrow=block;startFill=1;endFill=1;exitX=0;exitY=0;exitDx=100;exitDy=330;exitPerimeter=0;elbow=vertical;edgeStyle=orthogonalEdgeStyle;entryX=0;entryY=0;entryDx=0;entryDy=155;entryPerimeter=0;" parent="1" source="ckAOM5WRGEyRrlcUhF3o-46" edge="1" target="ckAOM5WRGEyRrlcUhF3o-37">
+        <mxCell id="ckAOM5WRGEyRrlcUhF3o-75" value="" style="endArrow=block;html=1;rounded=0;startArrow=block;startFill=1;endFill=1;exitX=0;exitY=0;exitDx=100;exitDy=330;exitPerimeter=0;elbow=vertical;edgeStyle=orthogonalEdgeStyle;entryX=0;entryY=0;entryDx=0;entryDy=155;entryPerimeter=0;" parent="1" source="ckAOM5WRGEyRrlcUhF3o-46" target="ckAOM5WRGEyRrlcUhF3o-37" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="-129" y="1750.6" as="sourcePoint" />
             <mxPoint x="-450" y="1840" as="targetPoint" />
@@ -117,7 +114,7 @@
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-87" value="HTTP 1.1" style="edgeLabel;resizable=0;html=1;;align=center;verticalAlign=middle;" parent="ckAOM5WRGEyRrlcUhF3o-86" connectable="0" vertex="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-4" value="Application Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-4" value="Application Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="-610" y="2195" width="271.25" height="120" as="geometry" />
         </mxCell>
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-38" value="ASP.NET Core Web API 8.0.400&lt;div&gt;Ocelot 23.3.3&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" parent="1" vertex="1">
@@ -129,7 +126,7 @@
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-35" value="ОС Linux. Debian GNU/Linux 12" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="ckAOM5WRGEyRrlcUhF3o-53" vertex="1">
           <mxGeometry width="240" height="190" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-5" value="Database Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="ckAOM5WRGEyRrlcUhF3o-53">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-5" value="Database Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="ckAOM5WRGEyRrlcUhF3o-53" vertex="1">
           <mxGeometry x="25" y="40" width="180" height="130" as="geometry" />
         </mxCell>
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-36" value="&lt;font face=&quot;Times New Roman&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Redis 7.4.0&lt;/span&gt;&lt;/font&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" parent="ckAOM5WRGEyRrlcUhF3o-53" vertex="1">
@@ -141,10 +138,10 @@
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-33" value="ОС Linux. Debian GNU/Linux 12" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="ckAOM5WRGEyRrlcUhF3o-54" vertex="1">
           <mxGeometry width="270" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-2" value="Database Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="ckAOM5WRGEyRrlcUhF3o-54">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-2" value="Database Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="ckAOM5WRGEyRrlcUhF3o-54" vertex="1">
           <mxGeometry x="25" y="50" width="215" height="130" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-1" value="" style="group" vertex="1" connectable="0" parent="ckAOM5WRGEyRrlcUhF3o-54">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-1" value="" style="group" parent="ckAOM5WRGEyRrlcUhF3o-54" vertex="1" connectable="0">
           <mxGeometry x="90" y="27.5" width="220" height="145" as="geometry" />
         </mxCell>
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-34" value="&lt;div&gt;MS SQL Server 2019&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp;(RTM) 15.0.2000.5&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" parent="xe0UmYvgqOULLllQZo8k-1" vertex="1">
@@ -156,13 +153,13 @@
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-44" value="&lt;div&gt;ОС Linux. Debian GNU/Linux 12&lt;/div&gt;&lt;div&gt;{Authentication Service}&lt;/div&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="ckAOM5WRGEyRrlcUhF3o-55" vertex="1">
           <mxGeometry y="-80" width="330" height="240" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-21" value="" style="group" vertex="1" connectable="0" parent="ckAOM5WRGEyRrlcUhF3o-55">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-21" value="" style="group" parent="ckAOM5WRGEyRrlcUhF3o-55" vertex="1" connectable="0">
           <mxGeometry x="21.29" y="-20" width="278.71" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-22" value="Application Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="xe0UmYvgqOULLllQZo8k-21">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-22" value="Application Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="xe0UmYvgqOULLllQZo8k-21" vertex="1">
           <mxGeometry width="278.71" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-23" value="ASP.NET Core Web API 8.0.400&lt;div&gt;Entity Framework Core 8.0.8&lt;/div&gt;&lt;div&gt;&lt;div&gt;StackExchange.Redis 2.8.16&lt;/div&gt;&lt;/div&gt;&lt;div&gt;MimeKit 4.7.1.1&lt;/div&gt;&lt;div&gt;&amp;nbsp;JwtBearer 8.0.7&lt;/div&gt;&lt;div&gt;BCrypt.Net-Next 4.0.3&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="xe0UmYvgqOULLllQZo8k-21">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-23" value="ASP.NET Core Web API 8.0.400&lt;div&gt;Entity Framework Core 8.0.8&lt;/div&gt;&lt;div&gt;&lt;div&gt;StackExchange.Redis 2.8.16&lt;/div&gt;&lt;/div&gt;&lt;div&gt;MimeKit 4.7.1.1&lt;/div&gt;&lt;div&gt;&amp;nbsp;JwtBearer 8.0.7&lt;/div&gt;&lt;div&gt;BCrypt.Net-Next 4.0.3&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" parent="xe0UmYvgqOULLllQZo8k-21" vertex="1">
           <mxGeometry x="18.23" y="40" width="227.04" height="98.67" as="geometry" />
         </mxCell>
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-56" value="" style="group" parent="1" vertex="1" connectable="0">
@@ -171,13 +168,13 @@
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-39" value="ОС Linux. Debian GNU/Linux 12&lt;br&gt;&lt;div&gt;{Game Service}&lt;/div&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="ckAOM5WRGEyRrlcUhF3o-56" vertex="1">
           <mxGeometry width="330" height="240" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-18" value="" style="group" vertex="1" connectable="0" parent="ckAOM5WRGEyRrlcUhF3o-56">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-18" value="" style="group" parent="ckAOM5WRGEyRrlcUhF3o-56" vertex="1" connectable="0">
           <mxGeometry x="21.29" y="55" width="330" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-19" value="Application Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="xe0UmYvgqOULLllQZo8k-18">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-19" value="Application Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="xe0UmYvgqOULLllQZo8k-18" vertex="1">
           <mxGeometry width="280" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-20" value="ASP.NET Core Web API 8.0.400&lt;div&gt;Entity Framework Core 8.0.8&lt;/div&gt;&lt;div&gt;StackExchange.Redis 2.8.16&lt;/div&gt;&lt;div&gt;MimeKit 4.7.1.1&lt;/div&gt;&lt;div&gt;SignalR 8.0.7&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="xe0UmYvgqOULLllQZo8k-18">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-20" value="ASP.NET Core Web API 8.0.400&lt;div&gt;Entity Framework Core 8.0.8&lt;/div&gt;&lt;div&gt;StackExchange.Redis 2.8.16&lt;/div&gt;&lt;div&gt;MimeKit 4.7.1.1&lt;/div&gt;&lt;div&gt;SignalR 8.0.7&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" parent="xe0UmYvgqOULLllQZo8k-18" vertex="1">
           <mxGeometry x="18.8" y="46.5" width="231.2" height="93.5" as="geometry" />
         </mxCell>
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-62" value="" style="group" parent="1" vertex="1" connectable="0">
@@ -186,10 +183,10 @@
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-42" value="ОС Linux. Debian GNU/Linux 12&lt;div&gt;{Profile Service}&lt;/div&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="ckAOM5WRGEyRrlcUhF3o-62" vertex="1">
           <mxGeometry y="40" width="329.31" height="190" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-27" value="Application Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="ckAOM5WRGEyRrlcUhF3o-62">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-27" value="Application Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="ckAOM5WRGEyRrlcUhF3o-62" vertex="1">
           <mxGeometry x="21.890000000000015" y="90" width="278.71" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-28" value="ASP.NET Core Web API 8.0.400&lt;div&gt;Entity Framework Core 8.0.8&lt;/div&gt;&lt;div&gt;MimeKit 4.7.1.1&lt;br&gt;&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="ckAOM5WRGEyRrlcUhF3o-62">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-28" value="ASP.NET Core Web API 8.0.400&lt;div&gt;Entity Framework Core 8.0.8&lt;/div&gt;&lt;div&gt;MimeKit 4.7.1.1&lt;br&gt;&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" parent="ckAOM5WRGEyRrlcUhF3o-62" vertex="1">
           <mxGeometry x="41.41" y="132" width="227.04" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-81" value="" style="endArrow=block;html=1;rounded=0;exitX=0.274;exitY=1.005;exitDx=0;exitDy=0;exitPerimeter=0;startArrow=block;startFill=1;endFill=1;entryX=0;entryY=0;entryDx=110.00000000000001;entryDy=0;entryPerimeter=0;edgeStyle=orthogonalEdgeStyle;" parent="1" source="ckAOM5WRGEyRrlcUhF3o-33" target="ckAOM5WRGEyRrlcUhF3o-42" edge="1">
@@ -252,27 +249,27 @@
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-46" value="&lt;div&gt;ОС Linux. Debian GNU/Linux 12&lt;/div&gt;&lt;div&gt;{Notification Service}&lt;/div&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="-170" y="1640" width="330" height="190" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-25" value="Application Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-25" value="Application Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="-150" y="1690" width="278.71" height="120" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-26" value="ASP.NET Core Web API 8.0.400&lt;div&gt;Entity Framework Core 8.0.8&lt;/div&gt;&lt;div&gt;MimeKit 4.7.1.1&lt;br&gt;&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-26" value="ASP.NET Core Web API 8.0.400&lt;div&gt;Entity Framework Core 8.0.8&lt;/div&gt;&lt;div&gt;MimeKit 4.7.1.1&lt;br&gt;&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="-130.48000000000002" y="1732" width="227.04" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.496;entryY=0.994;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=block;endFill=1;startArrow=block;startFill=1;" edge="1" parent="1" source="ckAOM5WRGEyRrlcUhF3o-46" target="ckAOM5WRGEyRrlcUhF3o-33">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.496;entryY=0.994;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=block;endFill=1;startArrow=block;startFill=1;" parent="1" source="ckAOM5WRGEyRrlcUhF3o-46" target="ckAOM5WRGEyRrlcUhF3o-33" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-32" value="TCP" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="xe0UmYvgqOULLllQZo8k-31">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-32" value="TCP" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="xe0UmYvgqOULLllQZo8k-31" vertex="1" connectable="0">
           <mxGeometry x="0.0469" y="2" relative="1" as="geometry">
             <mxPoint x="-9" y="3" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-38" value="" style="group" vertex="1" connectable="0" parent="1">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-38" value="" style="group" parent="1" vertex="1" connectable="0">
           <mxGeometry x="-1060" y="2156" width="240" height="180" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-36" value="Web Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" vertex="1" parent="xe0UmYvgqOULLllQZo8k-38">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-36" value="Web Server" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="xe0UmYvgqOULLllQZo8k-38" vertex="1">
           <mxGeometry width="210" height="180" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-37" value="" style="group" vertex="1" connectable="0" parent="xe0UmYvgqOULLllQZo8k-38">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-37" value="" style="group" parent="xe0UmYvgqOULLllQZo8k-38" vertex="1" connectable="0">
           <mxGeometry x="20" y="40" width="220" height="120" as="geometry" />
         </mxCell>
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-3" value="&lt;div&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;&lt;font face=&quot;Helvetica&quot;&gt;Nginx 1.27.3&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="shape=module;align=left;spacingLeft=20;align=center;verticalAlign=top;whiteSpace=wrap;html=1;" parent="xe0UmYvgqOULLllQZo8k-37" vertex="1">
@@ -293,7 +290,7 @@
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-11" value="bundle.js" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="ckAOM5WRGEyRrlcUhF3o-12" vertex="1">
           <mxGeometry y="50" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="xe0UmYvgqOULLllQZo8k-41" value="" style="group" vertex="1" connectable="0" parent="1">
+        <mxCell id="xe0UmYvgqOULLllQZo8k-41" value="" style="group" parent="1" vertex="1" connectable="0">
           <mxGeometry x="-1065" y="2530" width="215" height="120" as="geometry" />
         </mxCell>
         <mxCell id="ckAOM5WRGEyRrlcUhF3o-27" value="&lt;div&gt;Web Browser&lt;/div&gt;" style="verticalAlign=top;align=left;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=4;html=1;whiteSpace=wrap;" parent="xe0UmYvgqOULLllQZo8k-41" vertex="1">
