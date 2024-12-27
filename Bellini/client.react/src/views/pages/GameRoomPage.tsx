@@ -87,23 +87,23 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
             return;
         }
 
-        const newConnection = new HubConnectionBuilder()
-            .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub")
-            .withAutomaticReconnect()
-            .build();
-        newConnection.serverTimeoutInMilliseconds = 60000; // Увеличить таймаут (1 минута)
-        newConnection.keepAliveIntervalInMilliseconds = 15000; // Интервал пингов
-
         //const newConnection = new HubConnectionBuilder()
-        //    .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub", {
-        //        transport: signalR.HttpTransportType.ServerSentEvents,
-        //        withCredentials: true
-        //    })
-        //    // .withAutomaticReconnect({
-        //    //     nextRetryDelayInMilliseconds: retryContext => Math.min(retryContext.elapsedMilliseconds * 2, 10000)
-        //    // })
-        //    .configureLogging(signalR.LogLevel.Information)
+        //    .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub")
+        //    .withAutomaticReconnect()
         //    .build();
+        //newConnection.serverTimeoutInMilliseconds = 60000; // Увеличить таймаут (1 минута)
+        //newConnection.keepAliveIntervalInMilliseconds = 15000; // Интервал пингов
+
+        const newConnection = new HubConnectionBuilder()
+            .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub", {
+                transport: signalR.HttpTransportType.ServerSentEvents,
+                withCredentials: true
+            })
+            // .withAutomaticReconnect({
+            //     nextRetryDelayInMilliseconds: retryContext => Math.min(retryContext.elapsedMilliseconds * 2, 10000)
+            // })
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
 
         // newConnection.serverTimeoutInMilliseconds = 100000; // Таймаут соединения
         // newConnection.keepAliveIntervalInMilliseconds = 30000; // Период Keep-Alive

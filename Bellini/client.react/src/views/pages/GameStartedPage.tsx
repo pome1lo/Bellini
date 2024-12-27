@@ -27,21 +27,21 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
 
     useEffect(() => {
 
-        //const newConnection = new HubConnectionBuilder()
-        //    .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub", {
-        //        transport: signalR.HttpTransportType.ServerSentEvents,
-        //        withCredentials: true
-        //    })
-        //    .withAutomaticReconnect()
-        //    .build();
-
         const newConnection = new HubConnectionBuilder()
-            .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub")
+            .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub", {
+                transport: signalR.HttpTransportType.ServerSentEvents,
+                withCredentials: true
+            })
             .withAutomaticReconnect()
             .build();
-        newConnection.serverTimeoutInMilliseconds = 60000; // Увеличить таймаут (1 минута)
-        newConnection.keepAliveIntervalInMilliseconds = 15000; // Интервал пингов
-        setConnection(newConnection);
+
+        //const newConnection = new HubConnectionBuilder()
+        //    .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub")
+        //    .withAutomaticReconnect()
+        //    .build();
+        //newConnection.serverTimeoutInMilliseconds = 60000; // Увеличить таймаут (1 минута)
+        //newConnection.keepAliveIntervalInMilliseconds = 15000; // Интервал пингов
+        //setConnection(newConnection);
    
         if (countdown > 0) {
             const timer = setTimeout(() => {
