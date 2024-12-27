@@ -94,7 +94,7 @@ services:
     networks:
       - backend
 
-    sqlserver:
+  sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest
     container_name: sqlserver
     ports:
@@ -105,3 +105,14 @@ services:
       MSSQL_PID: Express
     networks:
       - backend
+
+
+  reactapp:
+    image: m0rocco/reactapp:latest
+    container_name: reactapp
+    ports:
+      - "8443:443"
+    networks:
+      - frontend
+    depends_on:
+      - apigateway
