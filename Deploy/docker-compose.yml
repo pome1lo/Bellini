@@ -1,3 +1,7 @@
+networks:
+  backend:
+  frontend:
+
 services:
   apigateway:
     image: m0rocco/apigateway
