@@ -7,9 +7,9 @@ namespace DataAccessLayer.Data
 {
     public class AppDbContext : DbContext
     {
-        //public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        //{
-        //}
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        {
+        }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -18,13 +18,13 @@ namespace DataAccessLayer.Data
 
             var connectionString =
             //  Migration
-            "Server=localhost,1434;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
+            //"Server=localhost,1434;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
 
             //  Dokcer
             //"Server=sqlserver;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
 
             //  Local
-            //    "Server=localhost;Database=BELLINI;User Id=sa;Password=sa;TrustServerCertificate=true;";
+                "Server=localhost;Database=BELLINI;User Id=sa;Password=sa;TrustServerCertificate=true;";
             ;
 
             optionsBuilder.UseSqlServer(connectionString);
