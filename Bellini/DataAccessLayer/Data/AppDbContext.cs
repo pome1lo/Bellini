@@ -72,10 +72,9 @@ namespace DataAccessLayer.Data
             modelBuilder.ApplyConfiguration(new QuizResultsConfiguration());
 
             QuizSeedData.Seed(modelBuilder);
+            UserSeedData.Seed(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
         }
-
-
     }
 }

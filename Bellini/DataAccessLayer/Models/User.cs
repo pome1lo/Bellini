@@ -8,6 +8,7 @@
         public string? Password { get; set; }
         public bool IsEmailVerified { get; set; } = false;
         public bool IsActive { get; set; } = false;
+        public bool IsAdmin { get; set; } = false;
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? ProfileImageUrl { get; set; }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -52,6 +52,7 @@ namespace DataAccessLayer.Migrations
                     Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsEmailVerified = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    IsAdmin = table.Column<bool>(type: "bit", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     ProfileImageUrl = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
@@ -343,12 +344,17 @@ namespace DataAccessLayer.Migrations
                 columns: new[] { "Id", "EndTime", "GameCoverImageUrl", "GameName", "StartTime" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "/apigateway/covers/quiz_1.jpg", "Мифология Древней Греции", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "/apigateway/covers/quiz_2.jpg", "Древний Рим", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "/apigateway/covers/quiz_3.jpg", "Современные технологии", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "/apigateway/covers/quiz_4.jpg", "Основы программирования", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "/apigateway/covers/quiz_5.jpg", "Продвинутое программирование", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/covers/quiz_1.jpg", "Мифология Древней Греции", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/covers/quiz_2.jpg", "Древний Рим", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/covers/quiz_3.jpg", "Современные технологии", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/covers/quiz_4.jpg", "Основы программирования", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/covers/quiz_5.jpg", "Продвинутое программирование", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Email", "FirstName", "IsActive", "IsAdmin", "IsEmailVerified", "LastName", "Password", "ProfileImageUrl", "Username" },
+                values: new object[] { 1, "paaworker@gmail.com", "Main", true, true, true, "Admin", "$2a$11$YCR1qPgThJQknDHs1jymx.DOZO7dmZ.7ZzBBaIBlF76KlPRf2xLBm", "https://localhost:7292/covers/quiz_1.jpg", "administrator" });
 
             migrationBuilder.InsertData(
                 table: "QuizQuestions",
