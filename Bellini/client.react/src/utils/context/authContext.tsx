@@ -7,6 +7,7 @@ interface User {
     username: string;
     email: string;
     profileImageUrl: string;
+    isAdmin: boolean;
 }
 
 interface AuthContextType {
@@ -37,7 +38,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
             setRefreshToken(storedRefreshToken);
         }
 
-        setLoading(false); // Завершаем загрузку
+        setLoading(false);
     }, []);
 
     const login = (userData: User, accessToken: string, refreshToken: string) => {
@@ -80,7 +81,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
                 setAccessToken(newAccessToken);
                 sessionStorage.setItem('access-token', newAccessToken);
                 return newAccessToken;
-            } catch (error) {
+            } catch {
                 logout();
                 return null;
             }
@@ -91,7 +92,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
     const isAuthenticated = !!user;
 
     if (loading) {
-        return <div>Loading...</div>; // Можно добавить индикатор загрузки
+        return <div>Loading...</div>;
     }
 
     return (

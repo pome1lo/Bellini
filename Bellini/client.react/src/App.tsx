@@ -1,36 +1,37 @@
 import './assets/styles/App.css'
 import {Route, Routes, useNavigate} from 'react-router-dom';
 import {BasicLayout} from "@/utils/layouts/BasicLayout.tsx";
-import {MainPage} from "./views/pages/MainPage.tsx";
+import {MainPage} from "@/pages/MainPage.tsx";
 import {ThemeProvider} from "@/components/theme-provider.tsx";
-import {LoginPage} from "@/views/pages/LoginPage.tsx";
-import {RegisterPage} from "@/views/pages/RegisterPage.tsx";
-import {NotFoundPage} from "@/views/pages/NotFoundPage.tsx";
-import {InternalServerErrorPage} from "@/views/pages/InternalServerErrorPage.tsx";
-import {SettingsPage} from "@/views/pages/SettingsPage.tsx";
+import {LoginPage} from "@/pages/LoginPage.tsx";
+import {RegisterPage} from "@/pages/RegisterPage.tsx";
+import {NotFoundPage} from "@/pages/NotFoundPage.tsx";
+import {InternalServerErrorPage} from "@/pages/InternalServerErrorPage.tsx";
+import {SettingsPage} from "@/pages/SettingsPage.tsx";
 import {PrivateRoute} from "@/utils/routers/PrivateRoute.tsx";
-import {ContactsPage} from "@/views/pages/ContactsPage.tsx";
-import {AboutPage} from "@/views/pages/AboutPage.tsx";
-import {ProfilePage} from "@/views/pages/ProfilePage.tsx";
-import {GameListPage} from "@/views/pages/GameListPage.tsx";
+import {ContactsPage} from "@/pages/ContactsPage.tsx";
+import {AboutPage} from "@/pages/AboutPage.tsx";
+import {ProfilePage} from "@/pages/ProfilePage.tsx";
+import {GameListPage} from "@/pages/GameListPage.tsx";
 import {useEffect, useState} from "react";
 import AOS from 'aos';
 import {Toaster} from "@/components/ui/toaster.tsx";
 import {AuthProvider} from "@/utils/context/authContext.tsx";
-import {GameRoomPage} from "@/views/pages/GameRoomPage.tsx";
-import {GameStartedPage} from "@/views/pages/GameStartedPage.tsx";
+import {GameRoomPage} from "@/pages/GameRoomPage.tsx";
+import {GameStartedPage} from "@/pages/GameStartedPage.tsx";
 import {StartedGame} from "@/utils/interfaces/StartedGame.ts";
 import {GameLayout} from "@/utils/layouts/GameLayout.tsx";
 import {FinishedGame} from "@/utils/interfaces/FinishedGame.ts";
-import {GameFinishedPage} from "@/views/pages/GameFinishedPage.tsx";
-import {QuizzesListPage} from "@/views/pages/QuizzesListPage.tsx";
-import {QuizRoomPage} from "@/views/pages/QuizRoomPage.tsx";
-import {ForgotPasswordPage} from "@/views/pages/ForgotPasswordPage.tsx";
-import {QuizFinishedPage} from "@/views/pages/QuizFinishedPage.tsx";
-import {QuizStartedPage} from "@/views/pages/QuizStartedPage.tsx";
+import {GameFinishedPage} from "@/pages/GameFinishedPage.tsx";
+import {QuizzesListPage} from "@/pages/QuizzesListPage.tsx";
+import {QuizRoomPage} from "@/pages/QuizRoomPage.tsx";
+import {ForgotPasswordPage} from "@/pages/ForgotPasswordPage.tsx";
+import {QuizFinishedPage} from "@/pages/QuizFinishedPage.tsx";
+import {QuizStartedPage} from "@/pages/QuizStartedPage.tsx";
 import {StartedQuiz} from "@/utils/interfaces/StartedQuiz.ts";
 import {Quiz} from "@/utils/interfaces/Quiz.ts";
-import {NotifiactionsPage} from './views/pages/NotifiactionsPage.tsx';
+import {NotifiactionsPage} from '@/pages/NotifiactionsPage.tsx';
+import { AdminPage } from '@/pages/AdminPage.tsx';
 
 function App() {
     const [gameStarted, setGameStarted] = useState(false);
@@ -80,6 +81,7 @@ function App() {
                 <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
                     <Routes>
                         <Route path='/' element={<BasicLayout/>}>
+                            <Route path='admin' element={<AdminPage/>}/>
                             <Route path='settings' element={<SettingsPage/>}/>
                             <Route path='contacts' element={<ContactsPage/>}/>
                             <Route path='about' element={<AboutPage/>}/>

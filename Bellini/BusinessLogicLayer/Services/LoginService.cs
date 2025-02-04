@@ -78,7 +78,8 @@ namespace BusinessLogicLayer.Services
                 AccessToken = GenerateAccessToken(user),
                 RefreshToken = GenerateRefreshToken(user),
                 Username = user.Username,
-                UserId = user.Id
+                UserId = user.Id,
+                IsAdmin = user.IsAdmin
             };
         }
 
