@@ -1,5 +1,44 @@
 {
   "Routes": [
+    // AdminService
+    {
+      "DownstreamPathTemplate": "/api/admin/user",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7121
+        }
+      ],
+      "UpstreamPathTemplate": "/admin/user",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/admin/game",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7121
+        }
+      ],
+      "UpstreamPathTemplate": "/admin/game",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/admin/quiz",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7121
+        }
+      ],
+      "UpstreamPathTemplate": "/admin/quiz",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+
+
     // AuthenticationService
     {
       "DownstreamPathTemplate": "/api/auth/{everything}",
@@ -54,17 +93,17 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-    "DownstreamPathTemplate": "/api/profile/{everything}/info",
-    "DownstreamScheme": "https",
-    "DownstreamHostAndPorts": [
-      {
-        "Host": "localhost",
-        "Port": 7256
-      }
-    ],
-    "UpstreamPathTemplate": "/profile/{everything}/info",
-    "UpstreamHttpMethod": [ "GET" ]
-  },
+      "DownstreamPathTemplate": "/api/profile/{everything}/info",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7256
+        }
+      ],
+      "UpstreamPathTemplate": "/profile/{everything}/info",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
     {
       "DownstreamPathTemplate": "/images/{everything}",
       "DownstreamScheme": "https",
@@ -100,7 +139,7 @@
         }
       ],
       "UpstreamPathTemplate": "/game/all-data",
-      "UpstreamHttpMethod": [ "GET"]
+      "UpstreamHttpMethod": [ "GET" ]
     },
     {
       "DownstreamPathTemplate": "/api/game/{everything}/statistics",
