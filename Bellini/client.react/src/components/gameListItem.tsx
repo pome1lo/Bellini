@@ -72,7 +72,7 @@ export const GameListItem: React.FC<ActiveGame> = ({
                     {maxPlayers}
                 </TableCell>
                 <TableCell className="hidden md:table-cell">
-                    {new Date(startTime).toLocaleString()}
+                    {new Date(startTime).toDateString()}
                 </TableCell>
                 <TableCell>
                     <DropdownMenu>

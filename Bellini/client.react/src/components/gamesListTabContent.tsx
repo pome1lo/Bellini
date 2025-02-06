@@ -92,7 +92,7 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({tabCont
                                     maxPlayers={item.maxPlayers}
                                     gameName={item.gameName}
                                     isPrivate={item.isPrivate}
-                                    startTime={item.startTime}
+                                    startTime={item.createTime}
                                     status={item.gameStatus.name}
                                     gameCoverImageUrl={item.gameCoverImageUrl}
                                 />

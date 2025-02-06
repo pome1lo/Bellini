@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
@@ -14,8 +14,8 @@ import {RefreshCcw} from "lucide-react";
 import {DialogCreateGame} from "@/components/dialogs/dialogCreateGame.tsx";
 import {Game} from "@/utils/interfaces/Game.ts";
 import {Quiz} from "@/utils/interfaces/Quiz.ts";
-import {Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious} from "@/components/ui/pagination.tsx";
 import {CustomPagination} from "@/components/customPagination.tsx";
+import {DialogCreateUser} from "@/components/dialogs/dialogCreateUser.tsx";
 
 interface UserProfile {
     id: number;
@@ -58,7 +58,7 @@ export const AdminPage = () => {
                 setUsers(data.users);
                 setTotalUserPages(Math.ceil(data.total / itemsPerPage));
             });
-    }, [isUpdated, currentUserPage]);
+    }, [isUpdated, currentUserPage, isCreated]);
 
     useEffect(() => {
         serverFetch(`/quizzes/all-data?limit=${itemsPerPage}&offset=${(currentQuizPage - 1) * itemsPerPage}`)
@@ -67,7 +67,7 @@ export const AdminPage = () => {
                 setQuizzes(data.quizzes);
                 setTotalQuizPages(Math.ceil(data.total / itemsPerPage));
             });
-    }, [isUpdated, currentQuizPage]);
+    }, [isUpdated, currentQuizPage, isCreated]);
 
     useEffect(() => {
         serverFetch(`/game/all-data?limit=${itemsPerPage}&offset=${(currentGamePage - 1) * itemsPerPage}`)
@@ -76,7 +76,7 @@ export const AdminPage = () => {
                 setGames(data.games);
                 setTotalGamePages(Math.ceil(data.total / itemsPerPage));
             });
-    }, [isUpdated, currentGamePage]);
+    }, [isUpdated, currentGamePage, isCreated]);
 
     return (
         <>
@@ -118,12 +118,15 @@ export const AdminPage = () => {
                             <TabsContent value="users">
                                 {users && users.length != 0 ?
                                     <Card>
-                                        <CardHeader className="flex flex-row justify-between">
-                                            <CardTitle>Users</CardTitle>
-                                            <DialogCreateGame
-                                                setIsCreated={setIsCreated}
-                                                isCreated={isCreated}
-                                            />
+                                        <CardHeader>
+                                            <div className="flex flex-row justify-between">
+                                                <CardTitle>Users</CardTitle>
+                                                <DialogCreateUser
+                                                    setIsCreated={setIsCreated}
+                                                    isCreated={isCreated}
+                                                />
+                                            </div>
+                                            <CardDescription>List of all available users</CardDescription>
                                         </CardHeader>
                                         <CardContent>
                                             <Table className="">
@@ -193,12 +196,15 @@ export const AdminPage = () => {
                             <TabsContent value="games">
                                 {games && games.length != 0 ?
                                     <Card>
-                                        <CardHeader className="flex flex-row justify-between">
-                                            <CardTitle>Games</CardTitle>
-                                            <DialogCreateGame
-                                                setIsCreated={setIsCreated}
-                                                isCreated={isCreated}
-                                            />
+                                        <CardHeader>
+                                            <div className="flex flex-row justify-between">
+                                                <CardTitle>Games</CardTitle>
+                                                <DialogCreateGame
+                                                    setIsCreated={setIsCreated}
+                                                    isCreated={isCreated}
+                                                />
+                                            </div>
+                                            <CardDescription>List of all available games</CardDescription>
                                         </CardHeader>
                                         <CardContent>
                                             <Table className="">
@@ -232,8 +238,8 @@ export const AdminPage = () => {
                                                             </TableCell>
                                                             <TableCell>{item.gameName}</TableCell>
                                                             <TableCell>{item.status.name}</TableCell>
-                                                            <TableCell>{item.startTime.toString()}</TableCell>
-                                                            <TableCell>{item.createTime.toString()}</TableCell>
+                                                            <TableCell>{new Date(item.createTime).toDateString()}</TableCell>
+                                                            <TableCell>{new Date(item.startTime).toDateString()}</TableCell>
                                                             <TableCell>{item.maxPlayers}</TableCell>
                                                             <TableCell>{item.isPrivate ? "True" : "False"}</TableCell>
                                                             <TableCell className="bg-secondary flex justify-end">
@@ -267,12 +273,15 @@ export const AdminPage = () => {
                             <TabsContent value="quizzes">
                                 {quizzes && quizzes.length != 0 ?
                                     <Card>
-                                        <CardHeader className="flex flex-row justify-between">
-                                            <CardTitle>Quizzes</CardTitle>
-                                            <DialogCreateGame
-                                                setIsCreated={setIsCreated}
-                                                isCreated={isCreated}
-                                            />
+                                        <CardHeader>
+                                            <div className="flex flex-row justify-between">
+                                                <CardTitle>Quizzes</CardTitle>
+                                                <DialogCreateGame
+                                                    setIsCreated={setIsCreated}
+                                                    isCreated={isCreated}
+                                                />
+                                            </div>
+                                            <CardDescription>List of all available quizzes</CardDescription>
                                         </CardHeader>
                                         <CardContent>
                                             <Table className="">

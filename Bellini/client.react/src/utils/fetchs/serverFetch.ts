@@ -12,11 +12,11 @@ export const serverFetch  = async (endpoint: string, options?: RequestInit): Pro
 
     console.warn(response.status);
 
-    switch (response.status) {
-        //case 401: window.location.href = '/login'; return response;
-        case 404: window.location.href = '/404'; return response;
-        //case 500: window.location.href = '/500'; return response;
-    }
+    // switch (response.status) {
+    //     //case 401: window.location.href = '/login'; return response;
+    //     //case 404: window.location.href = '/404'; return response;
+    //     //case 500: window.location.href = '/500'; return response;
+    // }
 
     return response;
 };
