@@ -34,7 +34,7 @@ namespace ProfileService.Controllers
             );
         }
 
-        [HttpGet]
+        [HttpGet("all-data")]
         public async Task<IActionResult> GetAllProfiles(CancellationToken cancellationToken)
         {
             return Ok(

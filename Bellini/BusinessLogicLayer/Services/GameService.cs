@@ -75,6 +75,11 @@ namespace BusinessLogicLayer.Services
             return game.Id;
         }
 
+        public async Task<IEnumerable<Game>> GetAllGamesAsync(CancellationToken cancellationToken = default)
+        {
+            return await _gameRepository.GetElementsAsync(cancellationToken);
+        }
+
         public async Task<GameDto> GetGameByIdAsync(int gameId, CancellationToken cancellationToken = default)
         {
             var game = await _gameRepository.GetItemAsync(gameId, cancellationToken);

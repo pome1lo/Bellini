@@ -6,6 +6,7 @@
         public string Username { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string FirstName { get; set; } = null!;
+        public bool IsAdmin { get; set; } = false;
         public string LastName { get; set; } = null!;
         public DateTime DateOfBirth { get; set; }
         public string? ProfileImageUrl { get; set; }

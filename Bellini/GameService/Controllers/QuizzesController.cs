@@ -23,6 +23,14 @@ namespace GameService.Controllers
             return Ok(new { quizzes, total = totalCount });
         }
 
+        [HttpGet("all-data")]
+        public async Task<IActionResult> GetAllGames(CancellationToken cancellationToken = default)
+        {
+            return Ok(
+                await _quizService.GetAllQuizzesAsync(cancellationToken)
+            );
+        }
+
         // refacotr
         [HttpGet("{quizId:int}")]
         public async Task<IActionResult> GetQuizByQuizId(int quizId, CancellationToken cancellationToken)

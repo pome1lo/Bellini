@@ -45,6 +45,14 @@ namespace GameService.Controllers
             return Ok(new { games, total = totalCount });
         }
 
+        [HttpGet("all-data")]
+        public async Task<IActionResult> GetAllGames(CancellationToken cancellationToken = default)
+        {
+            return Ok(
+                await _gameService.GetAllGamesAsync(cancellationToken)
+            );
+        }
+
         [HttpGet("{gameId}/statistics")]
         public async Task<IActionResult> GetGameStatistics(int gameId, CancellationToken cancellationToken)
         {

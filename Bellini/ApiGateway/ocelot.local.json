@@ -42,6 +42,18 @@
       "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
     },
     {
+      "DownstreamPathTemplate": "/api/profile/all-data",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7256
+        }
+      ],
+      "UpstreamPathTemplate": "/profile/all-data",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
     "DownstreamPathTemplate": "/api/profile/{everything}/info",
     "DownstreamScheme": "https",
     "DownstreamHostAndPorts": [
@@ -77,6 +89,18 @@
       ],
       "UpstreamPathTemplate": "/game/{everything}",
       "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/game/all-data",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/game/all-data",
+      "UpstreamHttpMethod": [ "GET"]
     },
     {
       "DownstreamPathTemplate": "/api/game/{everything}/statistics",
@@ -212,6 +236,18 @@
       ],
       "UpstreamPathTemplate": "/quizzes/{id:int}/end",
       "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/quizzes/all-data",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes/all-data",
+      "UpstreamHttpMethod": [ "GET" ]
     },
     // SignalR Hub for GameService
 

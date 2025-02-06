@@ -166,8 +166,8 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
                                                     <DropdownMenuItem onClick={() => handleNavigateToQuiz(item.id)} key={item.id} className="cursor-pointer">Visit</DropdownMenuItem>
                                                     {user?.isAdmin ? 
                                                         <>
-                                                            <DropdownMenuItem onClick={() => alert("adsasd")}>Edit</DropdownMenuItem>
-                                                            <DropdownMenuItem onClick={() => alert("adsasd")}>Delete</DropdownMenuItem>    
+                                                            <DropdownMenuItem onClick={() => navigate("/admin")}>Edit</DropdownMenuItem>
+                                                            <DropdownMenuItem onClick={() => navigate("/admin")}>Delete</DropdownMenuItem>
                                                         </>
                                                     : <></>}
                                                 </DropdownMenuContent>

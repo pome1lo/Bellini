@@ -15,4 +15,7 @@ export interface Game {
     gameStatus: {
         name: string;
     };
+    status: {
+        name: string;
+    };
 }
