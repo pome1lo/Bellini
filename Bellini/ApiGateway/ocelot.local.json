@@ -11,7 +11,19 @@
         }
       ],
       "UpstreamPathTemplate": "/admin/user",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/admin/user/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7121
+        }
+      ],
+      "UpstreamPathTemplate": "/admin/user/{everything}",
+      "UpstreamHttpMethod": [ "DELETE", "PUT", "GET" ]
     },
     {
       "DownstreamPathTemplate": "/api/admin/game",
@@ -23,7 +35,19 @@
         }
       ],
       "UpstreamPathTemplate": "/admin/game",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/admin/game/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7121
+        }
+      ],
+      "UpstreamPathTemplate": "/admin/game/{everything}",
+      "UpstreamHttpMethod": [ "DELETE", "PUT", "GET" ]
     },
     {
       "DownstreamPathTemplate": "/api/admin/quiz",
@@ -35,7 +59,19 @@
         }
       ],
       "UpstreamPathTemplate": "/admin/quiz",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/admin/quiz/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7121
+        }
+      ],
+      "UpstreamPathTemplate": "/admin/quiz/{everything}",
+      "UpstreamHttpMethod": [ "DELETE", "PUT", "GET" ]
     },
 
 

@@ -32,5 +32,11 @@ namespace BusinessLogicLayer.Services
             var db = _redis.GetDatabase();
             await db.KeyDeleteAsync(key);
         }
+
+        public async Task<bool> TryRemoveAsync(string key)
+        {
+            var db = _redis.GetDatabase();
+            return await db.KeyExistsAsync(key) && await db.KeyDeleteAsync(key);
+        }
     }
 }

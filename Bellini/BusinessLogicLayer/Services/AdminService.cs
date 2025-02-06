@@ -2,6 +2,8 @@
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
+using Microsoft.Extensions.Caching.Distributed;
+using UtilsModelsLibrary.Exceptions;
 
 namespace BusinessLogicLayer.Services
 {
@@ -9,13 +11,16 @@ namespace BusinessLogicLayer.Services
     {
         private readonly IRepository<User> _userRepository;
         private readonly INotificationService _notificationService;
+        private readonly IDistributedCache _cache;
 
         public AdminService(
             IRepository<User> repository,
-            INotificationService notificationService)
+            INotificationService notificationService,
+            IDistributedCache cache)
         {
             _userRepository = repository;
             _notificationService = notificationService;
+            _cache = cache;
         }
 
         public async Task CreateGameAsync(AdminCreateGameDto createGameDto, CancellationToken cancellationToken = default)
@@ -49,6 +54,32 @@ namespace BusinessLogicLayer.Services
                 UserId = _userRepository.GetElementsAsync().Result.FirstOrDefault(x => x.Email == user.Email).Id
             });
         }
+
+        public async Task DeleteGameAsync(int id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task DeleteQuizAsync(int id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task DeleteUserAsync(int id, CancellationToken cancellationToken = default)
+        {
+            var existingUser = await _userRepository.GetItemAsync(id, cancellationToken);
+            if (existingUser is null)
+            {
+                throw new NotFoundException($"Profile with ID {id} not found.");
+            }
+
+            var cacheKey = $"User_{existingUser.Email}";
+            await _cache.RemoveAsync(cacheKey, cancellationToken);
+
+            await _userRepository.DeleteAsync(id, cancellationToken);
+        }
+
+
 
         public async Task UpdateGameAsync(AdminUpdateGameDto updateGameDto, CancellationToken cancellationToken = default)
         {

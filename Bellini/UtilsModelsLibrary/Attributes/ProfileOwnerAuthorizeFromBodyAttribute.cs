@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 using System.Text.Json;
 
-namespace BusinessLogicLayer.Attributes
+namespace UtilsModelsLibrary.Attributes
 {
     public class ProfileOwnerAuthorizeFromBodyAttribute : AuthorizeAttribute, IAsyncAuthorizationFilter
     {

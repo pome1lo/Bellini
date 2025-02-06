@@ -93,6 +93,7 @@ namespace BusinessLogicLayer.Services
                 {
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Role, user.IsAdmin ? "Admin" : "User"),
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(15),
