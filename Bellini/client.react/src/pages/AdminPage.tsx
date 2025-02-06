@@ -15,6 +15,7 @@ import {DialogCreateGame} from "@/components/dialogs/dialogCreateGame.tsx";
 import {Game} from "@/utils/interfaces/Game.ts";
 import {Quiz} from "@/utils/interfaces/Quiz.ts";
 import {Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious} from "@/components/ui/pagination.tsx";
+import {CustomPagination} from "@/components/customPagination.tsx";
 
 interface UserProfile {
     id: number;
@@ -57,7 +58,7 @@ export const AdminPage = () => {
                 setUsers(data.users);
                 setTotalUserPages(Math.ceil(data.total / itemsPerPage));
             });
-    }, [isUpdated]);
+    }, [isUpdated, currentUserPage]);
 
     useEffect(() => {
         serverFetch(`/quizzes/all-data?limit=${itemsPerPage}&offset=${(currentQuizPage - 1) * itemsPerPage}`)
@@ -66,7 +67,7 @@ export const AdminPage = () => {
                 setQuizzes(data.quizzes);
                 setTotalQuizPages(Math.ceil(data.total / itemsPerPage));
             });
-    }, [isUpdated]);
+    }, [isUpdated, currentQuizPage]);
 
     useEffect(() => {
         serverFetch(`/game/all-data?limit=${itemsPerPage}&offset=${(currentGamePage - 1) * itemsPerPage}`)
@@ -75,13 +76,7 @@ export const AdminPage = () => {
                 setGames(data.games);
                 setTotalGamePages(Math.ceil(data.total / itemsPerPage));
             });
-    }, [isUpdated]);
-
-    const handlePageChange = (page: number, totalPages: number, setCurrentPage: (arg: number) => void) => {
-        if (page > 0 && page <= totalPages) {
-            setCurrentPage(page);
-        }
-    };
+    }, [isUpdated, currentGamePage]);
 
     return (
         <>
@@ -181,48 +176,11 @@ export const AdminPage = () => {
                                                 <div className="text-xs text-muted-foreground">
                                                     Showing <strong>{(currentUserPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentUserPage * itemsPerPage, users.length)}</strong> of <strong>{totalUserPages * itemsPerPage}</strong> users
                                                 </div>
-                                                <div>
-                                                    <Pagination>
-                                                        <PaginationContent>
-                                                            <PaginationPrevious
-                                                                onClick={() => handlePageChange(currentUserPage - 1, totalUserPages, setCurrentUserPage)}
-                                                                disabled={currentUserPage === 1}
-                                                            />
-                                                            {currentUserPage > 2 && (
-                                                                <PaginationItem>
-                                                                    <PaginationLink onClick={() => handlePageChange(1, totalUserPages, setCurrentUserPage)}>1</PaginationLink>
-                                                                </PaginationItem>
-                                                            )}
-                                                            {currentUserPage > 3 && <PaginationEllipsis/>}
-                                                            {currentUserPage > 1 && (
-                                                                <PaginationItem>
-                                                                    <PaginationLink
-                                                                        onClick={() => handlePageChange(currentUserPage - 1, totalUserPages, setCurrentUserPage)}>{currentUserPage - 1}</PaginationLink>
-                                                                </PaginationItem>
-                                                            )}
-                                                            <PaginationItem>
-                                                                <PaginationLink isActive>{currentUserPage}</PaginationLink>
-                                                            </PaginationItem>
-                                                            {currentUserPage < totalUserPages && (
-                                                                <PaginationItem>
-                                                                    <PaginationLink
-                                                                        onClick={() => handlePageChange(currentUserPage + 1, totalUserPages, setCurrentUserPage)}>{currentUserPage + 1}</PaginationLink>
-                                                                </PaginationItem>
-                                                            )}
-                                                            {currentUserPage < totalUserPages - 2 && <PaginationEllipsis/>}
-                                                            {currentUserPage < totalUserPages - 1 && (
-                                                                <PaginationItem>
-                                                                    <PaginationLink
-                                                                        onClick={() => handlePageChange(totalUserPages, totalUserPages, setCurrentUserPage)}>{totalUserPages}</PaginationLink>
-                                                                </PaginationItem>
-                                                            )}
-                                                            <PaginationNext
-                                                                onClick={() => handlePageChange(currentUserPage + 1, totalUserPages, setCurrentUserPage)}
-                                                                disabled={currentUserPage === totalUserPages}
-                                                            />
-                                                        </PaginationContent>
-                                                    </Pagination>
-                                                </div>
+                                                <CustomPagination
+                                                    currentPage={currentUserPage}
+                                                    totalPages={totalUserPages}
+                                                    onPageChange={setCurrentUserPage}
+                                                />
                                             </div>
                                         </CardFooter>
                                     </Card>
@@ -292,48 +250,11 @@ export const AdminPage = () => {
                                                 <div className="text-xs text-muted-foreground">
                                                     Showing <strong>{(currentGamePage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentGamePage * itemsPerPage, games.length)}</strong> of <strong>{totalGamePages * itemsPerPage}</strong> games
                                                 </div>
-                                                <div>
-                                                    <Pagination>
-                                                        <PaginationContent>
-                                                            <PaginationPrevious
-                                                                onClick={() => handlePageChange(currentGamePage - 1, totalGamePages, setCurrentGamePage)}
-                                                                disabled={currentGamePage === 1}
-                                                            />
-                                                            {currentGamePage > 2 && (
-                                                                <PaginationItem>
-                                                                    <PaginationLink onClick={() => handlePageChange(1, totalGamePages, setCurrentGamePage)}>1</PaginationLink>
-                                                                </PaginationItem>
-                                                            )}
-                                                            {currentGamePage > 3 && <PaginationEllipsis/>}
-                                                            {currentGamePage > 1 && (
-                                                                <PaginationItem>
-                                                                    <PaginationLink
-                                                                        onClick={() => handlePageChange(currentGamePage - 1, totalGamePages, setCurrentGamePage)}>{currentGamePage - 1}</PaginationLink>
-                                                                </PaginationItem>
-                                                            )}
-                                                            <PaginationItem>
-                                                                <PaginationLink isActive>{currentGamePage}</PaginationLink>
-                                                            </PaginationItem>
-                                                            {currentGamePage < totalGamePages && (
-                                                                <PaginationItem>
-                                                                    <PaginationLink
-                                                                        onClick={() => handlePageChange(currentGamePage + 1, totalGamePages, setCurrentGamePage)}>{currentGamePage + 1}</PaginationLink>
-                                                                </PaginationItem>
-                                                            )}
-                                                            {currentGamePage < totalGamePages - 2 && <PaginationEllipsis/>}
-                                                            {currentGamePage < totalGamePages - 1 && (
-                                                                <PaginationItem>
-                                                                    <PaginationLink
-                                                                        onClick={() => handlePageChange(totalGamePages, totalGamePages, setCurrentGamePage)}>{totalGamePages}</PaginationLink>
-                                                                </PaginationItem>
-                                                            )}
-                                                            <PaginationNext
-                                                                onClick={() => handlePageChange(currentGamePage + 1, totalGamePages, setCurrentGamePage)}
-                                                                disabled={currentGamePage === totalGamePages}
-                                                            />
-                                                        </PaginationContent>
-                                                    </Pagination>
-                                                </div>
+                                                <CustomPagination
+                                                    currentPage={currentGamePage}
+                                                    totalPages={totalGamePages}
+                                                    onPageChange={setCurrentGamePage}
+                                                />
                                             </div>
                                         </CardFooter>
                                     </Card>
@@ -395,48 +316,11 @@ export const AdminPage = () => {
                                                 <div className="text-xs text-muted-foreground">
                                                     Showing <strong>{(currentQuizPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentQuizPage * itemsPerPage, quizzes.length)}</strong> of <strong>{totalQuizPages * itemsPerPage}</strong> quizzes
                                                 </div>
-                                                <div>
-                                                    <Pagination>
-                                                        <PaginationContent>
-                                                            <PaginationPrevious
-                                                                onClick={() => handlePageChange(currentQuizPage - 1, totalQuizPages, setCurrentQuizPage)}
-                                                                disabled={currentQuizPage === 1}
-                                                            />
-                                                            {currentQuizPage > 2 && (
-                                                                <PaginationItem>
-                                                                    <PaginationLink onClick={() => handlePageChange(1, totalQuizPages, setCurrentQuizPage)}>1</PaginationLink>
-                                                                </PaginationItem>
-                                                            )}
-                                                            {currentQuizPage > 3 && <PaginationEllipsis/>}
-                                                            {currentQuizPage > 1 && (
-                                                                <PaginationItem>
-                                                                    <PaginationLink
-                                                                        onClick={() => handlePageChange(currentQuizPage - 1, totalQuizPages, setCurrentQuizPage)}>{currentQuizPage - 1}</PaginationLink>
-                                                                </PaginationItem>
-                                                            )}
-                                                            <PaginationItem>
-                                                                <PaginationLink isActive>{currentQuizPage}</PaginationLink>
-                                                            </PaginationItem>
-                                                            {currentQuizPage < totalQuizPages && (
-                                                                <PaginationItem>
-                                                                    <PaginationLink
-                                                                        onClick={() => handlePageChange(currentQuizPage + 1, totalQuizPages, setCurrentQuizPage)}>{currentQuizPage + 1}</PaginationLink>
-                                                                </PaginationItem>
-                                                            )}
-                                                            {currentQuizPage < totalQuizPages - 2 && <PaginationEllipsis/>}
-                                                            {currentQuizPage < totalQuizPages - 1 && (
-                                                                <PaginationItem>
-                                                                    <PaginationLink
-                                                                        onClick={() => handlePageChange(totalQuizPages, totalQuizPages, setCurrentQuizPage)}>{totalQuizPages}</PaginationLink>
-                                                                </PaginationItem>
-                                                            )}
-                                                            <PaginationNext
-                                                                onClick={() => handlePageChange(currentQuizPage + 1, totalQuizPages, setCurrentQuizPage)}
-                                                                disabled={currentQuizPage === totalQuizPages}
-                                                            />
-                                                        </PaginationContent>
-                                                    </Pagination>
-                                                </div>
+                                                <CustomPagination
+                                                    currentPage={currentQuizPage}
+                                                    totalPages={totalQuizPages}
+                                                    onPageChange={setCurrentQuizPage}
+                                                />
                                             </div>
                                         </CardFooter>
                                     </Card>
@@ -453,3 +337,4 @@ export const AdminPage = () => {
         </>
     );
 };
+
