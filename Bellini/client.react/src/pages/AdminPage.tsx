@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
@@ -14,6 +14,7 @@ import {RefreshCcw} from "lucide-react";
 import {DialogCreateGame} from "@/components/dialogs/dialogCreateGame.tsx";
 import {Game} from "@/utils/interfaces/Game.ts";
 import {Quiz} from "@/utils/interfaces/Quiz.ts";
+import {Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious} from "@/components/ui/pagination.tsx";
 
 interface UserProfile {
     id: number;
@@ -41,33 +42,46 @@ export const AdminPage = () => {
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
     const [games, setGames] = useState<Game[]>([]);
 
+    const [currentQuizPage, setCurrentQuizPage] = useState(1);
+    const [totalQuizPages, setTotalQuizPages] = useState(1);
+    const [currentGamePage, setCurrentGamePage] = useState(1);
+    const [totalGamePages, setTotalGamePages] = useState(1);
+    const [currentUserPage, setCurrentUserPage] = useState(1);
+    const [totalUserPages, setTotalUserPages] = useState(1);
+    const itemsPerPage = 10;
 
     useEffect(() => {
-        serverFetch(`/profile/all-data`)
+        serverFetch(`/profile/all-data?limit=${itemsPerPage}&offset=${(currentUserPage - 1) * itemsPerPage}`)
             .then(response => response.json())
             .then(data => {
-                setUsers(data);
-                console.log(data)
+                setUsers(data.users);
+                setTotalUserPages(Math.ceil(data.total / itemsPerPage));
             });
     }, [isUpdated]);
 
     useEffect(() => {
-        serverFetch(`/quizzes/all-data`)
+        serverFetch(`/quizzes/all-data?limit=${itemsPerPage}&offset=${(currentQuizPage - 1) * itemsPerPage}`)
             .then(response => response.json())
             .then(data => {
-                setQuizzes(data);
-                console.log(data)
+                setQuizzes(data.quizzes);
+                setTotalQuizPages(Math.ceil(data.total / itemsPerPage));
             });
     }, [isUpdated]);
 
     useEffect(() => {
-        serverFetch(`/game/all-data`)
+        serverFetch(`/game/all-data?limit=${itemsPerPage}&offset=${(currentGamePage - 1) * itemsPerPage}`)
             .then(response => response.json())
             .then(data => {
-                setGames(data);
-                console.log(data)
+                setGames(data.games);
+                setTotalGamePages(Math.ceil(data.total / itemsPerPage));
             });
     }, [isUpdated]);
+
+    const handlePageChange = (page: number, totalPages: number, setCurrentPage: (arg: number) => void) => {
+        if (page > 0 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
 
     return (
         <>
@@ -107,195 +121,330 @@ export const AdminPage = () => {
                                 </Button>
                             </div>
                             <TabsContent value="users">
-                                <Card>
-                                    <CardHeader className="flex flex-row justify-between">
-                                        <CardTitle>Users</CardTitle>
-                                        <DialogCreateGame
-                                            setIsCreated={setIsCreated}
-                                            isCreated={isCreated}
-                                        />
-                                    </CardHeader>
-                                    <CardContent>
-                                        <Table className="">
-                                            <TableHeader>
-                                                <TableRow>
-                                                    <TableHead>№</TableHead>
-                                                    <TableHead>Image</TableHead>
-                                                    <TableHead>Username</TableHead>
-                                                    <TableHead>Email</TableHead>
-                                                    <TableHead>FirstName</TableHead>
-                                                    <TableHead>LastName</TableHead>
-                                                    <TableHead>Is Admin</TableHead>
-                                                    <TableHead className="text-right ">Actions</TableHead>
-                                                </TableRow>
-                                            </TableHeader>
-                                            <TableBody>
-                                                {users && users.length != 0 ?
-                                                    <>
-                                                        {users.map((item, index) => (
-                                                            <TableRow key={index}>
-                                                                <TableCell>{index + 1}</TableCell>
-                                                                <TableCell>
-                                                                    <Avatar className="hidden h-9 w-9 sm:flex">
-                                                                        <AvatarImage
-                                                                            src={item.profileImageUrl}
-                                                                            alt={`${item.username}'s profile`}
-                                                                        />
-                                                                        <AvatarFallback>
-                                                                            {(item.username.charAt(0) + item.username.charAt(1)).toUpperCase()}
-                                                                        </AvatarFallback>
-                                                                    </Avatar>
-                                                                </TableCell>
-                                                                <TableCell>{item.username}</TableCell>
-                                                                <TableCell>{item.email}</TableCell>
-                                                                <TableCell>{item.firstName}</TableCell>
-                                                                <TableCell>{item.lastName}</TableCell>
-                                                                <TableCell>
-                                                                    {item.isAdmin ? <PiCrownSimpleBold/> : <MdOutlineDoNotDisturbAlt/>}
-                                                                </TableCell>
-                                                                <TableCell className="bg-secondary flex justify-end">
+                                {users && users.length != 0 ?
+                                    <Card>
+                                        <CardHeader className="flex flex-row justify-between">
+                                            <CardTitle>Users</CardTitle>
+                                            <DialogCreateGame
+                                                setIsCreated={setIsCreated}
+                                                isCreated={isCreated}
+                                            />
+                                        </CardHeader>
+                                        <CardContent>
+                                            <Table className="">
+                                                <TableHeader>
+                                                    <TableRow>
+                                                        <TableHead>№</TableHead>
+                                                        <TableHead>Image</TableHead>
+                                                        <TableHead>Username</TableHead>
+                                                        <TableHead>Email</TableHead>
+                                                        <TableHead>FirstName</TableHead>
+                                                        <TableHead>LastName</TableHead>
+                                                        <TableHead>Is Admin</TableHead>
+                                                        <TableHead className="text-right ">Actions</TableHead>
+                                                    </TableRow>
+                                                </TableHeader>
+                                                <TableBody>
+                                                    {users.map((item, index) => (
+                                                        <TableRow key={index}>
+                                                            <TableCell>{index + 1}</TableCell>
+                                                            <TableCell>
+                                                                <Avatar className="hidden h-9 w-9 sm:flex">
+                                                                    <AvatarImage
+                                                                        src={item.profileImageUrl}
+                                                                        alt={`${item.username}'s profile`}
+                                                                    />
+                                                                    <AvatarFallback>
+                                                                        {(item.username.charAt(0) + item.username.charAt(1)).toUpperCase()}
+                                                                    </AvatarFallback>
+                                                                </Avatar>
+                                                            </TableCell>
+                                                            <TableCell>{item.username}</TableCell>
+                                                            <TableCell>{item.email}</TableCell>
+                                                            <TableCell>{item.firstName}</TableCell>
+                                                            <TableCell>{item.lastName}</TableCell>
+                                                            <TableCell>
+                                                                {item.isAdmin ? <PiCrownSimpleBold/> : <MdOutlineDoNotDisturbAlt/>}
+                                                            </TableCell>
+                                                            <TableCell className="bg-secondary flex justify-end">
 
-                                                                    <Button variant="outline" size="sm">Изменить</Button>
-                                                                    <Button variant="destructive" className="ms-3" size="sm">Удалить</Button>
-                                                                </TableCell>
-                                                            </TableRow>
-                                                        ))}
-                                                    </>
-                                                    :
-                                                    <>
-                                                        users not found
-                                                    </>
-                                                }
-                                            </TableBody>
-                                        </Table>
-                                    </CardContent>
-                                    <CardFooter>
-                                    </CardFooter>
-                                </Card>
+                                                                <Button variant="outline" size="sm">Изменить</Button>
+                                                                <Button variant="destructive" className="ms-3" size="sm">Удалить</Button>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </CardContent>
+                                        <CardFooter>
+                                            <div className="flex justify-between w-full items-center">
+                                                <div className="text-xs text-muted-foreground">
+                                                    Showing <strong>{(currentUserPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentUserPage * itemsPerPage, users.length)}</strong> of <strong>{totalUserPages * itemsPerPage}</strong> users
+                                                </div>
+                                                <div>
+                                                    <Pagination>
+                                                        <PaginationContent>
+                                                            <PaginationPrevious
+                                                                onClick={() => handlePageChange(currentUserPage - 1, totalUserPages, setCurrentUserPage)}
+                                                                disabled={currentUserPage === 1}
+                                                            />
+                                                            {currentUserPage > 2 && (
+                                                                <PaginationItem>
+                                                                    <PaginationLink onClick={() => handlePageChange(1, totalUserPages, setCurrentUserPage)}>1</PaginationLink>
+                                                                </PaginationItem>
+                                                            )}
+                                                            {currentUserPage > 3 && <PaginationEllipsis/>}
+                                                            {currentUserPage > 1 && (
+                                                                <PaginationItem>
+                                                                    <PaginationLink
+                                                                        onClick={() => handlePageChange(currentUserPage - 1, totalUserPages, setCurrentUserPage)}>{currentUserPage - 1}</PaginationLink>
+                                                                </PaginationItem>
+                                                            )}
+                                                            <PaginationItem>
+                                                                <PaginationLink isActive>{currentUserPage}</PaginationLink>
+                                                            </PaginationItem>
+                                                            {currentUserPage < totalUserPages && (
+                                                                <PaginationItem>
+                                                                    <PaginationLink
+                                                                        onClick={() => handlePageChange(currentUserPage + 1, totalUserPages, setCurrentUserPage)}>{currentUserPage + 1}</PaginationLink>
+                                                                </PaginationItem>
+                                                            )}
+                                                            {currentUserPage < totalUserPages - 2 && <PaginationEllipsis/>}
+                                                            {currentUserPage < totalUserPages - 1 && (
+                                                                <PaginationItem>
+                                                                    <PaginationLink
+                                                                        onClick={() => handlePageChange(totalUserPages, totalUserPages, setCurrentUserPage)}>{totalUserPages}</PaginationLink>
+                                                                </PaginationItem>
+                                                            )}
+                                                            <PaginationNext
+                                                                onClick={() => handlePageChange(currentUserPage + 1, totalUserPages, setCurrentUserPage)}
+                                                                disabled={currentUserPage === totalUserPages}
+                                                            />
+                                                        </PaginationContent>
+                                                    </Pagination>
+                                                </div>
+                                            </div>
+                                        </CardFooter>
+                                    </Card>
+                                    :
+                                    <>
+                                        Users 404
+                                    </>
+                                }
                             </TabsContent>
                             <TabsContent value="games">
-                                <Card>
-                                    <CardHeader className="flex flex-row justify-between">
-                                        <CardTitle>Games</CardTitle>
-                                        <DialogCreateGame
-                                            setIsCreated={setIsCreated}
-                                            isCreated={isCreated}
-                                        />
-                                    </CardHeader>
-                                    <CardContent>
-                                        <Table className="">
-                                            <TableHeader>
-                                                <TableRow>
-                                                    <TableHead>№</TableHead>
-                                                    <TableHead>Image</TableHead>
-                                                    <TableHead>Game Name</TableHead>
-                                                    <TableHead>Status</TableHead>
-                                                    <TableHead>Create Time</TableHead>
-                                                    <TableHead>Started Time</TableHead>
-                                                    <TableHead>Max Players</TableHead>
-                                                    <TableHead>Is Private</TableHead>
-                                                    <TableHead className="text-right ">Actions</TableHead>
-                                                </TableRow>
-                                            </TableHeader>
-                                            <TableBody>
-                                                {games && games.length != 0 ?
-                                                    <>
-                                                        {games.map((item, index) => (
-                                                            <TableRow key={index}>
-                                                                <TableCell>{index + 1}</TableCell>
-                                                                <TableCell>
-                                                                    <Avatar className="hidden h-9 w-9 sm:flex">
-                                                                        <AvatarImage
-                                                                            src={item.gameCoverImageUrl}
-                                                                            alt={`${item.gameName}'s profile`}
-                                                                        />
-                                                                        <AvatarFallback>
-                                                                            {(item.gameName.charAt(0) + item.gameName.charAt(1)).toUpperCase()}
-                                                                        </AvatarFallback>
-                                                                    </Avatar>
-                                                                </TableCell>
-                                                                <TableCell>{item.gameName}</TableCell>
-                                                                <TableCell>{item.status.name}</TableCell>
-                                                                <TableCell>{item.startTime.toString()}</TableCell>
-                                                                <TableCell>{item.createTime.toString()}</TableCell>
-                                                                <TableCell>{item.maxPlayers}</TableCell>
-                                                                <TableCell>{item.isPrivate ? "True" : "False"}</TableCell>
-                                                                <TableCell className="bg-secondary flex justify-end">
-                                                                    <Button variant="outline" size="sm">Изменить</Button>
-                                                                    <Button variant="destructive" className="ms-3" size="sm">Удалить</Button>
-                                                                </TableCell>
-                                                            </TableRow>
-                                                        ))}
-                                                    </>
-                                                    :
-                                                    <>
-                                                        игОр нет
-                                                    </>
-                                                }
-                                            </TableBody>
-                                        </Table>
-                                    </CardContent>
-                                    <CardFooter>
-                                    </CardFooter>
-                                </Card>
+                                {games && games.length != 0 ?
+                                    <Card>
+                                        <CardHeader className="flex flex-row justify-between">
+                                            <CardTitle>Games</CardTitle>
+                                            <DialogCreateGame
+                                                setIsCreated={setIsCreated}
+                                                isCreated={isCreated}
+                                            />
+                                        </CardHeader>
+                                        <CardContent>
+                                            <Table className="">
+                                                <TableHeader>
+                                                    <TableRow>
+                                                        <TableHead>№</TableHead>
+                                                        <TableHead>Image</TableHead>
+                                                        <TableHead>Game Name</TableHead>
+                                                        <TableHead>Status</TableHead>
+                                                        <TableHead>Create Time</TableHead>
+                                                        <TableHead>Started Time</TableHead>
+                                                        <TableHead>Max Players</TableHead>
+                                                        <TableHead>Is Private</TableHead>
+                                                        <TableHead className="text-right ">Actions</TableHead>
+                                                    </TableRow>
+                                                </TableHeader>
+                                                <TableBody>
+                                                    {games.map((item, index) => (
+                                                        <TableRow key={index}>
+                                                            <TableCell>{index + 1}</TableCell>
+                                                            <TableCell>
+                                                                <Avatar className="hidden h-9 w-9 sm:flex">
+                                                                    <AvatarImage
+                                                                        src={item.gameCoverImageUrl}
+                                                                        alt={`${item.gameName}'s profile`}
+                                                                    />
+                                                                    <AvatarFallback>
+                                                                        {(item.gameName.charAt(0) + item.gameName.charAt(1)).toUpperCase()}
+                                                                    </AvatarFallback>
+                                                                </Avatar>
+                                                            </TableCell>
+                                                            <TableCell>{item.gameName}</TableCell>
+                                                            <TableCell>{item.status.name}</TableCell>
+                                                            <TableCell>{item.startTime.toString()}</TableCell>
+                                                            <TableCell>{item.createTime.toString()}</TableCell>
+                                                            <TableCell>{item.maxPlayers}</TableCell>
+                                                            <TableCell>{item.isPrivate ? "True" : "False"}</TableCell>
+                                                            <TableCell className="bg-secondary flex justify-end">
+                                                                <Button variant="outline" size="sm">Изменить</Button>
+                                                                <Button variant="destructive" className="ms-3" size="sm">Удалить</Button>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </CardContent>
+                                        <CardFooter>
+                                            <div className="flex justify-between w-full items-center">
+                                                <div className="text-xs text-muted-foreground">
+                                                    Showing <strong>{(currentGamePage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentGamePage * itemsPerPage, games.length)}</strong> of <strong>{totalGamePages * itemsPerPage}</strong> games
+                                                </div>
+                                                <div>
+                                                    <Pagination>
+                                                        <PaginationContent>
+                                                            <PaginationPrevious
+                                                                onClick={() => handlePageChange(currentGamePage - 1, totalGamePages, setCurrentGamePage)}
+                                                                disabled={currentGamePage === 1}
+                                                            />
+                                                            {currentGamePage > 2 && (
+                                                                <PaginationItem>
+                                                                    <PaginationLink onClick={() => handlePageChange(1, totalGamePages, setCurrentGamePage)}>1</PaginationLink>
+                                                                </PaginationItem>
+                                                            )}
+                                                            {currentGamePage > 3 && <PaginationEllipsis/>}
+                                                            {currentGamePage > 1 && (
+                                                                <PaginationItem>
+                                                                    <PaginationLink
+                                                                        onClick={() => handlePageChange(currentGamePage - 1, totalGamePages, setCurrentGamePage)}>{currentGamePage - 1}</PaginationLink>
+                                                                </PaginationItem>
+                                                            )}
+                                                            <PaginationItem>
+                                                                <PaginationLink isActive>{currentGamePage}</PaginationLink>
+                                                            </PaginationItem>
+                                                            {currentGamePage < totalGamePages && (
+                                                                <PaginationItem>
+                                                                    <PaginationLink
+                                                                        onClick={() => handlePageChange(currentGamePage + 1, totalGamePages, setCurrentGamePage)}>{currentGamePage + 1}</PaginationLink>
+                                                                </PaginationItem>
+                                                            )}
+                                                            {currentGamePage < totalGamePages - 2 && <PaginationEllipsis/>}
+                                                            {currentGamePage < totalGamePages - 1 && (
+                                                                <PaginationItem>
+                                                                    <PaginationLink
+                                                                        onClick={() => handlePageChange(totalGamePages, totalGamePages, setCurrentGamePage)}>{totalGamePages}</PaginationLink>
+                                                                </PaginationItem>
+                                                            )}
+                                                            <PaginationNext
+                                                                onClick={() => handlePageChange(currentGamePage + 1, totalGamePages, setCurrentGamePage)}
+                                                                disabled={currentGamePage === totalGamePages}
+                                                            />
+                                                        </PaginationContent>
+                                                    </Pagination>
+                                                </div>
+                                            </div>
+                                        </CardFooter>
+                                    </Card>
+                                    :
+                                    <>
+                                        Games 404
+                                    </>
+                                }
                             </TabsContent>
                             <TabsContent value="quizzes">
-                                <Card>
-                                    <CardHeader className="flex flex-row justify-between">
-                                        <CardTitle>Quizzes</CardTitle>
-                                        <DialogCreateGame
-                                            setIsCreated={setIsCreated}
-                                            isCreated={isCreated}
-                                        />
-                                    </CardHeader>
-                                    <CardContent>
-                                        <Table className="">
-                                            <TableHeader>
-                                                <TableRow>
-                                                    <TableHead>№</TableHead>
-                                                    <TableHead>Image</TableHead>
-                                                    <TableHead>Quiz Name</TableHead>
-                                                    <TableHead>Number of questions</TableHead>
-                                                    <TableHead className="text-right ">Actions</TableHead>
-                                                </TableRow>
-                                            </TableHeader>
-                                            <TableBody>
-                                                {quizzes && quizzes.length != 0 ?
-                                                    <>
-                                                        {quizzes.map((item, index) => (
-                                                            <TableRow key={index}>
-                                                                <TableCell>{index + 1}</TableCell>
-                                                                <TableCell>
-                                                                    <Avatar className="hidden h-9 w-9 sm:flex">
-                                                                        <AvatarImage
-                                                                            src={item.gameCoverImageUrl}
-                                                                            alt={`${item.gameName}'s profile`}
-                                                                        />
-                                                                        <AvatarFallback>
-                                                                            {(item.gameName.charAt(0) + item.gameName.charAt(1)).toUpperCase()}
-                                                                        </AvatarFallback>
-                                                                    </Avatar>
-                                                                </TableCell>
-                                                                <TableCell>{item.gameName}</TableCell>
-                                                                <TableCell>{item.questions.length}</TableCell>
-                                                                <TableCell className="bg-secondary flex justify-end">
-                                                                    <Button variant="outline" size="sm">Изменить</Button>
-                                                                    <Button variant="destructive" className="ms-3" size="sm">Удалить</Button>
-                                                                </TableCell>
-                                                            </TableRow>
-                                                        ))}
-                                                    </>
-                                                    :
-                                                    <>
-                                                        quizzes not found
-                                                    </>
-                                                }
-                                            </TableBody>
-                                        </Table>
-                                    </CardContent>
-                                    <CardFooter>
-                                    </CardFooter>
-                                </Card>
+                                {quizzes && quizzes.length != 0 ?
+                                    <Card>
+                                        <CardHeader className="flex flex-row justify-between">
+                                            <CardTitle>Quizzes</CardTitle>
+                                            <DialogCreateGame
+                                                setIsCreated={setIsCreated}
+                                                isCreated={isCreated}
+                                            />
+                                        </CardHeader>
+                                        <CardContent>
+                                            <Table className="">
+                                                <TableHeader>
+                                                    <TableRow>
+                                                        <TableHead>№</TableHead>
+                                                        <TableHead>Image</TableHead>
+                                                        <TableHead>Quiz Name</TableHead>
+                                                        <TableHead>Number of questions</TableHead>
+                                                        <TableHead className="text-right ">Actions</TableHead>
+                                                    </TableRow>
+                                                </TableHeader>
+                                                <TableBody>
+                                                    {quizzes.map((item, index) => (
+                                                        <TableRow key={index}>
+                                                            <TableCell>{index + 1}</TableCell>
+                                                            <TableCell>
+                                                                <Avatar className="hidden h-9 w-9 sm:flex">
+                                                                    <AvatarImage
+                                                                        src={item.gameCoverImageUrl}
+                                                                        alt={`${item.gameName}'s profile`}
+                                                                    />
+                                                                    <AvatarFallback>
+                                                                        {(item.gameName.charAt(0) + item.gameName.charAt(1)).toUpperCase()}
+                                                                    </AvatarFallback>
+                                                                </Avatar>
+                                                            </TableCell>
+                                                            <TableCell>{item.gameName}</TableCell>
+                                                            <TableCell>{item.questions.length}</TableCell>
+                                                            <TableCell className="bg-secondary flex justify-end">
+                                                                <Button variant="outline" size="sm">Изменить</Button>
+                                                                <Button variant="destructive" className="ms-3" size="sm">Удалить</Button>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </CardContent>
+                                        <CardFooter>
+                                            <div className="flex justify-between w-full items-center">
+                                                <div className="text-xs text-muted-foreground">
+                                                    Showing <strong>{(currentQuizPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentQuizPage * itemsPerPage, quizzes.length)}</strong> of <strong>{totalQuizPages * itemsPerPage}</strong> quizzes
+                                                </div>
+                                                <div>
+                                                    <Pagination>
+                                                        <PaginationContent>
+                                                            <PaginationPrevious
+                                                                onClick={() => handlePageChange(currentQuizPage - 1, totalQuizPages, setCurrentQuizPage)}
+                                                                disabled={currentQuizPage === 1}
+                                                            />
+                                                            {currentQuizPage > 2 && (
+                                                                <PaginationItem>
+                                                                    <PaginationLink onClick={() => handlePageChange(1, totalQuizPages, setCurrentQuizPage)}>1</PaginationLink>
+                                                                </PaginationItem>
+                                                            )}
+                                                            {currentQuizPage > 3 && <PaginationEllipsis/>}
+                                                            {currentQuizPage > 1 && (
+                                                                <PaginationItem>
+                                                                    <PaginationLink
+                                                                        onClick={() => handlePageChange(currentQuizPage - 1, totalQuizPages, setCurrentQuizPage)}>{currentQuizPage - 1}</PaginationLink>
+                                                                </PaginationItem>
+                                                            )}
+                                                            <PaginationItem>
+                                                                <PaginationLink isActive>{currentQuizPage}</PaginationLink>
+                                                            </PaginationItem>
+                                                            {currentQuizPage < totalQuizPages && (
+                                                                <PaginationItem>
+                                                                    <PaginationLink
+                                                                        onClick={() => handlePageChange(currentQuizPage + 1, totalQuizPages, setCurrentQuizPage)}>{currentQuizPage + 1}</PaginationLink>
+                                                                </PaginationItem>
+                                                            )}
+                                                            {currentQuizPage < totalQuizPages - 2 && <PaginationEllipsis/>}
+                                                            {currentQuizPage < totalQuizPages - 1 && (
+                                                                <PaginationItem>
+                                                                    <PaginationLink
+                                                                        onClick={() => handlePageChange(totalQuizPages, totalQuizPages, setCurrentQuizPage)}>{totalQuizPages}</PaginationLink>
+                                                                </PaginationItem>
+                                                            )}
+                                                            <PaginationNext
+                                                                onClick={() => handlePageChange(currentQuizPage + 1, totalQuizPages, setCurrentQuizPage)}
+                                                                disabled={currentQuizPage === totalQuizPages}
+                                                            />
+                                                        </PaginationContent>
+                                                    </Pagination>
+                                                </div>
+                                            </div>
+                                        </CardFooter>
+                                    </Card>
+                                    :
+                                    <>
+                                        Quizzes 404
+                                    </>
+                                }
                             </TabsContent>
                         </Tabs>
                     </CardContent>

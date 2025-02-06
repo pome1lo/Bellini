@@ -48,9 +48,17 @@ namespace BusinessLogicLayer.Services
             return await _quizRepository.GetItemAsync(id, cancellationToken);
         }
 
-        public async Task<IEnumerable<Quiz>> GetAllQuizzesAsync(CancellationToken cancellationToken = default)
+        public async Task<(IEnumerable<Quiz> Quizzes, int TotalCount)> GetAllQuizzesAsync(int limit, int offset, CancellationToken cancellationToken = default)
         {
-            return await _quizRepository.GetElementsAsync(cancellationToken);
+            var quizzes = await _quizRepository.GetElementsAsync(cancellationToken);
+            var totalCount = quizzes.Count();
+
+            var result = quizzes
+                .Skip(offset)
+                .Take(limit)
+                .ToList();
+
+            return (result, totalCount);
         }
 
         public async Task<Quiz> StartQuizAsync(int quizId, int userId, CancellationToken cancellationToken = default)

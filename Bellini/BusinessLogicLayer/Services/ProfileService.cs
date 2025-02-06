@@ -101,10 +101,17 @@ namespace BusinessLogicLayer.Services
             };
         }
 
-        public async Task<IEnumerable<ProfileDto>> GetAllProfilesAsync(CancellationToken cancellationToken = default)
+        public async Task<(IEnumerable<ProfileDto> Users, int TotalCount)> GetAllProfilesAsync(int limit, int offset, CancellationToken cancellationToken = default)
         {
             var users = await _userRepository.GetElementsAsync(cancellationToken);
-            return _mapper.Map<IEnumerable<ProfileDto>>(users);
+            var totalCount = users.Count();
+
+            var result = users
+                .Skip(offset)
+                .Take(limit)
+                .ToList();
+
+            return (_mapper.Map<IEnumerable<ProfileDto>>(result), totalCount);
         }
 
         public async Task<ProfileDto> UpdateProfileAsync(int profileId, UpdateProfileDto updateProfileDto, CancellationToken cancellationToken = default)

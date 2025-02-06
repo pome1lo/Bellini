@@ -75,9 +75,17 @@ namespace BusinessLogicLayer.Services
             return game.Id;
         }
 
-        public async Task<IEnumerable<Game>> GetAllGamesAsync(CancellationToken cancellationToken = default)
+        public async Task<(IEnumerable<Game> Games, int TotalCount)> GetAllGamesAsync(int limit, int offset, CancellationToken cancellationToken = default)
         {
-            return await _gameRepository.GetElementsAsync(cancellationToken);
+            var games = await _gameRepository.GetElementsAsync(cancellationToken);
+            var totalCount = games.Count();
+
+            var result = games
+                .Skip(offset)
+                .Take(limit)
+                .ToList();
+
+            return (result, totalCount);
         }
 
         public async Task<GameDto> GetGameByIdAsync(int gameId, CancellationToken cancellationToken = default)

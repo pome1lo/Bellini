@@ -35,11 +35,10 @@ namespace ProfileService.Controllers
         }
 
         [HttpGet("all-data")]
-        public async Task<IActionResult> GetAllProfiles(CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAllProfiles([FromQuery] int limit = 10, [FromQuery] int offset = 0, CancellationToken cancellationToken = default)
         {
-            return Ok(
-                await _profileService.GetAllProfilesAsync(cancellationToken)
-            );
+            var (users, totalCount) = await _profileService.GetAllProfilesAsync(limit, offset, cancellationToken);
+            return Ok(new { users, total = totalCount });
         }
 
         [HttpPut("{id}")]

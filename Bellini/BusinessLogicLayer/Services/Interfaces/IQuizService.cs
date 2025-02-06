@@ -9,7 +9,7 @@ namespace BusinessLogicLayer.Services.Interfaces
         Task<Quiz> GetQuizByIdAsync(int id, CancellationToken cancellationToken = default);
         Task<List<QuizRatingDto>> GetQuizRatingAsync(CancellationToken cancellationToken = default);
         Task<Quiz> StartQuizAsync(int quizId, int userId, CancellationToken cancellationToken = default);
-        Task<IEnumerable<Quiz>> GetAllQuizzesAsync(CancellationToken cancellationToken = default);
+        Task<(IEnumerable<Quiz> Quizzes, int TotalCount)> GetAllQuizzesAsync(int limit, int offset, CancellationToken cancellationToken = default);
         Task<Quiz> EndQuizAsync(int quizId, QuizFinishedDto quizFinishedDto, CancellationToken cancellationToken = default);
     }
 }
