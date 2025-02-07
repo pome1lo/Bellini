@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import  {useEffect, useState} from "react";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
@@ -16,6 +16,11 @@ import {Game} from "@/utils/interfaces/Game.ts";
 import {Quiz} from "@/utils/interfaces/Quiz.ts";
 import {CustomPagination} from "@/components/customPagination.tsx";
 import {DialogCreateUser} from "@/components/dialogs/dialogCreateUser.tsx";
+import {useNavigate} from "react-router-dom";
+import {authFetch} from "@/utils/fetchs/authFetch.ts";
+import {toast} from "@/components/ui/use-toast.tsx";
+import {useAuth} from "@/utils/context/authContext.tsx";
+import {DialogCreateQuiz} from "@/components/dialogs/dialogCreateQuiz.tsx";
 
 interface UserProfile {
     id: number;
@@ -35,6 +40,8 @@ const breadcrumbItems = [
 
 export const AdminPage = () => {
     const [activeTab, setActiveTab] = useState("users");
+    const navigate = useNavigate();
+    const {user, isAuthenticated, getAccessToken, logout} = useAuth();
 
     const [isUpdated, setIsUpdated] = useState<boolean>(false);
     const [isCreated, setIsCreated] = useState<boolean>(false);
@@ -50,6 +57,12 @@ export const AdminPage = () => {
     const [currentUserPage, setCurrentUserPage] = useState(1);
     const [totalUserPages, setTotalUserPages] = useState(1);
     const itemsPerPage = 10;
+
+    useEffect(() => {
+        if(!user?.isAdmin) {
+            navigate("404");
+        }
+    }, []);
 
     useEffect(() => {
         serverFetch(`/profile/all-data?limit=${itemsPerPage}&offset=${(currentUserPage - 1) * itemsPerPage}`)
@@ -77,6 +90,27 @@ export const AdminPage = () => {
                 setTotalGamePages(Math.ceil(data.total / itemsPerPage));
             });
     }, [isUpdated, currentGamePage, isCreated]);
+
+    const onDeleteUser = async (id: number) => {
+        try {
+            const response = await authFetch(`/admin/user/${id}`, getAccessToken, logout, {
+                method: 'DELETE'
+            });
+            if (response.status == 204) {
+                setIsUpdated(!isUpdated);
+                toast({title: "User Deleted", description: "The user was successfully deleted."});
+            } else {
+                const responseData = await response.json();
+                toast({
+                    title: "Error",
+                    description: responseData.message || "An error occurred.",
+                    variant: "destructive"
+                });
+            }
+        } catch (ex: unknown) {
+            alert((ex as Error).message || 'An unexpected error occurred');
+        }
+    };
 
     return (
         <>
@@ -144,9 +178,9 @@ export const AdminPage = () => {
                                                 </TableHeader>
                                                 <TableBody>
                                                     {users.map((item, index) => (
-                                                        <TableRow key={index}>
-                                                            <TableCell>{index + 1}</TableCell>
-                                                            <TableCell>
+                                                        <TableRow key={index} >
+                                                            <TableCell onClick={() => navigate("/profile/" + item.id)}>{index + 1}</TableCell>
+                                                            <TableCell onClick={() => navigate("/profile/" + item.id)}>
                                                                 <Avatar className="hidden h-9 w-9 sm:flex">
                                                                     <AvatarImage
                                                                         src={item.profileImageUrl}
@@ -157,17 +191,16 @@ export const AdminPage = () => {
                                                                     </AvatarFallback>
                                                                 </Avatar>
                                                             </TableCell>
-                                                            <TableCell>{item.username}</TableCell>
-                                                            <TableCell>{item.email}</TableCell>
-                                                            <TableCell>{item.firstName}</TableCell>
-                                                            <TableCell>{item.lastName}</TableCell>
+                                                            <TableCell onClick={() => navigate("/profile/" + item.id)}>{item.username}</TableCell>
+                                                            <TableCell onClick={() => navigate("/profile/" + item.id)}>{item.email}</TableCell>
+                                                            <TableCell onClick={() => navigate("/profile/" + item.id)}>{item.firstName}</TableCell>
+                                                            <TableCell onClick={() => navigate("/profile/" + item.id)}>{item.lastName}</TableCell>
                                                             <TableCell>
-                                                                {item.isAdmin ? <PiCrownSimpleBold/> : <MdOutlineDoNotDisturbAlt/>}
+                                                                {item.isAdmin ? <PiCrownSimpleBold className="fill-green-600"/> : <MdOutlineDoNotDisturbAlt className="fill-red-700"/>}
                                                             </TableCell>
                                                             <TableCell className="bg-secondary flex justify-end">
-
                                                                 <Button variant="outline" size="sm">Изменить</Button>
-                                                                <Button variant="destructive" className="ms-3" size="sm">Удалить</Button>
+                                                                <Button variant="destructive" className="ms-3" size="sm" onClick={() => onDeleteUser(item.id)}>Удалить</Button>
                                                             </TableCell>
                                                         </TableRow>
                                                     ))}
@@ -276,7 +309,7 @@ export const AdminPage = () => {
                                         <CardHeader>
                                             <div className="flex flex-row justify-between">
                                                 <CardTitle>Quizzes</CardTitle>
-                                                <DialogCreateGame
+                                                <DialogCreateQuiz
                                                     setIsCreated={setIsCreated}
                                                     isCreated={isCreated}
                                                 />

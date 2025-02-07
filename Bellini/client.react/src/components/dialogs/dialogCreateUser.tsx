@@ -20,6 +20,7 @@ import {useAuth} from "@/utils/context/authContext.tsx";
 import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {Checkbox} from "@/components/ui/checkbox.tsx";
+import {authFetch} from "@/utils/fetchs/authFetch.ts";
 
 const createGameSchema = z.object({
     username: z.string()
@@ -53,7 +54,7 @@ interface DialogCreateUserProps {
 }
 
 export const DialogCreateUser: React.FC<DialogCreateUserProps> = ({setIsCreated, isCreated}) => {
-    const {isAuthenticated, user} = useAuth();
+    const {user, isAuthenticated, getAccessToken, logout} = useAuth();
     const navigate = useNavigate();
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
@@ -80,7 +81,7 @@ export const DialogCreateUser: React.FC<DialogCreateUserProps> = ({setIsCreated,
                 navigate('/login');
                 return;
             }
-            const response = await serverFetch("/admin/user", {
+            const response = await authFetch("/admin/user", getAccessToken, logout, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
