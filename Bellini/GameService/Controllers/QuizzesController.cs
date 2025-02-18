@@ -1,7 +1,7 @@
-﻿using BusinessLogicLayer.Attributes;
-using BusinessLogicLayer.Services.DTOs;
+﻿using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using UtilsModelsLibrary.Attributes;
 
 namespace GameService.Controllers
 {

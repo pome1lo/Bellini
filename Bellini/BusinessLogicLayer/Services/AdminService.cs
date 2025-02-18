@@ -39,6 +39,8 @@ namespace BusinessLogicLayer.Services
             {
                 Email = createUserDto.Email,
                 Username = createUserDto.Username,
+                FirstName = createUserDto.FirstName,
+                LastName = createUserDto.LastName,
                 Password = BCrypt.Net.BCrypt.HashPassword(createUserDto.Password),
                 IsEmailVerified = false,
                 IsActive = true,

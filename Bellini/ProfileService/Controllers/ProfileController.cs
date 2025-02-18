@@ -1,7 +1,7 @@
-﻿using BusinessLogicLayer.Attribute;
-using BusinessLogicLayer.Services.DTOs;
+﻿using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using UtilsModelsLibrary.Attribute;
 
 namespace ProfileService.Controllers
 {

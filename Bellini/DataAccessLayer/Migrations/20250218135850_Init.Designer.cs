@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250128163028_init")]
-    partial class init
+    [Migration("20250218135850_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "9.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -1839,6 +1839,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("QuizId")
                         .HasColumnType("int");
 
+                    b.Property<string>("QuizQuestionImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -1855,300 +1858,350 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 1,
                             QuizId = 1,
+                            QuizQuestionImageUrl = "",
                             Text = "Кто был верховным богом в греческой мифологии?"
                         },
                         new
                         {
                             Id = 2,
                             QuizId = 1,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой бог был покровителем кузнецов и огня?"
                         },
                         new
                         {
                             Id = 3,
                             QuizId = 1,
+                            QuizQuestionImageUrl = "",
                             Text = "Кто был богом моря?"
                         },
                         new
                         {
                             Id = 4,
                             QuizId = 1,
+                            QuizQuestionImageUrl = "",
                             Text = "Кто был богиней мудрости?"
                         },
                         new
                         {
                             Id = 5,
                             QuizId = 1,
+                            QuizQuestionImageUrl = "",
                             Text = "Кто был богом войны?"
                         },
                         new
                         {
                             Id = 6,
                             QuizId = 1,
+                            QuizQuestionImageUrl = "",
                             Text = "Кто был богиней охоты?"
                         },
                         new
                         {
                             Id = 7,
                             QuizId = 1,
+                            QuizQuestionImageUrl = "",
                             Text = "Кто был вестником богов?"
                         },
                         new
                         {
                             Id = 8,
                             QuizId = 1,
+                            QuizQuestionImageUrl = "",
                             Text = "Кто был богом солнца?"
                         },
                         new
                         {
                             Id = 9,
                             QuizId = 1,
+                            QuizQuestionImageUrl = "",
                             Text = "Кто был богиней любви и красоты?"
                         },
                         new
                         {
                             Id = 10,
                             QuizId = 1,
+                            QuizQuestionImageUrl = "",
                             Text = "Кто был титаном, держащим небо на своих плечах?"
                         },
                         new
                         {
                             Id = 11,
                             QuizId = 2,
+                            QuizQuestionImageUrl = "",
                             Text = "Кто был основателем Рима?"
                         },
                         new
                         {
                             Id = 12,
                             QuizId = 2,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой был последний император Рима?"
                         },
                         new
                         {
                             Id = 13,
                             QuizId = 2,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой бог был покровителем Рима?"
                         },
                         new
                         {
                             Id = 14,
                             QuizId = 2,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой праздник был посвящен славе императоров?"
                         },
                         new
                         {
                             Id = 15,
                             QuizId = 2,
+                            QuizQuestionImageUrl = "",
                             Text = "Кто был великим полководцем Рима?"
                         },
                         new
                         {
                             Id = 16,
                             QuizId = 2,
+                            QuizQuestionImageUrl = "",
                             Text = "Какое здание является символом Рима?"
                         },
                         new
                         {
                             Id = 17,
                             QuizId = 2,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой язык был официальным в Риме?"
                         },
                         new
                         {
                             Id = 18,
                             QuizId = 2,
+                            QuizQuestionImageUrl = "",
                             Text = "Какое искусство было популярно в Риме?"
                         },
                         new
                         {
                             Id = 19,
                             QuizId = 2,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой строй был установлен в Риме?"
                         },
                         new
                         {
                             Id = 20,
                             QuizId = 2,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой век считается временем расцвета Рима?"
                         },
                         new
                         {
                             Id = 21,
                             QuizId = 3,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой язык программирования чаще всего используется для создания машинного обучения?"
                         },
                         new
                         {
                             Id = 22,
                             QuizId = 3,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой сервис используется для хранения проектов с контролем версий?"
                         },
                         new
                         {
                             Id = 23,
                             QuizId = 3,
+                            QuizQuestionImageUrl = "",
                             Text = "Какая компания разработала язык Swift?"
                         },
                         new
                         {
                             Id = 24,
                             QuizId = 3,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой язык программирования чаще всего используется для веб-разработки на серверной стороне?"
                         },
                         new
                         {
                             Id = 25,
                             QuizId = 3,
+                            QuizQuestionImageUrl = "",
                             Text = "Какая система управления базами данных является популярной для больших данных?"
                         },
                         new
                         {
                             Id = 26,
                             QuizId = 3,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой протокол используется для защиты данных при передаче в интернете?"
                         },
                         new
                         {
                             Id = 27,
                             QuizId = 3,
+                            QuizQuestionImageUrl = "",
                             Text = "Как называется популярный фреймворк для фронтенд-разработки от Facebook?"
                         },
                         new
                         {
                             Id = 28,
                             QuizId = 3,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой язык программирования чаще всего используется для создания машинного обучения?"
                         },
                         new
                         {
                             Id = 29,
                             QuizId = 3,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой текстовый редактор стал популярным благодаря расширяемости и множеству плагинов?"
                         },
                         new
                         {
                             Id = 30,
                             QuizId = 3,
+                            QuizQuestionImageUrl = "",
                             Text = "Как называется формат обмена данными, основанный на ключ-значение и часто используемый в API?"
                         },
                         new
                         {
                             Id = 31,
                             QuizId = 4,
+                            QuizQuestionImageUrl = "",
                             Text = "Что такое переменная?"
                         },
                         new
                         {
                             Id = 32,
                             QuizId = 4,
+                            QuizQuestionImageUrl = "",
                             Text = "Тип для чисел?"
                         },
                         new
                         {
                             Id = 33,
                             QuizId = 4,
+                            QuizQuestionImageUrl = "",
                             Text = "Что делает 'if'?"
                         },
                         new
                         {
                             Id = 34,
                             QuizId = 4,
+                            QuizQuestionImageUrl = "",
                             Text = "Как обозначается массив?"
                         },
                         new
                         {
                             Id = 35,
                             QuizId = 4,
+                            QuizQuestionImageUrl = "",
                             Text = "Что такое цикл?"
                         },
                         new
                         {
                             Id = 36,
                             QuizId = 4,
+                            QuizQuestionImageUrl = "",
                             Text = "Метод вывода?"
                         },
                         new
                         {
                             Id = 37,
                             QuizId = 4,
+                            QuizQuestionImageUrl = "",
                             Text = "Значение 'static'?"
                         },
                         new
                         {
                             Id = 38,
                             QuizId = 4,
+                            QuizQuestionImageUrl = "",
                             Text = "Не ООП язык?"
                         },
                         new
                         {
                             Id = 39,
                             QuizId = 4,
+                            QuizQuestionImageUrl = "",
                             Text = "Что такое метод?"
                         },
                         new
                         {
                             Id = 40,
                             QuizId = 4,
+                            QuizQuestionImageUrl = "",
                             Text = "Оператор равенства?"
                         },
                         new
                         {
                             Id = 41,
                             QuizId = 5,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой ключевое слово используется для создания объекта?"
                         },
                         new
                         {
                             Id = 42,
                             QuizId = 5,
+                            QuizQuestionImageUrl = "",
                             Text = "Как называется способ скрытия данных внутри класса?"
                         },
                         new
                         {
                             Id = 43,
                             QuizId = 5,
+                            QuizQuestionImageUrl = "",
                             Text = "Что возвращает метод без возвращаемого значения?"
                         },
                         new
                         {
                             Id = 44,
                             QuizId = 5,
+                            QuizQuestionImageUrl = "",
                             Text = "Как называется базовый класс всех типов в C#?"
                         },
                         new
                         {
                             Id = 45,
                             QuizId = 5,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой оператор используется для логического И?"
                         },
                         new
                         {
                             Id = 46,
                             QuizId = 5,
+                            QuizQuestionImageUrl = "",
                             Text = "Как называется процесс выполнения метода с тем же именем в дочернем классе?"
                         },
                         new
                         {
                             Id = 47,
                             QuizId = 5,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой метод вызывается при создании объекта?"
                         },
                         new
                         {
                             Id = 48,
                             QuizId = 5,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой тип данных используется для хранения текста?"
                         },
                         new
                         {
                             Id = 49,
                             QuizId = 5,
+                            QuizQuestionImageUrl = "",
                             Text = "Какой метод используется для завершения программы?"
                         },
                         new
                         {
                             Id = 50,
                             QuizId = 5,
+                            QuizQuestionImageUrl = "",
                             Text = "Как называется ошибка времени выполнения?"
                         });
                 });
@@ -2241,8 +2294,8 @@ namespace DataAccessLayer.Migrations
                             IsAdmin = true,
                             IsEmailVerified = true,
                             LastName = "Admin",
-                            Password = "$2a$11$YCR1qPgThJQknDHs1jymx.DOZO7dmZ.7ZzBBaIBlF76KlPRf2xLBm",
-                            ProfileImageUrl = "https://localhost:7292/covers/quiz_1.jpg",
+                            Password = "$2a$11$QRaaG0cjogQ/dQbYk.RFs.9NZDVtPeMGu8ZUUaSbSL/x9bcufSV5a",
+                            ProfileImageUrl = "https://localhost:7292/covers/1.jpg",
                             Username = "administrator"
                         });
                 });
