@@ -1,5 +1,5 @@
 import {Breadcrumbs} from "@/components/breadcrumbs.tsx";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {DialogEditProfile} from "@/components/dialogs/dialogEditProfile.tsx";
@@ -10,6 +10,8 @@ import {DialogShareButton} from "@/components/dialogs/dialogShareButton.tsx";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {ProfileSkeleton} from "@/components/skeletons/profileSkeleton.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
+import {Button} from "@/components/ui/button.tsx";
+import {formatDate} from "@/utils/functions/formatDate.ts";
 
 
 
@@ -33,9 +35,18 @@ interface UserInfo {
     bestGame: string;
 }
 
+interface Achievements {
+    id : number;
+    userId : number;
+    achievementType : string;
+    dateAchieved : Date ;
+    description : string;
+}
+
 export const ProfilePage = () => {
     const [currentUser, setCurrentUser] = useState<UserProfile>();
     const [userInfo, setUserInfo] = useState<UserInfo>();
+    const [achievements, setAchievements] = useState<Achievements[]>();
     const [isProfileUpdated, setIsProfileUpdated] = useState(false);
     const {user, isAuthenticated, update} = useAuth();
     const {id} = useParams();
@@ -55,6 +66,13 @@ export const ProfilePage = () => {
             .then(data => {
                 setUserInfo(data);
                 console.log(data) 
+            });
+
+        serverFetch(`/achievements/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                setAchievements(data);
+                console.log(data)
             });
 
     }, [id, isProfileUpdated]);
@@ -124,6 +142,40 @@ export const ProfilePage = () => {
                     </div>
 
                     <Card className="w-full">
+
+                        <CardHeader>
+                            <CardTitle>
+                                User Achievements
+                            </CardTitle>
+                            <CardDescription>
+                                The achievements received by the user for all time are displayed here.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            {achievements && achievements.length == 0 ?
+                                <>
+                                    <div className="h-full w-full flex items-center justify-center">
+                                        <h1 className="scroll-m-20 text-center text-2xl p- font-semibold tracking-tight">There are no achievements here yet</h1>
+                                    </div>
+                                </>
+                                :
+                                <div className="flex flex-wrap">
+                                    {achievements?.map((item, index) => (
+                                        <Card className="me-2 mb-2" key={index}>
+                                            <CardHeader className="py-3 px-5">
+                                                <CardTitle className="flex items-center text-lg">
+                                                    {["😀", "😂", "😎", "😍", "🤩", "🤔", "😏", "😇", "😜", "😅", "🥳", "😡", "😭", "😴", "🤯", "😱", "🤠", "👀", "💀", "🎉"][Math.floor(Math.random() * 20)]}
+                                                    {item.description}
+                                                </CardTitle>
+                                                <CardDescription>
+                                                    {formatDate(new Date(item.dateAchieved))}
+                                                </CardDescription>
+                                            </CardHeader>
+                                        </Card>
+                                    ))}
+                                </div>
+                            }
+                        </CardContent>
                         <CardHeader>
                             <CardTitle>
                                 User Performance Overview
