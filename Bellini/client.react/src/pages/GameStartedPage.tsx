@@ -179,8 +179,7 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                         </div>
                     ) : (
                         <div className="flex flex-col items-center justify-center h-[80vh] space-y-6">
-                            <div
-                                className="absolute flex flex-wrap justify-center items-center top-20 sm:w-1/2 w-[250px]">
+                            <div className="absolute flex flex-wrap justify-center items-center top-20 sm:w-1/2 w-[250px]">
                                 <Progress value={progressValue} className="h-2 mb-5"/>
                                 {currentQuestionIndex + 1} / {currentGame.questions.length}
                                 {currentGame.hostId.toString() == user?.id ? (

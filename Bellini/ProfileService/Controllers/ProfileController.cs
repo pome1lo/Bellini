@@ -1,7 +1,10 @@
-﻿using BusinessLogicLayer.Services.DTOs;
+﻿using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using UtilsModelsLibrary.Attribute;
+using UtilsModelsLibrary.Enums;
+using UtilsModelsLibrary.Extensions;
 
 namespace ProfileService.Controllers
 {
@@ -11,11 +14,16 @@ namespace ProfileService.Controllers
     {
         private readonly IProfileService _profileService;
         private readonly IFileService _fileService;
+        private readonly IUserStatisticsService _userStatisticsService;
 
-        public ProfileController(IProfileService profileService, IFileService fileService)
+        public ProfileController(
+            IProfileService profileService, 
+            IFileService fileService, 
+            IUserStatisticsService userStatisticsService)
         {
             _profileService = profileService;
             _fileService = fileService;
+            _userStatisticsService = userStatisticsService;
         }
 
         [HttpGet("{id}")]
@@ -53,9 +61,13 @@ namespace ProfileService.Controllers
                 var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
                 updateProfileDto.ProfileImageUrl = (isDocker ? "/apigateway" : "https://localhost:7292") + profileImageUrl;
             }
-
+              
             return Ok(
-                await _profileService.UpdateProfileAsync(id, updateProfileDto, cancellationToken)
+                new
+                {
+                   profile = await _profileService.UpdateProfileAsync(id, updateProfileDto, cancellationToken),
+                   achievement = await _userStatisticsService.UpdateUserStatisticsAsync(id, UserActions.ProfileEdit, cancellationToken)
+                }    
             );
         }
 

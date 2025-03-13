@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250312224534_Init")]
+    [Migration("20250313153411_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace DataAccessLayer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.2")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -2294,7 +2294,7 @@ namespace DataAccessLayer.Migrations
                             IsAdmin = true,
                             IsEmailVerified = true,
                             LastName = "Admin",
-                            Password = "$2a$13$gdtRuVYzDLFBUGnN1WxK/.1OFFoD7CbDZjRYGknrOwT9rus5AsqTu",
+                            Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
                             ProfileImageUrl = "https://localhost:7292/covers/1.jpg",
                             Username = "administrator"
                         });
@@ -2336,6 +2336,9 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("GameComments")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GameCreated")
                         .HasColumnType("int");
 
                     b.Property<int>("GamesPlayed")

@@ -222,6 +222,7 @@ namespace DataAccessLayer.Migrations
                     QuizComments = table.Column<int>(type: "int", nullable: false),
                     GameComments = table.Column<int>(type: "int", nullable: false),
                     QuizzesCreated = table.Column<int>(type: "int", nullable: false),
+                    GameCreated = table.Column<int>(type: "int", nullable: false),
                     QuestionsCreated = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -403,7 +404,7 @@ namespace DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "FirstName", "IsActive", "IsAdmin", "IsEmailVerified", "LastName", "Password", "ProfileImageUrl", "Username" },
-                values: new object[] { 1, "paaworker@gmail.com", "Main", true, true, true, "Admin", "$2a$13$gdtRuVYzDLFBUGnN1WxK/.1OFFoD7CbDZjRYGknrOwT9rus5AsqTu", "https://localhost:7292/covers/1.jpg", "administrator" });
+                values: new object[] { 1, "paaworker@gmail.com", "Main", true, true, true, "Admin", "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6", "https://localhost:7292/covers/1.jpg", "administrator" });
 
             migrationBuilder.InsertData(
                 table: "QuizQuestions",

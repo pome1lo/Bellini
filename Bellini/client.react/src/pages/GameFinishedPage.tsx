@@ -36,6 +36,7 @@ import {
 import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {authFetch} from "@/utils/fetchs/authFetch.ts";
 
 interface GameFinishedPageProps {
     currentGame?: FinishedGame;
@@ -80,7 +81,7 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
         accuracy: number;
     }[]>([]);
     const [isCurrentUserPlayer, setIsCurrentUserPlayer] = useState(false);
-    const {isAuthenticated, user} = useAuth();
+    const {user, getAccessToken, logout, isAuthenticated} = useAuth();
     const navigate = useNavigate();
 
     const {register, handleSubmit, reset, formState: {errors}} = useForm<CommentForm>({
@@ -141,7 +142,7 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
         }
         try {
 
-            const response = await serverFetch(`/comments/game/${currentGame?.id}`, {
+            const response = await authFetch(`/comments/game/${currentGame?.id}`, getAccessToken, logout, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({

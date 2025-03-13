@@ -15,11 +15,11 @@ import {PlusCircle} from "lucide-react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
-import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {toast} from "@/components/ui/use-toast.tsx";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
+import {authFetch} from "@/utils/fetchs/authFetch.ts";
 
 const createGameSchema = z.object({
     gameName: z.string().min(1, "Game name is required"),
@@ -41,7 +41,7 @@ interface DialogCreateGameProps {
 }
 
 export const DialogCreateGame: React.FC<DialogCreateGameProps> = ({setIsCreated, isCreated}) => {
-    const {isAuthenticated, user} = useAuth();
+    const {user, getAccessToken, logout, isAuthenticated} = useAuth();
     const navigate = useNavigate();
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
@@ -64,7 +64,7 @@ export const DialogCreateGame: React.FC<DialogCreateGameProps> = ({setIsCreated,
                 navigate('/login');
                 return;
             }
-            const response = await serverFetch("/game/create", {
+            const response = await authFetch("/game/create", getAccessToken, logout, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({

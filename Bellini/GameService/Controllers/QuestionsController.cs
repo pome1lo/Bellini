@@ -1,6 +1,10 @@
-﻿using BusinessLogicLayer.Services.DTOs;
+﻿using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using UtilsModelsLibrary.Attributes;
+using UtilsModelsLibrary.Enums;
+using UtilsModelsLibrary.Extensions;
 
 namespace GameService.Controllers
 {
@@ -10,17 +14,28 @@ namespace GameService.Controllers
     public class QuestionsController : ControllerBase
     {
         private readonly IQuestionService _questionService;
+        private readonly IUserStatisticsService _userStatisticsService;
 
-        public QuestionsController(IQuestionService questionService)
+        public QuestionsController(IQuestionService questionService, IUserStatisticsService userStatisticsService)
         {
             _questionService = questionService;
+            _userStatisticsService = userStatisticsService;
         }
 
         [HttpPost]
+        [RolesOnlyAuthorize(Roles.User)]
         public async Task<IActionResult> CreateQuestion([FromBody] CreateQuestionDto createQuestionDto, CancellationToken cancellationToken)
         {
             return Ok(
-                await _questionService.CreateQuestionAsync(createQuestionDto, cancellationToken)    
+                new
+                {
+                    questionId = await _questionService.CreateQuestionAsync(createQuestionDto, cancellationToken),
+                    achievement = await _userStatisticsService.UpdateUserStatisticsAsync
+                    (
+                        int.Parse(TokenHelper.GetParameterFromToken(HttpContext)),
+                        UserActions.QuestionCreated, cancellationToken
+                    )
+                }
             );
         }
 

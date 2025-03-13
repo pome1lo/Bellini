@@ -19,6 +19,7 @@ import {Breadcrumbs} from "@/components/breadcrumbs.tsx";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
+import {authFetch} from "@/utils/fetchs/authFetch.ts";
 
 interface QuizFinishedPageProps {
     currentQuiz: Quiz;
@@ -37,7 +38,7 @@ const commentSchema = z.object({
 
 export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz}) => {
     const [comments, setComments] = useState<Comment[]>([]);
-    const {isAuthenticated, user} = useAuth();
+    const {user, getAccessToken, logout, isAuthenticated} = useAuth();
     const [isUpdated, setIsUpdated] = useState(false);
     const navigate = useNavigate();
     const { register, handleSubmit, reset, formState: { errors } } = useForm<CommentForm>({
@@ -90,7 +91,7 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
         }
 
         try {
-            const response = await serverFetch(`/comments/quiz/${currentQuiz.id}`, {
+            const response = await authFetch(`/comments/quiz/${currentQuiz.id}`, getAccessToken, logout, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -280,7 +281,7 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
                             <ScrollArea className="h-[300px]   border rounded-md">
                                 {comments.length == 0 ?
                                     <>
-                                        <div className="h-full w-full flex items-center justify-center">
+                                        <div className="h-[280px] w-full flex items-center justify-center">
                                             <h1 className="scroll-m-20 text-center text-2xl w-full font-semibold tracking-tight">
                                                 There are no comments<br></br> here yet. Be the first!
                                             </h1>

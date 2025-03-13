@@ -2,6 +2,7 @@ using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using UtilsModelsLibrary.Attributes;
+using UtilsModelsLibrary.Enums;
 
 namespace AdminService.Controllers
 {
@@ -17,7 +18,7 @@ namespace AdminService.Controllers
         }
 
         [HttpPost("user")]
-        [AdminOnlyAuthorize]
+        [RolesOnlyAuthorize(Roles.Admin)]
         public async Task<IActionResult> CreateUserAsync([FromBody] AdminCreateUserDto dto, CancellationToken cancellationToken)
         {
             await _adminService.CreateUserAsync(dto, cancellationToken);
@@ -25,7 +26,7 @@ namespace AdminService.Controllers
         }
 
         [HttpDelete("user/{id:int}")]
-        [AdminOnlyAuthorize]
+        [RolesOnlyAuthorize(Roles.Admin)]
         public async Task<IActionResult> DeleteUserAsync(int id, CancellationToken cancellationToken)
         {
             await _adminService.DeleteUserAsync(id, cancellationToken);

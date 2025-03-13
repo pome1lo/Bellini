@@ -13,7 +13,6 @@ import {PlusCircle} from "lucide-react";
 import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import React, {useState} from "react";
-import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {toast} from "@/components/ui/use-toast.tsx";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {useNavigate} from "react-router-dom";
@@ -21,6 +20,7 @@ import {useForm} from "react-hook-form";
 import {z} from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group.tsx";
+import {authFetch} from "@/utils/fetchs/authFetch.ts";
 
 interface DialogCreateQuestionProps {
     currentGameId: string;
@@ -29,7 +29,7 @@ interface DialogCreateQuestionProps {
 }
 
 export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({currentGameId, setIsQuestionCreated, isQuestionCreated}) => {
-    const {isAuthenticated, user} = useAuth();
+    const {user, getAccessToken, logout, isAuthenticated} = useAuth();
     const navigate = useNavigate();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -79,7 +79,7 @@ export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({curre
                 navigate("/login");
                 return;
             }
-            const response = await serverFetch("/questions", {
+            const response = await authFetch("/questions", getAccessToken, logout, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(data),

@@ -1,22 +1,30 @@
+using BusinessLogicLayer.Services;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UtilsModelsLibrary.Attributes;
+using UtilsModelsLibrary.Enums;
+using UtilsModelsLibrary.Extensions;
 
 namespace GameService.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] 
     public class GameController : ControllerBase
     {
         private readonly IGameService _gameService;
+        private readonly IUserStatisticsService _userStatisticsService;
 
-        public GameController(IGameService gameService)
+        public GameController(IGameService gameService, IUserStatisticsService userStatisticsService)
         {
             _gameService = gameService;
+            _userStatisticsService = userStatisticsService;
         }
 
         [HttpPost("create")]
+        [RolesOnlyAuthorize(Roles.User)]
         public async Task<IActionResult> CreateGame([FromBody] CreateGameRoomDto createGameRoomDto, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
@@ -25,7 +33,11 @@ namespace GameService.Controllers
             return Ok(
                 new
                 {
-                    GameId = await _gameService.CreateGameRoomAsync(createGameRoomDto, cancellationToken)
+                    GameId = await _gameService.CreateGameRoomAsync(createGameRoomDto, cancellationToken),
+                    achievement = await _userStatisticsService.UpdateUserStatisticsAsync(
+                        int.Parse(TokenHelper.GetParameterFromToken(HttpContext)), 
+                        UserActions.GameCreated, cancellationToken
+                    )
                 }
             );
         }
@@ -76,10 +88,19 @@ namespace GameService.Controllers
         }
 
         [HttpPost("{id:int}/end")]
+        [RolesOnlyAuthorize(Roles.User)]
         public async Task<IActionResult> EndGame(int id, CancellationToken cancellationToken)
         {
             await _gameService.CompleteGameAsync(id, cancellationToken);
-            return Ok();
+            return Ok(
+                new
+                {
+                    achievement = await _userStatisticsService.UpdateUserStatisticsAsync(
+                        int.Parse(TokenHelper.GetParameterFromToken(HttpContext)),
+                        UserActions.GameFinish, cancellationToken
+                    )
+                }
+            );
         }
     }
 }

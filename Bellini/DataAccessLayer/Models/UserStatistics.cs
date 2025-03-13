@@ -13,6 +13,7 @@ namespace DataAccessLayer.Models
         public int QuizComments { get; set; } = default;
         public int GameComments { get; set; } = default;
         public int QuizzesCreated { get; set; } = default;
+        public int GameCreated { get; set; } = default;
         public int QuestionsCreated { get; set; } = default;
     }
 }

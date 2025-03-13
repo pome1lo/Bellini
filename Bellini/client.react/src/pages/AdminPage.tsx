@@ -200,7 +200,12 @@ export const AdminPage = () => {
                                                             </TableCell>
                                                             <TableCell className="bg-secondary flex justify-end">
                                                                 <Button variant="outline" size="sm">Изменить</Button>
-                                                                <Button variant="destructive" className="ms-3" size="sm" onClick={() => onDeleteUser(item.id)}>Удалить</Button>
+                                                                {
+                                                                    user && user.id == item.id.toString() ?
+                                                                        <Button variant="default" className="ms-3" size="sm" onClick={() => navigate("/settings")}>Вы</Button>
+                                                                        :
+                                                                        <Button variant="destructive" className="ms-3" size="sm" onClick={() => onDeleteUser(item.id)}>Удалить</Button>
+                                                                }
                                                             </TableCell>
                                                         </TableRow>
                                                     ))}

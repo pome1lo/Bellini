@@ -20,7 +20,7 @@ namespace DataAccessLayer.Data.Seeds
                 LastName = "Admin",
                 IsAdmin = true,
                 IsActive = true,
-                Password = "$2a$13$gdtRuVYzDLFBUGnN1WxK/.1OFFoD7CbDZjRYGknrOwT9rus5AsqTu",
+                Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6", // password
                 IsEmailVerified = true,
                 Username = "administrator",
                 ProfileImageUrl = $"{host}/covers/1.jpg"

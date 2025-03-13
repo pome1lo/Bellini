@@ -3,10 +3,11 @@ import {StartedQuiz} from "@/utils/interfaces/StartedQuiz.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {Progress} from "@/components/ui/progress.tsx";
 import {useAuth} from "@/utils/context/authContext.tsx";
-import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {toast} from "@/components/ui/use-toast.tsx";
 import {useNavigate, useParams} from "react-router-dom";
 import {Quiz} from "@/utils/interfaces/Quiz.ts";
+import {authFetch} from "@/utils/fetchs/authFetch.ts";
+import {unknown} from "zod";
 
 interface QuizStartedPageProps {
     currentQuiz?: StartedQuiz;
@@ -16,7 +17,7 @@ interface QuizStartedPageProps {
 export const QuizStartedPage: React.FC<QuizStartedPageProps> = ({currentQuiz, onQuizFinish}) => {
     const navigate = useNavigate();
     const {id} = useParams();
-    const {isAuthenticated, user} = useAuth();
+    const {user, getAccessToken, logout, isAuthenticated} = useAuth();
 
     const [countdown, setCountdown] = useState(3);
     const [showQuestion, setShowQuestion] = useState(false);
@@ -56,7 +57,7 @@ export const QuizStartedPage: React.FC<QuizStartedPageProps> = ({currentQuiz, on
             }
             console.log("ANSWERS")
             console.log(userAnswers)
-            const response = await serverFetch(`/quizzes/${id}/end`, {
+            const response = await authFetch(`/quizzes/${id}/end`, getAccessToken, logout, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
@@ -70,8 +71,8 @@ export const QuizStartedPage: React.FC<QuizStartedPageProps> = ({currentQuiz, on
 
 
             if (response.ok) {
-                const responseData: Quiz = await response.json();
-                onQuizFinish(responseData);
+                const responseData = await response.json();
+                onQuizFinish(responseData.quiz);
             } else {
                 const responseData: unknown = await response.json();
                 toast({

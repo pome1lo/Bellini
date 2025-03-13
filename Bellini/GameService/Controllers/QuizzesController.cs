@@ -1,7 +1,11 @@
-﻿using BusinessLogicLayer.Services.DTOs;
+﻿using BusinessLogicLayer.Services;
+using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
+using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using UtilsModelsLibrary.Attributes;
+using UtilsModelsLibrary.Enums;
+using UtilsModelsLibrary.Extensions;
 
 namespace GameService.Controllers
 {
@@ -10,10 +14,12 @@ namespace GameService.Controllers
     public class QuizzesController : ControllerBase
     {
         private readonly IQuizService _quizService;
+        private readonly IUserStatisticsService _userStatisticsService;
 
-        public QuizzesController(IQuizService quizService)
+        public QuizzesController(IQuizService quizService, IUserStatisticsService userStatisticsService)
         {
             _quizService = quizService;
+            _userStatisticsService = userStatisticsService;
         }
 
         [HttpGet]
@@ -59,7 +65,15 @@ namespace GameService.Controllers
         public async Task<IActionResult> EndQuiz(int quizId, [FromBody] QuizFinishedDto quizFinishedDto, CancellationToken cancellationToken = default)
         {
             return Ok(
-                await _quizService.EndQuizAsync(quizId, quizFinishedDto, cancellationToken)
+                new
+                {
+                    quiz = await _quizService.EndQuizAsync(quizId, quizFinishedDto, cancellationToken),
+                    achievement = await _userStatisticsService.UpdateUserStatisticsAsync
+                    (
+                        int.Parse(TokenHelper.GetParameterFromToken(HttpContext)),
+                        UserActions.QuizzFinish, cancellationToken
+                    )
+                }
             );
         }
     }

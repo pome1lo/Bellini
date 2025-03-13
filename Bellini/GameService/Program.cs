@@ -14,7 +14,7 @@ using StackExchange.Redis;
 var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
 
 var builder = WebApplication.CreateBuilder(args);
-
+  
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -58,7 +58,11 @@ builder.Services.AddScoped<IRepository<QuizQuestion>, QuizQuestionRepository>();
 builder.Services.AddScoped<IRepository<QuizAnswerOption>, QuizAnswerOptionRepository>();
 builder.Services.AddScoped<IRepository<QuizResults>, QuizResultsRepository>();
 builder.Services.AddScoped<IRepository<GameResults>, GameResultsRepository>();
+builder.Services.AddScoped<IRepository<UserStatistics>, UserStatisticsRepository>();
+builder.Services.AddScoped<IRepository<UserAchievement>, UserAchievementRepository>();
 
+builder.Services.AddScoped<IAchievementService, AchievementService>(); 
+builder.Services.AddScoped<IUserStatisticsService, UserStatisticsService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IGameService, BusinessLogicLayer.Services.GameService>();
 builder.Services.AddScoped<IQuizService, QuizService>();
@@ -95,6 +99,8 @@ else
 
 var app = builder.Build();
 
+app.UseGlobalExceptionHandler();
+
 app.UseWebSockets(new WebSocketOptions
 {
     KeepAliveInterval = TimeSpan.FromSeconds(120)
@@ -107,7 +113,6 @@ app.UseCors("AllowLocalhost5173");
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseGlobalExceptionHandler();
 
 app.UseHttpsRedirection();
 
