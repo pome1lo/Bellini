@@ -2,22 +2,21 @@
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UtilsModelsLibrary.Base;
 using UtilsModelsLibrary.Enums;
+using UtilsModelsLibrary.Extensions;
 
 namespace BusinessLogicLayer.Services
 {
     public class UserStatisticsService : IUserStatisticsService
     {
         private readonly IRepository<UserStatistics> _statisticsRepository;
+        private readonly IAchievementService _achievementService;
 
-        public UserStatisticsService(IRepository<UserStatistics> statisticsRepository)
+        public UserStatisticsService(IRepository<UserStatistics> statisticsRepository, IAchievementService achievementService)
         {
             _statisticsRepository = statisticsRepository;
+            _achievementService = achievementService;
         }
 
         public async Task<UserStatisticsDto> GetUserStatisticsAsync(int userId, CancellationToken cancellationToken = default)
@@ -37,64 +36,76 @@ namespace BusinessLogicLayer.Services
             };
         }
 
-        public async Task<AchievementType?> UpdateUserStatisticsAsync(int userId, AchievementType actionType, CancellationToken cancellationToken = default)
+        public async Task<AchievementDto?> UpdateUserStatisticsAsync(int userId, UserActions actionType, CancellationToken cancellationToken = default)
         {
             var stats = await _statisticsRepository.GetItemAsync(userId, cancellationToken);
-            if (stats == null) return null;
+            if (stats == null)
+            {
+                await _statisticsRepository.CreateAsync(new() { UserId = userId });
+                stats = await _statisticsRepository.GetItemAsync(userId, cancellationToken);
+            }
 
-            // Обновляем нужное поле в статистике
             switch (actionType)
             {
-                case AchievementType.FirstQuizCompleted:
-                case AchievementType.TenQuizzesCompleted:
-                case AchievementType.TwentyFiveQuizzesCompleted:
-                    stats.QuizzesCompleted++;
-                    break;
-                case AchievementType.FirstGamePlayed:
-                case AchievementType.TenGamesPlayed:
-                case AchievementType.TwentyFiveGamesPlayed:
-                    stats.GamesPlayed++;
-                    break;
-                case AchievementType.FirstGameComment:
-                    stats.GameComments++;
-                    break;
-                case AchievementType.FirstQuizComment:
-                    stats.QuizComments++;
-                    break;
-                case AchievementType.FirstQuizCreated:
-                    stats.QuizzesCreated++;
-                    break;
-                case AchievementType.FirstQuestionCreated:
-                    stats.QuestionsCreated++;
-                    break;
+                case UserActions.ProfileEdit: stats.ProfileEdits++; break;
+                case UserActions.GameFinish: stats.GamesPlayed++; break;
+                case UserActions.QuizzFinish: stats.QuizzesCompleted++; break;
+                case UserActions.GameComment: stats.GameComments++; break;
+                case UserActions.QuizComment: stats.QuizComments++; break;
+                case UserActions.GameCreated: stats.GameCreated++; break;
+                case UserActions.QuestionCreated: stats.QuestionsCreated++; break;
             }
 
             await _statisticsRepository.UpdateAsync(stats.Id, stats, cancellationToken);
 
-            // Проверяем, достиг ли пользователь нового достижения
-            return GetAchievementForStatistic(stats, actionType);
+            var achievement = GetAchievementForStatistic(stats, actionType);
+
+            if (achievement.HasValue)
+            {
+                await _achievementService.AddAchievementAsync(userId, achievement.Value, cancellationToken);
+
+                return new()
+                {
+                    AchievementType = achievement.Value,
+                    DateAchieved = DateTime.Now,
+                    UserId = userId,
+                    Description = achievement.Value.GetDescription()
+                };
+            }
+            return null;
         }
 
-        private AchievementType? GetAchievementForStatistic(UserStatistics stats, AchievementType actionType)
+        private AchievementType? GetAchievementForStatistic(UserStatistics stats, UserActions actionType)
         {
             return actionType switch
             {
-                AchievementType.FirstQuizCompleted when stats.QuizzesCompleted == 1 => AchievementType.FirstQuizCompleted,
-                AchievementType.TenQuizzesCompleted when stats.QuizzesCompleted == 10 => AchievementType.TenQuizzesCompleted,
-                AchievementType.TwentyFiveQuizzesCompleted when stats.QuizzesCompleted == 25 => AchievementType.TwentyFiveQuizzesCompleted,
+                UserActions.QuizzFinish => stats.QuizzesCompleted switch
+                {
+                    1 => AchievementType.FirstQuizCompleted,
+                    10 => AchievementType.TenQuizzesCompleted,
+                    25 => AchievementType.TwentyFiveQuizzesCompleted,
+                    _ => null
+                },
 
-                AchievementType.FirstGamePlayed when stats.GamesPlayed == 1 => AchievementType.FirstGamePlayed,
-                AchievementType.TenGamesPlayed when stats.GamesPlayed == 10 => AchievementType.TenGamesPlayed,
-                AchievementType.TwentyFiveGamesPlayed when stats.GamesPlayed == 25 => AchievementType.TwentyFiveGamesPlayed,
+                UserActions.GameFinish => stats.GamesPlayed switch
+                {
+                    1 => AchievementType.FirstGamePlayed,
+                    10 => AchievementType.TenGamesPlayed,
+                    25 => AchievementType.TwentyFiveGamesPlayed,
+                    _ => null
+                },
 
-                AchievementType.FirstGameComment when stats.GameComments == 1 => AchievementType.FirstGameComment,
-                AchievementType.FirstQuizComment when stats.QuizComments == 1 => AchievementType.FirstQuizComment,
+                UserActions.GameComment when stats.GameComments == 1 => AchievementType.FirstGameComment,
+                UserActions.QuizComment when stats.QuizComments == 1 => AchievementType.FirstQuizComment,
 
-                AchievementType.FirstQuizCreated when stats.QuizzesCreated == 1 => AchievementType.FirstQuizCreated,
-                AchievementType.FirstQuestionCreated when stats.QuestionsCreated == 1 => AchievementType.FirstQuestionCreated,
+                UserActions.GameCreated when stats.GameCreated == 1 => AchievementType.FirstGameCreated,
+                UserActions.QuestionCreated when stats.QuestionsCreated == 1 => AchievementType.FirstQuestionCreated,
+
+                UserActions.ProfileEdit when stats.ProfileEdits == 1 => AchievementType.FirstProfileEdit,
 
                 _ => null
             };
         }
+
     }
 }

@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using UtilsModelsLibrary.Base;
+using UtilsModelsLibrary.Enums;
 
 namespace BusinessLogicLayer.Services
 {
@@ -93,10 +95,13 @@ namespace BusinessLogicLayer.Services
                 {
                     new Claim(ClaimTypes.Name, user.Username),
                     new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.IsAdmin ? "Admin" : "User"),
+                    new Claim(ClaimTypes.Role, user.IsAdmin 
+                        ? Roles.Admin.GetDescription()
+                        : Roles.User.GetDescription()
+                    ),
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(15),
+                Expires = DateTime.UtcNow.AddMinutes(999),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

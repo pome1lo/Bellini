@@ -11,6 +11,6 @@ namespace BusinessLogicLayer.Services.Interfaces
         /// Обновляет статистику пользователя в зависимости от типа достижения.
         /// Если достижение достигнуто, возвращает его, иначе null.
         /// </summary>
-        Task<AchievementType?> UpdateUserStatisticsAsync(int userId, AchievementType actionType, CancellationToken cancellationToken = default);
+        Task<AchievementDto?> UpdateUserStatisticsAsync(int userId, UserActions actionType, CancellationToken cancellationToken = default);
     }
 }

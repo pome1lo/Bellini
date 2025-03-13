@@ -2,8 +2,8 @@
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
+using UtilsModelsLibrary.Base;
 using UtilsModelsLibrary.Enums;
-using UtilsModelsLibrary.Extensions;
 
 namespace BusinessLogicLayer.Services
 {
@@ -47,7 +47,8 @@ namespace BusinessLogicLayer.Services
             var achievement = new UserAchievement
             {
                 UserId = userId,
-                Achievement = achievementType
+                Achievement = achievementType,
+                AchievedAt = DateTime.UtcNow
             };
 
             await _achievementRepository.CreateAsync(achievement, cancellationToken);

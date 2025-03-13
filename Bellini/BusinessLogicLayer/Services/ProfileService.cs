@@ -5,7 +5,9 @@ using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 using FluentValidation;
 using Microsoft.Extensions.Caching.Distributed;
+using UtilsModelsLibrary.Enums;
 using UtilsModelsLibrary.Exceptions;
+using UtilsModelsLibrary.Extensions;
 
 namespace BusinessLogicLayer.Services
 {
@@ -16,6 +18,8 @@ namespace BusinessLogicLayer.Services
         private readonly IRepository<GameResults> _gameResultsRepository;
         private readonly IMapper _mapper;
         private readonly INotificationService _notificationService;
+        private readonly IUserStatisticsService _userStatisticsService;
+        private readonly IAchievementService _achievementService;
         private readonly IValidator<ProfileDto> _profileValidator;
         private readonly IValidator<UpdateProfileDto> _updateProfileValidator;
         private readonly IDistributedCache _cache;
@@ -24,6 +28,8 @@ namespace BusinessLogicLayer.Services
             IRepository<User> userRepository,
             IMapper mapper,
             INotificationService notificationService,
+            IUserStatisticsService userStatisticsService,
+            IAchievementService achievementService,
             IValidator<ProfileDto> profileValidator,
             IValidator<UpdateProfileDto> updateProfileValidator,
             IDistributedCache cache)
@@ -34,6 +40,8 @@ namespace BusinessLogicLayer.Services
             _updateProfileValidator = updateProfileValidator;
             _cache = cache;
             _notificationService = notificationService;
+            _userStatisticsService = userStatisticsService;
+            _achievementService = achievementService;
         }
 
         public async Task<ProfileDto> GetUserByIdAsync(int profileId, CancellationToken cancellationToken = default)
