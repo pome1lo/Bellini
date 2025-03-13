@@ -2,7 +2,6 @@ namespace DataAccessLayer.Models
 {
     public class Game : BaseModel
     {
-        public int Id { get; set; }
         public string GameName { get; set; } = null!;
         public int HostId { get; set; }
         public DateTime CreateTime { get; set; } = DateTime.Now;

@@ -4,7 +4,6 @@ namespace DataAccessLayer.Models
 {
     public class Player : BaseModel
     {
-        public int Id { get; set; }
         public int GameId { get; set; }
         public string Name { get; set; } = null!;
         public int Score { get; set; }
