@@ -1,4 +1,4 @@
-import  {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
@@ -59,7 +59,7 @@ export const AdminPage = () => {
     const itemsPerPage = 10;
 
     useEffect(() => {
-        if(!user?.isAdmin) {
+        if (!user?.isAdmin) {
             navigate("404");
         }
     }, []);
@@ -112,6 +112,48 @@ export const AdminPage = () => {
         }
     };
 
+    const onDeleteQuiz = async (id: number) => {
+        try {
+            const response = await authFetch(`/admin/quiz/${id}`, getAccessToken, logout, {
+                method: 'DELETE'
+            });
+            if (response.status == 204) {
+                setIsUpdated(!isUpdated);
+                toast({title: "Quiz Deleted", description: "The quiz was successfully deleted."});
+            } else {
+                const responseData = await response.json();
+                toast({
+                    title: "Error",
+                    description: responseData.message || "An error occurred.",
+                    variant: "destructive"
+                });
+            }
+        } catch (ex: unknown) {
+            alert((ex as Error).message || 'An unexpected error occurred');
+        }
+    };
+
+    const onDeleteGame = async (id: number) => {
+        try {
+            const response = await authFetch(`/admin/game/${id}`, getAccessToken, logout, {
+                method: 'DELETE'
+            });
+            if (response.status == 204) {
+                setIsUpdated(!isUpdated);
+                toast({title: "Game Deleted", description: "The game was successfully deleted."});
+            } else {
+                const responseData = await response.json();
+                toast({
+                    title: "Error",
+                    description: responseData.message || "An error occurred.",
+                    variant: "destructive"
+                });
+            }
+        } catch (ex: unknown) {
+            alert((ex as Error).message || 'An unexpected error occurred');
+        }
+    };
+
     return (
         <>
             <Breadcrumbs items={breadcrumbItems}/>
@@ -150,19 +192,19 @@ export const AdminPage = () => {
                                 </Button>
                             </div>
                             <TabsContent value="users">
-                                {users && users.length != 0 ?
-                                    <Card>
-                                        <CardHeader>
-                                            <div className="flex flex-row justify-between">
-                                                <CardTitle>Users</CardTitle>
-                                                <DialogCreateUser
-                                                    setIsCreated={setIsCreated}
-                                                    isCreated={isCreated}
-                                                />
-                                            </div>
-                                            <CardDescription>List of all available users</CardDescription>
-                                        </CardHeader>
-                                        <CardContent>
+                                <Card>
+                                    <CardHeader>
+                                        <div className="flex flex-row justify-between">
+                                            <CardTitle>Users</CardTitle>
+                                            <DialogCreateUser
+                                                setIsCreated={setIsCreated}
+                                                isCreated={isCreated}
+                                            />
+                                        </div>
+                                        <CardDescription>List of all available users</CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        {users && users.length != 0 ?
                                             <Table className="">
                                                 <TableHeader>
                                                     <TableRow>
@@ -176,9 +218,10 @@ export const AdminPage = () => {
                                                         <TableHead className="text-right ">Actions</TableHead>
                                                     </TableRow>
                                                 </TableHeader>
+
                                                 <TableBody>
                                                     {users.map((item, index) => (
-                                                        <TableRow key={index} >
+                                                        <TableRow key={index}>
                                                             <TableCell onClick={() => navigate("/profile/" + item.id)}>{index + 1}</TableCell>
                                                             <TableCell onClick={() => navigate("/profile/" + item.id)}>
                                                                 <Avatar className="hidden h-9 w-9 sm:flex">
@@ -211,40 +254,40 @@ export const AdminPage = () => {
                                                     ))}
                                                 </TableBody>
                                             </Table>
-                                        </CardContent>
-                                        <CardFooter>
-                                            <div className="flex justify-between w-full items-center">
-                                                <div className="text-xs text-muted-foreground">
-                                                    Showing <strong>{(currentUserPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentUserPage * itemsPerPage, users.length)}</strong> of <strong>{totalUserPages * itemsPerPage}</strong> users
-                                                </div>
-                                                <CustomPagination
-                                                    currentPage={currentUserPage}
-                                                    totalPages={totalUserPages}
-                                                    onPageChange={setCurrentUserPage}
-                                                />
+                                            :
+                                            <>
+                                                Users 404
+                                            </>
+                                        }
+                                    </CardContent>
+                                    <CardFooter>
+                                        <div className="flex justify-between w-full items-center">
+                                            <div className="text-xs text-muted-foreground">
+                                                Showing <strong>{(currentUserPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentUserPage * itemsPerPage, users.length)}</strong> of <strong>{totalUserPages * itemsPerPage}</strong> users
                                             </div>
-                                        </CardFooter>
-                                    </Card>
-                                    :
-                                    <>
-                                        Users 404
-                                    </>
-                                }
+                                            <CustomPagination
+                                                currentPage={currentUserPage}
+                                                totalPages={totalUserPages}
+                                                onPageChange={setCurrentUserPage}
+                                            />
+                                        </div>
+                                    </CardFooter>
+                                </Card>
                             </TabsContent>
                             <TabsContent value="games">
-                                {games && games.length != 0 ?
-                                    <Card>
-                                        <CardHeader>
-                                            <div className="flex flex-row justify-between">
-                                                <CardTitle>Games</CardTitle>
-                                                <DialogCreateGame
-                                                    setIsCreated={setIsCreated}
-                                                    isCreated={isCreated}
-                                                />
-                                            </div>
-                                            <CardDescription>List of all available games</CardDescription>
-                                        </CardHeader>
-                                        <CardContent>
+                                <Card>
+                                    <CardHeader>
+                                        <div className="flex flex-row justify-between">
+                                            <CardTitle>Games</CardTitle>
+                                            <DialogCreateGame
+                                                setIsCreated={setIsCreated}
+                                                isCreated={isCreated}
+                                            />
+                                        </div>
+                                        <CardDescription>List of all available games</CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        {games && games.length != 0 ?
                                             <Table className="">
                                                 <TableHeader>
                                                     <TableRow>
@@ -259,6 +302,7 @@ export const AdminPage = () => {
                                                         <TableHead className="text-right ">Actions</TableHead>
                                                     </TableRow>
                                                 </TableHeader>
+
                                                 <TableBody>
                                                     {games.map((item, index) => (
                                                         <TableRow key={index}>
@@ -282,46 +326,46 @@ export const AdminPage = () => {
                                                             <TableCell>{item.isPrivate ? "True" : "False"}</TableCell>
                                                             <TableCell className="bg-secondary flex justify-end">
                                                                 <Button variant="outline" size="sm">Изменить</Button>
-                                                                <Button variant="destructive" className="ms-3" size="sm">Удалить</Button>
+                                                                <Button variant="destructive" className="ms-3" size="sm" onClick={() => onDeleteGame(item.id)}>Удалить</Button>
                                                             </TableCell>
                                                         </TableRow>
                                                     ))}
                                                 </TableBody>
                                             </Table>
-                                        </CardContent>
-                                        <CardFooter>
-                                            <div className="flex justify-between w-full items-center">
-                                                <div className="text-xs text-muted-foreground">
-                                                    Showing <strong>{(currentGamePage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentGamePage * itemsPerPage, games.length)}</strong> of <strong>{totalGamePages * itemsPerPage}</strong> games
-                                                </div>
-                                                <CustomPagination
-                                                    currentPage={currentGamePage}
-                                                    totalPages={totalGamePages}
-                                                    onPageChange={setCurrentGamePage}
-                                                />
+                                            :
+                                            <>
+                                                Games 404
+                                            </>
+                                        }
+                                    </CardContent>
+                                    <CardFooter>
+                                        <div className="flex justify-between w-full items-center">
+                                            <div className="text-xs text-muted-foreground">
+                                                Showing <strong>{(currentGamePage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentGamePage * itemsPerPage, games.length)}</strong> of <strong>{totalGamePages * itemsPerPage}</strong> games
                                             </div>
-                                        </CardFooter>
-                                    </Card>
-                                    :
-                                    <>
-                                        Games 404
-                                    </>
-                                }
+                                            <CustomPagination
+                                                currentPage={currentGamePage}
+                                                totalPages={totalGamePages}
+                                                onPageChange={setCurrentGamePage}
+                                            />
+                                        </div>
+                                    </CardFooter>
+                                </Card>
                             </TabsContent>
                             <TabsContent value="quizzes">
-                                {quizzes && quizzes.length != 0 ?
-                                    <Card>
-                                        <CardHeader>
-                                            <div className="flex flex-row justify-between">
-                                                <CardTitle>Quizzes</CardTitle>
-                                                <DialogCreateQuiz
-                                                    setIsCreated={setIsCreated}
-                                                    isCreated={isCreated}
-                                                />
-                                            </div>
-                                            <CardDescription>List of all available quizzes</CardDescription>
-                                        </CardHeader>
-                                        <CardContent>
+                                <Card>
+                                    <CardHeader>
+                                        <div className="flex flex-row justify-between">
+                                            <CardTitle>Quizzes</CardTitle>
+                                            <DialogCreateQuiz
+                                                setIsCreated={setIsCreated}
+                                                isCreated={isCreated}
+                                            />
+                                        </div>
+                                        <CardDescription>List of all available quizzes</CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        {quizzes && quizzes.length != 0 ?
                                             <Table className="">
                                                 <TableHeader>
                                                     <TableRow>
@@ -351,31 +395,31 @@ export const AdminPage = () => {
                                                             <TableCell>{item.questions.length}</TableCell>
                                                             <TableCell className="bg-secondary flex justify-end">
                                                                 <Button variant="outline" size="sm">Изменить</Button>
-                                                                <Button variant="destructive" className="ms-3" size="sm">Удалить</Button>
+                                                                <Button variant="destructive" className="ms-3" size="sm" onClick={() => onDeleteQuiz(item.id)}>Удалить</Button>
                                                             </TableCell>
                                                         </TableRow>
                                                     ))}
                                                 </TableBody>
                                             </Table>
-                                        </CardContent>
-                                        <CardFooter>
-                                            <div className="flex justify-between w-full items-center">
-                                                <div className="text-xs text-muted-foreground">
-                                                    Showing <strong>{(currentQuizPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentQuizPage * itemsPerPage, quizzes.length)}</strong> of <strong>{totalQuizPages * itemsPerPage}</strong> quizzes
-                                                </div>
-                                                <CustomPagination
-                                                    currentPage={currentQuizPage}
-                                                    totalPages={totalQuizPages}
-                                                    onPageChange={setCurrentQuizPage}
-                                                />
+                                            :
+                                            <>
+                                                Quizzes 404
+                                            </>
+                                        }
+                                    </CardContent>
+                                    <CardFooter>
+                                        <div className="flex justify-between w-full items-center">
+                                            <div className="text-xs text-muted-foreground">
+                                                Showing <strong>{(currentQuizPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentQuizPage * itemsPerPage, quizzes.length)}</strong> of <strong>{totalQuizPages * itemsPerPage}</strong> quizzes
                                             </div>
-                                        </CardFooter>
-                                    </Card>
-                                    :
-                                    <>
-                                        Quizzes 404
-                                    </>
-                                }
+                                            <CustomPagination
+                                                currentPage={currentQuizPage}
+                                                totalPages={totalQuizPages}
+                                                onPageChange={setCurrentQuizPage}
+                                            />
+                                        </div>
+                                    </CardFooter>
+                                </Card>
                             </TabsContent>
                         </Tabs>
                     </CardContent>

@@ -11,15 +11,21 @@ namespace BusinessLogicLayer.Services
     public class AdminService : IAdminService
     {
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Game> _gameRepository;
+        private readonly IRepository<Quiz> _quizRepository;
         private readonly INotificationService _notificationService;
         private readonly IDistributedCache _cache;
 
         public AdminService(
-            IRepository<User> repository,
+            IRepository<User> userRepository,
+            IRepository<Game> gameRepository,
+            IRepository<Quiz> quizRepository,
             INotificationService notificationService,
             IDistributedCache cache)
         {
-            _userRepository = repository;
+            _userRepository = userRepository;
+            _quizRepository = quizRepository;
+            _gameRepository = gameRepository;
             _notificationService = notificationService;
             _cache = cache;
         }
@@ -60,12 +66,24 @@ namespace BusinessLogicLayer.Services
 
         public async Task DeleteGameAsync(int id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var existingGame = await _gameRepository.GetItemAsync(id, cancellationToken);
+            if (existingGame is null)
+            {
+                throw new NotFoundException($"Game with ID {id} not found.");
+            }
+
+            await _gameRepository.DeleteAsync(id, cancellationToken);
         }
 
         public async Task DeleteQuizAsync(int id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var existingQuiz = await _quizRepository.GetItemAsync(id, cancellationToken);
+            if (existingQuiz is null)
+            {
+                throw new NotFoundException($"Quiz with ID {id} not found.");
+            }
+              
+            await _quizRepository.DeleteAsync(id, cancellationToken);
         }
 
         public async Task DeleteUserAsync(int id, CancellationToken cancellationToken = default)

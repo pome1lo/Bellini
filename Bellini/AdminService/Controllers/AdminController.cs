@@ -33,6 +33,22 @@ namespace AdminService.Controllers
             return Created();
         }
 
+        [HttpDelete("quiz/{id:int}")]
+        [RolesOnlyAuthorize(Roles.Admin)]
+        public async Task<IActionResult> DeleteQuizAsync(int id, CancellationToken cancellationToken)
+        {
+            await _adminService.DeleteQuizAsync(id, cancellationToken);
+            return Created();
+        }
+
+        [HttpDelete("game/{id:int}")]
+        [RolesOnlyAuthorize(Roles.Admin)]
+        public async Task<IActionResult> DeleteGameAsync(int id, CancellationToken cancellationToken)
+        {
+            await _adminService.DeleteGameAsync(id, cancellationToken);
+            return Created();
+        }
+
         [HttpPost("game")]
         public async Task<IActionResult> CreateGameAsync([FromBody] AdminCreateGameDto dto, CancellationToken cancellationToken)
         {
