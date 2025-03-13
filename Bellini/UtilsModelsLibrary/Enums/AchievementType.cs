@@ -13,7 +13,7 @@ namespace UtilsModelsLibrary.Enums
         [Description("Первый завершенный квиз")]
         FirstQuizCompleted,
 
-        [Description("Первая сыгранная игра")]
+        [Description("Первое участие в игре")]
         FirstGamePlayed,
 
         [Description("10 завершенных квизов")]
@@ -30,6 +30,9 @@ namespace UtilsModelsLibrary.Enums
 
         [Description("Первый комментарий к игре")]
         FirstGameComment,
+
+        [Description("Первая игра")]
+        FirstGameCreated,
 
         [Description("Первый комментарий к квизу")]
         FirstQuizComment,
