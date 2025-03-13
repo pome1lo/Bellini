@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250313153411_Init")]
+    [Migration("20250313205453_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -2216,6 +2216,9 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsReplay")
+                        .HasColumnType("bit");
 
                     b.Property<int>("NumberOfCorrectAnswers")
                         .HasColumnType("int");

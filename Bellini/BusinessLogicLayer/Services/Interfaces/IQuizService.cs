@@ -11,5 +11,7 @@ namespace BusinessLogicLayer.Services.Interfaces
         Task<Quiz> StartQuizAsync(int quizId, int userId, CancellationToken cancellationToken = default);
         Task<(IEnumerable<Quiz> Quizzes, int TotalCount)> GetAllQuizzesAsync(int limit, int offset, CancellationToken cancellationToken = default);
         Task<Quiz> EndQuizAsync(int quizId, QuizFinishedDto quizFinishedDto, CancellationToken cancellationToken = default);
+
+        Task ReplayQuizAsync(int quizId, int userId, CancellationToken cancellationToken = default);
     }
 }

@@ -13,7 +13,7 @@ export const serverFetch  = async (endpoint: string, options?: RequestInit): Pro
     const url = `${baseUrl}${endpoint}`;
     const response = await fetch(url, options);
 
-    console.warn(response.status);
+//    console.warn(response.status);
 
     if (response.ok) {
         try {

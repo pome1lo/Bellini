@@ -105,6 +105,18 @@
 
     // ProfileService
     {
+      "DownstreamPathTemplate": "/api/achievements/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7256
+        }
+      ],
+      "UpstreamPathTemplate": "/achievements/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/profile/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -310,6 +322,18 @@
         }
       ],
       "UpstreamPathTemplate": "/quizzes/{id:int}/end",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/quizzes/{id:int}/replay",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes/{id:int}/replay",
       "UpstreamHttpMethod": [ "POST" ]
     },
     {

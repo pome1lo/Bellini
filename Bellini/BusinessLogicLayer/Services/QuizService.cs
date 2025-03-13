@@ -137,5 +137,17 @@ namespace BusinessLogicLayer.Services
             return result;
         }
 
+        public async Task ReplayQuizAsync(int quizId, int userId, CancellationToken cancellationToken = default)
+        {
+            var quizzes = await _quizResultsRepository.GetElementsAsync(cancellationToken);
+            var quizResults = quizzes.LastOrDefault(x => x.UserId == userId);
+
+            if (quizResults is null)
+                throw new ArgumentException("Quiz not found");
+
+            quizResults.IsReplay = true;
+
+            await _quizResultsRepository.UpdateAsync(quizResults.Id, quizResults, cancellationToken);
+        }
     }
 }

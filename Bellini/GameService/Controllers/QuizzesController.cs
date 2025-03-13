@@ -3,6 +3,7 @@ using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
+using UtilsModelsLibrary.Attribute;
 using UtilsModelsLibrary.Attributes;
 using UtilsModelsLibrary.Enums;
 using UtilsModelsLibrary.Extensions;
@@ -59,6 +60,14 @@ namespace GameService.Controllers
             return Ok(
                 await _quizService.StartQuizAsync(quizId, quizStart.UserId, cancellationToken)
             );
+        }
+        
+        [HttpPost("{quizId:int}/replay")]
+        [RolesOnlyAuthorize(Roles.User)]
+        public async Task<IActionResult> ReplayQuiz(int quizId, CancellationToken cancellationToken = default)
+        {
+            await _quizService.ReplayQuizAsync(quizId, int.Parse(TokenHelper.GetParameterFromToken(HttpContext)), cancellationToken);
+            return NoContent();
         }
 
         [HttpPost("{quizId:int}/end")]

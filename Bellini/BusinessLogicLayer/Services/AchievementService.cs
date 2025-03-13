@@ -25,6 +25,7 @@ namespace BusinessLogicLayer.Services
             {
                 UserId = achievement!.UserId,
                 AchievementType = achievement.Achievement,
+                DateAchieved = achievement.AchievedAt,
                 Description = achievement.Achievement.GetDescription() // Using GetDescription() method from enum
             };
         }
@@ -38,6 +39,7 @@ namespace BusinessLogicLayer.Services
             {
                 UserId = a.UserId,
                 AchievementType = a.Achievement,
+                DateAchieved = a.AchievedAt,
                 Description = a.Achievement.GetDescription()
             });
         }

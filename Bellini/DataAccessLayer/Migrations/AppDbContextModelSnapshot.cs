@@ -2214,6 +2214,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsReplay")
+                        .HasColumnType("bit");
+
                     b.Property<int>("NumberOfCorrectAnswers")
                         .HasColumnType("int");
 

@@ -6,5 +6,13 @@ export interface Quiz {
     gameCoverImageUrl: string;
     questions: QuizQuestion[];
     hasUserCompleted: boolean;
+    quizResults: QuizResult[];
+}
 
+export interface QuizResult {
+    numberOfCorrectAnswers: number;
+    numberOfQuestions: number;
+    userId: number;
+    isReplay: boolean;
+    endTime: string;
 }

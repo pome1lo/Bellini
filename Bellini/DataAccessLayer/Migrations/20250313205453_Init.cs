@@ -167,6 +167,7 @@ namespace DataAccessLayer.Migrations
                     NumberOfCorrectAnswers = table.Column<int>(type: "int", nullable: false),
                     NumberOfQuestions = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
+                    IsReplay = table.Column<bool>(type: "bit", nullable: false),
                     EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     QuizId = table.Column<int>(type: "int", nullable: false)
                 },
