@@ -7,10 +7,10 @@ namespace DataAccessLayer.Data
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        {
-        }
-
+        //public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        //{
+        //}
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -19,9 +19,9 @@ namespace DataAccessLayer.Data
             var connectionString =
             //  Migration
             //"Server=localhost,1434;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;" 
-                isDocker ?
-                "Server=sqlserver;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
-                :
+                //isDocker ?
+            //    "Server=sqlserver;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
+                //:
             //  Local
                 "Server=localhost;Database=BELLINI;User Id=sa;Password=sa;TrustServerCertificate=true;";
             ;
@@ -49,6 +49,9 @@ namespace DataAccessLayer.Data
         public DbSet<QuizResults> QuizResults { get; set; } = null!;
         public DbSet<GameResults> GameResults { get; set; } = null!;
 
+        public DbSet<UserAchievement> UserAchievements { get; set; } = null!;
+        public DbSet<UserStatistics> UserStatistics { get; set; } = null!;
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -69,6 +72,9 @@ namespace DataAccessLayer.Data
             modelBuilder.ApplyConfiguration(new QuizAnswerOptionConfiguration());
             modelBuilder.ApplyConfiguration(new QuizQuestionConfiguration());
             modelBuilder.ApplyConfiguration(new QuizResultsConfiguration());
+
+            modelBuilder.ApplyConfiguration(new UserAchievementConfiguration());
+            modelBuilder.ApplyConfiguration(new UserStatisticsConfiguration());
 
             QuizSeedData.Seed(modelBuilder);
             UserSeedData.Seed(modelBuilder);

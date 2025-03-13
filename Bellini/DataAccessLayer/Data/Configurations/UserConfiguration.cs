@@ -49,6 +49,11 @@ namespace DataAccessLayer.Data.Configurations
                 .WithOne()
                 .HasForeignKey(n => n.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(u => u.Achievements)
+                .WithOne()
+                .HasForeignKey(n => n.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

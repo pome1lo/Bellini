@@ -54,8 +54,12 @@ builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IRepository<Notification>, NotificationRepository>();
 builder.Services.AddScoped<IRepository<QuizResults>, QuizResultsRepository>();
 builder.Services.AddScoped<IRepository<GameResults>, GameResultsRepository>();
+builder.Services.AddScoped<IRepository<UserStatistics>, UserStatisticsRepository>();
+builder.Services.AddScoped<IRepository<UserAchievement>, UserAchievementRepository>();
 
+builder.Services.AddScoped<IAchievementService, AchievementService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IUserStatisticsService, UserStatisticsService>();
 builder.Services.AddScoped<IProfileService, BusinessLogicLayer.Services.ProfileService>();
 builder.Services.AddScoped<IFileService, FileService>();
 
