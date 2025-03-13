@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Services.DTOs;
+﻿using AutoMapper;
+using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
@@ -76,8 +77,8 @@ namespace BusinessLogicLayer.Services
             }
 
             var cacheKey = $"User_{existingUser.Email}";
-            await _cache.RemoveAsync(cacheKey, cancellationToken);
-
+            await _cache.RemoveAsync(cacheKey, cancellationToken); 
+             
             await _userRepository.DeleteAsync(id, cancellationToken);
         }
 
