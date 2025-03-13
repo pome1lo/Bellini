@@ -188,6 +188,54 @@ namespace DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserAchievements",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Achievement = table.Column<int>(type: "int", nullable: false),
+                    AchievedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserAchievements", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserAchievements_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserStatistics",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    ProfileEdits = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    AvatarsSet = table.Column<int>(type: "int", nullable: false),
+                    QuizzesCompleted = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
+                    GamesPlayed = table.Column<int>(type: "int", nullable: false),
+                    QuizComments = table.Column<int>(type: "int", nullable: false),
+                    GameComments = table.Column<int>(type: "int", nullable: false),
+                    QuizzesCreated = table.Column<int>(type: "int", nullable: false),
+                    QuestionsCreated = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserStatistics", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserStatistics_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GameComments",
                 columns: table => new
                 {
@@ -355,7 +403,7 @@ namespace DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "FirstName", "IsActive", "IsAdmin", "IsEmailVerified", "LastName", "Password", "ProfileImageUrl", "Username" },
-                values: new object[] { 1, "paaworker@gmail.com", "Main", true, true, true, "Admin", "$2a$11$QRaaG0cjogQ/dQbYk.RFs.9NZDVtPeMGu8ZUUaSbSL/x9bcufSV5a", "https://localhost:7292/covers/1.jpg", "administrator" });
+                values: new object[] { 1, "paaworker@gmail.com", "Main", true, true, true, "Admin", "$2a$13$gdtRuVYzDLFBUGnN1WxK/.1OFFoD7CbDZjRYGknrOwT9rus5AsqTu", "https://localhost:7292/covers/1.jpg", "administrator" });
 
             migrationBuilder.InsertData(
                 table: "QuizQuestions",
@@ -690,6 +738,17 @@ namespace DataAccessLayer.Migrations
                 name: "IX_QuizResults_UserId",
                 table: "QuizResults",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserAchievements_UserId",
+                table: "UserAchievements",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserStatistics_UserId",
+                table: "UserStatistics",
+                column: "UserId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -718,6 +777,12 @@ namespace DataAccessLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "QuizResults");
+
+            migrationBuilder.DropTable(
+                name: "UserAchievements");
+
+            migrationBuilder.DropTable(
+                name: "UserStatistics");
 
             migrationBuilder.DropTable(
                 name: "Questions");

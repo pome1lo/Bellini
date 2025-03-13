@@ -2291,10 +2291,81 @@ namespace DataAccessLayer.Migrations
                             IsAdmin = true,
                             IsEmailVerified = true,
                             LastName = "Admin",
-                            Password = "$2a$11$QRaaG0cjogQ/dQbYk.RFs.9NZDVtPeMGu8ZUUaSbSL/x9bcufSV5a",
+                            Password = "$2a$13$gdtRuVYzDLFBUGnN1WxK/.1OFFoD7CbDZjRYGknrOwT9rus5AsqTu",
                             ProfileImageUrl = "https://localhost:7292/covers/1.jpg",
                             Username = "administrator"
                         });
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.UserAchievement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AchievedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Achievement")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserAchievements", (string)null);
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.UserStatistics", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AvatarsSet")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GameComments")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GamesPlayed")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProfileEdits")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<int>("QuestionsCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuizComments")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuizzesCompleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<int>("QuizzesCreated")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("UserStatistics", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.AnswerOption", b =>
@@ -2442,6 +2513,28 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.UserAchievement", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.User", "User")
+                        .WithMany("Achievements")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.UserStatistics", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.User", "User")
+                        .WithOne("Statistics")
+                        .HasForeignKey("DataAccessLayer.Models.UserStatistics", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.Game", b =>
                 {
                     b.Navigation("Comments");
@@ -2479,11 +2572,16 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("DataAccessLayer.Models.User", b =>
                 {
+                    b.Navigation("Achievements");
+
                     b.Navigation("GameResults");
 
                     b.Navigation("Notifications");
 
                     b.Navigation("QuizResults");
+
+                    b.Navigation("Statistics")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

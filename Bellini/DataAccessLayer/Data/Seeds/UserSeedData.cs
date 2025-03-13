@@ -20,12 +20,19 @@ namespace DataAccessLayer.Data.Seeds
                 LastName = "Admin",
                 IsAdmin = true,
                 IsActive = true,
-                Password = BCrypt.Net.BCrypt.HashPassword("password"),
+                Password = "$2a$13$gdtRuVYzDLFBUGnN1WxK/.1OFFoD7CbDZjRYGknrOwT9rus5AsqTu",
                 IsEmailVerified = true,
                 Username = "administrator",
-                ProfileImageUrl = $"{host}/covers/1.jpg",
+                ProfileImageUrl = $"{host}/covers/1.jpg"
             };
 
+            var statistics = new UserStatistics()
+            {
+                Id = 1,
+                UserId = 1,
+            };
+
+            modelBuilder.Entity<UserStatistics>().HasData();
             modelBuilder.Entity<User>().HasData(admin);
         }
     }
