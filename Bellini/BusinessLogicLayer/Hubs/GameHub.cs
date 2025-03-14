@@ -1,4 +1,7 @@
 ﻿using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
+using DataAccessLayer.Data.Interfaces;
+using DataAccessLayer.Models;
 using Microsoft.AspNetCore.SignalR;
 using StackExchange.Redis;
 using System.Text.Json;
@@ -8,11 +11,13 @@ namespace BusinessLogicLayer.Hubs
     public class GameHub : Hub
     {
         private readonly IConnectionMultiplexer _redis;
+        private IRepository<User> _userRepository;
 
-        public GameHub(IConnectionMultiplexer redis)
+        public GameHub(IConnectionMultiplexer redis, IRepository<User> userRepository)
         {
 
             _redis = redis;
+            _userRepository = userRepository;
         }
 
         public async Task NextQuestion(string gameId, int nextQuestionIndex)
@@ -145,6 +150,78 @@ namespace BusinessLogicLayer.Hubs
             var playerList = playersInGame.Select(p => JsonSerializer.Deserialize<PlayerDto>(p)).ToList();
 
             await Clients.All.SendAsync("GetPlayers", gameId, playerList);
+        }
+
+
+
+        public async Task SendMessage(string gameId, string userId, string message, string hostId)
+        {
+            try
+            {
+                var db = _redis.GetDatabase();
+                string gameKey = $"game:{gameId}:players";
+                string chatKey = $"chat:{gameId}:messages";
+
+                // Проверяем, есть ли пользователь в списке участников лобби
+                var playersInGame = await db.ListRangeAsync(gameKey);
+                var playerList = playersInGame.Select(p => JsonSerializer.Deserialize<PlayerDto>(p)).ToList();
+
+                if (userId != hostId && !playerList.Any(p => p.UserId == userId))
+                {
+                    throw new HubException("You are not part of this lobby.");
+                }
+
+                User userHost = new();
+
+                if (userId == hostId)
+                {
+                    userHost = await _userRepository.GetItemAsync(int.Parse(hostId));
+                }
+
+                var chatMessage = new
+                {
+                    UserId = userId,
+                    ProfileImageUrl = (userId != hostId ? playerList.First(p => p.UserId == userId).ProfileImageUrl : userHost.ProfileImageUrl) ,
+                    Username = (userId != hostId ? playerList.First(p => p.UserId == userId).Username : userHost.Username),
+                    Message = message,
+                    Timestamp = DateTime.UtcNow
+                };
+
+                var serializedMessage = JsonSerializer.Serialize(chatMessage);
+                await db.ListRightPushAsync(chatKey, serializedMessage);
+                 
+                chatKey = $"chat:{gameId}:messages";
+
+                var messages = await db.ListRangeAsync(chatKey);
+                var chatHistory = messages.Select(m => JsonSerializer.Deserialize<object>(m)).ToList();
+                await Clients.All.SendAsync("ChatHistory", gameId, chatHistory);
+                await Clients.Group(gameId).SendAsync("ReceiveMessage", gameId, chatMessage);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in SendMessage: {ex.Message}");
+                throw;
+            }
+        }
+
+        public async Task GetChatHistory(string gameId)
+        {
+            var db = _redis.GetDatabase();
+            string chatKey = $"chat:{gameId}:messages";
+
+            var messages = await db.ListRangeAsync(chatKey);
+            var chatHistory = messages.Select(m => JsonSerializer.Deserialize<object>(m)).ToList();
+
+            //await Clients.Caller.SendAsync("ChatHistory", gameId, chatHistory);
+            await Clients.All.SendAsync("ChatHistory", gameId, chatHistory);
+        }
+
+        public async Task ClearChat(string gameId)
+        {
+            var db = _redis.GetDatabase();
+            string chatKey = $"chat:{gameId}:messages";
+
+            await db.KeyDeleteAsync(chatKey);
         }
     }
 }
