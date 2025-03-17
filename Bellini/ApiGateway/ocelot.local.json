@@ -164,6 +164,18 @@
       "UpstreamPathTemplate": "/images/{everything}",
       "UpstreamHttpMethod": [ "GET" ]
     },
+    {
+      "DownstreamPathTemplate": "/default/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7256
+        }
+      ],
+      "UpstreamPathTemplate": "/default/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
     // GameService
     {
       "DownstreamPathTemplate": "/api/game/{everything}",
@@ -201,7 +213,30 @@
       "UpstreamPathTemplate": "/game/{everything}/statistics",
       "UpstreamHttpMethod": [ "GET" ]
     },
-
+    {
+      "DownstreamPathTemplate": "/question/default/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/question/default/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/question/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/question/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
     {
       "DownstreamPathTemplate": "/api/comments/game/{gameId:int}",
       "DownstreamScheme": "https",

@@ -160,6 +160,30 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
+      "DownstreamPathTemplate": "/question/default/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/question/default/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/question/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/question/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/game/{id:int}/start",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
