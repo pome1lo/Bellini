@@ -325,6 +325,7 @@ namespace DataAccessLayer.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Text = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     GameId = table.Column<int>(type: "int", nullable: false),
+                    QuestionImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsCustom = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -405,7 +406,57 @@ namespace DataAccessLayer.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "FirstName", "IsActive", "IsAdmin", "IsEmailVerified", "LastName", "Password", "ProfileImageUrl", "Username" },
-                values: new object[] { 1, "paaworker@gmail.com", "Main", true, true, true, "Admin", "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6", "https://localhost:7292/covers/1.jpg", "administrator" });
+                values: new object[,]
+                {
+                    { 1, "paaworker@gmail.com", "Main", true, true, true, "Admin", "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6", "https://localhost:7292/default/1.jpg", "administrator" },
+                    { 2, "user1@example.com", "John", true, false, true, "Doe", "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6", "https://localhost:7292/default/1.jpg", "user1" },
+                    { 3, "user2@example.com", "Jane", true, false, true, "Smith", "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6", "https://localhost:7292/default/2.jpg", "user2" },
+                    { 4, "user3@example.com", "Mike", true, false, true, "Johnson", "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6", "https://localhost:7292/default/3.jpg", "user3" },
+                    { 5, "user4@example.com", "Emily", true, false, true, "Brown", "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6", "https://localhost:7292/default/4.jpg", "user4" },
+                    { 6, "user5@example.com", "David", true, false, true, "Davis", "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6", "https://localhost:7292/default/5.jpg", "user5" },
+                    { 7, "user6@example.com", "Emma", true, false, true, "Miller", "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6", "https://localhost:7292/default/6.jpg", "user6" },
+                    { 8, "user7@example.com", "Chris", true, false, true, "Wilson", "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6", "https://localhost:7292/default/7.jpg", "user7" },
+                    { 9, "user8@example.com", "Sophia", true, false, true, "Moore", "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6", "https://localhost:7292/default/8.jpg", "user8" },
+                    { 10, "user9@example.com", "Daniel", true, false, true, "Taylor", "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6", "https://localhost:7292/default/9.jpg", "user9" },
+                    { 11, "user10@example.com", "Olivia", true, false, true, "Anderson", "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6", "https://localhost:7292/default/10.jpg", "user10" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Games",
+                columns: new[] { "Id", "CreateTime", "EndTime", "GameCoverImageUrl", "GameName", "GameStatusId", "HostId", "IsPrivate", "MaxPlayers", "RoomPassword", "StartTime" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7863), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/1.jpg", "Тайны древнего храма", 1, 1, false, 5, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7875), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/2.jpg", "Гонка за артефактом", 1, 1, false, 6, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7876), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/3.jpg", "Побег из подземелья", 1, 1, false, 7, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7878), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/4.jpg", "Магический поединок", 1, 1, false, 8, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7879), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/5.jpg", "Королевская битва", 1, 1, false, 9, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 6, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7881), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/6.jpg", "Космическое приключение", 1, 1, false, 10, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 7, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7882), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/7.jpg", "Выживание в пустыне", 1, 1, false, 4, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 8, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7884), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/8.jpg", "Пиратские тайны", 1, 1, false, 5, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 9, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7885), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/9.jpg", "Зомби-апокалипсис", 1, 1, false, 6, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 10, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7887), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/10.jpg", "Миссия на Марс", 1, 1, false, 7, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 11, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7889), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/11.jpg", "Осада замка", 1, 1, true, 8, "password", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 12, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7892), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/12.jpg", "Подводная экспедиция", 1, 1, true, 9, "password", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 13, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7893), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/13.jpg", "Шпионские интриги", 1, 1, true, 10, "password", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 14, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7895), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/14.jpg", "Операция: Побег", 1, 1, true, 4, "password", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 15, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7896), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/15.jpg", "Джунгли Амазонки", 1, 1, true, 5, "password", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 16, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7898), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/16.jpg", "Космический рейнджер", 1, 1, true, 6, "password", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 17, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7899), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/17.jpg", "Дикий Запад", 1, 1, true, 7, "password", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 18, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7911), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/18.jpg", "Средневековые войны", 1, 1, true, 8, "password", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 19, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7912), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/19.jpg", "Рыцарский турнир", 1, 1, true, 9, "password", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 20, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7914), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/20.jpg", "Выживание в Арктике", 1, 1, true, 10, "password", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 21, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7916), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/21.jpg", "Последняя битва", 3, 1, false, 4, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 22, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7918), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/22.jpg", "Финальная миссия", 3, 1, false, 5, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 23, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7920), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/23.jpg", "Освобождение города", 3, 1, false, 6, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 24, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7921), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/24.jpg", "Падение империи", 3, 1, false, 7, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 25, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7923), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/25.jpg", "Затерянные миры", 3, 1, false, 8, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 26, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7924), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/26.jpg", "Код красный", 3, 1, false, 9, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 27, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7925), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/27.jpg", "Тень прошлого", 3, 1, false, 10, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 28, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7927), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/28.jpg", "Битва за будущее", 3, 1, false, 4, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 29, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7928), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/29.jpg", "Последний шанс", 3, 1, false, 5, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 30, new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7930), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "https://localhost:7292/question/default/30.jpg", "Взрывное противостояние", 3, 1, false, 6, "", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                });
 
             migrationBuilder.InsertData(
                 table: "QuizQuestions",
@@ -462,6 +513,24 @@ namespace DataAccessLayer.Migrations
                     { 48, 5, "", "Какой тип данных используется для хранения текста?" },
                     { 49, 5, "", "Какой метод используется для завершения программы?" },
                     { 50, 5, "", "Как называется ошибка времени выполнения?" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserStatistics",
+                columns: new[] { "Id", "AvatarsSet", "GameComments", "GameCreated", "GamesPlayed", "QuestionsCreated", "QuizComments", "QuizzesCreated", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 0, 0, 0, 0, 0, 0, 0, 1 },
+                    { 2, 0, 0, 0, 0, 0, 0, 0, 2 },
+                    { 3, 0, 0, 0, 0, 0, 0, 0, 3 },
+                    { 4, 0, 0, 0, 0, 0, 0, 0, 4 },
+                    { 5, 0, 0, 0, 0, 0, 0, 0, 5 },
+                    { 6, 0, 0, 0, 0, 0, 0, 0, 6 },
+                    { 7, 0, 0, 0, 0, 0, 0, 0, 7 },
+                    { 8, 0, 0, 0, 0, 0, 0, 0, 8 },
+                    { 9, 0, 0, 0, 0, 0, 0, 0, 9 },
+                    { 10, 0, 0, 0, 0, 0, 0, 0, 10 },
+                    { 11, 0, 0, 0, 0, 0, 0, 0, 11 }
                 });
 
             migrationBuilder.InsertData(

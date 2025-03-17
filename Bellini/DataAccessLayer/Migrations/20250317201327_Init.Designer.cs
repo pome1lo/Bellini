@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250313205453_Init")]
+    [Migration("20250317201327_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -99,6 +99,428 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("GameStatusId");
 
                     b.ToTable("Games", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7863),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/1.jpg",
+                            GameName = "Тайны древнего храма",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 5,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7875),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/2.jpg",
+                            GameName = "Гонка за артефактом",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 6,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7876),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/3.jpg",
+                            GameName = "Побег из подземелья",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 7,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7878),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/4.jpg",
+                            GameName = "Магический поединок",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 8,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7879),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/5.jpg",
+                            GameName = "Королевская битва",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 9,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7881),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/6.jpg",
+                            GameName = "Космическое приключение",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 10,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7882),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/7.jpg",
+                            GameName = "Выживание в пустыне",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 4,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7884),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/8.jpg",
+                            GameName = "Пиратские тайны",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 5,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7885),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/9.jpg",
+                            GameName = "Зомби-апокалипсис",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 6,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7887),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/10.jpg",
+                            GameName = "Миссия на Марс",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 7,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7889),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/11.jpg",
+                            GameName = "Осада замка",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = true,
+                            MaxPlayers = 8,
+                            RoomPassword = "password",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7892),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/12.jpg",
+                            GameName = "Подводная экспедиция",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = true,
+                            MaxPlayers = 9,
+                            RoomPassword = "password",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7893),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/13.jpg",
+                            GameName = "Шпионские интриги",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = true,
+                            MaxPlayers = 10,
+                            RoomPassword = "password",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7895),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/14.jpg",
+                            GameName = "Операция: Побег",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = true,
+                            MaxPlayers = 4,
+                            RoomPassword = "password",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7896),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/15.jpg",
+                            GameName = "Джунгли Амазонки",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = true,
+                            MaxPlayers = 5,
+                            RoomPassword = "password",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7898),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/16.jpg",
+                            GameName = "Космический рейнджер",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = true,
+                            MaxPlayers = 6,
+                            RoomPassword = "password",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7899),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/17.jpg",
+                            GameName = "Дикий Запад",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = true,
+                            MaxPlayers = 7,
+                            RoomPassword = "password",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7911),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/18.jpg",
+                            GameName = "Средневековые войны",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = true,
+                            MaxPlayers = 8,
+                            RoomPassword = "password",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7912),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/19.jpg",
+                            GameName = "Рыцарский турнир",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = true,
+                            MaxPlayers = 9,
+                            RoomPassword = "password",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7914),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/20.jpg",
+                            GameName = "Выживание в Арктике",
+                            GameStatusId = 1,
+                            HostId = 1,
+                            IsPrivate = true,
+                            MaxPlayers = 10,
+                            RoomPassword = "password",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 21,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7916),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/21.jpg",
+                            GameName = "Последняя битва",
+                            GameStatusId = 3,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 4,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 22,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7918),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/22.jpg",
+                            GameName = "Финальная миссия",
+                            GameStatusId = 3,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 5,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 23,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7920),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/23.jpg",
+                            GameName = "Освобождение города",
+                            GameStatusId = 3,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 6,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 24,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7921),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/24.jpg",
+                            GameName = "Падение империи",
+                            GameStatusId = 3,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 7,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 25,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7923),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/25.jpg",
+                            GameName = "Затерянные миры",
+                            GameStatusId = 3,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 8,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 26,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7924),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/26.jpg",
+                            GameName = "Код красный",
+                            GameStatusId = 3,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 9,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 27,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7925),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/27.jpg",
+                            GameName = "Тень прошлого",
+                            GameStatusId = 3,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 10,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 28,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7927),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/28.jpg",
+                            GameName = "Битва за будущее",
+                            GameStatusId = 3,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 4,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 29,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7928),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/29.jpg",
+                            GameName = "Последний шанс",
+                            GameStatusId = 3,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 5,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 30,
+                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7930),
+                            EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            GameCoverImageUrl = "https://localhost:7292/question/default/30.jpg",
+                            GameName = "Взрывное противостояние",
+                            GameStatusId = 3,
+                            HostId = 1,
+                            IsPrivate = false,
+                            MaxPlayers = 6,
+                            RoomPassword = "",
+                            StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.GameComment", b =>
@@ -279,6 +701,9 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<bool>("IsCustom")
                         .HasColumnType("bit");
+
+                    b.Property<string>("QuestionImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -2298,8 +2723,138 @@ namespace DataAccessLayer.Migrations
                             IsEmailVerified = true,
                             LastName = "Admin",
                             Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
-                            ProfileImageUrl = "https://localhost:7292/covers/1.jpg",
+                            ProfileImageUrl = "https://localhost:7292/default/1.jpg",
                             Username = "administrator"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "user1@example.com",
+                            FirstName = "John",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsEmailVerified = true,
+                            LastName = "Doe",
+                            Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
+                            ProfileImageUrl = "https://localhost:7292/default/1.jpg",
+                            Username = "user1"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Email = "user2@example.com",
+                            FirstName = "Jane",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsEmailVerified = true,
+                            LastName = "Smith",
+                            Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
+                            ProfileImageUrl = "https://localhost:7292/default/2.jpg",
+                            Username = "user2"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Email = "user3@example.com",
+                            FirstName = "Mike",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsEmailVerified = true,
+                            LastName = "Johnson",
+                            Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
+                            ProfileImageUrl = "https://localhost:7292/default/3.jpg",
+                            Username = "user3"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Email = "user4@example.com",
+                            FirstName = "Emily",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsEmailVerified = true,
+                            LastName = "Brown",
+                            Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
+                            ProfileImageUrl = "https://localhost:7292/default/4.jpg",
+                            Username = "user4"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Email = "user5@example.com",
+                            FirstName = "David",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsEmailVerified = true,
+                            LastName = "Davis",
+                            Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
+                            ProfileImageUrl = "https://localhost:7292/default/5.jpg",
+                            Username = "user5"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Email = "user6@example.com",
+                            FirstName = "Emma",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsEmailVerified = true,
+                            LastName = "Miller",
+                            Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
+                            ProfileImageUrl = "https://localhost:7292/default/6.jpg",
+                            Username = "user6"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Email = "user7@example.com",
+                            FirstName = "Chris",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsEmailVerified = true,
+                            LastName = "Wilson",
+                            Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
+                            ProfileImageUrl = "https://localhost:7292/default/7.jpg",
+                            Username = "user7"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Email = "user8@example.com",
+                            FirstName = "Sophia",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsEmailVerified = true,
+                            LastName = "Moore",
+                            Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
+                            ProfileImageUrl = "https://localhost:7292/default/8.jpg",
+                            Username = "user8"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Email = "user9@example.com",
+                            FirstName = "Daniel",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsEmailVerified = true,
+                            LastName = "Taylor",
+                            Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
+                            ProfileImageUrl = "https://localhost:7292/default/9.jpg",
+                            Username = "user9"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Email = "user10@example.com",
+                            FirstName = "Olivia",
+                            IsActive = true,
+                            IsAdmin = false,
+                            IsEmailVerified = true,
+                            LastName = "Anderson",
+                            Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
+                            ProfileImageUrl = "https://localhost:7292/default/10.jpg",
+                            Username = "user10"
                         });
                 });
 
@@ -2375,6 +2930,162 @@ namespace DataAccessLayer.Migrations
                         .IsUnique();
 
                     b.ToTable("UserStatistics", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AvatarsSet = 0,
+                            GameComments = 0,
+                            GameCreated = 0,
+                            GamesPlayed = 0,
+                            ProfileEdits = 0,
+                            QuestionsCreated = 0,
+                            QuizComments = 0,
+                            QuizzesCompleted = 0,
+                            QuizzesCreated = 0,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AvatarsSet = 0,
+                            GameComments = 0,
+                            GameCreated = 0,
+                            GamesPlayed = 0,
+                            ProfileEdits = 0,
+                            QuestionsCreated = 0,
+                            QuizComments = 0,
+                            QuizzesCompleted = 0,
+                            QuizzesCreated = 0,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AvatarsSet = 0,
+                            GameComments = 0,
+                            GameCreated = 0,
+                            GamesPlayed = 0,
+                            ProfileEdits = 0,
+                            QuestionsCreated = 0,
+                            QuizComments = 0,
+                            QuizzesCompleted = 0,
+                            QuizzesCreated = 0,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AvatarsSet = 0,
+                            GameComments = 0,
+                            GameCreated = 0,
+                            GamesPlayed = 0,
+                            ProfileEdits = 0,
+                            QuestionsCreated = 0,
+                            QuizComments = 0,
+                            QuizzesCompleted = 0,
+                            QuizzesCreated = 0,
+                            UserId = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AvatarsSet = 0,
+                            GameComments = 0,
+                            GameCreated = 0,
+                            GamesPlayed = 0,
+                            ProfileEdits = 0,
+                            QuestionsCreated = 0,
+                            QuizComments = 0,
+                            QuizzesCompleted = 0,
+                            QuizzesCreated = 0,
+                            UserId = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AvatarsSet = 0,
+                            GameComments = 0,
+                            GameCreated = 0,
+                            GamesPlayed = 0,
+                            ProfileEdits = 0,
+                            QuestionsCreated = 0,
+                            QuizComments = 0,
+                            QuizzesCompleted = 0,
+                            QuizzesCreated = 0,
+                            UserId = 6
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AvatarsSet = 0,
+                            GameComments = 0,
+                            GameCreated = 0,
+                            GamesPlayed = 0,
+                            ProfileEdits = 0,
+                            QuestionsCreated = 0,
+                            QuizComments = 0,
+                            QuizzesCompleted = 0,
+                            QuizzesCreated = 0,
+                            UserId = 7
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AvatarsSet = 0,
+                            GameComments = 0,
+                            GameCreated = 0,
+                            GamesPlayed = 0,
+                            ProfileEdits = 0,
+                            QuestionsCreated = 0,
+                            QuizComments = 0,
+                            QuizzesCompleted = 0,
+                            QuizzesCreated = 0,
+                            UserId = 8
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AvatarsSet = 0,
+                            GameComments = 0,
+                            GameCreated = 0,
+                            GamesPlayed = 0,
+                            ProfileEdits = 0,
+                            QuestionsCreated = 0,
+                            QuizComments = 0,
+                            QuizzesCompleted = 0,
+                            QuizzesCreated = 0,
+                            UserId = 9
+                        },
+                        new
+                        {
+                            Id = 10,
+                            AvatarsSet = 0,
+                            GameComments = 0,
+                            GameCreated = 0,
+                            GamesPlayed = 0,
+                            ProfileEdits = 0,
+                            QuestionsCreated = 0,
+                            QuizComments = 0,
+                            QuizzesCompleted = 0,
+                            QuizzesCreated = 0,
+                            UserId = 10
+                        },
+                        new
+                        {
+                            Id = 11,
+                            AvatarsSet = 0,
+                            GameComments = 0,
+                            GameCreated = 0,
+                            GamesPlayed = 0,
+                            ProfileEdits = 0,
+                            QuestionsCreated = 0,
+                            QuizComments = 0,
+                            QuizzesCompleted = 0,
+                            QuizzesCreated = 0,
+                            UserId = 11
+                        });
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.AnswerOption", b =>
