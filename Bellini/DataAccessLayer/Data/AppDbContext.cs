@@ -75,6 +75,7 @@ namespace DataAccessLayer.Data
 
             QuizSeedData.Seed(modelBuilder);
             UserSeedData.Seed(modelBuilder);
+            GameSeedData.Seed(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
         }
