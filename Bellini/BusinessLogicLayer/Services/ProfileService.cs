@@ -5,9 +5,7 @@ using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 using FluentValidation;
 using Microsoft.Extensions.Caching.Distributed;
-using UtilsModelsLibrary.Enums;
 using UtilsModelsLibrary.Exceptions;
-using UtilsModelsLibrary.Extensions;
 
 namespace BusinessLogicLayer.Services
 {

@@ -52,7 +52,7 @@ namespace ProfileService.Controllers
         [HttpPut("{id}")]
         [ProfileOwnerAuthorizeFromQuery]
         [ApiExplorerSettings(IgnoreApi = true)]
-        public async Task<IActionResult> UpdateProfile(int id, [FromForm] UpdateProfileDto updateProfileDto, [FromForm] IFormFile? profileImage, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateProfile(int id, [FromForm] UpdateProfileDto updateProfileDto, [FromForm] IFormFile? profileImage, CancellationToken cancellationToken = default)
         {
             if (profileImage is not null)
             {

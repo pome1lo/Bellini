@@ -1,6 +1,8 @@
+using BusinessLogicLayer.Services;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using UtilsModelsLibrary.Attribute;
 using UtilsModelsLibrary.Attributes;
 using UtilsModelsLibrary.Enums;
 
@@ -11,10 +13,12 @@ namespace AdminService.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
+        private readonly IFileService _fileService;
 
-        public AdminController(IAdminService adminService)
+        public AdminController(IAdminService adminService, IFileService fileService)
         {
             _adminService = adminService;
+            _fileService = fileService;
         }
 
         [HttpPost("user")]
@@ -63,6 +67,22 @@ namespace AdminService.Controllers
             return Ok(
             //await _adminService.CreateQuizAsync(dto, cancellationToken)
             );
+        }
+
+        [HttpPut("user/{id:int}")]
+        [RolesOnlyAuthorize(Roles.Admin)]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<IActionResult> UpdateProfile(int id, [FromForm] AdminUpdateUserDto updateUserDto, [FromForm] IFormFile? profileImage, CancellationToken cancellationToken)
+        {
+            if (profileImage is not null)
+            {
+                var profileImageUrl = await _fileService.UploadFileAsync(profileImage, cancellationToken, isAdminService: true);
+
+                var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+                updateUserDto.ProfileImageUrl = (isDocker ? "/apigateway" : "https://localhost:7292") + profileImageUrl;
+            }
+            await _adminService.UpdateUserAsync(updateUserDto, cancellationToken);
+            return Ok();
         }
     }
 }

@@ -10,6 +10,6 @@ namespace BusinessLogicLayer.Services.Interfaces
         /// <param name="file">Файл для загрузки.</param>
         /// <param name="cancellationToken">Токен отмены операции.</param>
         /// <returns>Путь к загруженному файлу.</returns>
-        Task<string> UploadFileAsync(IFormFile file, CancellationToken cancellationToken);
+        Task<string> UploadFileAsync(IFormFile file, CancellationToken cancellationToken = default, bool isAdminService = false);
     }
 }

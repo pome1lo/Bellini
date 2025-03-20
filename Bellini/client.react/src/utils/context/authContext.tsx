@@ -1,14 +1,7 @@
 import React, {createContext, useContext, useState, useEffect} from 'react';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
-
-interface User {
-    id: string;
-    username: string;
-    email: string;
-    profileImageUrl: string;
-    isAdmin: boolean;
-}
+import {User} from "@/utils/interfaces/User.ts";
 
 interface AuthContextType {
     user: User | null;

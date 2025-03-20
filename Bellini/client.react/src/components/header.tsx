@@ -168,14 +168,14 @@ export const Header = () => {
                                         <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
                                     </DropdownMenuLabel>
                                     <DropdownMenuSeparator/>
-                                    <DropdownMenuItem onClick={() => navigate(`/profile/${user.id}`)}>Profile</DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => navigate(`/settings`)}>Settings</DropdownMenuItem>
                                     <DropdownMenuItem
                                         onClick={() => navigate(`/admin`)}
                                         className={user.isAdmin ? "block" : "hidden"}
                                     >
                                         Admin panel
                                     </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => navigate(`/profile/${user.id}`)}>Profile</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => navigate(`/settings`)}>Settings</DropdownMenuItem>
                                     <DropdownMenuSeparator/>
                                     <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
                                 </DropdownMenuContent>

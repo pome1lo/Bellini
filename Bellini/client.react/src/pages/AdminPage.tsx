@@ -21,6 +21,7 @@ import {authFetch} from "@/utils/fetchs/authFetch.ts";
 import {toast} from "@/components/ui/use-toast.tsx";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {DialogCreateQuiz} from "@/components/dialogs/dialogCreateQuiz.tsx";
+import {DialogEditUser} from "@/components/dialogs/dialogEditUser.tsx";
 
 interface UserProfile {
     id: number;
@@ -242,7 +243,7 @@ export const AdminPage = () => {
                                                                 {item.isAdmin ? <PiCrownSimpleBold className="fill-green-600"/> : <MdOutlineDoNotDisturbAlt className="fill-red-700"/>}
                                                             </TableCell>
                                                             <TableCell className="bg-secondary flex justify-end">
-                                                                <Button variant="outline" size="sm">Изменить</Button>
+                                                                <DialogEditUser setIsEdited={setIsUpdated} isEdited={isUpdated} currentUserEdit={item}/>
                                                                 {
                                                                     user && user.id == item.id.toString() ?
                                                                         <Button variant="default" className="ms-3" size="sm" onClick={() => navigate("/settings")}>Вы</Button>

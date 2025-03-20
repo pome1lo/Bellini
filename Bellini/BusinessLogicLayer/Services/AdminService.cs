@@ -3,6 +3,7 @@ using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
+using FluentValidation;
 using Microsoft.Extensions.Caching.Distributed;
 using UtilsModelsLibrary.Exceptions;
 
@@ -14,19 +15,26 @@ namespace BusinessLogicLayer.Services
         private readonly IRepository<Game> _gameRepository;
         private readonly IRepository<Quiz> _quizRepository;
         private readonly INotificationService _notificationService;
+        private readonly IValidator<AdminUpdateUserDto> _userValidator;
         private readonly IDistributedCache _cache;
+        private readonly IMapper _mapper;
 
         public AdminService(
             IRepository<User> userRepository,
             IRepository<Game> gameRepository,
             IRepository<Quiz> quizRepository,
             INotificationService notificationService,
+            IValidator<AdminUpdateUserDto> userValidator,
+            IMapper mapper,
             IDistributedCache cache)
         {
+
             _userRepository = userRepository;
             _quizRepository = quizRepository;
             _gameRepository = gameRepository;
             _notificationService = notificationService;
+            _userValidator = userValidator;
+            _mapper = mapper;
             _cache = cache;
         }
 
@@ -82,7 +90,7 @@ namespace BusinessLogicLayer.Services
             {
                 throw new NotFoundException($"Quiz with ID {id} not found.");
             }
-              
+
             await _quizRepository.DeleteAsync(id, cancellationToken);
         }
 
@@ -95,8 +103,8 @@ namespace BusinessLogicLayer.Services
             }
 
             var cacheKey = $"User_{existingUser.Email}";
-            await _cache.RemoveAsync(cacheKey, cancellationToken); 
-             
+            await _cache.RemoveAsync(cacheKey, cancellationToken);
+
             await _userRepository.DeleteAsync(id, cancellationToken);
         }
 
@@ -114,7 +122,25 @@ namespace BusinessLogicLayer.Services
 
         public async Task UpdateUserAsync(AdminUpdateUserDto updateUserDto, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var validationResult = await _userValidator.ValidateAsync(updateUserDto, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
+
+            var existingUser = await _userRepository.GetItemAsync(updateUserDto.Id, cancellationToken);
+            if (existingUser == null)
+            {
+                throw new KeyNotFoundException("User not found.");
+            }
+
+            if (!string.IsNullOrEmpty(updateUserDto.Password))
+            {
+                updateUserDto.Password = BCrypt.Net.BCrypt.HashPassword(updateUserDto.Password);
+            }
+
+            var user = _mapper.Map(updateUserDto, existingUser); 
+            await _userRepository.UpdateAsync(user.Id, user, cancellationToken); 
         }
     }
 }
