@@ -30,8 +30,8 @@ namespace DataAccessLayer.Data
         public DbSet<Game> Games { get; set; } = null!;
         public DbSet<Player> Players { get; set; } = null!;
         public DbSet<GameStatus> GameStatuses { get; set; } = null!;
-        public DbSet<Question> Questions { get; set; } = null!;
-        public DbSet<AnswerOption> AnswerOptions { get; set; } = null!;
+        public DbSet<GameQuestion> Questions { get; set; } = null!;
+        public DbSet<GameAnswerOption> AnswerOptions { get; set; } = null!;
 
         public DbSet<GameComment> GameComments { get; set; } = null!;
         public DbSet<QuizComment> QuizComments { get; set; } = null!;

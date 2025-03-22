@@ -2,13 +2,13 @@
 
 namespace DataAccessLayer.Models
 {
-    public class Question : BaseModel
+    public class GameQuestion : BaseModel
     {
         public string Text { get; set; } = null!;
         public int GameId { get; set; }
         [JsonIgnore] public Game Game { get; set; } = null!;
         public string? QuestionImageUrl { get; set; }
         public bool IsCustom { get; set; }
-        public List<AnswerOption> AnswerOptions { get; set; } = new List<AnswerOption>();
+        public List<GameAnswerOption> AnswerOptions { get; set; } = new List<GameAnswerOption>();
     }
 }

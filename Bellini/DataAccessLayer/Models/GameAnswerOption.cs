@@ -2,11 +2,11 @@
 
 namespace DataAccessLayer.Models
 {
-    public class AnswerOption : BaseModel
+    public class GameAnswerOption : BaseModel
     {
         public string Text { get; set; } = null!;
         public bool IsCorrect { get; set; }
         public int QuestionId { get; set; }
-        [JsonIgnore] public Question Question { get; set; } = null!;
+        [JsonIgnore] public GameQuestion GameQuestion { get; set; } = null!;
     }
 }

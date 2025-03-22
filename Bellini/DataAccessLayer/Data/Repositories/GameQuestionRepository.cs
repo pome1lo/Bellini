@@ -4,34 +4,34 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Data.Repositories
 {
-    public class QuestionRepository : IRepository<Question>
+    public class GameQuestionRepository : IRepository<GameQuestion>
     {
         private readonly AppDbContext _context;
 
-        public QuestionRepository(AppDbContext dbContext)
+        public GameQuestionRepository(AppDbContext dbContext)
         {
             _context = dbContext;
         }
 
-        public async Task<IEnumerable<Question>> GetElementsAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<GameQuestion>> GetElementsAsync(CancellationToken cancellationToken = default)
         {
             return await _context.Questions
                                  .AsNoTracking()
                                  .Include(q => q.AnswerOptions)
                                  .ToListAsync(cancellationToken);
         }
-        public async Task<Question> GetItemAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<GameQuestion> GetItemAsync(int id, CancellationToken cancellationToken = default)
         {
             return await _context.Questions
                                  .Include(q => q.AnswerOptions)
                                  .FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
         }
-        public async Task CreateAsync(Question item, CancellationToken cancellationToken = default)
+        public async Task CreateAsync(GameQuestion item, CancellationToken cancellationToken = default)
         {
             await _context.Questions.AddAsync(item, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
         }
-        public async Task UpdateAsync(int id, Question item, CancellationToken cancellationToken = default)
+        public async Task UpdateAsync(int id, GameQuestion item, CancellationToken cancellationToken = default)
         {
             var questionToUpdate = await _context.Questions.FindAsync(id);
             if (questionToUpdate is not null)

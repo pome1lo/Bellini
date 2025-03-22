@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DataAccessLayer.Data.Configurations
 {
-    public class QuestionConfiguration : IEntityTypeConfiguration<Question>
+    public class QuestionConfiguration : IEntityTypeConfiguration<GameQuestion>
     {
-        public void Configure(EntityTypeBuilder<Question> builder)
+        public void Configure(EntityTypeBuilder<GameQuestion> builder)
         {
             builder.ToTable("Questions");
 
@@ -25,7 +25,7 @@ namespace DataAccessLayer.Data.Configurations
                    .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(q => q.AnswerOptions)
-                   .WithOne(a => a.Question)
+                   .WithOne(a => a.GameQuestion)
                    .HasForeignKey(a => a.QuestionId)
                    .OnDelete(DeleteBehavior.Cascade);
         }

@@ -4,35 +4,35 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Data.Repositories
 {
-    public class AnswerOptionRepository : IRepository<AnswerOption>
+    public class GameAnswerOptionRepository : IRepository<GameAnswerOption>
     {
         private readonly AppDbContext _context;
 
-        public AnswerOptionRepository(AppDbContext dbContext)
+        public GameAnswerOptionRepository(AppDbContext dbContext)
         {
             _context = dbContext;
         }
 
-        public async Task<IEnumerable<AnswerOption>> GetElementsAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<GameAnswerOption>> GetElementsAsync(CancellationToken cancellationToken = default)
         {
             return await _context.AnswerOptions
                                  .AsNoTracking()
                                  .ToListAsync(cancellationToken);
         }
 
-        public async Task<AnswerOption> GetItemAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<GameAnswerOption> GetItemAsync(int id, CancellationToken cancellationToken = default)
         {
             return await _context.AnswerOptions
                                  .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
         }
 
-        public async Task CreateAsync(AnswerOption item, CancellationToken cancellationToken = default)
+        public async Task CreateAsync(GameAnswerOption item, CancellationToken cancellationToken = default)
         {
             await _context.AnswerOptions.AddAsync(item, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task UpdateAsync(int id, AnswerOption item, CancellationToken cancellationToken = default)
+        public async Task UpdateAsync(int id, GameAnswerOption item, CancellationToken cancellationToken = default)
         {
             var answerToUpdate = await _context.AnswerOptions.FindAsync(id);
             if (answerToUpdate is not null)

@@ -17,7 +17,7 @@ namespace DataAccessLayer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -101,7 +101,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 1,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7863),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/1.jpg",
                             GameName = "Тайны древнего храма",
@@ -115,7 +115,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 2,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7875),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/2.jpg",
                             GameName = "Гонка за артефактом",
@@ -129,7 +129,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 3,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7876),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/3.jpg",
                             GameName = "Побег из подземелья",
@@ -143,7 +143,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 4,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7878),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/4.jpg",
                             GameName = "Магический поединок",
@@ -157,7 +157,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 5,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7879),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/5.jpg",
                             GameName = "Королевская битва",
@@ -171,7 +171,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 6,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7881),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/6.jpg",
                             GameName = "Космическое приключение",
@@ -185,7 +185,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 7,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7882),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/7.jpg",
                             GameName = "Выживание в пустыне",
@@ -199,7 +199,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 8,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7884),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/8.jpg",
                             GameName = "Пиратские тайны",
@@ -213,7 +213,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 9,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7885),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/9.jpg",
                             GameName = "Зомби-апокалипсис",
@@ -227,7 +227,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 10,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7887),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/10.jpg",
                             GameName = "Миссия на Марс",
@@ -241,7 +241,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 11,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7889),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/11.jpg",
                             GameName = "Осада замка",
@@ -255,7 +255,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 12,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7892),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/12.jpg",
                             GameName = "Подводная экспедиция",
@@ -269,7 +269,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 13,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7893),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/13.jpg",
                             GameName = "Шпионские интриги",
@@ -283,7 +283,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 14,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7895),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/14.jpg",
                             GameName = "Операция: Побег",
@@ -297,7 +297,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 15,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7896),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/15.jpg",
                             GameName = "Джунгли Амазонки",
@@ -311,7 +311,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 16,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7898),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/16.jpg",
                             GameName = "Космический рейнджер",
@@ -325,7 +325,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 17,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7899),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/17.jpg",
                             GameName = "Дикий Запад",
@@ -339,7 +339,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 18,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7911),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/18.jpg",
                             GameName = "Средневековые войны",
@@ -353,7 +353,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 19,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7912),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/19.jpg",
                             GameName = "Рыцарский турнир",
@@ -367,7 +367,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 20,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7914),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/20.jpg",
                             GameName = "Выживание в Арктике",
@@ -381,7 +381,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 21,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7916),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/21.jpg",
                             GameName = "Последняя битва",
@@ -395,7 +395,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 22,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7918),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/22.jpg",
                             GameName = "Финальная миссия",
@@ -409,7 +409,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 23,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7920),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/23.jpg",
                             GameName = "Освобождение города",
@@ -423,7 +423,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 24,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7921),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/24.jpg",
                             GameName = "Падение империи",
@@ -437,7 +437,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 25,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7923),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/25.jpg",
                             GameName = "Затерянные миры",
@@ -451,7 +451,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 26,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7924),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/26.jpg",
                             GameName = "Код красный",
@@ -465,7 +465,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 27,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7925),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/27.jpg",
                             GameName = "Тень прошлого",
@@ -479,7 +479,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 28,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7927),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/28.jpg",
                             GameName = "Битва за будущее",
@@ -493,7 +493,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 29,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7928),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/29.jpg",
                             GameName = "Последний шанс",
@@ -507,7 +507,7 @@ namespace DataAccessLayer.Migrations
                         new
                         {
                             Id = 30,
-                            CreateTime = new DateTime(2025, 3, 17, 23, 13, 27, 597, DateTimeKind.Local).AddTicks(7930),
+                            CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/question/default/30.jpg",
                             GameName = "Взрывное противостояние",
@@ -735,6 +735,9 @@ namespace DataAccessLayer.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<bool>("IsDraft")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
 
@@ -749,6 +752,7 @@ namespace DataAccessLayer.Migrations
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/covers/quiz_1.jpg",
                             GameName = "Мифология Древней Греции",
+                            IsDraft = false,
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -757,6 +761,7 @@ namespace DataAccessLayer.Migrations
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/covers/quiz_2.jpg",
                             GameName = "Древний Рим",
+                            IsDraft = false,
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -765,6 +770,7 @@ namespace DataAccessLayer.Migrations
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/covers/quiz_3.jpg",
                             GameName = "Современные технологии",
+                            IsDraft = false,
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -773,6 +779,7 @@ namespace DataAccessLayer.Migrations
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/covers/quiz_4.jpg",
                             GameName = "Основы программирования",
+                            IsDraft = false,
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -781,6 +788,7 @@ namespace DataAccessLayer.Migrations
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             GameCoverImageUrl = "https://localhost:7292/covers/quiz_5.jpg",
                             GameName = "Продвинутое программирование",
+                            IsDraft = false,
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
