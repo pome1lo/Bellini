@@ -12,7 +12,7 @@ namespace BusinessLogicLayer.Services.DTOs
         public int MaxPlayers { get; set; }
         public string GameCoverImageUrl { get; set; } = null!;
         public List<Player> Players { get; set; } = null!;
-        public List<Question> Questions { get; set; } = null!;
+        public List<GameQuestion> Questions { get; set; } = null!;
 
         public StartedGameDto(Game game)
         {

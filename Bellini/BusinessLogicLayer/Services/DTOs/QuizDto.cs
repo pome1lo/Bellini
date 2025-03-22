@@ -9,5 +9,6 @@
         public DateTime EndTime { get; set; } = DateTime.MinValue;
         public int NumberOfQuestions { get; set; } = 0;
         public bool HasUserCompleted { get; set; } = false;
+        public bool IsDraft { get; set; } = false;
     }
 }

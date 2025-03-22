@@ -19,6 +19,6 @@ namespace BusinessLogicLayer.Services.DTOs
         [JsonIgnore] public GameStatus Status { get; set; } = null!;
         [JsonIgnore] public List<GameComment> Comments { get; set; } = null!;
         [JsonIgnore] public List<Player> Players { get; set; } = null!;
-        [JsonIgnore] public List<Question> Questions { get; set; } = null!;
+        [JsonIgnore] public List<GameQuestion> Questions { get; set; } = null!;
     }
 }
