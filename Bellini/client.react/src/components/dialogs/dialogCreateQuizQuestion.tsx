@@ -23,19 +23,20 @@ import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group.tsx";
 import {authFetch} from "@/utils/fetchs/authFetch.ts";
 
 interface DialogCreateQuestionProps {
-    currentGameId: string;
+    currentQuizId: string;
     isQuestionCreated: boolean;
     setIsQuestionCreated: (arg: boolean) => void;
 }
 
-export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({currentGameId, setIsQuestionCreated, isQuestionCreated}) => {
+export const DialogCreateQuizQuestion: React.FC<DialogCreateQuestionProps> = ({currentQuizId, setIsQuestionCreated, isQuestionCreated}) => {
     const {user, getAccessToken, logout, isAuthenticated} = useAuth();
     const navigate = useNavigate();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const createQuestionSchema = z.object({
-        gameId: z.number(),
+        quizId: z.number(),
         text: z.string().min(5, "Question must be at least 5 characters long."),
+        questionImage: z.any().optional(),
         answers: z.array(
             z.object({
                 text: z.string().min(1, "Answer text is required."),
@@ -60,7 +61,7 @@ export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({curre
     } = useForm<CreateQuestionFormData>({
         resolver: zodResolver(createQuestionSchema),
         defaultValues: {
-            gameId: parseInt(currentGameId),
+            quizId: parseInt(currentQuizId),
             text: "",
             answers: [
                 {text: "", isCorrect: false},
@@ -74,15 +75,27 @@ export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({curre
     const answers = watch("answers") || [];
 
     const onSubmit = async (data: CreateQuestionFormData) => {
+
+        const formData = new FormData();
+
+        formData.append("Text", data.text || "");
+        formData.append("QuizId", data.quizId.toString() || "");
+        data.answers.forEach((answer, index) => {
+            formData.append(`Answers[${index}].Text`, answer.text);
+            formData.append(`Answers[${index}].IsCorrect`, answer.isCorrect.toString());
+        });
+        if (data.questionImage && data.questionImage[0]) {
+            formData.append("image", data.questionImage[0]);
+        }
+
         try {
             if (!isAuthenticated || !user) {
                 navigate("/login");
                 return;
             }
-            const response = await authFetch("/questions", getAccessToken, logout, {
+            const response = await authFetch("/questions/quiz", getAccessToken, logout, {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(data),
+                body: formData,
             });
 
             const responseData = await response.json();
@@ -167,6 +180,11 @@ export const DialogCreateQuestion: React.FC<DialogCreateQuestionProps> = ({curre
                                 )}
                             </div>
                         ))}
+
+                        <div className="grid w-full items-center gap-1.5">
+                            <Label htmlFor="profileImage">Image</Label>
+                            <Input id="profileImage" type="file" {...register("questionImage")} />
+                        </div>
                     </div>
 
                     {errors.answers && (

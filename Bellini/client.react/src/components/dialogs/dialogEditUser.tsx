@@ -22,9 +22,6 @@ import {Checkbox} from "@/components/ui/checkbox.tsx";
 import {authFetch} from "@/utils/fetchs/authFetch.ts";
 
 const createGameSchema = z.object({
-    username: z.string()
-        .min(3, "Username must be at least 3 characters")
-        .max(20, "Username must be at most 20 characters"),
     email: z.string().email()
         .min(5, "Email must be at least 5 characters")
         .max(50, "Email must be at most 50 characters"),
@@ -164,18 +161,6 @@ export const DialogEditUser: React.FC<DialogCreateUserProps> = ({currentUserEdit
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 py-4">
-                        <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="gameName" className="text-right">
-                                Username
-                            </Label>
-                            <Input
-                                id="username"
-                                {...register("username")}
-                                className="col-span-3"
-                            />
-                            {errors.username &&
-                                <p className="col-span-4 text-right text-red-500">{String(errors.username.message)}</p>}
-                        </div>
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="email" className="text-right">
                                 Email

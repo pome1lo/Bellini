@@ -38,9 +38,10 @@ type CreateGameFormData = z.infer<typeof createGameSchema>;
 interface DialogCreateGameProps {
     isCreated: boolean;
     setIsCreated: (isCreated: boolean) => void;
+    isAdminPage?: boolean;
 }
 
-export const DialogCreateGame: React.FC<DialogCreateGameProps> = ({setIsCreated, isCreated}) => {
+export const DialogCreateGame: React.FC<DialogCreateGameProps> = ({setIsCreated, isCreated, isAdminPage = false}) => {
     const {user, getAccessToken, logout, isAuthenticated} = useAuth();
     const navigate = useNavigate();
     const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -83,6 +84,10 @@ export const DialogCreateGame: React.FC<DialogCreateGameProps> = ({setIsCreated,
                 toast({title: "Game Created", description: "The game was successfully created."});
                 setIsCreated(!isCreated);
                 setIsDialogOpen(false);
+
+                if(isAdminPage) {
+                    navigate("/games/room/" + responseData.gameId)
+                }
             } else {
                 toast({
                     title: "Error",
