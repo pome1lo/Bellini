@@ -30,14 +30,7 @@ namespace BusinessLogicLayer.Services.Interfaces
         /// </summary>
         /// <param name="createGameDto">Данные для создания игры.</param>
         /// <param name="cancellationToken">Токен отмены операции.</param>
-        Task CreateGameAsync(AdminCreateGameDto createGameDto, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Обновляет данные игры.
-        /// </summary>
-        /// <param name="updateGameDto">Данные для обновления игры.</param>
-        /// <param name="cancellationToken">Токен отмены операции.</param>
-        Task UpdateGameAsync(AdminUpdateGameDto updateGameDto, CancellationToken cancellationToken = default);
+        Task CreateGameAsync(AdminCreateGameDto createGameDto, CancellationToken cancellationToken = default); 
 
         /// <summary>
         /// Удаляет игру по ее идентификатору.
@@ -51,7 +44,7 @@ namespace BusinessLogicLayer.Services.Interfaces
         /// </summary>
         /// <param name="createQuizDto">Данные для создания квиза.</param>
         /// <param name="cancellationToken">Токен отмены операции.</param>
-        Task CreateQuizAsync(AdminCreateQuizDto createQuizDto, CancellationToken cancellationToken = default);
+        Task<int> CreateQuizAsync(AdminCreateQuizDto createQuizDto, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Обновляет данные квиза.

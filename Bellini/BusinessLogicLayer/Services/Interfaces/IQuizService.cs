@@ -16,6 +16,16 @@ namespace BusinessLogicLayer.Services.Interfaces
         Task<(IEnumerable<QuizDto> Quizzes, int TotalCount)> GetAllQuizzesAsync(int limit, int offset, int userId, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Получает все черновые квизы с пагинацией для пользователя.
+        /// </summary>
+        /// <param name="limit">Количество квизов на странице.</param>
+        /// <param name="offset">Смещение для пагинации.</param>
+        /// <param name="userId">Идентификатор пользователя.</param>
+        /// <param name="cancellationToken">Токен отмены операции.</param>
+        /// <returns>Список квизов и их общее количество.</returns>
+        Task<(IEnumerable<QuizDto> Quizzes, int TotalCount)> GetAllDraftsQuizzesAsync(int limit, int offset, int userId, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Получает квиз по его идентификатору.
         /// </summary>
         /// <param name="id">Идентификатор квиза.</param>
@@ -64,6 +74,12 @@ namespace BusinessLogicLayer.Services.Interfaces
         /// <param name="userId">Идентификатор пользователя.</param>
         /// <param name="cancellationToken">Токен отмены операции.</param>
         Task ReplayQuizAsync(int quizId, int userId, CancellationToken cancellationToken = default);
-
+        /// <summary>
+        /// Позволяет обновить Quiz
+        /// </summary>
+        /// <param name="quizId">Идентификатор квиза.</param>
+        /// <param name="updateQuizDto">Объект обновления.</param>
+        /// <param name="cancellationToken">Токен отмены операции.</param>
+        Task<QuizDto> UpdateQuizAsync(int quizId, UpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default);
     }
 }

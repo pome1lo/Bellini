@@ -10,7 +10,15 @@ namespace BusinessLogicLayer.Services.Interfaces
         /// <param name="createQuestionDto">Данные для создания вопроса.</param>
         /// <param name="cancellationToken">Токен отмены операции.</param>
         /// <returns>Идентификатор созданного вопроса.</returns>
-        Task<int> CreateQuestionAsync(CreateQuestionDto createQuestionDto, CancellationToken cancellationToken = default);
+        Task<int> CreateQuestionAsync(CreateGameQuestionDto createQuestionDto, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Создает новый вопрос.
+        /// </summary>
+        /// <param name="createQuestionDto">Данные для создания вопроса.</param>
+        /// <param name="cancellationToken">Токен отмены операции.</param>
+        /// <returns>Идентификатор созданного вопроса.</returns>
+        Task<int> CreateQuizQuestionAsync(CreateQuizQuestionDto createQuestionDto, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Получает вопрос по его идентификатору.
@@ -41,7 +49,14 @@ namespace BusinessLogicLayer.Services.Interfaces
         /// <param name="questionId">Идентификатор вопроса.</param>
         /// <param name="gameId">Идентификатор игры.</param>
         /// <param name="cancellationToken">Токен отмены операции.</param>
-        Task DeleteQuestionAsync(int questionId, int gameId, CancellationToken cancellationToken = default);
+        Task DeleteGameQuestionAsync(int questionId, int gameId, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Удаляет вопрос по его идентификатору и идентификатору игры.
+        /// </summary>
+        /// <param name="questionId">Идентификатор вопроса.</param>
+        /// <param name="gameId">Идентификатор игры.</param>
+        /// <param name="cancellationToken">Токен отмены операции.</param>
+        Task DeleteQuizQuestionAsync(int questionId, int quizId, CancellationToken cancellationToken = default);
     }
 }

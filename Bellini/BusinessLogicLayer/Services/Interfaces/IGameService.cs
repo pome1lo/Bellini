@@ -51,8 +51,29 @@ namespace BusinessLogicLayer.Services.Interfaces
         /// <returns>Данные о запущенной игре.</returns>
         Task<StartedGameDto> StartGame(int id, [FromBody] StartGameDto startGameDto, CancellationToken cancellationToken = default);
 
-        /// <summary>
-        /// Заверш
 
+        /// <summary>
+        /// Завершает игру.
+        /// </summary>
+        /// <param name="gameId">Идентификатор игры.</param>
+        /// <param name="cancellationToken">Токен отмены операции.</param>
+        Task CompleteGameAsync(int gameId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Получает список всех игр с пагинацией.
+        /// </summary>
+        /// <param name="limit">Количество элементов на странице.</param>
+        /// <param name="offset">Смещение для пагинации.</param>
+        /// <param name="cancellationToken">Токен отмены операции.</param>
+        /// <returns>Список всех игр и их общее количество.</returns>
+        Task<(IEnumerable<Game> Games, int TotalCount)> GetAllGamesAsync(int limit, int offset, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Получает статистику по игре.
+        /// </summary>
+        /// <param name="gameId">Идентификатор игры.</param>
+        /// <param name="cancellationToken">Токен отмены операции.</param>
+        /// <returns>Список рейтинговых данных по игре.</returns>
+        Task<IEnumerable<GameRatingDto>> GetGameStatisticsAsync(int gameId, CancellationToken cancellationToken = default);
     }
 }

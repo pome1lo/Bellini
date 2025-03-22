@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using UtilsModelsLibrary.Enums;
 
 namespace BusinessLogicLayer.Services.Interfaces
 {
@@ -10,6 +11,6 @@ namespace BusinessLogicLayer.Services.Interfaces
         /// <param name="file">Файл для загрузки.</param>
         /// <param name="cancellationToken">Токен отмены операции.</param>
         /// <returns>Путь к загруженному файлу.</returns>
-        Task<string> UploadFileAsync(IFormFile file, CancellationToken cancellationToken = default, bool isAdminService = false);
+        Task<string> UploadFileAsync(IFormFile file, CancellationToken cancellationToken = default, FileTypeUpload fileType = FileTypeUpload.Default, string prefixName = "");
     }
 }
