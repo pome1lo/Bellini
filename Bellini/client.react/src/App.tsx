@@ -32,6 +32,7 @@ import {StartedQuiz} from "@/utils/interfaces/StartedQuiz.ts";
 import {Quiz} from "@/utils/interfaces/Quiz.ts";
 import {NotifiactionsPage} from '@/pages/NotifiactionsPage.tsx';
 import { AdminPage } from '@/pages/AdminPage.tsx';
+import {EditQuizPage} from "@/pages/EditQuizPage.tsx";
 
 function App() {
     const [gameStarted, setGameStarted] = useState(false);
@@ -82,6 +83,8 @@ function App() {
                     <Routes>
                         <Route path='/' element={<BasicLayout/>}>
                             <Route path='admin' element={<AdminPage/>}/>
+                            <Route path='admin/drafts' element={<AdminPage/>}/>
+                            <Route path='admin/drafts/:draftId' element={<EditQuizPage/>}/>
                             <Route path='settings' element={<SettingsPage/>}/>
                             <Route path='contacts' element={<ContactsPage/>}/>
                             <Route path='about' element={<AboutPage/>}/>

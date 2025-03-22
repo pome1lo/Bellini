@@ -12,21 +12,19 @@ import {
     AlertDialogHeader, AlertDialogTitle
 } from "@/components/ui/alert-dialog.tsx";
 import {AlertDialogTrigger} from "@/components/ui/alert-dialog.tsx";
+import {Answer} from "@/utils/interfaces/QuizQuestion.ts";
 
-interface Answer {
-    text: string;
-    isCorrect: boolean;
-}
 
 interface GameQuestionItemProps {
     id: number;
     index: number;
     question: string;
+    questionImageUrl: string;
     answers: Answer[];
     dropItem: (arg: number) => void;
 }
 
-export const GameQuestionItem: React.FC<GameQuestionItemProps> = ({id, index, question, answers, dropItem}) => {
+export const GameQuestionItem: React.FC<GameQuestionItemProps> = ({id, index, question, answers, dropItem, questionImageUrl}) => {
     return (
         <Popover>
             <div className="flex">
@@ -57,19 +55,31 @@ export const GameQuestionItem: React.FC<GameQuestionItemProps> = ({id, index, qu
             <PopoverContent className="w-80 p-4">
                 <div className="grid gap-4">
                     <div className="space-y-2">
-                        <h4 className="font-medium leading-none">{question}</h4>
+                        <h4 className="font-medium leading-none text-wrap">{question}</h4>
                     </div>
                     <div className="grid gap-2">
                         {answers.map((answer, index) => (
-                            <div key={index} className="grid grid-cols-3 items-center gap-4">
-                                <Label>{index + 1}. {answer.text}</Label>
+                            <div key={index} className="flex items-center gap-4">
                                 {answer.isCorrect ?
-                                    <Badge variant="secondary" className="col-span-2 w-[62px] bg-green-700 hover:bg-green-900">Correct</Badge>
+                                    <Badge variant="secondary" className="w-[30px] bg-green-700 hover:bg-green-900">{index + 1}.</Badge>
                                     :
-                                    <Badge variant="destructive" className="col-span-2 w-[72px]">Incorrect</Badge>
+                                    <Badge variant="destructive" className="w-[30px]">{index + 1}.</Badge>
                                 }
+                                {answer.text}
                             </div>
                         ))}
+                    </div>
+                    <div className="flex">
+                        Image: {questionImageUrl ? <></> : <p className="ms-2"> ❌</p>}
+                    </div>
+                    <div>
+                        {questionImageUrl ?
+                            <>
+                                <img className="aspect-square w-full rounded-md object-cover" alt=""
+                                    height="300" width="300" src={questionImageUrl}
+                                />
+                            </> : <></>
+                        }
                     </div>
                 </div>
             </PopoverContent>

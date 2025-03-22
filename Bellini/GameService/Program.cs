@@ -3,10 +3,12 @@ using BusinessLogicLayer.Services;
 using BusinessLogicLayer.Services.Configs;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
+using BusinessLogicLayer.Services.Validators;
 using DataAccessLayer.Data;
 using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Data.Repositories;
 using DataAccessLayer.Models;
+using FluentValidation;
 using GameService.MiddlewareExtensions;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -44,22 +46,25 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(provider =>
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IRepository<Game>, GameRepository>();
-builder.Services.AddScoped<IRepository<Player>, PlayerRepository>();
+builder.Services.AddScoped<IRepository<Quiz>, QuizRepository>();
 builder.Services.AddScoped<IRepository<GameComment>, GameCommentRepository>();
 builder.Services.AddScoped<IRepository<QuizComment>, QuizCommentRepository>();
-builder.Services.AddScoped<IRepository<Question>, QuestionRepository>();
-builder.Services.AddScoped<IRepository<GameStatus>, GameStatusRepository>();
-builder.Services.AddScoped<IRepository<AnswerOption>, AnswerOptionRepository>();
-builder.Services.AddScoped<IRepository<Notification>, NotificationRepository>();
-builder.Services.AddScoped<IRepository<User>, UserRepository>();
-
-builder.Services.AddScoped<IRepository<Quiz>, QuizRepository>();
+builder.Services.AddScoped<IRepository<GameQuestion>, GameQuestionRepository>();
 builder.Services.AddScoped<IRepository<QuizQuestion>, QuizQuestionRepository>();
+builder.Services.AddScoped<IRepository<GameAnswerOption>, GameAnswerOptionRepository>();
 builder.Services.AddScoped<IRepository<QuizAnswerOption>, QuizAnswerOptionRepository>();
 builder.Services.AddScoped<IRepository<QuizResults>, QuizResultsRepository>();
 builder.Services.AddScoped<IRepository<GameResults>, GameResultsRepository>();
+builder.Services.AddScoped<IRepository<Player>, PlayerRepository>();
+builder.Services.AddScoped<IRepository<GameStatus>, GameStatusRepository>();
+builder.Services.AddScoped<IRepository<Notification>, NotificationRepository>();
+builder.Services.AddScoped<IRepository<User>, UserRepository>();
+
 builder.Services.AddScoped<IRepository<UserStatistics>, UserStatisticsRepository>();
 builder.Services.AddScoped<IRepository<UserAchievement>, UserAchievementRepository>();
+
+builder.Services.AddScoped<IValidator<UpdateQuizDto>, UpdateQuizDtoValidator>();
+
 
 builder.Services.AddScoped<IAchievementService, AchievementService>(); 
 builder.Services.AddScoped<IUserStatisticsService, UserStatisticsService>();
@@ -68,6 +73,7 @@ builder.Services.AddScoped<IGameService, BusinessLogicLayer.Services.GameService
 builder.Services.AddScoped<IQuizService, QuizService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
+builder.Services.AddScoped<IFileService, FileService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddAutoMapper(cfg =>
@@ -77,8 +83,17 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.CreateMap<CreateGameRoomDto, Game>();
     cfg.CreateMap<Player, PlayerDto>();
     cfg.CreateMap<GameComment, CommentDto>();
-    cfg.CreateMap<CreateQuestionDto, Question>();
-    cfg.CreateMap<CreateAnswerDto, AnswerOption>();
+    cfg.CreateMap<CreateGameQuestionDto, GameQuestion>();
+    cfg.CreateMap<CreateQuizQuestionDto, QuizQuestion>();
+    cfg.CreateMap<CreateAnswerDto, GameAnswerOption>();
+    cfg.CreateMap<CreateAnswerDto, QuizAnswerOption>();
+    cfg.CreateMap<QuizDto, Quiz>();
+    cfg.CreateMap<Quiz, QuizDto>();
+    cfg.CreateMap<UpdateQuizDto, Quiz>()
+       .ForMember(dest => dest.Questions, opt => opt.Ignore())
+       .ForMember(dest => dest.QuizResults, opt => opt.Ignore())
+       .ForMember(dest => dest.Comments, opt => opt.Ignore());
+
 }, typeof(Program));
 
 builder.Services.AddJwtAuthentication(builder.Configuration);

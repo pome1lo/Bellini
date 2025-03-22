@@ -1,10 +1,12 @@
 export interface QuizQuestion {
     id: number;
     text: string;
-    answerOptions: QuizAnswerOption[];
+    quizQuestionImageUrl: string;
+    answerOptions: Answer[];
 }
 
-export interface QuizAnswerOption {
-    id: number;
+export interface Answer {
+    id: number
     text: string;
+    isCorrect: boolean;
 }

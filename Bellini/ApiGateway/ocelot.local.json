@@ -214,7 +214,7 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/question/default/{everything}",
+      "DownstreamPathTemplate": "/questions-cover/default/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -222,7 +222,19 @@
           "Port": 7035
         }
       ],
-      "UpstreamPathTemplate": "/question/default/{everything}",
+      "UpstreamPathTemplate": "/questions-cover/default/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/quizzes-cover/default/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes-cover/default/{everything}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
@@ -235,6 +247,54 @@
         }
       ],
       "UpstreamPathTemplate": "/question/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/questions-cover/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/questions-cover/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/questions-cover/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/wwwroot/questions-cover/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/quizzes-cover/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes-cover/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/quizzes-cover/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/wwwroot/quizzes-cover/{everything}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
@@ -286,6 +346,54 @@
       ],
       "UpstreamPathTemplate": "/questions/{everything}",
       "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/questions/game/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/questions/game/{everything}",
+      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/questions/quiz/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/questions/quiz/{everything}",
+      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/questions/game",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/questions/game",
+      "UpstreamHttpMethod": [ "POST"]
+    },
+    {
+      "DownstreamPathTemplate": "/api/questions/quiz",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/questions/quiz",
+      "UpstreamHttpMethod": [ "POST" ]
     },
     {
       "DownstreamPathTemplate": "/api/quizzes/{everything}",
@@ -360,6 +468,18 @@
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
+      "DownstreamPathTemplate": "/api/quizzes/all-drafts",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes/all-drafts",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/quizzes/{id:int}/replay",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -401,7 +521,7 @@
     //    "Access-Control-Allow-Origin": "http://localhost:5173",
     //    "Access-Control-Allow-Credentials": "true"
     //  }
-    //}
+    //},
     {
       "DownstreamPathTemplate": "/gameHub/negotiate",
       "DownstreamScheme": "https",

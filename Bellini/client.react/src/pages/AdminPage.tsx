@@ -20,8 +20,9 @@ import {useNavigate} from "react-router-dom";
 import {authFetch} from "@/utils/fetchs/authFetch.ts";
 import {toast} from "@/components/ui/use-toast.tsx";
 import {useAuth} from "@/utils/context/authContext.tsx";
-import {DialogCreateQuiz} from "@/components/dialogs/dialogCreateQuiz.tsx";
 import {DialogEditUser} from "@/components/dialogs/dialogEditUser.tsx";
+import {DialogCreateQuizSimple} from "@/components/dialogs/dialogCreateQuiz.tsx";
+import {GiBlackball} from "react-icons/gi";
 
 interface UserProfile {
     id: number;
@@ -49,6 +50,7 @@ export const AdminPage = () => {
 
     const [users, setUsers] = useState<UserProfile[]>([]);
     const [quizzes, setQuizzes] = useState<Quiz[]>([]);
+    const [drafts, setDrafts] = useState<Quiz[]>([]);
     const [games, setGames] = useState<Game[]>([]);
 
     const [currentQuizPage, setCurrentQuizPage] = useState(1);
@@ -75,10 +77,20 @@ export const AdminPage = () => {
     }, [isUpdated, currentUserPage, isCreated]);
 
     useEffect(() => {
-        serverFetch(`/quizzes/all-data?limit=${itemsPerPage}&offset=${(currentQuizPage - 1) * itemsPerPage}`)
+        serverFetch(`/quizzes?limit=${itemsPerPage}&offset=${(currentQuizPage - 1) * itemsPerPage}${!isAuthenticated || !user ? "" : "&userId=" + user.id}`)
             .then(response => response.json())
             .then(data => {
                 setQuizzes(data.quizzes);
+                console.log(data.quizzes)
+                setTotalQuizPages(Math.ceil(data.total / itemsPerPage));
+            });
+    }, [isUpdated, currentQuizPage, isCreated]);
+
+    useEffect(() => {
+        serverFetch(`/quizzes/all-drafts?limit=${itemsPerPage}&offset=${(currentQuizPage - 1) * itemsPerPage}${!isAuthenticated || !user ? "" : "&userId=" + user.id}`)
+            .then(response => response.json())
+            .then(data => {
+                setDrafts(data.quizzes);
                 setTotalQuizPages(Math.ceil(data.total / itemsPerPage));
             });
     }, [isUpdated, currentQuizPage, isCreated]);
@@ -185,6 +197,12 @@ export const AdminPage = () => {
                                             <p>Викторины</p>
                                         </div>
                                     </TabsTrigger>
+                                    <TabsTrigger value="drafts">
+                                        <div className="flex items-center">
+                                            <GiBlackball className="me-2"/>
+                                            <p>Черновики</p>
+                                        </div>
+                                    </TabsTrigger>
                                 </TabsList>
                                 <Button size="sm" variant="outline" className="h-8 gap-1"
                                         onClick={() => setIsUpdated(!isUpdated)}>
@@ -223,8 +241,8 @@ export const AdminPage = () => {
                                                 <TableBody>
                                                     {users.map((item, index) => (
                                                         <TableRow key={index}>
-                                                            <TableCell onClick={() => navigate("/profile/" + item.id)}>{index + 1}</TableCell>
-                                                            <TableCell onClick={() => navigate("/profile/" + item.id)}>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/profile/" + item.id)}>{index + 1}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/profile/" + item.id)}>
                                                                 <Avatar className="hidden h-9 w-9 sm:flex">
                                                                     <AvatarImage
                                                                         src={item.profileImageUrl}
@@ -235,10 +253,10 @@ export const AdminPage = () => {
                                                                     </AvatarFallback>
                                                                 </Avatar>
                                                             </TableCell>
-                                                            <TableCell onClick={() => navigate("/profile/" + item.id)}>{item.username}</TableCell>
-                                                            <TableCell onClick={() => navigate("/profile/" + item.id)}>{item.email}</TableCell>
-                                                            <TableCell onClick={() => navigate("/profile/" + item.id)}>{item.firstName}</TableCell>
-                                                            <TableCell onClick={() => navigate("/profile/" + item.id)}>{item.lastName}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/profile/" + item.id)}>{item.username}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/profile/" + item.id)}>{item.email}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/profile/" + item.id)}>{item.firstName}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/profile/" + item.id)}>{item.lastName}</TableCell>
                                                             <TableCell>
                                                                 {item.isAdmin ? <PiCrownSimpleBold className="fill-green-600"/> : <MdOutlineDoNotDisturbAlt className="fill-red-700"/>}
                                                             </TableCell>
@@ -283,6 +301,7 @@ export const AdminPage = () => {
                                             <DialogCreateGame
                                                 setIsCreated={setIsCreated}
                                                 isCreated={isCreated}
+                                                isAdminPage={true}
                                             />
                                         </div>
                                         <CardDescription>List of all available games</CardDescription>
@@ -307,8 +326,8 @@ export const AdminPage = () => {
                                                 <TableBody>
                                                     {games.map((item, index) => (
                                                         <TableRow key={index}>
-                                                            <TableCell>{index + 1}</TableCell>
-                                                            <TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/games/room/" + item.id)}>{index + 1}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/games/room/" + item.id)}>
                                                                 <Avatar className="hidden h-9 w-9 sm:flex">
                                                                     <AvatarImage
                                                                         src={item.gameCoverImageUrl}
@@ -319,14 +338,14 @@ export const AdminPage = () => {
                                                                     </AvatarFallback>
                                                                 </Avatar>
                                                             </TableCell>
-                                                            <TableCell>{item.gameName}</TableCell>
-                                                            <TableCell>{item.status.name}</TableCell>
-                                                            <TableCell>{new Date(item.createTime).toDateString()}</TableCell>
-                                                            <TableCell>{new Date(item.startTime).toDateString()}</TableCell>
-                                                            <TableCell>{item.maxPlayers}</TableCell>
-                                                            <TableCell>{item.isPrivate ? "True" : "False"}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/games/room/" + item.id)}>{item.gameName}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/games/room/" + item.id)}>{item.status.name}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/games/room/" + item.id)}>{new Date(item.createTime).toDateString()}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/games/room/" + item.id)}>{new Date(item.startTime).toDateString()}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/games/room/" + item.id)}>{item.maxPlayers}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/games/room/" + item.id)}>{item.isPrivate ? "True" : "False"}</TableCell>
                                                             <TableCell className="bg-secondary flex justify-end">
-                                                                <Button variant="outline" size="sm">Изменить</Button>
+                                                                <Button variant="outline" size="sm" onClick={() => navigate("/games/room/" + item.id)}>Изменить</Button>
                                                                 <Button variant="destructive" className="ms-3" size="sm" onClick={() => onDeleteGame(item.id)}>Удалить</Button>
                                                             </TableCell>
                                                         </TableRow>
@@ -358,10 +377,7 @@ export const AdminPage = () => {
                                     <CardHeader>
                                         <div className="flex flex-row justify-between">
                                             <CardTitle>Quizzes</CardTitle>
-                                            <DialogCreateQuiz
-                                                setIsCreated={setIsCreated}
-                                                isCreated={isCreated}
-                                            />
+                                            <DialogCreateQuizSimple/>
                                         </div>
                                         <CardDescription>List of all available quizzes</CardDescription>
                                     </CardHeader>
@@ -380,8 +396,8 @@ export const AdminPage = () => {
                                                 <TableBody>
                                                     {quizzes.map((item, index) => (
                                                         <TableRow key={index}>
-                                                            <TableCell>{index + 1}</TableCell>
-                                                            <TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/quizzes/room/" + item.id)}>{index + 1}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/quizzes/room/" + item.id)}>
                                                                 <Avatar className="hidden h-9 w-9 sm:flex">
                                                                     <AvatarImage
                                                                         src={item.gameCoverImageUrl}
@@ -392,9 +408,75 @@ export const AdminPage = () => {
                                                                     </AvatarFallback>
                                                                 </Avatar>
                                                             </TableCell>
-                                                            <TableCell>{item.gameName}</TableCell>
-                                                            <TableCell>{item.questions.length}</TableCell>
-                                                            <TableCell className="bg-secondary flex justify-end">
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/quizzes/room/" + item.id)}>{item.gameName}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/quizzes/room/" + item.id)}>{item.numberOfQuestions}</TableCell>
+                                                            <TableCell className="bg-secondary flex justify-end" >
+                                                                <Button variant="outline" size="sm">Изменить</Button>
+                                                                <Button variant="destructive" className="ms-3" size="sm" onClick={() => onDeleteQuiz(item.id)}>Удалить</Button>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                            :
+                                            <>
+                                                Quizzes 404
+                                            </>
+                                        }
+                                    </CardContent>
+                                    <CardFooter>
+                                        <div className="flex justify-between w-full items-center">
+                                            <div className="text-xs text-muted-foreground">
+                                                Showing <strong>{(currentQuizPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentQuizPage * itemsPerPage, quizzes.length)}</strong> of <strong>{totalQuizPages * itemsPerPage}</strong> quizzes
+                                            </div>
+                                            <CustomPagination
+                                                currentPage={currentQuizPage}
+                                                totalPages={totalQuizPages}
+                                                onPageChange={setCurrentQuizPage}
+                                            />
+                                        </div>
+                                    </CardFooter>
+                                </Card>
+                            </TabsContent>
+                            <TabsContent value="drafts">
+                                <Card>
+                                    <CardHeader>
+                                        <div className="flex flex-row justify-between">
+                                            <CardTitle>Drafts</CardTitle>
+                                            <DialogCreateQuizSimple/>
+                                        </div>
+                                        <CardDescription>List of all available quizzes</CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        {drafts && drafts.length != 0 ?
+                                            <Table className="">
+                                                <TableHeader>
+                                                    <TableRow>
+                                                        <TableHead>№</TableHead>
+                                                        <TableHead>Image</TableHead>
+                                                        <TableHead>Quiz Name</TableHead>
+                                                        <TableHead>Number of questions</TableHead>
+                                                        <TableHead className="text-right ">Actions</TableHead>
+                                                    </TableRow>
+                                                </TableHeader>
+                                                <TableBody>
+                                                    {drafts.map((item, index) => (
+                                                        <TableRow key={index}>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/admin/drafts/" + item.id)}>{index + 1}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/admin/drafts/" + item.id)}>
+                                                                <Avatar className="hidden h-9 w-9 sm:flex">
+                                                                    <AvatarImage
+                                                                        src={item.gameCoverImageUrl}
+                                                                        alt={`${item.gameName}'s profile`}
+                                                                    />
+                                                                    <AvatarFallback>
+                                                                        {(item.gameName.charAt(0) + item.gameName.charAt(1)).toUpperCase()}
+                                                                    </AvatarFallback>
+                                                                </Avatar>
+                                                            </TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/admin/drafts/" + item.id)}>{item.gameName}</TableCell>
+                                                            <TableCell className="cursor-pointer" onClick={() => navigate("/admin/drafts/" + item.id)}>{item.numberOfQuestions}</TableCell>
+                                                            <TableCell className="bg-secondary flex justify-end" >
                                                                 <Button variant="outline" size="sm">Изменить</Button>
                                                                 <Button variant="destructive" className="ms-3" size="sm" onClick={() => onDeleteQuiz(item.id)}>Удалить</Button>
                                                             </TableCell>

@@ -1,7 +1,11 @@
-﻿using BusinessLogicLayer.Services.DTOs;
+﻿using AutoMapper;
+using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Data.Interfaces;
+using DataAccessLayer.Data.Repositories;
 using DataAccessLayer.Models;
+using FluentValidation;
+using UtilsModelsLibrary.Exceptions;
 
 namespace BusinessLogicLayer.Services
 {
@@ -10,12 +14,21 @@ namespace BusinessLogicLayer.Services
         private readonly IRepository<Quiz> _quizRepository;
         private readonly IRepository<QuizResults> _quizResultsRepository;
         private readonly IRepository<QuizQuestion> _questionRepository;
+        private readonly IValidator<UpdateQuizDto> _updateQuizDtoValidator;
+        private readonly IMapper _mapper;
 
-        public QuizService(IRepository<Quiz> quizRepository, IRepository<QuizResults> quizResultsRepository, IRepository<QuizQuestion> questionRepository)
+        public QuizService(
+            IRepository<Quiz> quizRepository, 
+            IRepository<QuizResults> quizResultsRepository, 
+            IRepository<QuizQuestion> questionRepository, 
+            IValidator<UpdateQuizDto> updateQuizDtoValidator,
+            IMapper mapper)
         {
             _quizRepository = quizRepository;
             _quizResultsRepository = quizResultsRepository;
             _questionRepository = questionRepository;
+            _updateQuizDtoValidator = updateQuizDtoValidator;
+            _mapper = mapper;
         }
 
         public async Task<(IEnumerable<QuizDto> Quizzes, int TotalCount)> GetAllQuizzesAsync(int limit, int offset, int userId, CancellationToken cancellationToken = default)
@@ -25,6 +38,7 @@ namespace BusinessLogicLayer.Services
             var totalCount = allQuizzes.Count();
 
             var paginatedQuizzes = allQuizzes
+                .Where(x => !x.IsDraft)
                 .Skip(offset)
                 .Take(limit)
                 .Select(q => new QuizDto
@@ -33,6 +47,32 @@ namespace BusinessLogicLayer.Services
                     GameName = q.GameName,
                     StartTime = q.StartTime,
                     EndTime = q.EndTime,
+                    GameCoverImageUrl = q.GameCoverImageUrl,
+                    NumberOfQuestions = q.Questions.Count,
+                    HasUserCompleted = userId != 0 && q.QuizResults.Any(qr => qr.UserId == userId)
+                })
+                .ToList();
+
+            return (paginatedQuizzes, totalCount);
+        }
+        
+        public async Task<(IEnumerable<QuizDto> Quizzes, int TotalCount)> GetAllDraftsQuizzesAsync(int limit, int offset, int userId, CancellationToken cancellationToken = default)
+        {
+            var allQuizzes = await _quizRepository.GetElementsAsync(cancellationToken);
+
+            var totalCount = allQuizzes.Count();
+
+            var paginatedQuizzes = allQuizzes
+                .Where(x => x.IsDraft)
+                .Skip(offset)
+                .Take(limit)
+                .Select(q => new QuizDto
+                {
+                    Id = q.Id,
+                    GameName = q.GameName,
+                    StartTime = q.StartTime,
+                    EndTime = q.EndTime,
+                    IsDraft = true,
                     GameCoverImageUrl = q.GameCoverImageUrl,
                     NumberOfQuestions = q.Questions.Count,
                     HasUserCompleted = userId != 0 && q.QuizResults.Any(qr => qr.UserId == userId)
@@ -148,6 +188,38 @@ namespace BusinessLogicLayer.Services
             quizResults.IsReplay = true;
 
             await _quizResultsRepository.UpdateAsync(quizResults.Id, quizResults, cancellationToken);
+        }
+
+
+
+        public async Task<QuizDto> UpdateQuizAsync(int quizId, UpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default)
+        {
+            var validationResult = await _updateQuizDtoValidator.ValidateAsync(updateQuizDto, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
+
+            var existingQuiz = await _quizRepository.GetItemAsync(quizId, cancellationToken);
+            if (existingQuiz is null)
+            {
+                throw new NotFoundException($"Quiz with ID {quizId} not found.");
+            }
+
+            updateQuizDto.GameName ??= existingQuiz.GameName;
+            updateQuizDto.GameCoverImageUrl ??= existingQuiz.GameCoverImageUrl;
+
+            var quiz = _mapper.Map(updateQuizDto, existingQuiz);
+            await _quizRepository.UpdateAsync(quizId, quiz, cancellationToken);
+
+            var updatedQuiz = await _quizRepository.GetItemAsync(quizId, cancellationToken);
+
+            if (updatedQuiz is null)
+            {
+                throw new NotFoundException($"Quiz with ID {quizId} not found.");
+            }
+  
+            return _mapper.Map<QuizDto>(updatedQuiz);
         }
     }
 }

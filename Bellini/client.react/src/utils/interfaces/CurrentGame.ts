@@ -15,6 +15,7 @@ export interface CurrentGame {
     questions: Array<{
         id: number;
         text: string;
+        questionImageUrl: string;
         isCustom: boolean;
         answerOptions: Array<{
             id: number;

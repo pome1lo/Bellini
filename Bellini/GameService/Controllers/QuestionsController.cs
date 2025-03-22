@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using UtilsModelsLibrary.Attribute;
 using UtilsModelsLibrary.Attributes;
 using UtilsModelsLibrary.Enums;
 using UtilsModelsLibrary.Extensions;
@@ -15,17 +16,28 @@ namespace GameService.Controllers
     {
         private readonly IQuestionService _questionService;
         private readonly IUserStatisticsService _userStatisticsService;
+        private readonly IFileService _fileService;
 
-        public QuestionsController(IQuestionService questionService, IUserStatisticsService userStatisticsService)
+        public QuestionsController(IQuestionService questionService, IUserStatisticsService userStatisticsService, IFileService fileService)
         {
             _questionService = questionService;
             _userStatisticsService = userStatisticsService;
+            _fileService = fileService;
         }
 
-        [HttpPost]
+        [HttpPost("game")]
+        [ApiExplorerSettings(IgnoreApi = true)]
         [RolesOnlyAuthorize(Roles.User)]
-        public async Task<IActionResult> CreateQuestion([FromBody] CreateQuestionDto createQuestionDto, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateQuestion([FromForm] CreateGameQuestionDto createQuestionDto, [FromForm] IFormFile? image, CancellationToken cancellationToken)
         {
+            if (image is not null)
+            {
+                var questionImage = await _fileService.UploadFileAsync(image, cancellationToken, FileTypeUpload.isQuestionImageGameService, prefixName: $"question/");
+
+                var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+                createQuestionDto.QuestionImageUrl = (isDocker ? "/apigateway" : "https://localhost:7292") + questionImage;
+            }
+
             return Ok(
                 new
                 {
@@ -36,6 +48,24 @@ namespace GameService.Controllers
                         UserActions.QuestionCreated, cancellationToken
                     )
                 }
+            );
+        }
+
+        [HttpPost("quiz")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [RolesOnlyAuthorize(Roles.User)]
+        public async Task<IActionResult> CreateQuestion([FromForm] CreateQuizQuestionDto createQuestionDto, [FromForm] IFormFile? image, CancellationToken cancellationToken)
+        {
+            if (image is not null)
+            {
+                var questionImage = await _fileService.UploadFileAsync(image, cancellationToken, FileTypeUpload.isQuestionImageGameService, prefixName: $"question/");
+
+                var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+                createQuestionDto.QuizQuestionImageUrl = (isDocker ? "/apigateway" : "https://localhost:7292") + questionImage;
+            }
+
+            return Ok(
+                await _questionService.CreateQuizQuestionAsync(createQuestionDto, cancellationToken)
             );
         }
 
@@ -63,10 +93,17 @@ namespace GameService.Controllers
             );
         }
 
-        [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteQuestionById(int id, [FromBody] int gameId, CancellationToken cancellationToken)
+        [HttpDelete("game/{id:int}")]
+        public async Task<IActionResult> DeleteGameQuestionById(int id, [FromBody] int gameId, CancellationToken cancellationToken)
         {
-            await _questionService.DeleteQuestionAsync(id, gameId, cancellationToken);
+            await _questionService.DeleteGameQuestionAsync(id, gameId, cancellationToken);
+            return Ok();
+        }
+
+        [HttpDelete("quiz/{id:int}")]
+        public async Task<IActionResult> DeleteQuizQuestionById(int id, [FromBody] int quizId, CancellationToken cancellationToken)
+        {
+            await _questionService.DeleteQuizQuestionAsync(id, quizId, cancellationToken);
             return Ok();
         }
     }

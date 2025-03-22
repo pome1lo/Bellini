@@ -5,6 +5,7 @@ using DataAccessLayer.Data.Interfaces;
 using DataAccessLayer.Models;
 using FluentValidation;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Hosting;
 using UtilsModelsLibrary.Exceptions;
 
 namespace BusinessLogicLayer.Services
@@ -43,9 +44,23 @@ namespace BusinessLogicLayer.Services
             throw new NotImplementedException();
         }
 
-        public async Task CreateQuizAsync(AdminCreateQuizDto createQuizDto, CancellationToken cancellationToken = default)
+        public async Task<int> CreateQuizAsync(AdminCreateQuizDto createQuizDto, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+            var host = isDocker ? "/apigateway" : "https://localhost:7292";
+
+            var quiz = new Quiz
+            {
+                GameName = createQuizDto.Name,
+                IsDraft = true,
+                GameCoverImageUrl = $"{host}/covers/{new Random().Next(1, 11)}.jpg"
+            };
+
+            await _quizRepository.CreateAsync(quiz, cancellationToken);
+            
+            var list = await _quizRepository.GetElementsAsync(cancellationToken);
+
+            return list.LastOrDefault(x => x.GameName == createQuizDto.Name && x.IsDraft).Id;
         }
 
         public async Task CreateUserAsync(AdminCreateUserDto createUserDto, CancellationToken cancellationToken = default)
@@ -106,14 +121,7 @@ namespace BusinessLogicLayer.Services
             await _cache.RemoveAsync(cacheKey, cancellationToken);
 
             await _userRepository.DeleteAsync(id, cancellationToken);
-        }
-
-
-
-        public async Task UpdateGameAsync(AdminUpdateGameDto updateGameDto, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
+        } 
 
         public async Task UpdateQuizAsync(AdminUpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default)
         {

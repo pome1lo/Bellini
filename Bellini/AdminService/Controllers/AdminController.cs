@@ -65,7 +65,7 @@ namespace AdminService.Controllers
         public async Task<IActionResult> CreateQuizAsync([FromBody] AdminCreateQuizDto dto, CancellationToken cancellationToken)
         {
             return Ok(
-            //await _adminService.CreateQuizAsync(dto, cancellationToken)
+                await _adminService.CreateQuizAsync(dto, cancellationToken)
             );
         }
 
@@ -76,7 +76,7 @@ namespace AdminService.Controllers
         {
             if (profileImage is not null)
             {
-                var profileImageUrl = await _fileService.UploadFileAsync(profileImage, cancellationToken, isAdminService: true);
+                var profileImageUrl = await _fileService.UploadFileAsync(profileImage, cancellationToken, FileTypeUpload.isAdminService);
 
                 var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
                 updateUserDto.ProfileImageUrl = (isDocker ? "/apigateway" : "https://localhost:7292") + profileImageUrl;
