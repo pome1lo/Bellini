@@ -118,7 +118,7 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
                 <Table>
                     <TableBody>
                         {filteredQuizzes.length == 0 ?
-                            <div className="h-[170px] flex items-center justify-center">
+                            <div className="h-[500px]  flex items-center justify-center">
                                 <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There
                                     are no quizzes yet... 😪</h1>
                             </div>

@@ -74,7 +74,7 @@ export const LoginPage = () => {
 
     return (
         <>
-            <div className="flex align-middle h-[78dvh] rounded-md">
+            <div className="flex align-middle h-[80dvh] rounded-md">
                 <div className="w-96 m-auto">
                     <Form {...form}>
                         <p className="font-bold text-2xl text-center">Login to your account</p>

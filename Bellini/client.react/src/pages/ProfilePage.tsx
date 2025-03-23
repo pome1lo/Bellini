@@ -1,6 +1,6 @@
 import {Breadcrumbs} from "@/components/breadcrumbs.tsx";
 import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {DialogEditProfile} from "@/components/dialogs/dialogEditProfile.tsx";
 import {useAuth} from "@/utils/context/authContext.tsx";
@@ -45,11 +45,13 @@ interface Achievements {
 
 export const ProfilePage = () => {
     const [currentUser, setCurrentUser] = useState<UserProfile>();
+    const [users, setUsers] = useState<UserProfile[]>();
     const [userInfo, setUserInfo] = useState<UserInfo>();
     const [achievements, setAchievements] = useState<Achievements[]>();
     const [isProfileUpdated, setIsProfileUpdated] = useState(false);
     const {user, isAuthenticated, update} = useAuth();
     const {id} = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         serverFetch(`/profile/${id}`)
@@ -59,6 +61,12 @@ export const ProfilePage = () => {
                 if(isAuthenticated && user && user.id === id) {
                     update(data);
                 }
+            });
+
+        serverFetch(`/profile/all-data`)
+            .then(response => response.json())
+            .then(data => {
+                setUsers(data.users);
             });
 
         serverFetch(`/profile/${id}/info`)
@@ -139,6 +147,51 @@ export const ProfilePage = () => {
                                 <DialogShareButton link={window.location.href}/>
                             </CardContent>
                         </Card>
+                        <Card className="mt-4 mb-5 lg:max-w-[400px]">
+
+                            <CardHeader>
+                                <CardTitle>
+                                    Others Users
+                                </CardTitle>
+                                <CardDescription>
+                                    The achievements received by the user for all time are displayed here.
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                {users && users.length == 0 ?
+                                    <>
+                                        <div className="h-full w-full flex items-center justify-center">
+                                            <h1 className="scroll-m-20 text-center text-2xl p- font-semibold tracking-tight">There are no users here yet</h1>
+                                        </div>
+                                    </>
+                                    :
+                                    <Card className="flex flex-wrap">
+                                        {users?.map((item, index) => (
+                                            <div key={index} className={`flex items-center w-full justify-between py-2 cursor-pointer hover:bg-secondary`} onClick={() => navigate("/profile/" + item.id)}>
+                                                <div className="flex items-center">
+                                                    <Avatar className="hidden h-9 w-9 sm:flex mx-2">
+                                                        <AvatarImage
+                                                            src={item.profileImageUrl}
+                                                            alt={`${item.username}'s profile`}
+                                                        />
+                                                        <AvatarFallback>
+                                                            {(item.username.charAt(0) + item.username.charAt(1)).toUpperCase()}
+                                                        </AvatarFallback>
+                                                    </Avatar>
+                                                    <div>
+                                                        <h1 className="font-medium">{item.username}</h1>
+                                                    </div>
+                                                </div>
+                                                <div className="pe-3">
+                                                    View Profile
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </Card>
+                                }
+                            </CardContent>
+                        </Card>
+
                     </div>
 
                     <Card className="w-full">

@@ -30,8 +30,6 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
             .then(response => response.json())
             .then(data => {
                 setCurrentQUiz(data);
-                console.log(data);
-                // @ts-ignore
                 if (data.quizResults.some(result => result.userId === user.id && !result.isReplay)) {
                     isQuizFinished(true);
                     onQuizFinish(data);

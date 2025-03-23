@@ -8,8 +8,8 @@ export const ProfileSkeleton = () => {
         <>
 
             <div className="flex lg:flex-row lg:space-x-4 flex-col  max-w-[1440px] w-full mx-auto">
-                <div className="lg:max-w-[286px] w-full">
-                    <Card className="w-full">
+                <div className="mt-5 lg:max-w-[286px] w-full">
+                    <Card className="w-full mt-5">
                         <CardHeader>
                             <div className="flex items-center mb-5">
                                 <div>

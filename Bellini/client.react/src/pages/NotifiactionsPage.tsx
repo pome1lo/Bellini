@@ -52,7 +52,10 @@ export const NotifiactionsPage = () => {
                 if (response.status === 204 || !Array.isArray(data.items)) {
                     setNotifications([]);
                 } else {
-                    setNotifications(data.items);
+                    const sortedNotifications = data.items.sort((a: Notification, b: Notification) =>
+                        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                    );
+                    setNotifications(sortedNotifications);
                     setTotalPages(Math.ceil(data.totalCount / itemsPerPage));
                 }
             } catch (error: unknown) {
@@ -102,8 +105,7 @@ export const NotifiactionsPage = () => {
                             :
                             <>
                                 {notifications.map((item, index) => (
-                                    <div key={index}
-                                         className="flex ps-4 pt-3 pb-2 pe-4 justify-between gap-4 hover:bg-secondary ">
+                                    <div key={index} className={`flex ps-4 pt-3 pb-2 pe-4 justify-between gap-4 hover:bg-secondary ${index == 0 ? "bg-secondary" : ""}`}>
                                         <div className="flex gap-4">
                                             <Avatar className="h-9 w-9 flex border p-2 bg-white">
                                                 <AvatarImage

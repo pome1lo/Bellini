@@ -204,6 +204,11 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                                     fadeIn ? 'opacity-100' : 'opacity-0'
                                 }`}
                             >
+                                <div className="flex w-full items-center justify-center">
+                                    {currentGame?.questions[currentQuestionIndex].questionImageUrl &&
+                                        <img src={currentGame?.questions[currentQuestionIndex].questionImageUrl} className="max-w-[300px] mt-32" alt=""/>
+                                    }
+                                </div>
                                 <CardHeader>
                                     <CardTitle>
                                         <h1 className="text-center mb-10">

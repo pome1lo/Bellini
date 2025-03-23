@@ -81,9 +81,9 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({tabCont
                         Here you will see the available games for your chosen category
                     </CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent  className="min-h-[500px]">
                     <Table>
-                        <TableBody>
+                        <TableBody >
                             {games.map((item) => (
                                 <GameListItem
                                     key={item.id}
@@ -106,7 +106,6 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({tabCont
                             Showing <strong>{(currentPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentPage * itemsPerPage, games.length)}</strong> of <strong>{totalPages * itemsPerPage}</strong> games
                         </div>
                         <div>
-
                             <Pagination>
                                 <PaginationContent>
                                     <PaginationPrevious

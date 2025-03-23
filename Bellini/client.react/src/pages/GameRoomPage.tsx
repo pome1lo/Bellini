@@ -25,6 +25,8 @@ import {Textarea} from "@/components/ui/textarea.tsx";
 import {z} from "zod";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {DialogUpdateGameImage} from "@/components/dialogs/dialogUpdateGameImage.tsx";
+import {DialogInviteUser} from "@/components/dialogs/dialogInviteUser.tsx";
 
 interface Player {
     userId: string;
@@ -176,7 +178,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
 
         newConnection.on('GameStarted', (gameStarted: StartedGame) => {
             console.log(currentGame?.hostId + "=" + gameStarted.hostId);
-            console.error(gameStarted); 
+            console.error(gameStarted);
             if (currentGame?.hostId == gameStarted.hostId) {
                 onStart(gameStarted, user?.id);
             }
@@ -258,7 +260,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                 if (connection.state === signalR.HubConnectionState.Connected) {
                     await connection.invoke("LeaveGame", id?.toString(), user?.id.toString());
                     setIsUserJoined(false);
-                    toast({title: "You have left the game."});
+                    //toast({title: "You have left the game."});
 
                 }
             } catch (error) {
@@ -410,10 +412,8 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                     <Users className="h-4 w-4 text-muted-foreground"/>
                                                 </CardHeader>
                                                 <CardContent>
-                                                    <div className="text-2xl font-bold">{currentGame.maxPlayers} player(s)
-                                                    </div>
-                                                    <p className="text-xs text-muted-foreground">No more than this number of
-                                                        players</p>
+                                                    <div className="text-2xl font-bold">{currentGame.maxPlayers} player(s)</div>
+                                                    <p className="text-xs text-muted-foreground">No more than this number of players</p>
                                                 </CardContent>
                                             </Card>
                                             <Card className="w-full">
@@ -424,8 +424,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                 </CardHeader>
                                                 <CardContent>
                                                     <div className="text-2xl font-bold">{currentGame.gameStatus.name}</div>
-                                                    <p className="text-xs text-muted-foreground">The game will start
-                                                        soon</p>
+                                                    <p className="text-xs text-muted-foreground">The game will start soon</p>
                                                 </CardContent>
                                             </Card>
                                             <Card className="w-full">
@@ -435,10 +434,8 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                     <FileType className="h-4 w-4 text-muted-foreground"/>
                                                 </CardHeader>
                                                 <CardContent>
-                                                    <div
-                                                        className="text-2xl font-bold">{currentGame.isPrivate ? "Private" : "Public"}</div>
-                                                    <p className="text-xs text-muted-foreground">The game will start
-                                                        soon</p>
+                                                    <div className="text-2xl font-bold">{currentGame.isPrivate ? "Private" : "Public"}</div>
+                                                    <p className="text-xs text-muted-foreground">The game will start soon</p>
                                                 </CardContent>
                                             </Card>
                                         </div>
@@ -617,7 +614,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                     users</CardDescription>
                                             </CardHeader>
                                             <CardContent>
-                                                <DialogShareButton link={window.location.href}/>
+                                                <DialogInviteUser link={window.location.href} gameName={currentGame.gameName}/>
                                             </CardContent>
                                         </Card>
                                     </div>
@@ -629,13 +626,21 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                     elit</CardDescription>
                                             </CardHeader>
                                             <CardContent>
-                                                <div className="grid gap-2">
-                                                    <img
-                                                        alt="Product image"
-                                                        className="hidden lg:block aspect-square w-full rounded-md object-cover"
-                                                        height="300" width="300" src={currentGame.gameCoverImageUrl}
+                                                {currentGame && user && currentGame.hostId.toString() == user!.id! ?
+                                                    <DialogUpdateGameImage
+                                                        currentGameId={currentGame.id.toString()}
+                                                        gameName={currentGame.gameName}
+                                                        gameCoverImageUrl={currentGame.gameCoverImageUrl}
                                                     />
-                                                </div>
+                                                    :
+                                                    <div className="grid gap-2">
+                                                        <img
+                                                            alt="Product image"
+                                                            className="aspect-square w-full rounded-md object-cover border-0"
+                                                            height="300" width="300" src={currentGame.gameCoverImageUrl}
+                                                        />
+                                                    </div>
+                                                }
                                             </CardContent>
                                         </Card>
                                         <Card className="hidden lg:block">
@@ -645,13 +650,18 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                     users</CardDescription>
                                             </CardHeader>
                                             <CardContent>
-                                                <DialogShareButton link={window.location.href}/>
+
+                                                <DialogInviteUser
+                                                    link={window.location.href}
+                                                    isPrivate={currentGame.isPrivate}
+                                                    password={currentGame.roomPassword}
+                                                    gameName={currentGame.gameName}/>
                                             </CardContent>
                                         </Card>
                                     </div>
 
                                 </div>
-                                <div className="flex flex-col lg:flex-row justify-between gap-4 w-full p-4" >
+                                <div className="flex flex-col lg:flex-row justify-between gap-4 w-full p-4">
                                     <Card className="w-full min-w-[450px] lg:w-1/2">
                                         <CardHeader>
                                             <CardTitle>Game Chat</CardTitle>

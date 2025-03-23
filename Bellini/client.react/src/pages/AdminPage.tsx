@@ -233,7 +233,7 @@ export const AdminPage = () => {
                                         </div>
                                         <CardDescription>List of all available users</CardDescription>
                                     </CardHeader>
-                                    <CardContent>
+                                    <CardContent  className="min-h-[500px]">
                                         {users && users.length != 0 ?
                                             <Table className="">
                                                 <TableHeader>
@@ -319,7 +319,7 @@ export const AdminPage = () => {
                                         </div>
                                         <CardDescription>List of all available games</CardDescription>
                                     </CardHeader>
-                                    <CardContent>
+                                    <CardContent  className="min-h-[500px]">
                                         {games && games.length != 0 ?
                                             <Table className="">
                                                 <TableHeader>
@@ -397,7 +397,7 @@ export const AdminPage = () => {
                                         </div>
                                         <CardDescription>List of all available quizzes</CardDescription>
                                     </CardHeader>
-                                    <CardContent>
+                                    <CardContent className="min-h-[500px]">
                                         {quizzes && quizzes.length != 0 ?
                                             <Table className="">
                                                 <TableHeader>
@@ -465,7 +465,7 @@ export const AdminPage = () => {
                                         </div>
                                         <CardDescription>List of all available quizzes</CardDescription>
                                     </CardHeader>
-                                    <CardContent>
+                                    <CardContent  className="min-h-[500px]">
                                         {drafts && drafts.length != 0 ?
                                             <Table className="">
                                                 <TableHeader>
