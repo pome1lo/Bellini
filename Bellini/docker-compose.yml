@@ -141,3 +141,10 @@ services:
       - frontend
     depends_on:
       - apigateway
+
+  adminservice:
+    image: ${DOCKER_REGISTRY-}adminservice
+    build:
+      context: .
+      dockerfile: AdminService/Dockerfile
+
