@@ -74,7 +74,7 @@ export const DialogEditQuizName: React.FC<DialogCreateUserProps> = ({currentQuiz
 
             formData.append("GameName", data.gameName || "");
             if (data.gameCoverImageUrl && data.gameCoverImageUrl[0]) {
-                formData.append("GameCoverImageUrl", data.gameCoverImageUrl[0]);
+                formData.append("image", data.gameCoverImageUrl[0]);
             }
 
             const response = await authFetch(`/quizzes/${currentQuiz.id}`, getAccessToken, logout, {

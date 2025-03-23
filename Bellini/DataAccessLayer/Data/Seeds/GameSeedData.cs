@@ -44,7 +44,7 @@ namespace DataAccessLayer.Data.Seeds
                     HostId = 1,
                     MaxPlayers = 4 + (i % 7),
                     GameStatusId = 1,
-                    GameCoverImageUrl = $"{host}/question/default/{i}.jpg",
+                    GameCoverImageUrl = $"{host}/questions-cover/default/{i}.jpg",
                     IsPrivate = false,
                     RoomPassword = ""
                 });
@@ -59,7 +59,7 @@ namespace DataAccessLayer.Data.Seeds
                     HostId = 1,
                     MaxPlayers = 4 + (i % 7),
                     GameStatusId = 1,
-                    GameCoverImageUrl = $"{host}/question/default/{i}.jpg",
+                    GameCoverImageUrl = $"{host}/questions-cover/default/{i}.jpg",
                     IsPrivate = true,
                     RoomPassword = "password"
                 });
@@ -74,7 +74,7 @@ namespace DataAccessLayer.Data.Seeds
                     HostId = 1,
                     MaxPlayers = 4 + (i % 7),
                     GameStatusId = 3,
-                    GameCoverImageUrl = $"{host}/question/default/{i}.jpg",
+                    GameCoverImageUrl = $"{host}/questions-cover/default/{i}.jpg",
                     IsPrivate = false,
                     RoomPassword = ""
                 });

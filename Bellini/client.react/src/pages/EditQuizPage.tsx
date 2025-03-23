@@ -4,12 +4,11 @@ import {useAuth} from "@/utils/context/authContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Breadcrumbs} from "@/components/breadcrumbs.tsx";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
-import {Label} from "@/components/ui/label.tsx";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area.tsx";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {DialogCreateQuizQuestion} from "@/components/dialogs/dialogCreateQuizQuestion.tsx";
 import {Quiz} from "@/utils/interfaces/Quiz.ts";
-import {FolderInput, PlusCircle} from "lucide-react";
+import {FolderInput} from "lucide-react";
 import {GameQuestionItem} from "@/components/gameQuestionItem.tsx";
 import {toast} from "@/components/ui/use-toast.tsx";
 import {DialogEditQuizName} from "@/components/dialogs/dialogEditQuizName.tsx";
@@ -19,6 +18,7 @@ export const EditQuizPage = () => {
     const navigate = useNavigate();
     const [isQuestionCreated, setIsQuestionCreated] = useState(false);
     const [isQuestionDeleted, setIsQuestionDeleted] = useState(false);
+    const [isUpdate, setIsUpdate] = useState(false);
     const [isQuizEdited, setIsQuizEdited] = useState(false);
     const {isAuthenticated, user} = useAuth();
     const [currentQuiz, setCurrentQUiz] = useState<Quiz>();
@@ -41,20 +41,26 @@ export const EditQuizPage = () => {
             .catch(error => {
                 console.error('Error fetching game:', error.message);
             });
-    }, [draftId, isAuthenticated, user, navigate, isQuestionCreated, isQuestionDeleted]);
+    }, [draftId, isAuthenticated, isUpdate, user, isQuizEdited, navigate, isQuestionCreated, isQuestionDeleted]);
 
     async function publishQuiz() {
-        alert("PUBLISH");
-
         try {
-            const response = await serverFetch('/admin/draft/1/publish', {
-                method: 'POST',
+            const response = await serverFetch(`/quizzes/${draftId}/change-visibility`, {
+                method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({}),
             });
             const data = await response.json();
             if (response.ok) {
-                alert("OK");
+                toast({title: "Quiz published", description: "The quiz was successfully published."});
+                navigate("/admin")
+            }
+            else {
+                toast({
+                    title: "Error",
+                    description: data.Message || "An error occurred.",
+                    variant: "destructive",
+                });
             }
         } catch (ex: unknown) {
             console.error((ex as Error).message);
@@ -133,18 +139,30 @@ export const EditQuizPage = () => {
 
                         <ScrollArea className="mt-5 h-[550px] border rounded-md overflow-y-auto">
                             <div className="flex flex-col p-4">
-                                {currentQuiz?.questions.map((item, index) => (
-                                    <div key={index} className="mb-2">
-                                        <GameQuestionItem
-                                            id={item.id}
-                                            index={index + 1}
-                                            dropItem={dropQuestion}
-                                            question={item.text}
-                                            questionImageUrl={item.quizQuestionImageUrl}
-                                            answers={item.answerOptions}
-                                        />
-                                    </div>
-                                ))}
+                                {currentQuiz && currentQuiz.questions && currentQuiz.questions.length > 0 ?
+                                    <>
+                                        {currentQuiz?.questions.map((item, index) => (
+                                            <div key={index} className="mb-2">
+                                                <GameQuestionItem
+                                                    id={item.id}
+                                                    index={index + 1}
+                                                    dropItem={dropQuestion}
+                                                    question={item.text}
+                                                    questionImageUrl={item.quizQuestionImageUrl}
+                                                    answers={item.answerOptions}
+                                                />
+                                            </div>
+                                        ))}
+                                    </>
+                                    :
+                                    <>
+                                        <div className="flex flex-col items-center justify-center h-[550px] ">
+                                            <h1 className="text-xl">There are no questions here yet 😪</h1>
+                                        </div>
+                                    </>
+                                }
+
+
                             </div>
                             <ScrollBar orientation="vertical"/>
                         </ScrollArea>

@@ -7,7 +7,6 @@ import {toast} from "@/components/ui/use-toast.tsx";
 import {useNavigate, useParams} from "react-router-dom";
 import {Quiz} from "@/utils/interfaces/Quiz.ts";
 import {authFetch} from "@/utils/fetchs/authFetch.ts";
-import {unknown} from "zod";
 
 interface QuizStartedPageProps {
     currentQuiz?: StartedQuiz;
@@ -90,16 +89,16 @@ export const QuizStartedPage: React.FC<QuizStartedPageProps> = ({currentQuiz, on
         }
     };
 
-    const progressValue = ((currentQuestionIndex + 1) / currentQuiz?.questions.length!) * 100;
+    const progressValue = ((currentQuestionIndex + 1) / currentQuiz!.questions.length!) * 100;
 
     return (
         <div className="quiz-container">
             {!showQuestion ? (
-                <div className="countdown flex justify-center items-center h-[78vh]">
+                <div className={`countdown flex justify-center items-center h-[80vh]`}>
                     <h1 className="animate-pulse text-[35rem] text-roboto">{countdown}</h1>
                 </div>
             ) : (
-                <div className="question-section flex flex-col items-center justify-center h-[78vh]">
+                <div className="question-section flex flex-col items-center justify-center h-[85vh] pb-20">
                     <div className="absolute flex flex-wrap justify-center items-center top-20 sm:w-1/2 w-[250px]">
                         <Progress value={progressValue} className="h-2 mb-5"/>
                         <Button
@@ -114,7 +113,9 @@ export const QuizStartedPage: React.FC<QuizStartedPageProps> = ({currentQuiz, on
                         </Button>
                     </div>
                     <div className="flex flex-col items-center lg:max-w-1/2">
-
+                        {currentQuiz?.questions[currentQuestionIndex].quizQuestionImageUrl &&
+                            <img src={currentQuiz?.questions[currentQuestionIndex].quizQuestionImageUrl} className="max-w-[300px] mt-32" alt=""/>
+                        }
                         <h1 className="text-xl w-full lg:w-2/3 mb-4 p-4 text-center font-bold">{currentQuiz?.questions[currentQuestionIndex].text}</h1>
 
                         <div className="flex items-center sm:w-full flex-wrap w-3/4">

@@ -74,6 +74,7 @@ namespace BusinessLogicLayer.Services.Interfaces
         /// <param name="userId">Идентификатор пользователя.</param>
         /// <param name="cancellationToken">Токен отмены операции.</param>
         Task ReplayQuizAsync(int quizId, int userId, CancellationToken cancellationToken = default);
+
         /// <summary>
         /// Позволяет обновить Quiz
         /// </summary>
@@ -81,5 +82,12 @@ namespace BusinessLogicLayer.Services.Interfaces
         /// <param name="updateQuizDto">Объект обновления.</param>
         /// <param name="cancellationToken">Токен отмены операции.</param>
         Task<QuizDto> UpdateQuizAsync(int quizId, UpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Изменяет видимость Quiz
+        /// </summary>
+        /// <param name="quizId">Идентификатор квиза.</param>
+        /// <param name="cancellationToken">Токен отмены операции.</param>
+        Task<QuizDto> ChangeVisibilityAsync(int quizId, CancellationToken cancellationToken = default);
     }
 }

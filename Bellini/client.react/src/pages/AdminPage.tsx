@@ -23,6 +23,8 @@ import {useAuth} from "@/utils/context/authContext.tsx";
 import {DialogEditUser} from "@/components/dialogs/dialogEditUser.tsx";
 import {DialogCreateQuizSimple} from "@/components/dialogs/dialogCreateQuiz.tsx";
 import {GiBlackball} from "react-icons/gi";
+import {GameListTabContentRowSkeleton} from "@/components/skeletons/gameListTabContentRowSkeleton.tsx";
+import {GameListTabContentNotFoundSkeleton} from "@/components/skeletons/gameListTabContentNotFoundSkeleton.tsx";
 
 interface UserProfile {
     id: number;
@@ -45,6 +47,7 @@ export const AdminPage = () => {
     const navigate = useNavigate();
     const {user, isAuthenticated, getAccessToken, logout} = useAuth();
 
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isUpdated, setIsUpdated] = useState<boolean>(false);
     const [isCreated, setIsCreated] = useState<boolean>(false);
 
@@ -68,41 +71,43 @@ export const AdminPage = () => {
     }, []);
 
     useEffect(() => {
-        serverFetch(`/profile/all-data?limit=${itemsPerPage}&offset=${(currentUserPage - 1) * itemsPerPage}`)
-            .then(response => response.json())
-            .then(data => {
-                setUsers(data.users);
-                setTotalUserPages(Math.ceil(data.total / itemsPerPage));
-            });
+        try {
+            setIsLoading(true);
+            serverFetch(`/profile/all-data?limit=${itemsPerPage}&offset=${(currentUserPage - 1) * itemsPerPage}`)
+                .then(response => response.json())
+                .then(data => {
+                    setUsers(data.users);
+                    setTotalUserPages(Math.ceil(data.total / itemsPerPage));
+                });
+
+            serverFetch(`/quizzes?limit=${itemsPerPage}&offset=${(currentQuizPage - 1) * itemsPerPage}${!isAuthenticated || !user ? "" : "&userId=" + user.id}`)
+                .then(response => response.json())
+                .then(data => {
+                    setQuizzes(data.quizzes);
+                    console.log(data.quizzes)
+                    setTotalQuizPages(Math.ceil(data.total / itemsPerPage));
+                });
+
+            serverFetch(`/quizzes/all-drafts?limit=${itemsPerPage}&offset=${(currentQuizPage - 1) * itemsPerPage}${!isAuthenticated || !user ? "" : "&userId=" + user.id}`)
+                .then(response => response.json())
+                .then(data => {
+                    setDrafts(data.quizzes);
+                    setTotalQuizPages(Math.ceil(data.total / itemsPerPage));
+                });
+
+            serverFetch(`/game/all-data?limit=${itemsPerPage}&offset=${(currentGamePage - 1) * itemsPerPage}`)
+                .then(response => response.json())
+                .then(data => {
+                    setGames(data.games);
+                    setTotalGamePages(Math.ceil(data.total / itemsPerPage));
+                });
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setIsLoading(false);
+        }
     }, [isUpdated, currentUserPage, isCreated]);
 
-    useEffect(() => {
-        serverFetch(`/quizzes?limit=${itemsPerPage}&offset=${(currentQuizPage - 1) * itemsPerPage}${!isAuthenticated || !user ? "" : "&userId=" + user.id}`)
-            .then(response => response.json())
-            .then(data => {
-                setQuizzes(data.quizzes);
-                console.log(data.quizzes)
-                setTotalQuizPages(Math.ceil(data.total / itemsPerPage));
-            });
-    }, [isUpdated, currentQuizPage, isCreated]);
-
-    useEffect(() => {
-        serverFetch(`/quizzes/all-drafts?limit=${itemsPerPage}&offset=${(currentQuizPage - 1) * itemsPerPage}${!isAuthenticated || !user ? "" : "&userId=" + user.id}`)
-            .then(response => response.json())
-            .then(data => {
-                setDrafts(data.quizzes);
-                setTotalQuizPages(Math.ceil(data.total / itemsPerPage));
-            });
-    }, [isUpdated, currentQuizPage, isCreated]);
-
-    useEffect(() => {
-        serverFetch(`/game/all-data?limit=${itemsPerPage}&offset=${(currentGamePage - 1) * itemsPerPage}`)
-            .then(response => response.json())
-            .then(data => {
-                setGames(data.games);
-                setTotalGamePages(Math.ceil(data.total / itemsPerPage));
-            });
-    }, [isUpdated, currentGamePage, isCreated]);
 
     const onDeleteUser = async (id: number) => {
         try {
@@ -166,7 +171,13 @@ export const AdminPage = () => {
             alert((ex as Error).message || 'An unexpected error occurred');
         }
     };
-
+    if (isLoading) {
+        return <GameListTabContentRowSkeleton
+            title="Admin"
+            items={[ ]}
+            description="Here you will see the available games for your chosen category">
+        </GameListTabContentRowSkeleton>;
+    }
     return (
         <>
             <Breadcrumbs items={breadcrumbItems}/>
@@ -274,9 +285,11 @@ export const AdminPage = () => {
                                                 </TableBody>
                                             </Table>
                                             :
-                                            <>
-                                                Users 404
-                                            </>
+                                            <GameListTabContentRowSkeleton
+                                                title="Users"
+                                                items={[ ]}
+                                                description="Here you will see the available games for your chosen category"
+                                            />
                                         }
                                     </CardContent>
                                     <CardFooter>
@@ -353,9 +366,12 @@ export const AdminPage = () => {
                                                 </TableBody>
                                             </Table>
                                             :
-                                            <>
-                                                Games 404
-                                            </>
+
+                                            <GameListTabContentRowSkeleton
+                                                title="Games"
+                                                items={[ ]}
+                                                description="Here you will see the available games for your chosen category"
+                                            />
                                         }
                                     </CardContent>
                                     <CardFooter>
@@ -419,9 +435,11 @@ export const AdminPage = () => {
                                                 </TableBody>
                                             </Table>
                                             :
-                                            <>
-                                                Quizzes 404
-                                            </>
+                                            <GameListTabContentRowSkeleton
+                                                title="Quizzes"
+                                                items={[ ]}
+                                                description="Here you will see the available games for your chosen category"
+                                            />
                                         }
                                     </CardContent>
                                     <CardFooter>
@@ -485,9 +503,11 @@ export const AdminPage = () => {
                                                 </TableBody>
                                             </Table>
                                             :
-                                            <>
-                                                Quizzes 404
-                                            </>
+                                            <GameListTabContentRowSkeleton
+                                                title="Drafts"
+                                                items={[ ]}
+                                                description="Here you will see the available games for your chosen category"
+                                            />
                                         }
                                     </CardContent>
                                     <CardFooter>

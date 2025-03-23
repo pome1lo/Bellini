@@ -408,6 +408,18 @@
       "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
     },
     {
+      "DownstreamPathTemplate": "/api/quizzes/{everything}/change-visibility",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7035
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes/{everything}/change-visibility",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
       "DownstreamPathTemplate": "/covers/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [

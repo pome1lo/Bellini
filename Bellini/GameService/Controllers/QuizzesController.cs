@@ -112,5 +112,13 @@ namespace GameService.Controllers
                 await _quizService.UpdateQuizAsync(id, updateQuiz, cancellationToken)
             );
         }
+
+        [HttpPut("{id}/change-visibility")]
+        public async Task<IActionResult> ChangeVisibilityQuiz(int id, CancellationToken cancellationToken = default)
+        {
+            return Ok(
+                await _quizService.ChangeVisibilityAsync(id, cancellationToken)
+            );
+        }
     }
 }

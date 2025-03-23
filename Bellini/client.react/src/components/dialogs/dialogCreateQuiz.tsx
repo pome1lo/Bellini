@@ -51,7 +51,6 @@ export const DialogCreateQuizSimple: React.FC = () => {
 
             const responseData = await response.json();
             console.error(responseData);
-            alert("");
             if (response.ok) {
                 toast({title: "Quiz Created", description: "The quiz was successfully created."});
                 setIsDialogOpen(false);

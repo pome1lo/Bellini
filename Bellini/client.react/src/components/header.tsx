@@ -71,7 +71,7 @@ export const Header = () => {
         <>
             <header className="sticky top-0 z-50 w-full shadow-md backdrop-blur">
                 <div className="flex items-center justify-between p-2 max-w-[1440px] w-full mx-auto">
-                    <Link to={"/public"} className="text-3xl text-shrikhand">
+                    <Link to={"/"} className="text-3xl text-shrikhand">
                         Bellini
                     </Link>
                     <NavigationMenu className="hidden md:flex ">

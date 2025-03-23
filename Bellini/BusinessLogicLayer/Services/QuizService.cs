@@ -2,7 +2,6 @@
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
 using DataAccessLayer.Data.Interfaces;
-using DataAccessLayer.Data.Repositories;
 using DataAccessLayer.Models;
 using FluentValidation;
 using UtilsModelsLibrary.Exceptions;
@@ -18,9 +17,9 @@ namespace BusinessLogicLayer.Services
         private readonly IMapper _mapper;
 
         public QuizService(
-            IRepository<Quiz> quizRepository, 
-            IRepository<QuizResults> quizResultsRepository, 
-            IRepository<QuizQuestion> questionRepository, 
+            IRepository<Quiz> quizRepository,
+            IRepository<QuizResults> quizResultsRepository,
+            IRepository<QuizQuestion> questionRepository,
             IValidator<UpdateQuizDto> updateQuizDtoValidator,
             IMapper mapper)
         {
@@ -55,7 +54,7 @@ namespace BusinessLogicLayer.Services
 
             return (paginatedQuizzes, totalCount);
         }
-        
+
         public async Task<(IEnumerable<QuizDto> Quizzes, int TotalCount)> GetAllDraftsQuizzesAsync(int limit, int offset, int userId, CancellationToken cancellationToken = default)
         {
             var allQuizzes = await _quizRepository.GetElementsAsync(cancellationToken);
@@ -218,8 +217,25 @@ namespace BusinessLogicLayer.Services
             {
                 throw new NotFoundException($"Quiz with ID {quizId} not found.");
             }
-  
+
             return _mapper.Map<QuizDto>(updatedQuiz);
+        }
+
+        public async Task<QuizDto> ChangeVisibilityAsync(int quizId, CancellationToken cancellationToken = default)
+        {
+            var existingQuiz = await _quizRepository.GetItemAsync(quizId, cancellationToken);
+            if (existingQuiz is null)
+            {
+                throw new NotFoundException($"Quiz with ID {quizId} not found.");
+            }
+            if (existingQuiz.Questions.Count < 3)
+            {
+                throw new Exception($"There are less than 3 questions in the quiz");
+            }
+            existingQuiz.IsDraft = !existingQuiz.IsDraft;
+            await _quizRepository.UpdateAsync(quizId, existingQuiz, cancellationToken);
+
+            return _mapper.Map<QuizDto>(existingQuiz);
         }
     }
 }
