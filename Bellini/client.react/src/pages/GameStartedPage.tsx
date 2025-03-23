@@ -28,13 +28,13 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
     useEffect(() => {
 
         const newConnection = new HubConnectionBuilder()
-            .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub", {
-                transport: signalR.HttpTransportType.ServerSentEvents,
-                withCredentials: true
-            })
+            .withUrl((import.meta.env.VITE_APP_GAME_ROOM_PAGE_SERVER_URL || "/signalr") + "/gameHub")
             .withAutomaticReconnect()
+            // .withAutomaticReconnect({
+            //     nextRetryDelayInMilliseconds: retryContext => Math.min(retryContext.elapsedMilliseconds * 2, 10000)
+            // })
             .build();
-
+        setConnection(newConnection);
         //const newConnection = new HubConnectionBuilder()
         //    .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub")
         //    .withAutomaticReconnect()

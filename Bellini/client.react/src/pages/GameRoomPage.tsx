@@ -10,7 +10,7 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {Breadcrumbs} from "@/components/breadcrumbs.tsx";
-import {DialogCreateQuestion} from "@/components/dialogs/dialogCreateQuestion.tsx";
+import {DialogCreateGameQuestion} from "@/components/dialogs/dialogCreateGameQuestion.tsx";
 import {CirclePlay, FileType, TrendingUp, Users} from "lucide-react";
 import {Badge} from "@/components/ui/badge.tsx";
 import {ScrollArea} from "@/components/ui/scroll-area.tsx";
@@ -112,6 +112,10 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
             navigate('/login');
             return;
         }
+        if (!currentGame) {
+            return;
+        }
+
         if (currentGame && currentGame.isPrivate && !isPasswordCorrect) {
             return;
         }
@@ -124,10 +128,8 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
         //newConnection.keepAliveIntervalInMilliseconds = 15000; // Интервал пингов
 
         const newConnection = new HubConnectionBuilder()
-            .withUrl((import.meta.env.VITE_APP_SERVER_URL || "/signalr") + "/gameHub", {
-                transport: signalR.HttpTransportType.ServerSentEvents,
-                withCredentials: true
-            })
+            .withUrl((import.meta.env.VITE_APP_GAME_ROOM_PAGE_SERVER_URL || "/signalr") + "/gameHub")
+            .withAutomaticReconnect()
             // .withAutomaticReconnect({
             //     nextRetryDelayInMilliseconds: retryContext => Math.min(retryContext.elapsedMilliseconds * 2, 10000)
             // })
@@ -173,7 +175,9 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
 
 
         newConnection.on('GameStarted', (gameStarted: StartedGame) => {
-            if (gameStarted.hostId == gameStarted.hostId) {
+            console.log(currentGame?.hostId + "=" + gameStarted.hostId);
+            console.error(gameStarted); 
+            if (currentGame?.hostId == gameStarted.hostId) {
                 onStart(gameStarted, user?.id);
             }
         });
@@ -207,7 +211,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                 connection.stop();
             }
         };
-    }, [id, isPasswordCorrect, isAuthenticated, user, navigate]);
+    }, [id, currentGame, isPasswordCorrect, isAuthenticated, user, navigate]);
 
     useEffect(() => {
         return () => {
@@ -285,7 +289,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                     body: JSON.stringify({
                         players: serverPlayers,
                         gameId: id,
-                        hostId: user.id,
+                        hostId: currentGame?.hostId,
                     }),
                 });
                 const responseData: StartedGame = await response.json();
@@ -321,7 +325,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                 navigate("/login");
                 return;
             }
-            const response = await serverFetch(`/questions/${questionId}`, {
+            const response = await serverFetch(`/questions/game/${questionId}`, {
                 method: "DELETE",
                 headers: {"Content-Type": "application/json"},
                 body: currentGame?.id.toString(),
@@ -466,6 +470,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                                                     index={index + 1}
                                                                                     dropItem={dropQuestion}
                                                                                     question={item.text}
+                                                                                    questionImageUrl={item.questionImageUrl}
                                                                                     answers={item.answerOptions}/>
                                                                             </div>
                                                                         ))}
@@ -474,7 +479,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                             </ScrollArea>
                                                         </CardContent>
                                                         <CardFooter>
-                                                            {id ? <DialogCreateQuestion
+                                                            {id ? <DialogCreateGameQuestion
                                                                 currentGameId={id.toString()}
                                                                 setIsQuestionCreated={setIsQuestionCreated}
                                                                 isQuestionCreated={isQuestionCreated}

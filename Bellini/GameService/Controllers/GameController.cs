@@ -88,7 +88,6 @@ namespace GameService.Controllers
         }
 
         [HttpPost("{id:int}/end")]
-        [RolesOnlyAuthorize(Roles.User)]
         public async Task<IActionResult> EndGame(int id, CancellationToken cancellationToken)
         {
             await _gameService.CompleteGameAsync(id, cancellationToken);
