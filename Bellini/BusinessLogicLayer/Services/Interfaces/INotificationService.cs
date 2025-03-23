@@ -28,5 +28,11 @@ namespace BusinessLogicLayer.Services.Interfaces
         /// <param name="cancellationToken">Токен отмены операции.</param>
         Task SendEmailNotificationAsync(BaseEmailNotificationDto notificationDto, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Отправляет invite-уведомление пользователю.
+        /// </summary>
+        /// <param name="notificationDto">Данные для email-уведомления.</param>
+        /// <param name="cancellationToken">Токен отмены операции.</param>
+        Task CreateInviteNotificationForUserAsync(CreateInviteNotificationDto notificationDto, CancellationToken cancellationToken = default);
     }
 }

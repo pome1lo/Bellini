@@ -75,5 +75,14 @@ namespace BusinessLogicLayer.Services.Interfaces
         /// <param name="cancellationToken">Токен отмены операции.</param>
         /// <returns>Список рейтинговых данных по игре.</returns>
         Task<IEnumerable<GameRatingDto>> GetGameStatisticsAsync(int gameId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Позволяет обновить игру.
+        /// </summary>
+        /// <param name="gameId">Идентификатор игры.</param>
+        /// <param name="dto">Данные.</param>
+        /// <param name="cancellationToken">Токен отмены операции.</param>
+        /// <returns>Список рейтинговых данных по игре.</returns>
+        Task<GameDto> UpdateGameAsync(int gameId, UpdateGameDto dto, CancellationToken cancellationToken = default);
     }
 }

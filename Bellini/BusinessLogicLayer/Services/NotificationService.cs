@@ -64,6 +64,7 @@ namespace BusinessLogicLayer.Services
             var totalCount = allNotifications.Count();
 
             var paginatedNotifications = allNotifications
+                .OrderByDescending(x => x.CreatedAt)
                 .Skip(offset)
                 .Take(limit)
                 .Select(n => new NotificationDto
@@ -88,6 +89,46 @@ namespace BusinessLogicLayer.Services
                 notificationDto.Subject,
                 notificationDto.Body
             );
+        }
+
+
+
+
+        public async Task CreateInviteNotificationForUserAsync(CreateInviteNotificationDto notificationDto, CancellationToken cancellationToken = default)
+        {
+            var userTo = await _userRepository.GetItemAsync(notificationDto.ToUserId, cancellationToken);
+            if (userTo is null)
+            {
+                throw new NotFoundException("User not found.");
+            }
+
+            var userFrom = await _userRepository.GetItemAsync(notificationDto.ToUserId, cancellationToken);
+            if (userFrom is null)
+            {
+                throw new NotFoundException("User not found.");
+            }
+            
+            notificationDto.Message = $"✅ The user {userTo.Username} invites you to the game \"{notificationDto.GameName}\". To connect to the game room, follow the link {notificationDto.Link} ";
+            notificationDto.Message += notificationDto.IsPrivateRoom ? $". To connect to the game room, you must enter the password 🗝️ \"{notificationDto.RoomPassword}\"" : "";
+
+            var notification = new Notification
+            {
+                UserId = notificationDto.ToUserId,
+                Title = notificationDto.Title,
+                Message = notificationDto.Message,
+                CreatedAt = DateTime.UtcNow,
+                IsRead = false
+            };
+
+            await _notificationRepository.CreateAsync(notification, cancellationToken);
+            try
+            {
+                await SendEmailNotificationAsync(new BaseEmailNotificationDto {
+                    Subject = "Invite notification",
+                    Body = notificationDto.Message,
+                    Email = userTo.Email
+                });
+            } catch { }
         }
     }
 }

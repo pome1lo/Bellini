@@ -1,7 +1,10 @@
-﻿using BusinessLogicLayer.Hubs;
+﻿using AutoMapper;
+using BusinessLogicLayer.Hubs;
 using BusinessLogicLayer.Services.DTOs;
 using BusinessLogicLayer.Services.Interfaces;
+using BusinessLogicLayer.Services.Validators;
 using DataAccessLayer.Data.Interfaces;
+using DataAccessLayer.Data.Repositories;
 using DataAccessLayer.Models;
 using DataAccessLayer.Utils;
 using Microsoft.AspNetCore.SignalR;
@@ -20,6 +23,7 @@ namespace BusinessLogicLayer.Services
         private readonly IHubContext<GameHub> _gameHub;
         private readonly IConnectionMultiplexer _redis;
         private readonly INotificationService _notificationService;
+        private readonly IMapper _mapper;
 
         public GameService(
             IRepository<Game> gameRepository,
@@ -28,7 +32,8 @@ namespace BusinessLogicLayer.Services
             IHubContext<GameHub> gameHub,
             IConnectionMultiplexer redis,
             INotificationService notificationService,
-            IRepository<GameResults> gameResultsRepository)
+            IRepository<GameResults> gameResultsRepository,
+            IMapper mapper)
         {
             _gameRepository = gameRepository;
             _playerRepository = playerRepository;
@@ -37,6 +42,7 @@ namespace BusinessLogicLayer.Services
             _redis = redis;
             _notificationService = notificationService;
             _gameResultsRepository = gameResultsRepository;
+            _mapper = mapper;
         }
 
         public async Task<int> CreateGameRoomAsync(CreateGameRoomDto createGameRoomDto, CancellationToken cancellationToken = default)
@@ -373,6 +379,30 @@ namespace BusinessLogicLayer.Services
                 .ToList();
 
             return gameRatingDtos;
+        }
+
+        public async Task<GameDto> UpdateGameAsync(int gameId, UpdateGameDto dto, CancellationToken cancellationToken = default)
+        { 
+            var existingGame = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+            if (existingGame is null)
+            {
+                throw new NotFoundException($"Game with ID {gameId} not found.");
+            }
+
+            dto.GameName ??= existingGame.GameName;
+            dto.GameCoverImageUrl ??= existingGame.GameCoverImageUrl;
+
+            var quiz = _mapper.Map(dto, existingGame);
+            await _gameRepository.UpdateAsync(gameId, quiz, cancellationToken);
+
+            var updatedGame = await _gameRepository.GetItemAsync(gameId, cancellationToken);
+
+            if (updatedGame is null)
+            {
+                throw new NotFoundException($"Game with ID {gameId} not found.");
+            }
+
+            return _mapper.Map<GameDto>(updatedGame);
         }
 
         ///////////////////////
