@@ -93,6 +93,12 @@ builder.Services.AddAutoMapper(cfg =>
        .ForMember(dest => dest.Questions, opt => opt.Ignore())
        .ForMember(dest => dest.QuizResults, opt => opt.Ignore())
        .ForMember(dest => dest.Comments, opt => opt.Ignore());
+    cfg.CreateMap<UpdateGameDto, Game>()
+       .ForMember(dest => dest.Questions, opt => opt.Ignore())
+       .ForMember(dest => dest.Players, opt => opt.Ignore())
+       .ForMember(dest => dest.GameResults, opt => opt.Ignore())
+       .ForMember(dest => dest.Comments, opt => opt.Ignore())
+       .ForMember(dest => dest.Status, opt => opt.Ignore());
 
 }, typeof(Program));
 

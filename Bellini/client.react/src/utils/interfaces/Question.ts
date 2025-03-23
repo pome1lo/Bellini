@@ -4,6 +4,7 @@ import {AnswerOption} from "@/utils/interfaces/AnswerOption.ts";
 export interface Question {
     id: number;
     text: string;
+    questionImageUrl?: string;
     gameId: number;
     game: Game;
     isCustom: boolean;

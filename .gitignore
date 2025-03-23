@@ -9,6 +9,8 @@ obj/
 *.env
 
 appsettings.json
+Bellini/NotificationService/appsettings.json
+Bellini/AdminService/appsettings.json
 Bellini/ProfileService/wwwroot/images/
 Bellini/GameService/wwwroot/questions-cover/
 

@@ -15,12 +15,14 @@ namespace GameService.Controllers
     public class GameController : ControllerBase
     {
         private readonly IGameService _gameService;
+        private readonly IFileService _fileService;
         private readonly IUserStatisticsService _userStatisticsService;
 
-        public GameController(IGameService gameService, IUserStatisticsService userStatisticsService)
+        public GameController(IGameService gameService, IUserStatisticsService userStatisticsService, IFileService fileService)
         {
             _gameService = gameService;
             _userStatisticsService = userStatisticsService;
+            _fileService = fileService;
         }
 
         [HttpPost("create")]
@@ -99,6 +101,23 @@ namespace GameService.Controllers
                         UserActions.GameFinish, cancellationToken
                     )
                 }
+            );
+        }
+
+        [HttpPut("{id}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<IActionResult> UpdateQuiz(int id, [FromForm] UpdateGameDto updateGame, [FromForm] IFormFile? image, CancellationToken cancellationToken = default)
+        {
+            if (image is not null)
+            {
+                var imageUrl = await _fileService.UploadFileAsync(image, cancellationToken, FileTypeUpload.isQuizzesImageGameService, prefixName: $"quizzes/");
+
+                var isDocker = Environment.GetEnvironmentVariable("DOTNET_RUNNING_IN_CONTAINER") == "true";
+                updateGame.GameCoverImageUrl = (isDocker ? "/apigateway" : "https://localhost:7292") + imageUrl;
+            }
+
+            return Ok(
+                await _gameService.UpdateGameAsync(id, updateGame, cancellationToken)
             );
         }
     }

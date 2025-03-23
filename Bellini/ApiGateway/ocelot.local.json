@@ -102,6 +102,18 @@
       "UpstreamPathTemplate": "/notifications/{everything}",
       "UpstreamHttpMethod": [ "GET" ]
     },
+    {
+      "DownstreamPathTemplate": "/api/notifications/{everything}/invite",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7014
+        }
+      ],
+      "UpstreamPathTemplate": "/notifications/{everything}/invite",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
 
     // ProfileService
     {
