@@ -4,7 +4,8 @@ FROM node:18 AS builder
 WORKDIR /app
  
 COPY package*.json ./ 
-RUN npm install 
+RUN npm install
+RUN npm install aos --save
 COPY . . 
 RUN rm -f .env
 

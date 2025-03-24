@@ -17,10 +17,10 @@ namespace DataAccessLayer.Data
             //  Migration
             //"Server=localhost,1434;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;" 
                 //isDocker ?
-            //    "Server=sqlserver;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
+                "Server=sqlserver;Database=BELLINI;User Id=sa;Password=StrongPassword123!;TrustServerCertificate=true;"
                 //:
             //  Local
-                "Server=localhost;Database=BELLINI;User Id=sa;Password=sa;TrustServerCertificate=true;";
+             //   "Server=localhost;Database=BELLINI;User Id=sa;Password=sa;TrustServerCertificate=true;";
             ;
 
             optionsBuilder.UseSqlServer(connectionString);

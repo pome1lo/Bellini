@@ -193,12 +193,6 @@ namespace BusinessLogicLayer.Services
 
         public async Task<QuizDto> UpdateQuizAsync(int quizId, UpdateQuizDto updateQuizDto, CancellationToken cancellationToken = default)
         {
-            var validationResult = await _updateQuizDtoValidator.ValidateAsync(updateQuizDto, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                throw new ValidationException(validationResult.Errors);
-            }
-
             var existingQuiz = await _quizRepository.GetItemAsync(quizId, cancellationToken);
             if (existingQuiz is null)
             {

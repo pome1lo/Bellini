@@ -10,7 +10,6 @@ import {
 import {Button} from "@/components/ui/button.tsx";
 import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
-import {PlusCircle} from "lucide-react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
@@ -67,8 +66,7 @@ export const DialogEditUser: React.FC<DialogCreateUserProps> = ({currentUserEdit
 
     const {register, handleSubmit, setValue, watch, reset, formState: {errors}} = useForm<EditUserFormData>({
         resolver: zodResolver(createGameSchema),
-        defaultValues: {
-            username: currentUserEdit.username,
+        defaultValues: { 
             email: currentUserEdit.email,
             firstName: currentUserEdit.firstName || "",
             lastName: currentUserEdit.lastName || "",

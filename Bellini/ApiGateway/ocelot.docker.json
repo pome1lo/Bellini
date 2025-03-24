@@ -1,5 +1,79 @@
 ﻿{
   "Routes": [
+    // AdminService
+    {
+      "DownstreamPathTemplate": "/api/admin/user",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "adminservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/admin/user",
+      "UpstreamHttpMethod": [ "POST", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/admin/user/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "adminservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/admin/user/{everything}",
+      "UpstreamHttpMethod": [ "DELETE", "PUT", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/admin/game",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "adminservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/admin/game",
+      "UpstreamHttpMethod": [ "POST", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/admin/game/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "adminservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/admin/game/{everything}",
+      "UpstreamHttpMethod": [ "DELETE", "PUT", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/admin/quiz",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "adminservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/admin/quiz",
+      "UpstreamHttpMethod": [ "POST", "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/admin/quiz/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "adminservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/admin/quiz/{everything}",
+      "UpstreamHttpMethod": [ "DELETE", "PUT", "GET" ]
+    },
+
     {
       "DownstreamPathTemplate": "/api/auth/{everything}",
       "DownstreamScheme": "https",
@@ -28,6 +102,18 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
+      "DownstreamPathTemplate": "/api/notifications/{everything}/invite",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "notificationservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/notifications/{everything}/invite",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/profile/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -38,6 +124,18 @@
       ],
       "UpstreamPathTemplate": "/profile/{everything}",
       "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/achievements/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "profileservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/achievements/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
     },
     {
       "DownstreamPathTemplate": "/api/profile/{everything}/info",
@@ -64,6 +162,18 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
+      "DownstreamPathTemplate": "/images/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "profileservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/wwwroot/images/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/game/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -85,6 +195,18 @@
         }
       ],
       "UpstreamPathTemplate": "/game/{everything}/statistics",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/quizzes-cover/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/wwwroot/quizzes-cover/{everything}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
@@ -124,6 +246,30 @@
       "UpstreamHttpMethod": [ "DELETE" ]
     },
     {
+      "DownstreamPathTemplate": "/questions-cover/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/wwwroot/questions-cover/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/questions-cover/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/questions-cover/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/questions/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -134,6 +280,42 @@
       ],
       "UpstreamPathTemplate": "/questions/{everything}",
       "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/profile/all-data",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "profileservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/profile/all-data",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/default/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "profileservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/default/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/quizzes-cover/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes-cover/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
     },
     {
       "DownstreamPathTemplate": "/api/quizzes/{everything}",
@@ -148,18 +330,6 @@
       "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
     },
     {
-      "DownstreamPathTemplate": "/covers/{everything}",
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "gameservice",
-          "Port": 443
-        }
-      ],
-      "UpstreamPathTemplate": "/covers/{everything}",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
-    {
       "DownstreamPathTemplate": "/question/default/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -172,6 +342,30 @@
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
+      "DownstreamPathTemplate": "/api/questions/quiz",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/questions/quiz",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/questions/game",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/questions/game",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
       "DownstreamPathTemplate": "/question/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -181,6 +375,78 @@
         }
       ],
       "UpstreamPathTemplate": "/question/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/questions/quiz/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/questions/quiz/{everything}",
+      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/quizzes-cover/default/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes-cover/default/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/questions-cover/default/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/questions-cover/default/{everything}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/questions/game/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/questions/game/{everything}",
+      "UpstreamHttpMethod": [ "POST", "GET", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/quizzes/{everything}/change-visibility",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes/{everything}/change-visibility",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/covers/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/covers/{everything}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
@@ -208,6 +474,18 @@
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
+      "DownstreamPathTemplate": "/api/game/all-data",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/game/all-data",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
       "DownstreamPathTemplate": "/api/quizzes/{id:int}/end",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -218,6 +496,42 @@
       ],
       "UpstreamPathTemplate": "/quizzes/{id:int}/end",
       "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/quizzes/all-drafts",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes/all-drafts",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/quizzes/{id:int}/replay",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes/{id:int}/replay",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/quizzes/all-data",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "gameservice",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/quizzes/all-data",
+      "UpstreamHttpMethod": [ "GET" ]
     },
     {
       "DownstreamPathTemplate": "/gameHub/negotiate",
@@ -263,7 +577,12 @@
         }
       ],
       "UpstreamPathTemplate": "/signalr/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "OPTIONS" ],
+      "EnableWebSockets": true,
+      "AddHeadersToRequest": {
+        "Access-Control-Allow-Origin": "https://localhost:8443",
+        "Access-Control-Allow-Credentials": "true"
+      }
     }
 
   ],

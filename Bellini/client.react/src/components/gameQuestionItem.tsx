@@ -1,7 +1,6 @@
 import React from "react";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {Label} from "@/components/ui/label.tsx";
 import {Badge} from "@/components/ui/badge.tsx";
 import {Trash2} from "lucide-react";
 import {

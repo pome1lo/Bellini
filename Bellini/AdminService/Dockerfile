@@ -35,8 +35,6 @@ COPY --from=publish /app/publish .
 
 RUN mkdir -p /app/certificates
 COPY AdminService/certificates/* /app/certificates
-COPY AdminService/wwwroot/* /app/wwwroot
-
 USER root
 
 RUN cp /app/certificates/ca.crt /usr/local/share/ca-certificates/ca.crt && update-ca-certificates

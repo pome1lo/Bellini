@@ -114,7 +114,7 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
 
     return (
         <>
-            <ScrollArea className="h-auto rounded-md">
+            <ScrollArea className="h-auto rounded-md min-h-[60vh]">
                 <Table>
                     <TableBody>
                         {filteredQuizzes.length == 0 ?

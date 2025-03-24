@@ -4,6 +4,7 @@ export interface Quiz {
     id: number;
     gameName: string;
     gameCoverImageUrl: string;
+    numberOfQuestions: number;
     questions: QuizQuestion[];
     hasUserCompleted: boolean;
     quizResults: QuizResult[];

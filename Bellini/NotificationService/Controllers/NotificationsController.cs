@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Services.Interfaces;
+﻿using BusinessLogicLayer.Services.DTOs;
+using BusinessLogicLayer.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace NotificationService.Controllers
@@ -29,6 +30,16 @@ namespace NotificationService.Controllers
                 TotalCount = totalCount,
                 Items = notifications
             });
+        }
+
+        [HttpPost("{userId:int}/invite")]
+        //[ProfileOwnerAuthorize(IdParameterName = "userId")]
+        public async Task<IActionResult> CreateInviteNotificationForUser(int userId, CreateInviteNotificationDto dto, CancellationToken cancellationToken = default)
+        {
+            dto.FromUserId = userId;
+
+            await _notificationService.CreateInviteNotificationForUserAsync(dto, cancellationToken);
+            return Ok();
         }
     }
 }

@@ -105,6 +105,27 @@ services:
       - ./certificates/profileservice:/app/certificates
     depends_on:
       - sqlserver
+    
+  adminservice:
+    image: ${DOCKER_REGISTRY-}adminservice    
+    container_name: adminservice
+    environment:
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/certificates/certificate.pfx
+      - ASPNETCORE_URLS=https://+:443;http://+:8080
+    build:
+      context: .
+      dockerfile: AdminService/Dockerfile
+    networks:
+      - backend
+    expose:
+      - "443"
+    volumes:
+      - ./certificates/adminservice:/app/certificates
+    depends_on:
+      - sqlserver
+
 
 
   redis_db:
@@ -141,10 +162,4 @@ services:
       - frontend
     depends_on:
       - apigateway
-
-  adminservice:
-    image: ${DOCKER_REGISTRY-}adminservice
-    build:
-      context: .
-      dockerfile: AdminService/Dockerfile
 
