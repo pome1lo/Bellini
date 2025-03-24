@@ -70,7 +70,7 @@ export const SettingsPage = () => {
         <>
             <Breadcrumbs items={breadcrumbItems}/>
 
-            <div className="grid gap-6 max-w-[1440px] w-full mx-auto sm:px-0 px-2">
+            <div className="grid gap-6 max-w-[1440px] h-[80vh] w-full mx-auto sm:px-0 px-2">
 
                 <Card x-chunk="dashboard-04-chunk-1">
                     <CardHeader>

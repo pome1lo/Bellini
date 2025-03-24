@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
@@ -18,7 +18,6 @@ export const EditQuizPage = () => {
     const navigate = useNavigate();
     const [isQuestionCreated, setIsQuestionCreated] = useState(false);
     const [isQuestionDeleted, setIsQuestionDeleted] = useState(false);
-    const [isUpdate, setIsUpdate] = useState(false);
     const [isQuizEdited, setIsQuizEdited] = useState(false);
     const {isAuthenticated, user} = useAuth();
     const [currentQuiz, setCurrentQUiz] = useState<Quiz>();
@@ -41,7 +40,7 @@ export const EditQuizPage = () => {
             .catch(error => {
                 console.error('Error fetching game:', error.message);
             });
-    }, [draftId, isAuthenticated, isUpdate, user, isQuizEdited, navigate, isQuestionCreated, isQuestionDeleted]);
+    }, [draftId, isAuthenticated, user, isQuizEdited, navigate, isQuestionCreated, isQuestionDeleted]);
 
     async function publishQuiz() {
         try {

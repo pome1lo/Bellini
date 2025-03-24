@@ -16,16 +16,16 @@ export const MainPage = () => {
         <>
             <div className="flex flex-col items-center p-7 max-w-[1440px] w-full mx-auto">
                 <div className="text-center max-w-[600px] sm:mt-32">
-                    <h1 className="text-3xl sm:text-6xl font-bold" data-aos="fade-up" data-aos-duration="450">The designer<br/>of marketing quizzes</h1>
-                    <p className="mt-3 mb-4 sm:text-xl"  data-aos="fade-up" data-aos-duration="750">Quizzes create a Business-Client dialogue and help visitors and
+                    <h1 className="text-3xl sm:text-6xl font-bold" >The designer<br/>of marketing quizzes</h1>{/*data-aos="fade-up" data-aos-duration="450"*/}
+                    <p className="mt-3 mb-4 sm:text-xl" >Quizzes create a Business-Client dialogue and help visitors and
                         companies better understand each other. Hence the sales growth. More than 200 million
-                        applications have been received by our clients</p>
+                        applications have been received by our clients</p>{/* data-aos="fade-up" data-aos-duration="750"*/}
                     <Button className="min-w-32"  data-aos="fade-up" data-aos-duration="1050">Try it - it's free</Button>
                 </div>
-                <img src={bg} className="w-full" alt="" data-aos="fade-up" data-aos-duration="1550"/>
+                <img src={bg} className="w-full" alt=""/>{/* data-aos="fade-up" data-aos-duration="1550"*/}
                 <div className="text-start items-start w-full max-w-[1090px] mt-10 mb-10">
-                    <h1 className="text-2xl sm:text-5xl font-bold"   data-aos="fade-up" data-aos-duration="750">Not only a tool, but also a method</h1>
-                    <h3 className="sm:text-2xl"   data-aos="fade-up" data-aos-duration="750">Let's tell you how to make a quiz the most effective tool in marketing</h3>
+                    <h1 className="text-2xl sm:text-5xl font-bold"  >Not only a tool, but also a method</h1>{/* data-aos="fade-up" data-aos-duration="750"*/}
+                    <h3 className="sm:text-2xl"   >Let's tell you how to make a quiz the most effective tool in marketing</h3>{/*data-aos="fade-up" data-aos-duration="750"*/}
                 </div>
                 <div className="flex gap-5 flex-wrap justify-evenly max-w-[1100px]">
                     <Card className="w-[350px]">

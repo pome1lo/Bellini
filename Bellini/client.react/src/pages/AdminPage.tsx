@@ -24,7 +24,6 @@ import {DialogEditUser} from "@/components/dialogs/dialogEditUser.tsx";
 import {DialogCreateQuizSimple} from "@/components/dialogs/dialogCreateQuiz.tsx";
 import {GiBlackball} from "react-icons/gi";
 import {GameListTabContentRowSkeleton} from "@/components/skeletons/gameListTabContentRowSkeleton.tsx";
-import {GameListTabContentNotFoundSkeleton} from "@/components/skeletons/gameListTabContentNotFoundSkeleton.tsx";
 
 interface UserProfile {
     id: number;
@@ -286,9 +285,9 @@ export const AdminPage = () => {
                                             </Table>
                                             :
                                             <GameListTabContentRowSkeleton
-                                                title="Users"
+                                                title=""
                                                 items={[ ]}
-                                                description="Here you will see the available games for your chosen category"
+                                                description=""
                                             />
                                         }
                                     </CardContent>
@@ -368,9 +367,9 @@ export const AdminPage = () => {
                                             :
 
                                             <GameListTabContentRowSkeleton
-                                                title="Games"
+                                                title=""
                                                 items={[ ]}
-                                                description="Here you will see the available games for your chosen category"
+                                                description=""
                                             />
                                         }
                                     </CardContent>
@@ -436,9 +435,9 @@ export const AdminPage = () => {
                                             </Table>
                                             :
                                             <GameListTabContentRowSkeleton
-                                                title="Quizzes"
+                                                title=""
                                                 items={[ ]}
-                                                description="Here you will see the available games for your chosen category"
+                                                description=""
                                             />
                                         }
                                     </CardContent>
@@ -504,9 +503,9 @@ export const AdminPage = () => {
                                             </Table>
                                             :
                                             <GameListTabContentRowSkeleton
-                                                title="Drafts"
+                                                title=""
                                                 items={[ ]}
-                                                description="Here you will see the available games for your chosen category"
+                                                description=""
                                             />
                                         }
                                     </CardContent>

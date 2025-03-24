@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {useAuth} from "@/utils/context/authContext.tsx";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
-import {Quiz} from "@/utils/interfaces/Quiz.ts";
+import {Quiz, QuizResult} from "@/utils/interfaces/Quiz.ts";
 import {toast} from "@/components/ui/use-toast.tsx";
 import {StartedQuiz} from "@/utils/interfaces/StartedQuiz.ts";
 import {Button} from "@/components/ui/button.tsx";
@@ -30,7 +30,7 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
             .then(response => response.json())
             .then(data => {
                 setCurrentQUiz(data);
-                if (data.quizResults.some(result => result.userId === user.id && !result.isReplay)) {
+                if ((data.quizResults as QuizResult[]).some(result => result.userId.toString() == user.id && !result.isReplay)) {
                     isQuizFinished(true);
                     onQuizFinish(data);
                 }

@@ -4,7 +4,6 @@ import {useAuth} from "@/utils/context/authContext.tsx";
 import React, {useEffect, useState} from "react";
 import * as signalR from "@microsoft/signalr";
 import {toast} from "@/components/ui/use-toast.tsx";
-import {DialogShareButton} from "@/components/dialogs/dialogShareButton.tsx";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Button} from "@/components/ui/button.tsx";
@@ -82,7 +81,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
     const [isQuestionDeleted, setIsQuestionDeleted] = useState(false);
     const [isPasswordCorrect, setIsPasswordCorrect] = useState<boolean>(false);
 
-    const {register, handleSubmit, reset, formState: {errors}} = useForm<MessageForm>({
+    const {register, handleSubmit, formState: {errors}} = useForm<MessageForm>({
         resolver: zodResolver(messageSchema),
     });
 
@@ -162,7 +161,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
             }
         });
 
-        newConnection.on("ReceiveMessage", (gameId: string, message) => {
+        newConnection.on("ReceiveMessage", (gameId: string) => {
             if (gameId == id) {
                 newConnection.invoke("GetChatHistory", id.toString())
             }
@@ -614,7 +613,11 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                     users</CardDescription>
                                             </CardHeader>
                                             <CardContent>
-                                                <DialogInviteUser link={window.location.href} gameName={currentGame.gameName}/>
+                                                <DialogInviteUser
+                                                    link={window.location.href}
+                                                    isPrivate={currentGame.isPrivate}
+                                                    password={currentGame.roomPassword}
+                                                    gameName={currentGame.gameName}/>
                                             </CardContent>
                                         </Card>
                                     </div>

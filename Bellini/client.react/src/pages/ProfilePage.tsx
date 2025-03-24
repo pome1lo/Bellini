@@ -1,5 +1,5 @@
 import {Breadcrumbs} from "@/components/breadcrumbs.tsx";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {serverFetch} from "@/utils/fetchs/serverFetch.ts";
 import {DialogEditProfile} from "@/components/dialogs/dialogEditProfile.tsx";
@@ -10,10 +10,7 @@ import {DialogShareButton} from "@/components/dialogs/dialogShareButton.tsx";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {ProfileSkeleton} from "@/components/skeletons/profileSkeleton.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import {Button} from "@/components/ui/button.tsx";
 import {formatDate} from "@/utils/functions/formatDate.ts";
-
-
 
 interface UserProfile {
     id: number;
