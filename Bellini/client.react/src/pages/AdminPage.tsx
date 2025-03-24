@@ -36,8 +36,8 @@ interface UserProfile {
 }
 
 const breadcrumbItems = [
-    {path: '/', name: 'Home'},
-    {path: '/admin', name: 'Admin panel'},
+    {path: '/', name: 'Главная'},
+    {path: '/admin', name: 'Админ панель'},
 ];
 
 
@@ -115,17 +115,17 @@ export const AdminPage = () => {
             });
             if (response.status == 204) {
                 setIsUpdated(!isUpdated);
-                toast({title: "User Deleted", description: "The user was successfully deleted."});
+                toast({title: "Пользователь удален", description: "Пользователь был успешно удален."});
             } else {
                 const responseData = await response.json();
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Произошла ошибка.",
                     variant: "destructive"
                 });
             }
         } catch (ex: unknown) {
-            alert((ex as Error).message || 'An unexpected error occurred');
+            alert((ex as Error).message || 'Произошла ошибка.');
         }
     };
 
@@ -136,17 +136,17 @@ export const AdminPage = () => {
             });
             if (response.status == 204) {
                 setIsUpdated(!isUpdated);
-                toast({title: "Quiz Deleted", description: "The quiz was successfully deleted."});
+                toast({title: "Викторина удалена", description: "Тест был успешно удален."});
             } else {
                 const responseData = await response.json();
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Произошла ошибка.",
                     variant: "destructive"
                 });
             }
         } catch (ex: unknown) {
-            alert((ex as Error).message || 'An unexpected error occurred');
+            alert((ex as Error).message || 'Произошла ошибка.');
         }
     };
 
@@ -157,24 +157,24 @@ export const AdminPage = () => {
             });
             if (response.status == 204) {
                 setIsUpdated(!isUpdated);
-                toast({title: "Game Deleted", description: "The game was successfully deleted."});
+                toast({title: "Игра удалена", description: "Игра была успешно удалена"});
             } else {
                 const responseData = await response.json();
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Произошла ошибка.",
                     variant: "destructive"
                 });
             }
         } catch (ex: unknown) {
-            alert((ex as Error).message || 'An unexpected error occurred');
+            alert((ex as Error).message || 'Произошла ошибка.');
         }
     };
     if (isLoading) {
         return <GameListTabContentRowSkeleton
-            title="Admin"
+            title="Панель администратора"
             items={[ ]}
-            description="Here you will see the available games for your chosen category">
+            description="Здесь вы увидите доступные игры для выбранной вами категории">
         </GameListTabContentRowSkeleton>;
     }
     return (
@@ -183,7 +183,7 @@ export const AdminPage = () => {
             <div className="max-w-[1440px] w-full mx-auto sm:px-0 px-2">
                 <Card className="">
                     <CardHeader>
-                        <CardTitle>Admin panel</CardTitle>
+                        <CardTitle>Панель администратора</CardTitle>
                     </CardHeader>
                     <CardContent className="">
                         <Tabs value={activeTab} onValueChange={setActiveTab} orientation="vertical">
@@ -217,20 +217,20 @@ export const AdminPage = () => {
                                 <Button size="sm" variant="outline" className="h-8 gap-1"
                                         onClick={() => setIsUpdated(!isUpdated)}>
                                     <RefreshCcw className="h-3.5 w-3.5"/>
-                                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Update</span>
+                                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Обновление</span>
                                 </Button>
                             </div>
                             <TabsContent value="users">
                                 <Card>
                                     <CardHeader>
                                         <div className="flex flex-row justify-between">
-                                            <CardTitle>Users</CardTitle>
+                                            <CardTitle>Пользователи</CardTitle>
                                             <DialogCreateUser
                                                 setIsCreated={setIsCreated}
                                                 isCreated={isCreated}
                                             />
                                         </div>
-                                        <CardDescription>List of all available users</CardDescription>
+                                        <CardDescription>Список всех доступных пользователей</CardDescription>
                                     </CardHeader>
                                     <CardContent  className="min-h-[500px]">
                                         {users && users.length != 0 ?
@@ -238,13 +238,13 @@ export const AdminPage = () => {
                                                 <TableHeader>
                                                     <TableRow>
                                                         <TableHead>№</TableHead>
-                                                        <TableHead>Image</TableHead>
-                                                        <TableHead>Username</TableHead>
-                                                        <TableHead>Email</TableHead>
-                                                        <TableHead>FirstName</TableHead>
-                                                        <TableHead>LastName</TableHead>
-                                                        <TableHead>Is Admin</TableHead>
-                                                        <TableHead className="text-right ">Actions</TableHead>
+                                                        <TableHead>Изображение</TableHead>
+                                                        <TableHead>Имя пользователя</TableHead>
+                                                        <TableHead>Почта</TableHead>
+                                                        <TableHead>Имя</TableHead>
+                                                        <TableHead>Фамилия</TableHead>
+                                                        <TableHead>Явл. Админом</TableHead>
+                                                        <TableHead className="text-right ">Действия</TableHead>
                                                     </TableRow>
                                                 </TableHeader>
 
@@ -316,7 +316,7 @@ export const AdminPage = () => {
                                                 isAdminPage={true}
                                             />
                                         </div>
-                                        <CardDescription>List of all available games</CardDescription>
+                                        <CardDescription>Список всех доступных игр</CardDescription>
                                     </CardHeader>
                                     <CardContent  className="min-h-[500px]">
                                         {games && games.length != 0 ?
@@ -324,14 +324,14 @@ export const AdminPage = () => {
                                                 <TableHeader>
                                                     <TableRow>
                                                         <TableHead>№</TableHead>
-                                                        <TableHead>Image</TableHead>
-                                                        <TableHead>Game Name</TableHead>
-                                                        <TableHead>Status</TableHead>
-                                                        <TableHead>Create Time</TableHead>
-                                                        <TableHead>Started Time</TableHead>
-                                                        <TableHead>Max Players</TableHead>
-                                                        <TableHead>Is Private</TableHead>
-                                                        <TableHead className="text-right ">Actions</TableHead>
+                                                        <TableHead>Изображение</TableHead>
+                                                        <TableHead>Название игры</TableHead>
+                                                        <TableHead>Статус</TableHead>
+                                                        <TableHead>Время создания</TableHead>
+                                                        <TableHead>Время начала</TableHead>
+                                                        <TableHead>Кол/во игроков</TableHead>
+                                                        <TableHead>Конфиденциально</TableHead>
+                                                        <TableHead className="text-right ">Действия</TableHead>
                                                     </TableRow>
                                                 </TableHeader>
 
@@ -376,7 +376,7 @@ export const AdminPage = () => {
                                     <CardFooter>
                                         <div className="flex justify-between w-full items-center">
                                             <div className="text-xs text-muted-foreground">
-                                                Showing <strong>{(currentGamePage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentGamePage * itemsPerPage, games.length)}</strong> of <strong>{totalGamePages * itemsPerPage}</strong> games
+                                                Показать <strong>{(currentGamePage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentGamePage * itemsPerPage, games.length)}</strong> из <strong>{totalGamePages * itemsPerPage}</strong> игры
                                             </div>
                                             <CustomPagination
                                                 currentPage={currentGamePage}
@@ -391,10 +391,10 @@ export const AdminPage = () => {
                                 <Card>
                                     <CardHeader>
                                         <div className="flex flex-row justify-between">
-                                            <CardTitle>Quizzes</CardTitle>
+                                            <CardTitle>Викторины</CardTitle>
                                             <DialogCreateQuizSimple/>
                                         </div>
-                                        <CardDescription>List of all available quizzes</CardDescription>
+                                        <CardDescription>Список всех доступных тестов</CardDescription>
                                     </CardHeader>
                                     <CardContent className="min-h-[500px]">
                                         {quizzes && quizzes.length != 0 ?
@@ -402,10 +402,10 @@ export const AdminPage = () => {
                                                 <TableHeader>
                                                     <TableRow>
                                                         <TableHead>№</TableHead>
-                                                        <TableHead>Image</TableHead>
-                                                        <TableHead>Quiz Name</TableHead>
-                                                        <TableHead>Number of questions</TableHead>
-                                                        <TableHead className="text-right ">Actions</TableHead>
+                                                        <TableHead>Изображение</TableHead>
+                                                        <TableHead>Название теста</TableHead>
+                                                        <TableHead>Количество вопросов</TableHead>
+                                                        <TableHead className="text-right ">Действия</TableHead>
                                                     </TableRow>
                                                 </TableHeader>
                                                 <TableBody>
@@ -444,7 +444,7 @@ export const AdminPage = () => {
                                     <CardFooter>
                                         <div className="flex justify-between w-full items-center">
                                             <div className="text-xs text-muted-foreground">
-                                                Showing <strong>{(currentQuizPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentQuizPage * itemsPerPage, quizzes.length)}</strong> of <strong>{totalQuizPages * itemsPerPage}</strong> quizzes
+                                                Показать <strong>{(currentQuizPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentQuizPage * itemsPerPage, quizzes.length)}</strong> из <strong>{totalQuizPages * itemsPerPage}</strong> викторин
                                             </div>
                                             <CustomPagination
                                                 currentPage={currentQuizPage}
@@ -459,10 +459,10 @@ export const AdminPage = () => {
                                 <Card>
                                     <CardHeader>
                                         <div className="flex flex-row justify-between">
-                                            <CardTitle>Drafts</CardTitle>
+                                            <CardTitle>Черновики</CardTitle>
                                             <DialogCreateQuizSimple/>
                                         </div>
-                                        <CardDescription>List of all available quizzes</CardDescription>
+                                        <CardDescription>Список всех доступных тестов</CardDescription>
                                     </CardHeader>
                                     <CardContent  className="min-h-[500px]">
                                         {drafts && drafts.length != 0 ?
@@ -470,10 +470,10 @@ export const AdminPage = () => {
                                                 <TableHeader>
                                                     <TableRow>
                                                         <TableHead>№</TableHead>
-                                                        <TableHead>Image</TableHead>
-                                                        <TableHead>Quiz Name</TableHead>
-                                                        <TableHead>Number of questions</TableHead>
-                                                        <TableHead className="text-right ">Actions</TableHead>
+                                                        <TableHead>Изображение</TableHead>
+                                                        <TableHead>Название теста</TableHead>
+                                                        <TableHead>Количество вопросов</TableHead>
+                                                        <TableHead className="text-right ">Действия</TableHead>
                                                     </TableRow>
                                                 </TableHeader>
                                                 <TableBody>
@@ -494,7 +494,7 @@ export const AdminPage = () => {
                                                             <TableCell className="cursor-pointer" onClick={() => navigate("/admin/drafts/" + item.id)}>{item.gameName}</TableCell>
                                                             <TableCell className="cursor-pointer" onClick={() => navigate("/admin/drafts/" + item.id)}>{item.numberOfQuestions}</TableCell>
                                                             <TableCell className="bg-secondary flex justify-end" >
-                                                                <Button variant="outline" size="sm">Изменить</Button>
+                                                                <Button variant="outline" size="sm"  onClick={() => navigate("/admin/drafts/" + item.id)}>Изменить</Button>
                                                                 <Button variant="destructive" className="ms-3" size="sm" onClick={() => onDeleteQuiz(item.id)}>Удалить</Button>
                                                             </TableCell>
                                                         </TableRow>
@@ -512,7 +512,7 @@ export const AdminPage = () => {
                                     <CardFooter>
                                         <div className="flex justify-between w-full items-center">
                                             <div className="text-xs text-muted-foreground">
-                                                Showing <strong>{(currentQuizPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentQuizPage * itemsPerPage, quizzes.length)}</strong> of <strong>{totalQuizPages * itemsPerPage}</strong> quizzes
+                                                Показать <strong>{(currentQuizPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentQuizPage * itemsPerPage, quizzes.length)}</strong> из <strong>{totalQuizPages * itemsPerPage}</strong> черновиков
                                             </div>
                                             <CustomPagination
                                                 currentPage={currentQuizPage}

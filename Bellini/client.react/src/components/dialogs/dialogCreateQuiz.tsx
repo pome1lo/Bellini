@@ -52,19 +52,19 @@ export const DialogCreateQuizSimple: React.FC = () => {
             const responseData = await response.json();
             console.error(responseData);
             if (response.ok) {
-                toast({title: "Quiz Created", description: "The quiz was successfully created."});
+                toast({title: "Викторина создана", description: "Викторина была успешно создана."});
                 setIsDialogOpen(false);
                 navigate("/admin/drafts/" + responseData);
                 reset();
             } else {
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Возникла ошибка",
                     variant: "destructive",
                 });
             }
         } catch (ex: unknown) {
-            toast({title: "Error", description: (ex as Error).message || "An unexpected error occurred.", variant: "destructive"});
+            toast({title: "Ошибка", description: (ex as Error).message || "Возникла ошибка.", variant: "destructive"});
         }
     };
 
@@ -77,19 +77,19 @@ export const DialogCreateQuizSimple: React.FC = () => {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[410px]">
                 <DialogHeader>
-                    <DialogTitle>Create quiz</DialogTitle>
+                    <DialogTitle>Создать викторину</DialogTitle>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div>
-                        <Label htmlFor="title">Name</Label>
+                        <Label htmlFor="title">Имя</Label>
                         <Input id="title" {...register("title")} />
                         {errors.title && <p className="text-red-500">{errors.title.message}</p>}
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button variant="ghost">Cancel</Button>
+                            <Button variant="ghost">Отмена</Button>
                         </DialogClose>
-                        <Button type="submit">Create</Button>
+                        <Button type="submit">Создать</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

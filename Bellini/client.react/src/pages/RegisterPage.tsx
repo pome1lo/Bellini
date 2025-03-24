@@ -31,7 +31,7 @@ export const RegisterPage = () => {
     const registerFormSchema = z.object({
         username: z.string().min(4).max(20),
         password: z.string().min(8, {
-            message: "Password must be at least 8 characters."
+            message: "Пароль должен содержать не менее 8 символов."
         }).max(60)
     });
 
@@ -73,10 +73,10 @@ export const RegisterPage = () => {
                 setEmailFormSchemaValues(values);
             } else {
                 const data = await response.json();
-                setErrorMessage(data.Message || 'An error occurred');
+                setErrorMessage(data.Message || 'Произошла ошибка');
             }
         } catch (ex: unknown) {
-            setErrorMessage((ex as Error).message || 'An unexpected error occurred');
+            setErrorMessage((ex as Error).message || 'Произошла ошибка');
         }
     }
 
@@ -98,10 +98,10 @@ export const RegisterPage = () => {
                 setCodeFormSchemaValues(values);
             } else {
                 const data = await response.json();
-                setErrorMessage(data.Message || 'An error occurred');
+                setErrorMessage(data.Message || 'Произошла ошибка');
             }
         } catch (ex: unknown) {
-            setErrorMessage((ex as Error).message || 'An unexpected error occurred');
+            setErrorMessage((ex as Error).message || 'Произошла ошибка');
         }
     }
 
@@ -129,11 +129,11 @@ export const RegisterPage = () => {
                     setFieldErrors(data.errors);
                     console.log(data.errors);
                 } else {
-                    setErrorMessage(data.Message || 'An error occurred');
+                    setErrorMessage(data.Message || 'Произошла ошибка');
                 }
             }
         } catch (ex: unknown) {
-            setErrorMessage((ex as Error).message || 'An unexpected error occurred');
+            setErrorMessage((ex as Error).message || 'Произошла ошибка');
         }
     }
 
@@ -144,8 +144,8 @@ export const RegisterPage = () => {
                     {!showCodeForm ?
                         <>
                             <Form {...emailForm}>
-                                <p className="font-bold text-2xl text-center">Create an account</p>
-                                <p className="text-center ">Enter your email below to create your account</p>
+                                <p className="font-bold text-2xl text-center">Создать учетную запись</p>
+                                <p className="text-center ">Введите свой адрес электронной почты ниже, чтобы создать свою учетную запись</p>
                                 <form onSubmit={emailForm.handleSubmit(onSubmitEmailForm)} className="space-y-4 mt-2">
                                     <FormField
                                         control={emailForm.control}
@@ -160,23 +160,23 @@ export const RegisterPage = () => {
                                             </FormItem>
                                         )}
                                     />
-                                    <Button type="submit" className="w-full">Sign In with Email</Button>
+                                    <Button type="submit" className="w-full">Войти с помощью почты</Button>
                                     <div className="relative">
                                         <div className="absolute inset-0 flex items-center"><span
                                             className="w-full border-t"></span></div>
                                         <div className="relative flex justify-center text-xs uppercase"><span
-                                            className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                                            className="bg-background px-2 text-muted-foreground">Или продолжить с</span>
                                         </div>
                                     </div>
                                     <Button onClick={() => navigate('/login')} variant="outline"
                                         className="w-full">
-                                        Login
+                                        Авторизоваться
                                     </Button>
                                     <p className="px-8 text-center text-sm text-muted-foreground">
-                                        By clicking continue, you agree to our
-                                        <a className="underline hover:text-primary" href=""> Terms of Service </a>
-                                        and
-                                        <a className="underline hover:text-primary" href=""> Privacy Policy</a>.
+                                        Нажав продолжить, вы соглашаетесь с нашими условиями.
+                                        <a className="underline hover:text-primary" href=""> условия обслуживания </a>
+                                        и
+                                        <a className="underline hover:text-primary" href=""> политика конфиденциальности</a>.
                                     </p>
                                 </form>
                             </Form>
@@ -186,8 +186,8 @@ export const RegisterPage = () => {
                             {!showPasswordForm ?
                                 <>
                                     <Form {...codeForm}>
-                                        <p className="font-bold text-2xl text-center">Confirm your email</p>
-                                        <p className="text-center">We want to make sure that it's really you.</p>
+                                        <p className="font-bold text-2xl text-center">Подтвердите свой адрес электронной почты</p>
+                                        <p className="text-center">Мы хотим убедиться, что это действительно вы.</p>
                                         <form onSubmit={codeForm.handleSubmit(onSubmitCodeForm)}
                                             className="space-y-4 mt-2 text-center">
                                             <div className="flex items-center flex-col">
@@ -218,13 +218,12 @@ export const RegisterPage = () => {
                                                     )}
                                                 />
                                             </div>
-                                            <Button type="submit" className="w-60">Confirm Email</Button>
+                                            <Button type="submit" className="w-60">Подтвердите адрес почты</Button>
                                             <p className="px-8 text-center text-sm text-muted-foreground">
-                                                By clicking continue, you agree to our
-                                                <a className="underline hover:text-primary" href=""> Terms of
-                                                    Service </a>
-                                                and
-                                                <a className="underline hover:text-primary" href=""> Privacy Policy</a>.
+                                                Нажав продолжить, вы соглашаетесь с нашими условиями.
+                                                <a className="underline hover:text-primary" href=""> условия обслуживания </a>
+                                                и
+                                                <a className="underline hover:text-primary" href=""> политика конфиденциальности</a>.
                                             </p>
                                         </form>
                                     </Form>
@@ -232,9 +231,9 @@ export const RegisterPage = () => {
                                 :
                                 <>
                                     <Form {...registerForm}>
-                                        <p className="font-bold text-2xl text-center">Create an account</p>
-                                        <p className="text-center ">Enter your username and password below to create
-                                            your personal account</p>
+                                        <p className="font-bold text-2xl text-center">Создать учетную запись</p>
+                                        <p className="text-center ">Введите свое имя пользователя и пароль ниже, чтобы создать
+                                            вашу личную учетную запись</p>
                                         <form onSubmit={registerForm.handleSubmit(onSubmitRegisterForm)}
                                             className="space-y-4 mt-2">
                                             <FormField
@@ -242,7 +241,7 @@ export const RegisterPage = () => {
                                                 name="username"
                                                 render={({ field }) => (
                                                     <FormItem>
-                                                        <FormLabel>Username</FormLabel>
+                                                        <FormLabel>Имя</FormLabel>
                                                         <FormControl>
                                                             <Input type="text" {...field} required />
                                                         </FormControl>
@@ -255,7 +254,7 @@ export const RegisterPage = () => {
                                                 name="password"
                                                 render={({ field }) => (
                                                     <FormItem>
-                                                        <FormLabel>Password</FormLabel>
+                                                        <FormLabel>Пароль</FormLabel>
                                                         <FormControl>
                                                             <Input type="password" {...field} required />
                                                         </FormControl>
@@ -264,12 +263,12 @@ export const RegisterPage = () => {
                                                 )}
                                             />
                                             <FormMessage>{errorMessage}</FormMessage>
-                                            <Button type="submit" className="w-full">Register</Button>
+                                            <Button type="submit" className="w-full">Зарегистрировать</Button>
                                             <div className="relative">
                                                 <div className="absolute inset-0 flex items-center"><span
                                                     className="w-full border-t"></span></div>
                                                 <div className="relative flex justify-center text-xs uppercase"><span
-                                                    className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                                                    className="bg-background px-2 text-muted-foreground">Или продолжить с</span>
                                                 </div>
                                             </div>
                                             <Button onClick={() => navigate('/register')} variant="outline"
@@ -278,11 +277,10 @@ export const RegisterPage = () => {
                                                 GitHub
                                             </Button>
                                             <p className="px-8 text-center text-sm text-muted-foreground">
-                                                By clicking continue, you agree to our
-                                                <a className="underline hover:text-primary" href=""> Terms of
-                                                    Service </a>
-                                                and
-                                                <a className="underline hover:text-primary" href=""> Privacy Policy</a>.
+                                                Нажав продолжить, вы соглашаетесь с нашими условиями.
+                                                <a className="underline hover:text-primary" href=""> условия обслуживания </a>
+                                                и
+                                                <a className="underline hover:text-primary" href=""> политика конфиденциальности</a>.
                                             </p>
                                         </form>
                                     </Form>

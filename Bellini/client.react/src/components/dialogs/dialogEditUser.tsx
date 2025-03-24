@@ -22,22 +22,22 @@ import {authFetch} from "@/utils/fetchs/authFetch.ts";
 
 const createGameSchema = z.object({
     email: z.string().email()
-        .min(5, "Email must be at least 5 characters")
-        .max(50, "Email must be at most 50 characters"),
+        .min(5, "Длина электронного письма должна составлять не менее 5 символов")
+        .max(50, "Длина электронного письма должна составлять не более 50 символов"),
     firstName: z.string()
-        .min(2, "First name must be at least 2 characters")
-        .max(30, "First name must be at most 30 characters")
-        .regex(/^[A-Za-z\s]+$/, "First name can only contain letters and spaces")
+        .min(2, "Имя должно содержать не менее 2 символов")
+        .max(30, "Длина имени должна составлять не более 30 символов")
+        .regex(/^[A-Za-z\s]+$/, "Имя может содержать только буквы и пробелы")
         .optional(),
     lastName: z.string()
-        .min(2, "Last name must be at least 2 characters")
-        .max(30, "Last name must be at most 30 characters")
-        .regex(/^[A-Za-z\s]+$/, "Last name can only contain letters and spaces")
+        .min(2, "Фамилия должна содержать не менее 2 символов")
+        .max(30, "Длина фамилии должна составлять не более 30 символов")
+        .regex(/^[A-Za-z\s]+$/, "Фамилия может содержать только буквы и пробелы")
         .optional(),
     isAdmin: z.boolean().default(false),
     profileImage: z.any().optional(),
     password: z.string().min(8, {
-        message: "Password must be at least 8 characters."
+        message: "Пароль должен содержать не менее 8 символов."
     }).max(60).optional().or(z.literal(""))
 });
 
@@ -66,7 +66,7 @@ export const DialogEditUser: React.FC<DialogCreateUserProps> = ({currentUserEdit
 
     const {register, handleSubmit, setValue, watch, reset, formState: {errors}} = useForm<EditUserFormData>({
         resolver: zodResolver(createGameSchema),
-        defaultValues: { 
+        defaultValues: {
             email: currentUserEdit.email,
             firstName: currentUserEdit.firstName || "",
             lastName: currentUserEdit.lastName || "",
@@ -114,21 +114,21 @@ export const DialogEditUser: React.FC<DialogCreateUserProps> = ({currentUserEdit
             });
 
             if (response.ok) {
-                toast({title: "User Created", description: "The user was successfully created."});
+                toast({title: "Пользователь создан", description: "Пользователь был успешно создан."});
                 setIsEdited(!isEdited);
                 setIsDialogOpen(false);
             } else {
                 const responseData = await response.json();
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Возникла ошибка.",
                     variant: "destructive"
                 });
             }
         } catch (ex: unknown) {
-            const errorMessage = (ex as Error).message || "An unexpected error occurred.";
+            const errorMessage = (ex as Error).message || "Возникла ошибка.";
             toast({
-                title: "Error",
+                title: "Ошибка",
                 description: errorMessage,
                 variant: "destructive"
             });
@@ -147,21 +147,21 @@ export const DialogEditUser: React.FC<DialogCreateUserProps> = ({currentUserEdit
         <Dialog open={isDialogOpen} onOpenChange={handleDialogOpenChange}>
             <DialogTrigger asChild>
                 <Button variant="outline" size="sm" className="h-8 gap-1">
-                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Edit user</span>
+                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Изменить пользователя</span>
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[410px]">
                 <DialogHeader>
-                    <DialogTitle>Edit user</DialogTitle>
+                    <DialogTitle>Изменить пользователя</DialogTitle>
                     <DialogDescription>
-                        Enter the data to create a new user here. Click create a user when you're done.
+                        Введите здесь данные для создания нового пользователя. Когда закончите, нажмите "Создать пользователя".
                     </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="email" className="text-right">
-                                Email
+                                Почта
                             </Label>
                             <Input
                                 id="email"
@@ -172,7 +172,7 @@ export const DialogEditUser: React.FC<DialogCreateUserProps> = ({currentUserEdit
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="firstName" className="text-right">
-                                FirstName
+                                Имя
                             </Label>
                             <Input
                                 id="firstName"
@@ -183,7 +183,7 @@ export const DialogEditUser: React.FC<DialogCreateUserProps> = ({currentUserEdit
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="lastName" className="text-right">
-                                LastName
+                                Фамилия
                             </Label>
                             <Input
                                 id="lastName"
@@ -194,7 +194,7 @@ export const DialogEditUser: React.FC<DialogCreateUserProps> = ({currentUserEdit
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="isAdmin" className="text-right">
-                                Is Admin
+                                явл. Админом
                             </Label>
                             <Checkbox
                                 id="isAdmin"
@@ -204,7 +204,7 @@ export const DialogEditUser: React.FC<DialogCreateUserProps> = ({currentUserEdit
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4 transition-opacity duration-300">
                             <Label htmlFor="password" className="text-right">
-                                Password
+                                Пароль
                             </Label>
                             <Input
                                 id="password"
@@ -222,9 +222,9 @@ export const DialogEditUser: React.FC<DialogCreateUserProps> = ({currentUserEdit
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button variant="ghost">Cancel</Button>
+                            <Button variant="ghost">Отмена</Button>
                         </DialogClose>
-                        <Button type="submit">Edit user</Button>
+                        <Button type="submit">Изменить пользователя</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

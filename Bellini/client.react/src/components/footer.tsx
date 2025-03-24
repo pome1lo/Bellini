@@ -10,7 +10,7 @@ export const Footer = () => {
                         <div className="flex justify-between order-2 md:mb-0 md:order-1">
                             <div>
                                 <h2 className="text-3xl text-shrikhand">Bellini</h2>
-                                <p className="text-gray-400 text-sm">© 2024 Bellini. All rights reserved.</p>
+                                <p className="text-gray-400 text-sm">© 202 Bellini. Все права защищены.</p>
                             </div>
                             <div className="md:hidden block">
                                 <Button variant="link">
@@ -37,15 +37,14 @@ export const Footer = () => {
                                 </Button>
                             </div>
                             <div>
-                                <Button variant="link" className="text-start text-white">Contacts</Button>
-                                <Button variant="link" className="text-white">About</Button>
-                                <Button variant="link" className="text-white">Contacts</Button>
+                                <Button variant="link" className="text-start text-white">Контакты</Button>
+                                <Button variant="link" className="text-white">О нас</Button>
+                                <Button variant="link" className="text-white">Главная</Button>
                             </div>
                         </div>
                     </div>
                 </div>
             </footer>
-
         </>
     )
 }

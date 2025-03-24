@@ -24,7 +24,7 @@ export const LoginPage = () => {
     const formSchema = z.object({
         email: z.string().email(),
         password: z.string().min(8, {
-            message: "Password must be at least 8 characters."
+            message: "Пароль должен содержать не менее 8 символов."
         }).max(60)
     })
 
@@ -65,10 +65,10 @@ export const LoginPage = () => {
 
                 navigate('/');
             } else {
-                setErrorMessage(data.Message || 'An error occurred');
+                setErrorMessage(data.Message || 'Произошла ошибка.');
             }
         } catch (ex: unknown) {
-            setErrorMessage((ex as Error).message || 'An unexpected error occurred');
+            setErrorMessage((ex as Error).message || 'Произошла ошибка.');
         }
     }
 
@@ -77,15 +77,15 @@ export const LoginPage = () => {
             <div className="flex align-middle h-[80dvh] rounded-md">
                 <div className="w-96 m-auto">
                     <Form {...form}>
-                        <p className="font-bold text-2xl text-center">Login to your account</p>
-                        <p className="text-center ">Enter your login details in the our system</p>
+                        <p className="font-bold text-2xl text-center">Войдите в свою учетную запись</p>
+                        <p className="text-center ">Введите свои регистрационные данные в нашей системе</p>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-2">
                             <FormField
                                 control={form.control}
                                 name="email"
                                 render={({field, fieldState}) => (
                                     <FormItem>
-                                        <FormLabel>Email</FormLabel>
+                                        <FormLabel>Почта</FormLabel>
                                         <FormControl>
                                             <Input type="email" {...field} required/>
                                         </FormControl>
@@ -99,8 +99,8 @@ export const LoginPage = () => {
                                 render={({field, fieldState}) => (
                                     <FormItem>
                                         <div className="flex justify-between items-center">
-                                            <FormLabel>Password</FormLabel>
-                                            <Link className="text-sm" to='/forgot-password'>Forgot password?</Link>
+                                            <FormLabel>Пароль</FormLabel>
+                                            <Link className="text-sm" to='/forgot-password'>Забыли пароль?</Link>
                                         </div>
                                         <FormControl>
                                             <Input type="password" {...field} required/>
@@ -109,21 +109,21 @@ export const LoginPage = () => {
                                     </FormItem>
                                 )}
                             />
-                            <Button type="submit" className="w-full">Login</Button>
+                            <Button type="submit" className="w-full">Авторизоваться</Button>
                             <div className="relative">
                                 <FormMessage className="mb-5">{errorMessage}</FormMessage>
                                 <div className="absolute inset-0 flex items-center"><span
                                     className="w-full border-t"></span></div>
                                 <div className="relative flex justify-center text-xs uppercase"><span
-                                    className="bg-background px-2 text-muted-foreground">Or continue with</span></div>
+                                    className="bg-background px-2 text-muted-foreground">Или продолжить с</span></div>
                             </div>
                             <Button onClick={() => navigate('/register')} variant="outline"
-                                    className="w-full">Register</Button>
+                                    className="w-full">Зарегистрировать</Button>
                             <p className="px-8 text-center text-sm text-muted-foreground">
                                 By clicking continue, you agree to our
-                                <a className="underline hover:text-primary" href=""> Terms of Service </a>
-                                and
-                                <a className="underline hover:text-primary" href=""> Privacy Policy</a>.
+                                <a className="underline hover:text-primary" href=""> условия обслуживания </a>
+                                и
+                                <a className="underline hover:text-primary" href=""> политика конфиденциальности</a>.
                             </p>
                         </form>
                     </Form>

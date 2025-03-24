@@ -21,9 +21,9 @@ import {authFetch} from "@/utils/fetchs/authFetch.ts";
 
 const editGameSchema = z.object({
     gameName: z.string()
-        .min(2, "Game name must be at least 2 characters")
-        .max(30, "Game name must be at most 30 characters")
-        .regex(/^[A-Za-z\s]+$/, "Game name can only contain letters and spaces")
+        .min(2, "Название игры должно содержать не менее 2 символов")
+        .max(30, "Название игры должно содержать не более 30 символов")
+        .regex(/^[A-Za-z\s]+$/, "Название игры может содержать только буквы и пробелы")
         .optional(),
     gameCoverImageUrl: z.any().optional(),
 });
@@ -80,20 +80,20 @@ export const DialogUpdateGameImage: React.FC<DialogUpdateGameImageProps> = ({cur
             });
 
             if (response.ok) {
-                toast({title: "Game updated", description: "The game was successfully updated."});
+                toast({title: "Игра обновлена", description: "Игра была успешно обновлена."});
                 setIsDialogOpen(false);
             } else {
                 const responseData = await response.json();
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Возникла ошибка.",
                     variant: "destructive"
                 });
             }
         } catch (ex: unknown) {
-            const errorMessage = (ex as Error).message || "An unexpected error occurred.";
+            const errorMessage = (ex as Error).message || "Возникла ошибка.";
             toast({
-                title: "Error",
+                title: "Ошибка",
                 description: errorMessage,
                 variant: "destructive"
             });
@@ -123,16 +123,16 @@ export const DialogUpdateGameImage: React.FC<DialogUpdateGameImageProps> = ({cur
             </DialogTrigger>
             <DialogContent className="sm:max-w-[410px]">
                 <DialogHeader>
-                    <DialogTitle>Update game</DialogTitle>
+                    <DialogTitle>Обновить игру</DialogTitle>
                     <DialogDescription>
-                        Enter the data to update a quiz here. Click create a game when you're done.
+                        Введите данные для обновления теста здесь. Когда закончите, нажмите "Создать игру".
                     </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="gameName" className="text-right">
-                                Name
+                                Имя
                             </Label>
                             <Input
                                 id="firstName"
@@ -142,15 +142,15 @@ export const DialogUpdateGameImage: React.FC<DialogUpdateGameImageProps> = ({cur
                             {errors.gameName && <p className="col-span-4 text-right text-red-500">{String(errors.gameName.message)}</p>}
                         </div>
                         <div className="grid w-full items-center gap-1.5">
-                            <Label htmlFor="gameCoverImageUrl">Game Image</Label>
+                            <Label htmlFor="gameCoverImageUrl">Картинка</Label>
                             <Input id="profileImage" type="file" {...register("gameCoverImageUrl")} />
                         </div>
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button variant="ghost">Cancel</Button>
+                            <Button variant="ghost">Отмена</Button>
                         </DialogClose>
-                        <Button type="submit">Edit game</Button>
+                        <Button type="submit">Изменить игру</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

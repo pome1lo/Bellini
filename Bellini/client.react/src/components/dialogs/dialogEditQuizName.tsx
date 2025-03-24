@@ -23,8 +23,8 @@ import {Pencil} from "lucide-react";
 
 const editQuizSchema = z.object({
     gameName: z.string()
-        .min(2, "Quiz name must be at least 2 characters")
-        .max(30, "Quiz name must be at most 30 characters")
+        .min(2, "Название теста должно содержать не менее 2 символов")
+        .max(30, "Название теста должно содержать не более 30 символов")
         .regex(/^[A-Za-z\s]+$/, "Quiz name can only contain letters and spaces")
         .optional(),
     gameCoverImageUrl: z.any().optional(),
@@ -83,21 +83,21 @@ export const DialogEditQuizName: React.FC<DialogCreateUserProps> = ({currentQuiz
             });
 
             if (response.ok) {
-                toast({title: "Quiz updated", description: "The quiz was successfully updated."});
+                toast({title: "Викторина обновлена", description: "Викторина был успешно обновлен."});
                 setIsEdited(!isEdited);
                 setIsDialogOpen(false);
             } else {
                 const responseData = await response.json();
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Произошла ошибка.",
                     variant: "destructive"
                 });
             }
         } catch (ex: unknown) {
-            const errorMessage = (ex as Error).message || "An unexpected error occurred.";
+            const errorMessage = (ex as Error).message || "Произошла ошибка.";
             toast({
-                title: "Error",
+                title: "Ошибка",
                 description: errorMessage,
                 variant: "destructive"
             });
@@ -117,21 +117,21 @@ export const DialogEditQuizName: React.FC<DialogCreateUserProps> = ({currentQuiz
             <DialogTrigger asChild>
                 <Button variant="outline" size="sm" className="h-8 gap-1">
                     <Pencil className="h-3.5 w-3.5"/>
-                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Update quiz</span>
+                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Обновить викторину</span>
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[410px]">
                 <DialogHeader>
-                    <DialogTitle>Update quiz</DialogTitle>
+                    <DialogTitle>Обновить викторину</DialogTitle>
                     <DialogDescription>
-                        Enter the data to update a quiz here. Click create a quiz when you're done.
+                        Введите данные для обновления викторины здесь. Когда закончите, нажмите "Создать викторину".
                     </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="gameName" className="text-right">
-                                Name
+                                Имя
                             </Label>
                             <Input
                                 id="firstName"
@@ -147,9 +147,9 @@ export const DialogEditQuizName: React.FC<DialogCreateUserProps> = ({currentQuiz
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button variant="ghost">Cancel</Button>
+                            <Button variant="ghost">Отмена</Button>
                         </DialogClose>
-                        <Button type="submit">Edit quiz</Button>
+                        <Button type="submit">Изменить</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

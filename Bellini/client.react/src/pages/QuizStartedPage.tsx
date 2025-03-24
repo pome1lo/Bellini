@@ -75,15 +75,15 @@ export const QuizStartedPage: React.FC<QuizStartedPageProps> = ({currentQuiz, on
             } else {
                 const responseData: unknown = await response.json();
                 toast({
-                    title: "Error",
-                    description: (responseData as Error).message || "An error occurred.",
+                    title: "Ошибка",
+                    description: (responseData as Error).message || "Произошла непредвиденная ошибка.",
                     variant: "destructive",
                 });
             }
         } catch (error: unknown) {
             toast({
-                title: "Error",
-                description: "An unexpected error occurred." + (error as Error).message,
+                title: "Ошибка",
+                description: "Произошла непредвиденная ошибка." + (error as Error).message,
                 variant: "destructive",
             });
         }

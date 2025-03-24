@@ -74,22 +74,21 @@ export const SettingsPage = () => {
 
                 <Card x-chunk="dashboard-04-chunk-1">
                     <CardHeader>
-                        <CardTitle>Logout</CardTitle>
+                        <CardTitle>Выход из системы</CardTitle>
                         <CardDescription>
-                            Log out of your account.
+                            Выйдите из своей учетной записи.
                         </CardDescription>
                     </CardHeader>
                     <CardFooter className="border-t px-6 py-4">
-                        <Button onClick={logoutAccount}>Logout</Button>
+                        <Button onClick={logoutAccount}>Выход из системы</Button>
                     </CardFooter>
                 </Card>
 
                 <Card x-chunk="dashboard-04-chunk-1">
                     <CardHeader>
-                        <CardTitle>Delete an account</CardTitle>
+                        <CardTitle>Удалить учетную запись</CardTitle>
                         <CardDescription>
-                            If you delete your account, you will no longer be able to access it. If you do decide to
-                            delete your account, then we ask you to leave a reason.
+                            Если вы удалите свою учетную запись, вы больше не сможете получить к ней доступ. Если вы все же решите удалить свою учетную запись, мы просим вас указать причину.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -100,19 +99,19 @@ export const SettingsPage = () => {
                     <CardFooter className="border-t px-6 py-4">
                         <AlertDialog>
                             <AlertDialogTrigger>
-                                <Button variant="destructive">Delete an account</Button>
+                                <Button variant="destructive">Удалить учетную запись</Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                                 <AlertDialogHeader>
-                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                    <AlertDialogTitle>Вы абсолютно уверены?</AlertDialogTitle>
                                     <AlertDialogDescription>
-                                        This action cannot be undone. This will permanently delete your account
-                                        and remove your data from our servers.
+                                        Это действие невозможно отменить. Это приведет к необратимому удалению вашей учетной записи
+                                        и удалению ваших данных с наших серверов.
                                     </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                    <AlertDialogAction onClick={onDeleteSubmit}>Delete</AlertDialogAction>
+                                    <AlertDialogCancel>Отмена</AlertDialogCancel>
+                                    <AlertDialogAction onClick={onDeleteSubmit}>Удалить</AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
                         </AlertDialog>

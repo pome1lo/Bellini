@@ -61,8 +61,8 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
             } else {
                 const responseData: unknown = await response.json();
                 toast({
-                    title: "Error",
-                    description: (responseData as Error).message || "An error occurred.",
+                    title: "Ошибка",
+                    description: (responseData as Error).message || "Произошла непредвиденная ошибка.",
                     variant: "destructive"
                 });
             }
@@ -70,8 +70,8 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
         } catch (error : unknown) {
             console.error('Error while disconnecting:', error);
             toast({
-                title: "Error",
-                description: (error as Error).message || "An unexpected error occurred.",
+                title: "Ошибка",
+                description: (error as Error).message || "Произошла непредвиденная ошибка.",
                 variant: "destructive"
             });
         }
@@ -81,16 +81,16 @@ export const QuizRoomPage: React.FC<QuizRoomPageProps> = ({onQuizStart, isQuizFi
     return (
         <div className="p-4">
             <Breadcrumbs items={[
-                {path: '/', name: 'Home'},
-                {path: '/quizzes', name: 'Quizzes'},
-                {path: `/quizzes/${currentQuiz?.id}`, name: currentQuiz?.gameName ?? "unknown"},
+                {path: '/', name: 'Главная'},
+                {path: '/quizzes', name: 'Викторины'},
+                {path: `/quizzes/${currentQuiz?.id}`, name: currentQuiz?.gameName ?? "неизвестно"},
             ]}/>
             <div className="mt-4 flex flex-col justify-center items-center h-[78vh]">
                 <h1 className="text-4xl text-center font-bold">{currentQuiz?.gameName}</h1>
                 <p className="mt-3 mb-3">Количество вопросов {currentQuiz?.questions.length}</p>
 
                 <Button className="h-8 ms-3 gap-1" onClick={startQuiz}>
-                    Start Game
+                    Начать игру
                 </Button>
             </div>
         </div>

@@ -26,8 +26,8 @@ interface Notification {
 }
 
 const breadcrumbItems = [
-    {path: '/', name: 'Home'},
-    {path: '/notifications', name: 'Notifications'},
+    {path: '/', name: 'Главная'},
+    {path: '/notifications', name: 'Уведомления'},
 ];
 export const NotifiactionsPage = () => {
     const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -77,9 +77,9 @@ export const NotifiactionsPage = () => {
 
     if (isLoading) {
         return <GameListTabContentRowSkeleton
-            title="Notifications"
+            title="Уведомления"
             items={breadcrumbItems}
-            description="Here you will see the all notifications for your account">
+            description="Здесь вы увидите все уведомления для вашей учетной записи">
         </GameListTabContentRowSkeleton>;
     }
     return (
@@ -88,9 +88,9 @@ export const NotifiactionsPage = () => {
 
             <Card className="max-w-[1440px] w-full mx-auto">
                 <CardHeader>
-                    <CardTitle>Notifications</CardTitle>
+                    <CardTitle>Уведомления</CardTitle>
                     <CardDescription>
-                        Here you will see the all notifications for your account
+                        Здесь вы увидите все уведомления для вашей учетной записи
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -98,8 +98,8 @@ export const NotifiactionsPage = () => {
                         {notifications.length == 0 ?
                             <>
                                 <div className="h-[170px] flex items-center justify-center">
-                                    <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There are no
-                                        notifications here yet 😪</h1>
+                                    <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">Здесь пока нет никаких
+                                        уведомлений 😪</h1>
                                 </div>
                             </>
                             :
@@ -133,7 +133,7 @@ export const NotifiactionsPage = () => {
                 <CardFooter>
                     <div className="flex justify-between w-full items-center">
                         <div className="text-xs text-muted-foreground">
-                            Showing <strong>{(currentPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentPage * itemsPerPage, notifications.length)}</strong> of <strong>{totalPages * itemsPerPage}</strong> notifications
+                            Показать <strong>{(currentPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentPage * itemsPerPage, notifications.length)}</strong> из <strong>{totalPages * itemsPerPage}</strong> уведомлений
                         </div>
                         <div>
 

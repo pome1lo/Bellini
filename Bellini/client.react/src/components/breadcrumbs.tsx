@@ -30,7 +30,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({items}) => {
                                 <DropdownMenu>
                                     <DropdownMenuTrigger className="flex items-center gap-1">
                                         <BreadcrumbEllipsis className="h-4 w-4"/>
-                                        <span className="sr-only">Toggle menu</span>
+                                        <span className="sr-only">Переключение меню</span>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="start">
                                         {items.slice(1, items.length - maxItems + 1).map((item, index) => (

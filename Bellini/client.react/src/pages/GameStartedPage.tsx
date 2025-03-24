@@ -189,19 +189,16 @@ export const GameStartedPage: React.FC<GameStartedPageProps> = ({currentGame, on
                                     <div className="flex">
                                         {currentQuestionIndex < currentGame.questions.length - 1 ?
                                             <Button variant="default" className="ms-5" size="sm"
-                                                    onClick={handleNextQuestion}>
-                                                Next question
+                                                    onClick={handleNextQuestion}>Следующий вопрос
                                             </Button> : null
                                         }
 
                                         <Button variant="destructive" className="ms-5" size="sm" onClick={handleEndGame}>
-                                            End Game
+                                            конец игры
                                         </Button>
                                     </div>
                                 ) : null}
                             </div>
-
-
                             <Card
                                 className={`w-full max-w-2xl border-0 bg-transparent transition-opacity duration-1000 ${
                                     fadeIn ? 'opacity-100' : 'opacity-0'

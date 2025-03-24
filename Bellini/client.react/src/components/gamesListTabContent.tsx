@@ -62,9 +62,9 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({tabCont
 
     if (isLoading) {
         return <GameListTabContentRowSkeleton
-            title="Games"
+            title="Игры"
             items={[ ]}
-            description="Here you will see the available games for your chosen category">
+            description="Здесь вы увидите доступные игры для выбранной вами категории">
         </GameListTabContentRowSkeleton>;
     }
 
@@ -76,9 +76,9 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({tabCont
         <>
             <Card>
                 <CardHeader>
-                    <CardTitle>Games</CardTitle>
+                    <CardTitle>Игры</CardTitle>
                     <CardDescription>
-                        Here you will see the available games for your chosen category
+                        Здесь вы увидите доступные игры для выбранной вами категории
                     </CardDescription>
                 </CardHeader>
                 <CardContent  className="min-h-[500px]">
@@ -103,7 +103,7 @@ export const GamesListTabContent: React.FC<GamesListTabContentProps> = ({tabCont
                 <CardFooter>
                     <div className="flex justify-between w-full items-center">
                         <div className="text-xs text-muted-foreground">
-                            Showing <strong>{(currentPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentPage * itemsPerPage, games.length)}</strong> of <strong>{totalPages * itemsPerPage}</strong> games
+                            Показать <strong>{(currentPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentPage * itemsPerPage, games.length)}</strong> из <strong>{totalPages * itemsPerPage}</strong> игр
                         </div>
                         <div>
                             <Pagination>

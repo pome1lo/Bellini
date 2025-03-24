@@ -34,16 +34,16 @@ export const GameListPage = () => {
                 <Tabs defaultValue={tabName && validTabs.includes(tabName) ? tabName : "all"}>
                     <div className="flex items-center">
                         <TabsList>
-                            <TabsTrigger value="all">All</TabsTrigger>
-                            <TabsTrigger value="public">Public</TabsTrigger>
-                            <TabsTrigger value="private">Private</TabsTrigger>
-                            <TabsTrigger value="completed" className="hidden sm:flex">Completed</TabsTrigger>
+                            <TabsTrigger value="all">Все</TabsTrigger>
+                            <TabsTrigger value="public">Общественный</TabsTrigger>
+                            <TabsTrigger value="private">Частный</TabsTrigger>
+                            <TabsTrigger value="completed" className="hidden sm:flex">Завершенный</TabsTrigger>
                         </TabsList>
                         <div className="ml-auto flex items-center gap-2">
                             <Button size="sm" variant="outline" className="h-8 gap-1"
                                     onClick={() => setIsUpdated(!isUpdated)}>
                                 <RefreshCcw className="h-3.5 w-3.5" />
-                                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Update</span>
+                                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Обновление</span>
                             </Button>
                             <DialogCreateGame
                                 setIsCreated={setIsCreated}

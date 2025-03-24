@@ -92,15 +92,15 @@ export const DialogInviteUser: React.FC<DialogInviteUserProps> = ({link, gameNam
             } else {
                 const responseData = await response.json();
                 toast({
-                    title: "Error",
-                    description: responseData.Message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.Message || "Возникла ошибка.",
                     variant: "destructive"
                 });
             }
         } catch (error: unknown) {
             toast({
-                title: "Error",
-                description: (error as Error).message || "An unexpected error occurred.",
+                title: "Ошибка",
+                description: (error as Error).message || "Возникла ошибка.",
                 variant: "destructive"
             });
         }
@@ -109,20 +109,20 @@ export const DialogInviteUser: React.FC<DialogInviteUserProps> = ({link, gameNam
 return (
     <Dialog open={isDialogOpen} onOpenChange={handleDialogOpenChange}>
         <DialogTrigger asChild>
-            <Button variant="outline">Invite</Button>
+            <Button variant="outline">Пригласить</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-md">
             <DialogHeader>
-                <DialogTitle>Share link</DialogTitle>
+                <DialogTitle>Поделиться ссылкой</DialogTitle>
                 <DialogDescription>
-                    Anyone who has this link will be able to view this.
+                    Любой, у кого есть эта ссылка, сможет ее просмотреть.
                 </DialogDescription>
             </DialogHeader>
             <div className="flex flex-col items-center">
                 <div className="flex w-full items-center space-x-2">
                     <div className="grid flex-1 gap-2">
                         <Label htmlFor="link" className="sr-only">
-                            Link
+                            Ссылка
                         </Label>
                         <Input
                             id="link"
@@ -131,7 +131,7 @@ return (
                         />
                     </div>
                     <Button type="submit" size="sm" className="px-3">
-                        <span className="sr-only">Copy</span>
+                        <span className="sr-only">Копировать</span>
                         <Copy className="h-4 w-4"/>
                     </Button>
                 </div>
@@ -142,7 +142,7 @@ return (
                             {users.map((item, index) => (
                                 <div key={index} className={`flex hover:bg-secondary flex-row pe-4 items-center justify-between w-full ${item.id == user!.id ? " hidden" : ""}`}>
                                     <div className={`flex cursor-pointer w-full p-2`} onClick={() => navigate("/profile/" + item.id)}>
-                                        <Avatar className="hidden h-9 w-9 sm:flex mx-2">
+                                        <Avatar className="h-9 w-9 flex mx-2">
                                             <AvatarImage
                                                 src={item.profileImageUrl}
                                                 alt={`${item.username}'s profile`}
@@ -157,7 +157,7 @@ return (
                                     </div>
                                     <Button size="sm" variant="outline" className="h-8 ms-3 gap-1" onClick={() => sendInvite(item.id, item.email)}>
                                         <CirclePlay className="h-3.5 w-3.5"/>
-                                        Send Invite
+                                       Отправить приглашение
                                     </Button>
                                 </div>
                             ))}
@@ -166,7 +166,7 @@ return (
                         :
                         <Card className="h-[450px] p-4 border rounded-md flex justify-center items-center">
                             <h1 className="text-muted-foreground">
-                                There are no users here yet
+                                Здесь пока нет пользователей
                             </h1>
                         </Card>
                     }
@@ -176,7 +176,7 @@ return (
             <DialogFooter className="sm:justify-start">
                 <DialogClose asChild>
                     <Button type="button" variant="secondary">
-                        Close
+                        Закрыть
                     </Button>
                 </DialogClose>
             </DialogFooter>

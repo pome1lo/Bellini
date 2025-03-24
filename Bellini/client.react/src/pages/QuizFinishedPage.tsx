@@ -35,8 +35,8 @@ interface CommentForm {
 const commentSchema = z.object({
     content: z
         .string()
-        .max(255, "The comment cannot exceed 255 characters")
-        .nonempty("The comment cannot be empty"),
+        .max(255, "Длина комментария не должна превышать 255 символов")
+        .nonempty("Комментарий не может быть пустым"),
 });
 
 export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz}) => {
@@ -107,21 +107,21 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
             });
 
             if (response.ok) {
-                toast({title: "Comment Created", description: "The comment was successfully created."});
+                toast({title: "Созданный комментарий", description: "Комментарий был успешно создан."});
                 reset();
                 setIsUpdated(!isUpdated);
             } else {
                 const responseData = await response.json();
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Произошла непредвиденная ошибка.",
                     variant: "destructive"
                 });
             }
         } catch (error: unknown) {
-            const errorMessage = (error as Error).message || "An unexpected error occurred.";
+            const errorMessage = (error as Error).message || "Произошла непредвиденная ошибка.";
             toast({
-                title: "Error",
+                title: "Ошибка",
                 description: errorMessage,
                 variant: "destructive"
             });
@@ -130,8 +130,8 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
 
 
     const breadcrumbItems = [
-        {path: '/', name: 'Home'},
-        {path: '/quizzes', name: 'Quizzes'},
+        {path: '/', name: 'Главная'},
+        {path: '/quizzes', name: 'Викторины'},
         {path: `/quizzes/${currentQuiz?.id}`, name: currentQuiz?.gameName},
     ];
 
@@ -146,7 +146,7 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
                                 <CardHeader>
                                     <CardTitle>{currentQuiz.gameName}</CardTitle>
                                     <CardDescription>
-                                        Lipsum dolor sit amet, consectetur adipiscing elit
+                                        Очень доволен работой компании, что является главным достижением заказчика
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent>
@@ -159,14 +159,14 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
                                             width="300"
                                         />
                                     </div>
-                                    <Button className="mt-4 w-full" onClick={replayQuiz}>Replay the quiz</Button>
+                                    <Button className="mt-4 w-full" onClick={replayQuiz}>Повторите тест еще раз</Button>
                                 </CardContent>
                             </Card>
                             <Card className="hidden lg:block">
                                 <CardHeader>
-                                    <CardTitle>Share</CardTitle>
+                                    <CardTitle>Делиться</CardTitle>
                                     <CardDescription>
-                                        You can share the link to the game with other users
+                                        Вы можете поделиться ссылкой на игру с другими пользователями
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent>
@@ -180,14 +180,14 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
                                     <CardHeader
                                         className="flex flex-row items-center justify-between space-y-0 pb-2">
                                         <CardTitle className="text-sm font-medium">
-                                            Quiz
+                                            Квиз
                                         </CardTitle>
                                         <TrendingUp className="h-4 w-4 text-muted-foreground"/>
                                     </CardHeader>
                                     <CardContent>
                                         <div className="text-2xl font-bold">{currentQuiz.gameName}</div>
                                         <p className="text-xs text-muted-foreground">
-                                            The game finished
+                                            Игра закончена
                                         </p>
                                     </CardContent>
                                 </Card>
@@ -195,23 +195,23 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
                                     <CardHeader
                                         className="flex flex-row items-center justify-between space-y-0 pb-2">
                                         <CardTitle className="text-sm font-medium">
-                                            Quiz info
+                                            Информация о тесте
                                         </CardTitle>
                                         <TrendingUp className="h-4 w-4 text-muted-foreground"/>
                                     </CardHeader>
                                     <CardContent>
-                                        <div className="text-2xl font-bold">Finished</div>
+                                        <div className="text-2xl font-bold">Законченный</div>
                                         <p className="text-xs text-muted-foreground">
-                                            You have already passed this
+                                            Вы уже проходили это
                                         </p>
-                                        <Button className="mt-4 w-full lg:hidden block" onClick={replayQuiz}>Replay the quiz</Button>
+                                        <Button className="mt-4 w-full lg:hidden block" onClick={replayQuiz}>Повторите тест еще раз</Button>
                                     </CardContent>
                                 </Card>
                             </div>
                             <Card className="flex flex-col min-w-[400px] h-fit">
                                 <CardHeader className="pb-0">
-                                    <CardTitle>Quiz results</CardTitle>
-                                    <CardDescription>adasdasdasdasad as dasdas da sdasdas</CardDescription>
+                                    <CardTitle>Результаты викторины</CardTitle>
+                                    <CardDescription>Здесь отображаются результаты игроков по прохождению викторины </CardDescription>
                                 </CardHeader>
                                 <CardContent className="flex lg:flex-row flex-col pb-0">
                                     <Carousel className="ms-[40px] w-full max-h-[600px] max-w-[90%] lg:max-w-[400px] me-[65px]">
@@ -247,7 +247,7 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
                                                                                                     {correctAnswers}
                                                                                                 </tspan>
                                                                                                 <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className="fill-muted-foreground">
-                                                                                                    Correct
+                                                                                                    Правильный
                                                                                                 </tspan>
                                                                                             </text>
                                                                                         );
@@ -259,8 +259,8 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
                                                                 </ChartContainer>
                                                             </CardContent>
                                                             <CardFooter className="flex flex-col justify-center">
-                                                                <h1 className="text-center text-lg font-bold">Correct answers: {correctAnswers} / {totalQuestions} </h1>
-                                                                <p>Showing total results</p>
+                                                                <h1 className="text-center text-lg font-bold">Правильные ответы: {correctAnswers} / {totalQuestions} </h1>
+                                                                <p>Отображение общих результатов</p>
                                                             </CardFooter>
                                                         </Card>
                                                     </CarouselItem>
@@ -273,22 +273,22 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
                                         <CarouselNext/>
                                     </Carousel>
                                     <Table>
-                                        <TableCaption>The table with the attempt to complete the quiz</TableCaption>
+                                        <TableCaption>Таблица с попытками прохождения теста</TableCaption>
                                         <TableHeader>
                                             <TableRow>
                                                 <TableHead>№</TableHead>
                                                 <TableHead>
                                                     <TooltipProvider>
                                                         <TooltipCustom>
-                                                            <TooltipTrigger>C/A</TooltipTrigger>
+                                                            <TooltipTrigger>П/О</TooltipTrigger>
                                                             <TooltipContent>
-                                                                <p>Correct Answers</p>
+                                                                <p>Правильные ответы</p>
                                                             </TooltipContent>
                                                         </TooltipCustom>
                                                     </TooltipProvider>
                                                 </TableHead>
-                                                <TableHead>Questions</TableHead>
-                                                <TableHead className="text-right">Accuracy</TableHead>
+                                                <TableHead>Вопросы</TableHead>
+                                                <TableHead className="text-right">Точность</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -313,10 +313,10 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
                         <Card className="w-full h-full">
                             <CardHeader>
                                 <CardTitle>
-                                    <h1 className="text-2xl font-bold">Comments</h1>
+                                    <h1 className="text-2xl font-bold">Комментарии</h1>
                                 </CardTitle>
                                 <CardDescription>
-                                    Here you can view comments from other users and leave your own opinion about the game
+                                    Здесь вы можете просмотреть комментарии других пользователей и оставить свое собственное мнение об игре
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
@@ -326,7 +326,7 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
                                         <>
                                             <div className="h-[280px] w-full flex items-center justify-center">
                                                 <h1 className="scroll-m-20 text-center text-2xl w-full font-semibold tracking-tight">
-                                                    There are no comments<br></br> here yet. Be the first!
+                                                    Комментариев пока нет. <br></br> Будь первым!
                                                 </h1>
                                             </div>
                                         </>
@@ -369,9 +369,7 @@ export const QuizFinishedPage: React.FC<QuizFinishedPageProps> = ({currentQuiz})
                                 </form>
                             </CardContent>
                         </Card>
-
                     </div>
-
                 </div>
             </div>
         </div>

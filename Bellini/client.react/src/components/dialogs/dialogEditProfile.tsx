@@ -68,21 +68,21 @@ export const DialogEditProfile: React.FC<DialogEditProfileProps> = ({
                 body: formData,
             });
             if (response.ok) {
-                toast({title: "Profile updated", description: "Your profile was successfully updated."});
+                toast({title: "Обновлен профиль", description: "Ваш профиль был успешно обновлен."});
                 setIsDialogOpen(false);
                 setIsProfileUpdated(!isProfileUpdated);
             } else {
                 const responseData = await response.json();
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Произошла ошибка.",
                     variant: "destructive"
                 });
             }
         } catch (ex) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
-            toast({title: "Error", description: ex.message || "An unexpected error occurred.", variant: "destructive"});
+            toast({title: "Ошибка", description: ex.message || "Произошла ошибка.", variant: "destructive"});
         }
     }
 
@@ -90,35 +90,35 @@ export const DialogEditProfile: React.FC<DialogEditProfileProps> = ({
         return (
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
-                    <Button className={className}>Update Profile</Button>
+                    <Button className={className}>Обновить профиль</Button>
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Update Profile</DialogTitle>
-                        <DialogDescription>Update your profile details here.</DialogDescription>
+                        <DialogTitle>Обновить профиль</DialogTitle>
+                        <DialogDescription>Обновите данные своего профиля здесь.</DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="grid gap-4 py-4">
                             <div>
-                                <Label htmlFor="firstName">First Name</Label>
+                                <Label htmlFor="firstName">Имя</Label>
                                 <Input id="firstName" {...register("firstName")} />
                                 {errors.firstName && <p>{errors.firstName.message}</p>}
                             </div>
                             <div>
-                                <Label htmlFor="lastName">Last Name</Label>
+                                <Label htmlFor="lastName">Фамилия</Label>
                                 <Input id="lastName" {...register("lastName")} />
                                 {errors.lastName && <p>{errors.lastName.message}</p>}
                             </div>
                             <div className="grid w-full items-center gap-1.5">
-                                <Label htmlFor="profileImage">Profile Image</Label>
+                                <Label htmlFor="profileImage">Картинка</Label>
                                 <Input id="profileImage" type="file" {...register("profileImage")} />
                             </div>
                         </div>
                         <DialogFooter>
                             <DialogClose asChild>
-                                <Button variant="ghost">Cancel</Button>
+                                <Button variant="ghost">Отмена</Button>
                             </DialogClose>
-                            <Button type="submit">Save changes</Button>
+                            <Button type="submit">Сохранить</Button>
                         </DialogFooter>
                     </form>
                 </DialogContent>

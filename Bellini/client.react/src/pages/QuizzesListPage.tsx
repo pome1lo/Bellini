@@ -19,8 +19,8 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx
 import {QuizzesListTabContent} from "@/components/quizzesListTabContent.tsx";
 
 const breadcrumbItems = [
-    {path: '/', name: 'Home'},
-    {path: '/quizzes', name: 'Quizzes'},
+    {path: '/', name: 'Домой'},
+    {path: '/quizzes', name: 'Викторины'},
 ];
 
 interface RatingItem {
@@ -77,9 +77,9 @@ export const QuizzesListPage = () => {
             <div className="flex gap-4 flex-col lg:flex-row w-full max-w-[1440px] mx-auto">
                 <Card className="w-full lg:w-1/2">
                     <CardHeader>
-                        <CardTitle>Quizzes</CardTitle>
+                        <CardTitle>Викторины</CardTitle>
                         <CardDescription>
-                            Here you will see the available quizzes for your chosen category
+                            Здесь вы увидите доступные тесты для выбранной вами категории
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -88,11 +88,11 @@ export const QuizzesListPage = () => {
                         <Tabs defaultValue={tabName && validTabs.includes(tabName) ? tabName : "all"}>
                             <div className="flex items-center">
                                 <TabsList>
-                                    <TabsTrigger value="all">All</TabsTrigger>
+                                    <TabsTrigger value="all">Все</TabsTrigger>
                                     {!isAuthenticated || !user ? <></> :
                                         <>
-                                            <TabsTrigger value="new">New</TabsTrigger>
-                                            <TabsTrigger value="completed">Completed</TabsTrigger>
+                                            <TabsTrigger value="new">Новое</TabsTrigger>
+                                            <TabsTrigger value="completed">Завершенные</TabsTrigger>
                                         </>
                                     }
                                 </TabsList>
@@ -100,7 +100,7 @@ export const QuizzesListPage = () => {
                                     <Button size="sm" variant="outline" className="h-8 gap-1"
                                             onClick={() => setIsUpdated(!isUpdated)}>
                                         <RefreshCcw className="h-3.5 w-3.5"/>
-                                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Update</span>
+                                        <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Обновить</span>
                                     </Button>
                                 </div>
                             </div>
@@ -123,27 +123,27 @@ export const QuizzesListPage = () => {
                 </Card>
                 <Card className="w-full lg:w-1/2">
                     <CardHeader>
-                        <CardTitle>Player Ratings</CardTitle>
+                        <CardTitle>Рейтинги игроков</CardTitle>
                         <CardDescription>
-                            Here is a top 10 player rating
+                            Вот рейтинг 10 лучших игроков
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="grid gap-8">
                         {rating.length == 0 ?
                             <div className="h-[170px] flex items-center justify-center">
-                                <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There
-                                    are no rating users yet... 😪</h1>
+                                <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">Там
+                                    пока нет пользователей с рейтингом... 😪</h1>
                             </div>
                             :
                             <Table>
-                                <TableCaption>Here is a top 10 player rating.</TableCaption>
+                                <TableCaption>Вот рейтинг 10 лучших игроков.</TableCaption>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead>Rank</TableHead>
-                                        <TableHead>Username</TableHead>
-                                        <TableHead>Correct Answers</TableHead>
-                                        <TableHead>Total Questions</TableHead>
-                                        <TableHead className="text-right">Accuracy</TableHead>
+                                        <TableHead>Ранг</TableHead>
+                                        <TableHead>Имя пользователя</TableHead>
+                                        <TableHead>Правильные ответы</TableHead>
+                                        <TableHead>Всего вопросов</TableHead>
+                                        <TableHead className="text-right">Точность</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>

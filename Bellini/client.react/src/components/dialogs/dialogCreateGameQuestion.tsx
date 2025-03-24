@@ -35,16 +35,16 @@ export const DialogCreateGameQuestion: React.FC<DialogCreateQuestionProps> = ({c
 
     const createQuestionSchema = z.object({
         gameId: z.number(),
-        text: z.string().min(5, "Question must be at least 5 characters long."),
+        text: z.string().min(5, "Длина вопроса должна составлять не менее 5 символов."),
         questionImage: z.any().optional(),
         answers: z.array(
             z.object({
-                text: z.string().min(1, "Answer text is required."),
+                text: z.string().min(1, "Требуется текст ответа."),
                 isCorrect: z.boolean(),
             })
-        ).length(4, "You must provide exactly 4 answer options.")
+        ).length(4, "Вы должны предоставить ровно 4 варианта ответа.")
             .refine(answers => answers.some(answer => answer.isCorrect), {
-                message: "You must select one correct answer.",
+                message: "Вы должны выбрать один правильный ответ.",
                 path: ["answers"],
             }),
     });
@@ -101,21 +101,21 @@ export const DialogCreateGameQuestion: React.FC<DialogCreateQuestionProps> = ({c
             const responseData = await response.json();
 
             if (response.ok) {
-                toast({title: "Question Created", description: "The question was successfully created."});
+                toast({title: "Вопрос создан", description: "Вопрос успешно создан."});
                 setIsDialogOpen(false);
                 setIsQuestionCreated(!isQuestionCreated);
                 reset();
             } else {
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Возникла ошибка.",
                     variant: "destructive",
                 });
             }
         } catch (ex) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
-            toast({title: "Error", description: ex.message || "An unexpected error occurred.", variant: "destructive"});
+            toast({title: "Ошибка", description: ex.message || "Возникла ошибка.", variant: "destructive"});
         }
     };
 
@@ -137,20 +137,20 @@ export const DialogCreateGameQuestion: React.FC<DialogCreateQuestionProps> = ({c
             <DialogTrigger asChild>
                 <Button size="sm" variant="outline" className="h-8 gap-1">
                     <PlusCircle className="h-3.5 w-3.5"/>
-                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Create question</span>
+                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Создать вопрос</span>
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Create question</DialogTitle>
+                    <DialogTitle>Создать вопрос</DialogTitle>
                     <DialogDescription>
-                        Enter the data to create a new question with 4 answer options. One answer must be correct.
+                        Введите данные, чтобы создать новый вопрос с 4 вариантами ответов. Один ответ должен быть правильным.
                     </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="questionText" className="text-right">Question</Label>
+                            <Label htmlFor="questionText" className="text-right">Вопрос</Label>
                             <Input
                                 id="questionText"
                                 {...register("text")}
@@ -161,7 +161,7 @@ export const DialogCreateGameQuestion: React.FC<DialogCreateQuestionProps> = ({c
 
                         {answers.map((_, index) => (
                             <div key={index} className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor={`answerText${index}`} className="text-right">{index + 1}. Answer</Label>
+                                <Label htmlFor={`answerText${index}`} className="text-right">{index + 1}. Ответ</Label>
                                 <Input
                                     id={`answerText${index}`}
                                     {...register(`answers.${index}.text`)}
@@ -182,7 +182,7 @@ export const DialogCreateGameQuestion: React.FC<DialogCreateQuestionProps> = ({c
                         ))}
 
                         <div className="grid w-full items-center gap-1.5">
-                            <Label htmlFor="profileImage">Image</Label>
+                            <Label htmlFor="profileImage">Картинка</Label>
                             <Input id="profileImage" type="file" {...register("questionImage")} />
                         </div>
                     </div>
@@ -193,9 +193,9 @@ export const DialogCreateGameQuestion: React.FC<DialogCreateQuestionProps> = ({c
 
                     <DialogFooter>
                     <DialogClose asChild>
-                            <Button variant="ghost">Cancel</Button>
+                            <Button variant="ghost">Отмена</Button>
                         </DialogClose>
-                        <Button type="submit">Create question</Button>
+                        <Button type="submit">Создать вопрос</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

@@ -87,9 +87,8 @@ export const GameListItem: React.FC<ActiveGame> = ({
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
-                            <DropdownMenuItem>Delete</DropdownMenuItem>
+                            <DropdownMenuLabel>Действия</DropdownMenuLabel>
+                            <DropdownMenuItem>Посетить</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </TableCell>

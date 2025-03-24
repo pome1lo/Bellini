@@ -23,19 +23,19 @@ export const DialogShareButton: React.FC<DialogShareButtonProps> = ({link}) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="outline">Share</Button>
+                <Button variant="outline">Поделиться</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Share link</DialogTitle>
+                    <DialogTitle>Поделиться ссылкой</DialogTitle>
                     <DialogDescription>
-                        Anyone who has this link will be able to view this.
+                        Любой, у кого есть эта ссылка, сможет ее просмотреть.
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex items-center space-x-2">
                     <div className="grid flex-1 gap-2">
                         <Label htmlFor="link" className="sr-only">
-                            Link
+                            Ссылка
                         </Label>
                         <Input
                             id="link"
@@ -44,14 +44,14 @@ export const DialogShareButton: React.FC<DialogShareButtonProps> = ({link}) => {
                         />
                     </div>
                     <Button type="submit" size="sm" className="px-3">
-                        <span className="sr-only">Copy</span>
+                        <span className="sr-only">Копировать</span>
                         <Copy className="h-4 w-4"/>
                     </Button>
                 </div>
                 <DialogFooter className="sm:justify-start">
                     <DialogClose asChild>
                         <Button type="button" variant="secondary">
-                            Close
+                            Закрыть
                         </Button>
                     </DialogClose>
                 </DialogFooter>

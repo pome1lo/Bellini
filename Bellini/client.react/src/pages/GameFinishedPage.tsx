@@ -57,8 +57,8 @@ interface CommentForm {
 const commentSchema = z.object({
     content: z
         .string()
-        .max(255, "The comment cannot exceed 255 characters")
-        .nonempty("The comment cannot be empty"),
+        .max(255, "Длина комментария не должна превышать 255 символов")
+        .nonempty("Комментарий не может быть пустым"),
 });
 
 const getRatingChartData = (rating: GameRating[]) => {
@@ -158,19 +158,19 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
             if (response.ok) {
                 setIsUpdated(!isUpdated);
                 reset();
-                toast({title: "Comment Created", description: "The comment was successfully created."});
+                toast({title: "Созданный комментарий", description: "Комментарий был успешно создан."});
             } else {
                 const responseData = await response.json();
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Произошла ошибка.",
                     variant: "destructive"
                 });
             }
         } catch (ex: unknown) {
-            const errorMessage = (ex as Error).message || "An unexpected error occurred.";
+            const errorMessage = (ex as Error).message || "Произошла ошибка.";
             toast({
-                title: "Error",
+                title: "Ошибка",
                 description: errorMessage,
                 variant: "destructive"
             });
@@ -204,18 +204,18 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
 
             if (response.ok) {
                 setIsUpdated(!isUpdated);
-                toast({title: "Comment Deleted", description: "The comment was successfully deleted."});
+                toast({title: "Комментарий удален", description: "Комментарий был успешно удален."});
             } else {
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Произошла ошибка.",
                     variant: "destructive"
                 });
             }
         } catch (ex: unknown) {
-            const errorMessage = (ex as Error).message || "An unexpected error occurred.";
+            const errorMessage = (ex as Error).message || "Произошла ошибка.";
             toast({
-                title: "Error",
+                title: "Ошибка",
                 description: errorMessage,
                 variant: "destructive"
             });
@@ -225,9 +225,9 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
     return (
         <div className="p-4 max-w-[1440px] mx-auto">
             <Breadcrumbs items={[
-                {path: '/', name: 'Home'},
-                {path: '/games', name: 'Games'},
-                {path: `/games/${currentGame?.id}`, name: currentGame?.gameName ?? "unknown"},
+                {path: '/', name: 'Главная'},
+                {path: '/games', name: 'Игры'},
+                {path: `/games/${currentGame?.id}`, name: currentGame?.gameName ?? "Неизвестно"},
             ]}/>
 
             <div className="flex flex-col xl:flex-row gap-4 mt-5">
@@ -237,14 +237,14 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                             <CardHeader
                                 className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium">
-                                    Maximum players
+                                    Максимальное количество игроков
                                 </CardTitle>
                                 <Users className="h-4 w-4 text-muted-foreground"/>
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">{currentGame?.maxPlayers} player(s)</div>
+                                <div className="text-2xl font-bold">{currentGame?.maxPlayers} игрок(ы)</div>
                                 <p className="text-xs text-muted-foreground">
-                                    No more than this number of players
+                                    Не более этого количества игроков
                                 </p>
                             </CardContent>
                         </Card>
@@ -252,14 +252,14 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                             <CardHeader
                                 className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium">
-                                    Game status
+                                    Статус игры
                                 </CardTitle>
                                 <TrendingUp className="h-4 w-4 text-muted-foreground"/>
                             </CardHeader>
                             <CardContent>
                                 <div className="text-2xl font-bold">Completed</div>
                                 <p className="text-xs text-muted-foreground">
-                                    The game will start soon
+                                    Игра скоро начнется
                                 </p>
                             </CardContent>
                         </Card>
@@ -267,7 +267,7 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                             <CardHeader
                                 className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle className="text-sm font-medium">
-                                    Game room type
+                                    Тип игровой комнаты
                                 </CardTitle>
                                 <FileType className="h-4 w-4 text-muted-foreground"/>
                             </CardHeader>
@@ -275,7 +275,7 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                                 <div
                                     className="text-2xl font-bold">{currentGame?.isPrivate ? "Private" : "Public"}</div>
                                 <p className="text-xs text-muted-foreground">
-                                    The game will start soon
+                                    Игра скоро начнется
                                 </p>
                             </CardContent>
                         </Card>
@@ -284,32 +284,32 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                         <Card className="lg:w-1/2 w-full">
                             <CardHeader>
                                 <CardTitle>
-                                    <h1 className="text-2xl font-bold">Rating </h1>
+                                    <h1 className="text-2xl font-bold">Рейтинг </h1>
                                 </CardTitle>
-                                <CardDescription>
-                                    You can share the link to the game with other users
+                                <CardDescription>,
+                                    Вы можете поделиться ссылкой на игру с другими пользователями
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
 
                                 <Table>
-                                    <TableCaption>A list of your recent invoices.</TableCaption>
+                                    <TableCaption>Список ваших последних счетов-фактур.</TableCaption>
                                     <TableHeader>
                                         <TableRow>
-                                            <TableHead>Rank</TableHead>
-                                            <TableHead>User</TableHead>
+                                            <TableHead>Ранг</TableHead>
+                                            <TableHead>Пользователь</TableHead>
                                             <TableHead>
                                                 <TooltipProvider>
                                                     <TooltipCustom>
-                                                        <TooltipTrigger>C/A</TooltipTrigger>
+                                                        <TooltipTrigger>C/О</TooltipTrigger>
                                                         <TooltipContent>
-                                                            <p>Correct Answers</p>
+                                                            <p>Правильные ответы</p>
                                                         </TooltipContent>
                                                     </TooltipCustom>
                                                 </TooltipProvider>
 
                                             </TableHead>
-                                            <TableHead className="text-right">Accuracy</TableHead>
+                                            <TableHead className="text-right">Точность</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -343,10 +343,10 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                         <Card className="w-full ">
                             <CardHeader>
                                 <CardTitle>
-                                    <h1 className="text-2xl font-bold">Game Results</h1>
+                                    <h1 className="text-2xl font-bold">Результаты игры</h1>
                                 </CardTitle>
                                 <CardDescription>
-                                    You can share the link to the game with other users
+                                    Вы можете поделиться ссылкой на игру с другими пользователями
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
@@ -373,9 +373,8 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                         </Card>
                         <Card className="xl:hidden block ">
                             <CardHeader>
-                                <CardTitle>Share</CardTitle>
-                                <CardDescription>
-                                    You can share the link to the game with other users
+                                <CardTitle>Делиться</CardTitle>
+                                <CardDescription>Вы можете поделиться ссылкой на игру с другими пользователями
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
@@ -388,8 +387,7 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                     <Card className="xl:max-w-[340px] w-full">
                         <CardHeader>
                             <CardTitle>{currentGame?.gameName}</CardTitle>
-                            <CardDescription>
-                                Lipsum dolor sit amet, consectetur adipiscing elit
+                            <CardDescription>Морковь, морковно-томатный суп
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -406,9 +404,8 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                     </Card>
                     <Card className="xl:block hidden">
                         <CardHeader>
-                            <CardTitle>Share</CardTitle>
-                            <CardDescription>
-                                You can share the link to the game with other users
+                            <CardTitle>Делиться</CardTitle>
+                            <CardDescription>Вы можете поделиться ссылкой на игру с другими пользователями
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -420,10 +417,9 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
             <Card className="w-full mt-4">
                 <CardHeader>
                     <CardTitle>
-                        <h1 className="text-2xl font-bold">Comments</h1>
+                        <h1 className="text-2xl font-bold">Комментарии</h1>
                     </CardTitle>
-                    <CardDescription>
-                        Here you can view comments from other users and leave your own opinion about the game
+                    <CardDescription>Здесь вы можете просмотреть комментарии других пользователей и оставить свое собственное мнение об игре
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -432,9 +428,9 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                         {comments.length == 0 ?
                             <>
                                 <div className="h-full w-full flex items-center justify-center">
-                                    <h1 className="scroll-m-20 text-center text-2xl p- font-semibold tracking-tight">There
-                                        are no
-                                        comments here yet. Be the first!</h1>
+                                    <h1 className="scroll-m-20 text-center text-2xl p- font-semibold tracking-tight">Там
+
+                                        комментариев пока нет. Будьте первыми!</h1>
                                 </div>
                             </>
                             :
@@ -466,7 +462,7 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                                         {currentGame?.hostId.toString() != user?.id ? <></> :
                                             <div className="">
                                                 <Button variant="destructive"
-                                                        onClick={() => deleteComment(comment.id)}>Delete</Button>
+                                                        onClick={() => deleteComment(comment.id)}>Удалить</Button>
                                             </div>
                                         }
                                     </div>
@@ -483,7 +479,7 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                                 className={`w-full ${errors.content ? "border-red-500" : ""}`}
                             />
                             {errors.content && <p className="text-red-500">{errors.content.message}</p>}
-                            <Button type="submit">Send</Button>
+                            <Button type="submit">Отправить</Button>
                         </form>
                     }
                 </CardContent>

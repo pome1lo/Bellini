@@ -96,7 +96,7 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
             }
         } catch (error) {
             console.error('Connection failed: ', error);
-            toast({title: "Connection failed!", description: "Please try again.", variant: "destructive"});
+            toast({title: "Не удалось установить соединение!", description: "Пожалуйста, попробуйте снова.", variant: "destructive"});
         }
     }
 
@@ -119,8 +119,7 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
                     <TableBody>
                         {filteredQuizzes.length == 0 ?
                             <div className="h-[500px]  flex items-center justify-center">
-                                <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There
-                                    are no quizzes yet... 😪</h1>
+                                <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">Здесь викторин пока нет... 😪</h1>
                             </div>
                             :
                             <>
@@ -142,9 +141,9 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
                                             {!isAuthenticated || !user ? <></>
                                                 : <>
                                                     {item.hasUserCompleted ?
-                                                        <Badge variant="secondary">Completed</Badge>
+                                                        <Badge variant="secondary">Завершенный</Badge>
                                                         :
-                                                        <Badge>New</Badge>
+                                                        <Badge>Новый</Badge>
                                                     }
                                                 </>
                                             }
@@ -162,12 +161,12 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
                                                     </Button>
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent align="end">
-                                                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                    <DropdownMenuItem onClick={() => handleNavigateToQuiz(item.id)} key={item.id} className="cursor-pointer">Visit</DropdownMenuItem>
+                                                    <DropdownMenuLabel>Действия</DropdownMenuLabel>
+                                                    <DropdownMenuItem onClick={() => handleNavigateToQuiz(item.id)} key={item.id} className="cursor-pointer">Посетить</DropdownMenuItem>
                                                     {user?.isAdmin ? 
                                                         <>
-                                                            <DropdownMenuItem onClick={() => navigate("/admin")}>Edit</DropdownMenuItem>
-                                                            <DropdownMenuItem onClick={() => navigate("/admin")}>Delete</DropdownMenuItem>
+                                                            <DropdownMenuItem onClick={() => navigate("/admin")}>Изменить</DropdownMenuItem>
+                                                            <DropdownMenuItem onClick={() => navigate("/admin")}>Удалить</DropdownMenuItem>
                                                         </>
                                                     : <></>}
                                                 </DropdownMenuContent>
@@ -183,7 +182,7 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
             </ScrollArea>
             <div className="flex justify-between w-full items-center">
                 <div className="text-xs text-muted-foreground">
-                    Showing <strong>{(currentPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentPage * itemsPerPage, quizzes.length)}</strong> of <strong>{totalPages * itemsPerPage}</strong> quizzes
+                    Показать <strong>{(currentPage - 1) * itemsPerPage + 1}</strong> - <strong>{Math.min(currentPage * itemsPerPage, quizzes.length)}</strong> из <strong>{totalPages * itemsPerPage}</strong> викторин
                 </div>
                 <div>
                     <Pagination>

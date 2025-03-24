@@ -5,21 +5,21 @@ export const GameListTabContentNotFoundSkeleton = () => {
     return (
         <Card className="border-2">
             <CardHeader>
-                <CardTitle>Games</CardTitle>
+                <CardTitle>Игры</CardTitle>
                 <CardDescription>
-                    Here you will see the available games for your chosen category
+                    Здесь вы увидите доступные игры для выбранной вами категории
                 </CardDescription>
             </CardHeader>
             <CardContent className="h-[53vh] flex justify-center items-center">
                 <div className="flex">
-                    <h1 className="text-3xl font-bold">We didn't find anything</h1>
+                    <h1 className="text-3xl font-bold">Мы ничего не нашли</h1>
                     <h1 className="text-4xl font-bold animate-bounce">😪</h1>
                 </div>
             </CardContent>
             <CardFooter>
                 <div className="flex justify-between w-full items-center">
                     <div className="text-xs text-muted-foreground">
-                        Showing 1-1 games
+                        Показаны игры 1:1
                     </div>
                     <Pagination className="justify-end">
                         <PaginationContent>

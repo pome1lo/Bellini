@@ -22,14 +22,14 @@ import React, {useEffect, useState} from "react";
 import {authFetch} from "@/utils/fetchs/authFetch.ts";
 
 const createGameSchema = z.object({
-    gameName: z.string().min(1, "Game name is required"),
-    maxPlayers: z.number().min(1, "At least 1 player required").max(10, "Maximum 10 players allowed"),
+    gameName: z.string().min(1, "Требуется указать название игры"),
+    maxPlayers: z.number().min(1, "Требуется как минимум 1 игрок").max(10, "Допускается не более 10 игроков"),
     isPrivate: z.boolean().optional(),
     password: z.string().optional()
 }).refine((data) => {
     return !data.isPrivate || (data.password && data.password.length > 0);
 }, {
-    message: "Password is required for private games",
+    message: "Для приватных игр требуется пароль",
     path: ["password"]
 });
 
@@ -81,7 +81,7 @@ export const DialogCreateGame: React.FC<DialogCreateGameProps> = ({setIsCreated,
             const responseData = await response.json();
 
             if (response.ok) {
-                toast({title: "Game Created", description: "The game was successfully created."});
+                toast({title: "Игра создана", description: "Игра была успешно создана."});
                 setIsCreated(!isCreated);
                 setIsDialogOpen(false);
 
@@ -90,15 +90,15 @@ export const DialogCreateGame: React.FC<DialogCreateGameProps> = ({setIsCreated,
                 }
             } else {
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Произошла ошибка.",
                     variant: "destructive"
                 });
             }
         } catch (ex: unknown) {
-            const errorMessage = (ex as Error).message || "An unexpected error occurred.";
+            const errorMessage = (ex as Error).message || "Произошла ошибка.";
             toast({
-                title: "Error",
+                title: "Ошибка",
                 description: errorMessage,
                 variant: "destructive"
             });
@@ -117,21 +117,21 @@ export const DialogCreateGame: React.FC<DialogCreateGameProps> = ({setIsCreated,
             <DialogTrigger asChild>
                 <Button size="sm" className="h-8 gap-1">
                     <PlusCircle className="h-3.5 w-3.5"/>
-                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Create game</span>
+                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Создать игру</span>
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[410px]">
                 <DialogHeader>
-                    <DialogTitle>Create game</DialogTitle>
+                    <DialogTitle>Создание игры</DialogTitle>
                     <DialogDescription>
-                        Enter the data to create a new game here. Click create a game when you're done.
+                        Введите данные для создания новой игры здесь. Когда закончите, нажмите "Создать игру".
                     </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="gameName" className="text-right">
-                                Game name
+                                Имя игры
                             </Label>
                             <Input
                                 id="gameName"
@@ -143,7 +143,7 @@ export const DialogCreateGame: React.FC<DialogCreateGameProps> = ({setIsCreated,
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="maxPlayers" className="text-right">
-                                Max Players
+                                Кол/во игроков
                             </Label>
                             <Input
                                 id="maxPlayers"
@@ -156,7 +156,7 @@ export const DialogCreateGame: React.FC<DialogCreateGameProps> = ({setIsCreated,
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="isPrivate" className="text-right">
-                                Private
+                                Приват
                             </Label>
                             <Checkbox
                                 id="isPrivate"
@@ -169,7 +169,7 @@ export const DialogCreateGame: React.FC<DialogCreateGameProps> = ({setIsCreated,
                             className={`grid grid-cols-4 items-center gap-4 transition-opacity duration-300 ${isPrivate ? 'opacity-100' : 'opacity-40 pointer-events-none'}`}
                         >
                             <Label htmlFor="password" className="text-right">
-                                Password
+                                Пароль
                             </Label>
                             <Input
                                 id="password"
@@ -183,9 +183,9 @@ export const DialogCreateGame: React.FC<DialogCreateGameProps> = ({setIsCreated,
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button variant="ghost">Cancel</Button>
+                            <Button variant="ghost">Отмена</Button>
                         </DialogClose>
-                        <Button type="submit">Create game</Button>
+                        <Button type="submit">Создать игру</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

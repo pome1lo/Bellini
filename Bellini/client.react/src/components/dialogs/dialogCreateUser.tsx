@@ -23,24 +23,24 @@ import {authFetch} from "@/utils/fetchs/authFetch.ts";
 
 const createGameSchema = z.object({
     username: z.string()
-        .min(3, "Username must be at least 3 characters")
-        .max(20, "Username must be at most 20 characters"),
+        .min(3, "Имя пользователя должно содержать не менее 3 символов")
+        .max(20, "Длина имени пользователя должна составлять не более 20 символов"),
     email: z.string().email()
-        .min(5, "Email must be at least 5 characters")
-        .max(50, "Email must be at most 50 characters"),
+        .min(5, "Длина электронного письма должна составлять не менее 5 символов")
+        .max(50, "Длина электронного письма должна составлять не более 50 символов"),
     firstName: z.string()
-        .min(2, "First name must be at least 2 characters")
-        .max(30, "First name must be at most 30 characters")
-        .regex(/^[A-Za-z\s]+$/, "First name can only contain letters and spaces")
+        .min(2, "Имя должно содержать не менее 2 символов")
+        .max(30, "Длина имени должна составлять не более 30 символов")
+        .regex(/^[A-Za-z\s]+$/, "Имя может содержать только буквы и пробелы")
         .optional(),
     lastName: z.string()
-        .min(2, "Last name must be at least 2 characters")
-        .max(30, "Last name must be at most 30 characters")
-        .regex(/^[A-Za-z\s]+$/, "Last name can only contain letters and spaces")
+        .min(2, "Фамилия должна содержать не менее 2 символов")
+        .max(30, "Длина фамилии должна составлять не более 30 символов")
+        .regex(/^[A-Za-z\s]+$/, "Фамилия может содержать только буквы и пробелы")
         .optional(),
     isAdmin: z.boolean().default(false),
     password: z.string().min(8, {
-        message: "Password must be at least 8 characters."
+        message: "Пароль должен содержать не менее 8 символов."
     }).max(60)
 });
 
@@ -94,21 +94,21 @@ export const DialogCreateUser: React.FC<DialogCreateUserProps> = ({setIsCreated,
             });
 
             if (response.status == 201 || response.status == 204) {
-                toast({title: "User Created", description: "The user was successfully created."});
+                toast({title: "Пользователь создан", description: "Пользователь успешно создан."});
                 setIsCreated(!isCreated);
                 setIsDialogOpen(false);
             } else {
                 const responseData = await response.json();
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Возникла ошибка.",
                     variant: "destructive"
                 });
             }
         } catch (ex: unknown) {
-            const errorMessage = (ex as Error).message || "An unexpected error occurred.";
+            const errorMessage = (ex as Error).message || "Возникла ошибка.";
             toast({
-                title: "Error",
+                title: "Ошибка",
                 description: errorMessage,
                 variant: "destructive"
             });

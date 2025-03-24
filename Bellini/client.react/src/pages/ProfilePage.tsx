@@ -97,7 +97,6 @@ export const ProfilePage = () => {
                             <CardHeader>
                                 <div className="flex items-center mb-5">
                                     <div>
-
                                         <Avatar className="size-20 flex me-2">
                                             <AvatarImage
                                                 src={currentUser.profileImageUrl}
@@ -115,8 +114,8 @@ export const ProfilePage = () => {
                                 </div>
                                 <Separator/>
                                 <div className="mb-5">
-                                    <h4><span className="font-bold">First name: </span>{currentUser.firstName ?? "unknown"}</h4>
-                                    <h4><span className="font-bold">Last name:</span> {currentUser.lastName ?? "unknown"}</h4>
+                                    <h4><span className="font-bold">Имя: </span>{currentUser.firstName ?? "unknown"}</h4>
+                                    <h4><span className="font-bold">Фамилия:</span> {currentUser.lastName ?? "unknown"}</h4>
                                 </div>
                                 <Separator/>
                             </CardHeader>
@@ -135,9 +134,9 @@ export const ProfilePage = () => {
                         </Card>
                         <Card className="mt-4 mb-5">
                             <CardHeader>
-                                <CardTitle>Share</CardTitle>
+                                <CardTitle>Делиться</CardTitle>
                                 <CardDescription>
-                                    You can share the link to the game with other users
+                                    Вы можете поделиться ссылкой на игру с другими пользователями
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
@@ -148,17 +147,17 @@ export const ProfilePage = () => {
 
                             <CardHeader>
                                 <CardTitle>
-                                    Others Users
+                                    Другие пользователи
                                 </CardTitle>
                                 <CardDescription>
-                                    The achievements received by the user for all time are displayed here.
+                                    Здесь отображаются достижения, полученные пользователем за все время.
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
                                 {users && users.length == 0 ?
                                     <>
                                         <div className="h-full w-full flex items-center justify-center">
-                                            <h1 className="scroll-m-20 text-center text-2xl p- font-semibold tracking-tight">There are no users here yet</h1>
+                                            <h1 className="scroll-m-20 text-center text-2xl p- font-semibold tracking-tight">Здесь пока нет пользователей</h1>
                                         </div>
                                     </>
                                     :
@@ -180,7 +179,7 @@ export const ProfilePage = () => {
                                                     </div>
                                                 </div>
                                                 <div className="pe-3">
-                                                    View Profile
+                                                    Просмотреть профиль
                                                 </div>
                                             </div>
                                         ))}
@@ -188,24 +187,21 @@ export const ProfilePage = () => {
                                 }
                             </CardContent>
                         </Card>
-
                     </div>
-
                     <Card className="w-full">
-
                         <CardHeader>
                             <CardTitle>
-                                User Achievements
+                                Достижения пользователей
                             </CardTitle>
                             <CardDescription>
-                                The achievements received by the user for all time are displayed here.
+                                Здесь отображаются достижения, полученные пользователем за все время.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
                             {achievements && achievements.length == 0 ?
                                 <>
                                     <div className="h-full w-full flex items-center justify-center">
-                                        <h1 className="scroll-m-20 text-center text-2xl p- font-semibold tracking-tight">There are no achievements here yet</h1>
+                                        <h1 className="scroll-m-20 text-center text-2xl p- font-semibold tracking-tight">Здесь пока нет никаких достижений</h1>
                                     </div>
                                 </>
                                 :
@@ -228,10 +224,10 @@ export const ProfilePage = () => {
                         </CardContent>
                         <CardHeader>
                             <CardTitle>
-                                User Performance Overview
+                                Обзор производительности пользователей
                             </CardTitle>
                             <CardDescription>
-                                Detailed statistics of the user's performance in quizzes and games.
+                                Подробная статистика результатов пользователя в викторинах и играх.
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -245,54 +241,52 @@ export const ProfilePage = () => {
                                 </TableHeader>
                                 <TableBody>
                                     <TableRow>
-                                        <TableCell>Quizzes Completed</TableCell>
-                                        <TableCell>Total quizzes completed by the user</TableCell>
+                                        <TableCell>Викторины завершены</TableCell>
+                                        <TableCell>Общее количество тестов, выполненных пользователем</TableCell>
                                         <TableCell className="font-bold">{userInfo?.totalQuizzesCompleted}</TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>Games Completed</TableCell>
-                                        <TableCell>Total games completed by the user</TableCell>
+                                        <TableCell>Игры завершены</TableCell>
+                                        <TableCell>Общее количество игр, пройденных пользователем</TableCell>
                                         <TableCell className="font-bold">{userInfo?.totalGamesCompleted}</TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>Average Quiz Accuracy</TableCell>
-                                        <TableCell>Percentage of correct answers in quizzes</TableCell>
+                                        <TableCell>Средняя точность теста</TableCell>
+                                        <TableCell>Процент правильных ответов в тестах</TableCell>
                                         <TableCell className="font-bold">{userInfo?.averageQuizAccuracy.toFixed(2)}%</TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>Average Game Accuracy</TableCell>
-                                        <TableCell>Percentage of correct answers in games</TableCell>
+                                        <TableCell>Средняя точность игры</TableCell>
+                                        <TableCell>Процент правильных ответов в играх</TableCell>
                                         <TableCell className="font-bold">{userInfo?.averageGameAccuracy.toFixed(2)}%</TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>Last Completed Quiz</TableCell>
-                                        <TableCell>The most recent quiz played by the user</TableCell>
+                                        <TableCell>Последний пройденный квиз</TableCell>
+                                        <TableCell>Самая последняя викторина, в которой участвовал пользователь</TableCell>
                                         <TableCell className="font-bold">{userInfo?.lastCompletedQuiz ?? "-"}</TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>Last Completed Game</TableCell>
-                                        <TableCell>The most recent game played by the user</TableCell>
+                                        <TableCell>Последняя завершенная игра</TableCell>
+                                        <TableCell>Самая последняя игра, в которую сыграл пользователь</TableCell>
                                         <TableCell className="font-bold">{userInfo?.lastCompletedGame ?? "-"}</TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>Best Quiz</TableCell>
-                                        <TableCell>The quiz with the highest performance</TableCell>
+                                        <TableCell>Лучшая викторина</TableCell>
+                                        <TableCell>Тест с самыми высокими показателями</TableCell>
                                         <TableCell className="font-bold">{userInfo?.bestQuiz ?? "-"}</TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>Best Game</TableCell>
-                                        <TableCell>The game with the highest performance</TableCell>
+                                        <TableCell>Лучшая игра</TableCell>
+                                        <TableCell>Игра с самой высокой производительностью</TableCell>
                                         <TableCell className="font-bold">{userInfo?.bestGame ?? "-"}</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
                         </CardContent>
                         <CardFooter className="text-center">
-                            <p className="text-sm text-muted-foreground">Updated: {new Date().toLocaleDateString()}</p>
+                            <p className="text-sm text-muted-foreground">Обновленный: {new Date().toLocaleDateString()}</p>
                         </CardFooter>
                     </Card>
-
-
                 </div>
             ) : (
                 <ProfileSkeleton/>

@@ -27,8 +27,8 @@ interface DialogGamePasswordProps {
 const passwordSchema = z.object({
     password: z
         .string()
-        .min(4, "Minimum of 4 characters")
-        .max(20, "Maximum of 20 characters"),
+        .min(4, "Минимум 4 символа")
+        .max(20, "Не более 20 символов"),
 });
 
 type DialogGamePasswordFormData = z.infer<typeof passwordSchema>;
@@ -61,7 +61,7 @@ export const DialogGamePassword: React.FC<DialogGamePasswordProps> = ({
             setIsPasswordCorrect(!isPasswordCorrect);
             setIsOpen(false);
         } else {
-            setError("password", { type: "manual", message: "Incorrect password" });
+            setError("password", { type: "manual", message: "Неправильный пароль" });
         }
     }
 
@@ -77,14 +77,14 @@ export const DialogGamePassword: React.FC<DialogGamePasswordProps> = ({
                 <DialogContent className="sm:max-w-md">
                     <form className="" onSubmit={handleSubmit(onSubmit)}>
                         <DialogHeader>
-                            <DialogTitle>Log in to the game</DialogTitle>
+                            <DialogTitle>Войдите в игру</DialogTitle>
                             <DialogDescription>
-                                Enter the password to enter the game room.
+                                Введите пароль для входа в игровую комнату.
                             </DialogDescription>
                         </DialogHeader>
                         <div>
                             <Label htmlFor="password" className="text-right">
-                                Password
+                                Пароль
                             </Label>
                             <Input
                                 id="password"
@@ -106,10 +106,10 @@ export const DialogGamePassword: React.FC<DialogGamePasswordProps> = ({
                                         variant="secondary"
                                         onClick={closeDialog}
                                     >
-                                        Close
+                                        Закрыть
                                     </Button>
                                 </DialogClose>
-                                <Button type="submit">Login</Button>
+                                <Button type="submit">Войти</Button>
                             </div>
                         </DialogFooter>
                     </form>

@@ -51,13 +51,13 @@ export const EditQuizPage = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                toast({title: "Quiz published", description: "The quiz was successfully published."});
+                toast({title: "Опубликована викторина", description: "Тест был успешно опубликован."});
                 navigate("/admin")
             }
             else {
                 toast({
-                    title: "Error",
-                    description: data.Message || "An error occurred.",
+                    title: "Ошибка",
+                    description: data.Message || "Произошла ошибка.",
                     variant: "destructive",
                 });
             }
@@ -80,19 +80,19 @@ export const EditQuizPage = () => {
 
             if (response.ok) {
                 setIsQuestionDeleted(!isQuestionDeleted);
-                toast({title: "Question Deleted", description: "The question was successfully deleted."});
+                toast({title: "Вопрос удален", description: "Вопрос был успешно удален."});
             } else {
                 const responseData = await response.json();
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Произошла ошибка.",
                     variant: "destructive",
                 });
             }
         } catch (ex: unknown) {
             toast({
-                title: "Error",
-                description: (ex as Error).message || "An unexpected error occurred.",
+                title: "Ошибка",
+                description: (ex as Error).message || "Произошла ошибка.",
                 variant: "destructive"
             });
         }
@@ -104,7 +104,7 @@ export const EditQuizPage = () => {
             <div className="max-w-[1440px] w-full mx-auto">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Edit Quiz</CardTitle>
+                        <CardTitle>Редактировать викторины</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="flex justify-between items-center">
@@ -126,7 +126,7 @@ export const EditQuizPage = () => {
                                 }
                                 <Button onClick={publishQuiz} size="sm" variant="outline" className="mx-2 h-8 gap-1">
                                     <FolderInput className="h-3.5 w-3.5"/>
-                                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Publish</span>
+                                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Публиковать</span>
                                 </Button>
                                 <DialogCreateQuizQuestion
                                     currentQuizId={draftId!}
@@ -156,12 +156,10 @@ export const EditQuizPage = () => {
                                     :
                                     <>
                                         <div className="flex flex-col items-center justify-center h-[550px] ">
-                                            <h1 className="text-xl">There are no questions here yet 😪</h1>
+                                            <h1 className="text-xl">Здесь пока нет никаких вопросов 😪</h1>
                                         </div>
                                     </>
                                 }
-
-
                             </div>
                             <ScrollBar orientation="vertical"/>
                         </ScrollArea>

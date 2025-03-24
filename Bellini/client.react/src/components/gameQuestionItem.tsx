@@ -40,13 +40,13 @@ export const GameQuestionItem: React.FC<GameQuestionItemProps> = ({id, index, qu
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
-                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogTitle>Вы абсолютно уверены?</AlertDialogTitle>
                             <AlertDialogDescription>
-                                Are you sure you want to delete the question? This question will disappear from the game.
+                                Вы уверены, что хотите удалить этот вопрос? Этот вопрос исчезнет из игры.
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                            <AlertDialogAction onClick={() => dropItem(id)}>Continue</AlertDialogAction>
+                            <AlertDialogAction onClick={() => dropItem(id)}>Продолжить</AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
@@ -69,7 +69,7 @@ export const GameQuestionItem: React.FC<GameQuestionItemProps> = ({id, index, qu
                         ))}
                     </div>
                     <div className="flex">
-                        Image: {questionImageUrl ? <></> : <p className="ms-2"> ❌</p>}
+                        Картинка: {questionImageUrl ? <></> : <p className="ms-2"> ❌</p>}
                     </div>
                     <div>
                         {questionImageUrl ?

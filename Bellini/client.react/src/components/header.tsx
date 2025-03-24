@@ -27,27 +27,27 @@ import {PiCrownSimpleFill} from "react-icons/pi";
 
 const components: { title: string; href: string; description: string }[] = [
     {
-        title: "All games",
+        title: "Все игры",
         href: "/games/all",
         description:
-            "This section contains all the games from the Private and Public categories.",
+            "В этом разделе собраны все игры из частных и общедоступных категорий.",
     },
     {
-        title: "Public games",
+        title: "Публичные игры",
         href: "/games/public",
         description:
-            "This section contains all the games from the Public category.",
+            "В этом разделе собраны все игры из категории общедоступных.",
     },
     {
-        title: "Private games",
+        title: "Приватные игры",
         href: "/games/private",
         description:
-            "This section contains all the games from the Private category.",
+            "В этом разделе собраны все игры из категории Приватных.",
     },
     {
-        title: "Completed games",
+        title: "Завершенные игры",
         href: "/games/completed",
-        description: "All completed games are presented in this section.",
+        description: "Все завершенные игры представлены в этом разделе.",
     },
 ]
 
@@ -77,7 +77,7 @@ export const Header = () => {
                     <NavigationMenu className="hidden md:flex ">
                         <NavigationMenuList>
                             <NavigationMenuItem>
-                                <NavigationMenuTrigger>Quizzes</NavigationMenuTrigger>
+                                <NavigationMenuTrigger>Викторины</NavigationMenuTrigger>
                                 <NavigationMenuContent>
                                     <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                                         <li className="row-span-3">
@@ -90,26 +90,26 @@ export const Header = () => {
                                                         Bellini
                                                     </div>
                                                     <p className="text-sm leading-tight text-muted-foreground">
-                                                        A web application designed to organize and manage intellectual
-                                                        games with integrated social network elements,
+                                                        Веб-приложение, предназначенное для организации интеллектуальных игр и управления ими
+                                                        игры с интегрированными элементами социальных сетей,
                                                     </p>
                                                 </a>
                                             </NavigationMenuLink>
                                         </li>
-                                        <ListItem href="/quizzes" title="All quizzes">
-                                            All the quizzes will be displayed here.
+                                        <ListItem href="/quizzes" title="Все">
+                                            Все тесты будут представлены здесь.
                                         </ListItem>
-                                        <ListItem href="/quizzes" title="New quizzes">
-                                            All new quizzes will be displayed here.
+                                        <ListItem href="/quizzes" title="Новые">
+                                            Все новые тесты будут отображаться здесь.
                                         </ListItem>
-                                        <ListItem href="/quizzes" title="Completed quizzes">
-                                            All the quizzes you have completed will be displayed here.
+                                        <ListItem href="/quizzes" title="Завершенные">
+                                            Все тесты, которые вы выполнили, будут отображены здесь.
                                         </ListItem>
                                     </ul>
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
-                                <NavigationMenuTrigger>Games</NavigationMenuTrigger>
+                                <NavigationMenuTrigger>Игры</NavigationMenuTrigger>
                                 <NavigationMenuContent>
                                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                                         {components.map((component) => (
@@ -127,7 +127,7 @@ export const Header = () => {
                             <NavigationMenuItem>
                                 <Link to={"/about"}>
                                     <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                                        About
+                                        О нас
                                     </NavigationMenuLink>
                                 </Link>
                             </NavigationMenuItem>
@@ -172,16 +172,16 @@ export const Header = () => {
                                         onClick={() => navigate(`/admin`)}
                                         className={user.isAdmin ? "block" : "hidden"}
                                     >
-                                        Admin panel
+                                        Панель администратора
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => navigate(`/profile/${user.id}`)}>Profile</DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => navigate(`/settings`)}>Settings</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => navigate(`/profile/${user.id}`)}>Профиль</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => navigate(`/settings`)}>Настройки</DropdownMenuItem>
                                     <DropdownMenuSeparator/>
-                                    <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={logout}>Выйти</DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         ) : (
-                            <Button variant="outline" onClick={() => navigate('/login')}>Login</Button>
+                            <Button variant="outline" onClick={() => navigate('/login')}>Войти</Button>
                         )}
 
                         <div className="md:hidden">
@@ -193,11 +193,11 @@ export const Header = () => {
                                 </SheetTrigger>
                                 <SheetContent side="left">
                                     <div className="flex flex-col space-y-4 p-4">
-                                        <Button variant="link" onClick={() => navigateTo("/")}>Home</Button>
-                                        <Button variant="link" onClick={() => navigateTo("/quizzes")}>Quizzes</Button>
-                                        <Button variant="link" onClick={() => navigateTo("/games")}>Games</Button>
-                                        <Button variant="link" onClick={() => navigateTo("/about")}>About</Button>
-                                        <Button variant="link" onClick={() => navigateTo("/contact")}>Contact</Button>
+                                        <Button variant="link" onClick={() => navigateTo("/")}>Домой</Button>
+                                        <Button variant="link" onClick={() => navigateTo("/quizzes")}>Викторины</Button>
+                                        <Button variant="link" onClick={() => navigateTo("/games")}>Игры</Button>
+                                        <Button variant="link" onClick={() => navigateTo("/about")}>О нас</Button>
+                                        <Button variant="link" onClick={() => navigateTo("/contact")}>Контакты</Button>
                                     </div>
                                 </SheetContent>
                             </Sheet>

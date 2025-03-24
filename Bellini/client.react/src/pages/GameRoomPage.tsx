@@ -51,8 +51,8 @@ interface JoinGameDto {
 const messageSchema = z.object({
     content: z
         .string()
-        .max(255, "The message cannot exceed 255 characters")
-        .nonempty("The message cannot be empty"),
+        .max(255, "Длина сообщения не должна превышать 255 символов")
+        .nonempty("Сообщение не может быть пустым"),
 });
 
 interface MessageForm {
@@ -144,8 +144,8 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
             setPlayers(updatedPlayerList);
             console.warn("PlayerJoined" + updatedPlayerList.length);
             toast({
-                title: 'Player joined',
-                description: `User ${joinGameDto.username} joined the game!`
+                title: 'Присоединился игрок',
+                description: `Пользователь ${joinGameDto.username} присоединяется к игре!`
             });
         });
 
@@ -199,8 +199,8 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
 
         const handleBeforeUnload = (event: BeforeUnloadEvent) => {
             event.preventDefault();
-            event.returnValue = "Are you sure you want to leave the game?";
-            return "Are you sure you want to leave the game?";
+            event.returnValue = "Вы уверены, что хотите выйти из игры?";
+            return "Вы уверены, что хотите выйти из игры?";
         };
 
         window.addEventListener("beforeunload", handleBeforeUnload);
@@ -241,14 +241,14 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                     ProfileImageUrl: user?.profileImageUrl
                 });
                 setIsUserJoined(true);
-                toast({title: "You have successfully joined the game!"});
+                toast({title: "Вы успешно присоединились к игре!"});
             } catch (error) {
                 console.error('Error joining game:', error);
             }
         } else {
             toast({
-                title: "Something went wrong", variant: "destructive",
-                description: "The room is full. Try to connect later.",
+                title: "Что-то пошло не так", variant: "destructive",
+                description: "Зал переполнен. Попробуйте подключиться позже.",
             });
         }
     }
@@ -298,22 +298,22 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                     onStart(responseData, user?.id);
                 } else if (responseData.ErrorCode == "NotFoundGameQuestionsException") {
                     toast({
-                        title: "Error",
-                        description: responseData.Message || "An error occurred.",
+                        title: "Ошибка",
+                        description: responseData.Message || "Произошла непредвиденная ошибка.",
                         variant: "destructive"
                     });
                 } else {
                     toast({
-                        title: "Error",
-                        description: responseData.Message || "An error occurred.",
+                        title: "Ошибка",
+                        description: responseData.Message || "Произошла непредвиденная ошибка.",
                         variant: "destructive"
                     });
                 }
             } catch (error: unknown) {
                 console.error('Error while disconnecting:', error);
                 toast({
-                    title: "Error",
-                    description: (error as Error).message || "An unexpected error occurred.",
+                    title: "Ошибка",
+                    description: (error as Error).message || "Произошла непредвиденная ошибка.",
                     variant: "destructive"
                 });
             }
@@ -334,19 +334,19 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
 
             if (response.ok) {
                 setIsQuestionDeleted(!isQuestionDeleted);
-                toast({title: "Question Deleted", description: "The question was successfully deleted."});
+                toast({title: "Вопрос удален", description: "Вопрос был успешно удалён."});
             } else {
                 const responseData = await response.json();
                 toast({
-                    title: "Error",
-                    description: responseData.message || "An error occurred.",
+                    title: "Ошибка",
+                    description: responseData.message || "Произошла непредвиденная ошибка.",
                     variant: "destructive",
                 });
             }
         } catch (ex: unknown) {
             toast({
-                title: "Error",
-                description: (ex as Error).message || "An unexpected error occurred.",
+                title: "Ошибка",
+                description: (ex as Error).message || "Произошла непредвиденная ошибка.",
                 variant: "destructive"
             });
         }
@@ -382,18 +382,18 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                     {currentGame ?
                         <>
                             <Breadcrumbs items={[
-                                {path: '/', name: 'Home'},
-                                {path: '/games', name: 'Games'},
-                                {path: `/games/${id}`, name: currentGame?.gameName ?? "unknown"},
+                                {path: '/', name: 'Главная'},
+                                {path: '/games', name: 'Игры'},
+                                {path: `/games/${id}`, name: currentGame?.gameName ?? "неизвестно"},
                             ]}/>
 
                             {isCurrentUserHost ?
                                 <div
                                     className="flex items-center justify-between mt-3 w-full mx-auto max-w-[1440px] pb-0 p-4">
-                                    <Badge>You are the creator of the room</Badge>
+                                    <Badge>Вы - создатель этой комнаты</Badge>
                                     <Button size="sm" className="h-8 ms-3 gap-1" onClick={startGame}>
                                         <CirclePlay className="h-3.5 w-3.5"/>
-                                        Start Game
+                                        Начать игру
                                     </Button>
                                 </div>
                                 : <></>
@@ -406,30 +406,30 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                 <CardHeader
                                                     className="flex flex-row items-center justify-between space-y-0 pb-2">
                                                     <CardTitle className="text-sm font-medium">
-                                                        Maximum players
+                                                        Максимальное количество игроков
                                                     </CardTitle>
                                                     <Users className="h-4 w-4 text-muted-foreground"/>
                                                 </CardHeader>
                                                 <CardContent>
-                                                    <div className="text-2xl font-bold">{currentGame.maxPlayers} player(s)</div>
-                                                    <p className="text-xs text-muted-foreground">No more than this number of players</p>
+                                                    <div className="text-2xl font-bold">{currentGame.maxPlayers} игрок(ы)</div>
+                                                    <p className="text-xs text-muted-foreground">Не более этого количества игроков</p>
                                                 </CardContent>
                                             </Card>
                                             <Card className="w-full">
                                                 <CardHeader
                                                     className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                                    <CardTitle className="text-sm font-medium">Game status</CardTitle>
+                                                    <CardTitle className="text-sm font-medium">Статус игры</CardTitle>
                                                     <TrendingUp className="h-4 w-4 text-muted-foreground"/>
                                                 </CardHeader>
                                                 <CardContent>
                                                     <div className="text-2xl font-bold">{currentGame.gameStatus.name}</div>
-                                                    <p className="text-xs text-muted-foreground">The game will start soon</p>
+                                                    <p className="text-xs text-muted-foreground">Игра скоро начнется</p>
                                                 </CardContent>
                                             </Card>
                                             <Card className="w-full">
                                                 <CardHeader
                                                     className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                                    <CardTitle className="text-sm font-medium">Game room type</CardTitle>
+                                                    <CardTitle className="text-sm font-medium">Тип игровой комнаты</CardTitle>
                                                     <FileType className="h-4 w-4 text-muted-foreground"/>
                                                 </CardHeader>
                                                 <CardContent>
@@ -443,10 +443,10 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                 {isCurrentUserHost ?
                                                     <>
                                                         <CardHeader>
-                                                            <CardTitle>Questions</CardTitle>
+                                                            <CardTitle>Вопросы</CardTitle>
                                                             <CardDescription>
-                                                                Here you can select a list of questions that will
-                                                                participate in the game
+                                                                Здесь вы можете выбрать перечень вопросов, которые будут
+                                                                участвовать в игре
                                                             </CardDescription>
                                                         </CardHeader>
                                                         <CardContent>
@@ -455,7 +455,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                                     <div
                                                                         className="h-[170px] flex items-center justify-center">
                                                                         <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-                                                                            There are no questions yet... 😪
+                                                                            Пока нет никаких вопросов... 😪
                                                                         </h1>
                                                                     </div>
                                                                     : <>
@@ -485,61 +485,60 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                     :
                                                     <CardContent>
                                                         <ScrollArea className="mt-5 h-[370px] p-4  rounded-md">
-                                                            <h2 className="text-xl font-bold mb-4">Welcome to the Game
-                                                                Room!</h2>
-                                                            <p className="mb-4">Before we begin, here's a quick guide to
-                                                                help you understand how to play:</p>
+                                                            <h2 className="text-xl font-bold mb-4">Добро пожаловать в игровую комнату!</h2>
+                                                            <p className="mb-4">Прежде чем мы начнем, вот краткое руководство
+                                                                , которое поможет вам понять, как играть:</p>
 
-                                                            <h3 className="text-lg font-semibold mb-2">Objective</h3>
-                                                            <p className="mb-4">Answer questions correctly to earn points.
-                                                                The player or team with the highest score at the end
-                                                                wins!</p>
+                                                            <h3 className="text-lg font-semibold mb-2">Цель</h3>
+                                                            <p className="mb-4">Правильно отвечайте на вопросы, чтобы заработать очки.
+                                                                Игрок или команда, набравшие наибольшее количество очков в конце
+                                                                , выигрывают!</p>
 
-                                                            <h3 className="text-lg font-semibold mb-2">Question Format</h3>
+                                                            <h3 className="text-lg font-semibold mb-2">Формат вопроса</h3>
                                                             <ul className="list-disc ml-6 mb-4">
-                                                                <li>Each question has 4 answer options.</li>
-                                                                <li>Only one answer is correct.</li>
-                                                                <li>You have a limited time to answer each question, so
-                                                                    think fast!
+                                                                <li>На каждый вопрос есть 4 варианта ответа.</li>
+                                                                <li>Правильным является только один ответ.</li>
+                                                                <li>у вас есть ограниченное время, чтобы ответить на каждый вопрос, так
+                                                                    что думайте быстро!
                                                                 </li>
                                                             </ul>
 
-                                                            <h3 className="text-lg font-semibold mb-2">Scoring</h3>
+                                                            <h3 className="text-lg font-semibold mb-2">Счет</h3>
                                                             <ul className="list-disc ml-6 mb-4">
-                                                                <li>Correct answers earn points.</li>
-                                                                <li>The faster you answer, the more points you score.</li>
-                                                                <li>No points are awarded for incorrect answers.</li>
+                                                                <li>Правильные ответы приносят очки.</li>
+                                                                <li>Чем быстрее вы ответите, тем больше очков наберете.</li>
+                                                                <li>За неправильные ответы баллы не начисляются.</li>
                                                             </ul>
 
-                                                            <h3 className="text-lg font-semibold mb-2">Hints & Lifelines (if
-                                                                available)</h3>
+                                                            <h3 className="text-lg font-semibold mb-2">Подсказки и жизненные пути (если
+                                                                таковые имеются)</h3>
                                                             <ul className="list-disc ml-6 mb-4">
-                                                                <li><strong>50/50:</strong> Two incorrect answers will be
-                                                                    removed.
+                                                                <li><strong>50/50:</strong> Два неправильных ответа будут
+                                                                    удалены.
                                                                 </li>
-                                                                <li><strong>Skip:</strong> Skip the question without losing
-                                                                    points (limited usage).
+                                                                <li><strong>Пропустите:</strong> Пропустите вопрос, не потеряв при этом ни одного балла
+                                                                    (количество баллов ограничено).
                                                                 </li>
                                                             </ul>
 
-                                                            <h3 className="text-lg font-semibold mb-2">Team Play (if
-                                                                applicable)</h3>
+                                                            <h3 className="text-lg font-semibold mb-2">Командная игра (если
+                                                                применимо)</h3>
                                                             <ul className="list-disc ml-6 mb-4">
-                                                                <li>Discuss answers with your team.</li>
-                                                                <li>Only one person needs to submit the answer on behalf of
-                                                                    the team.
+                                                                <li>Обсудите ответы со своей командой.</li>
+                                                                <li>Только один человек должен отправить ответ от имени
+                                                                    команды.
                                                                 </li>
-                                                                <li>Team coordination is key!</li>
+                                                                <li>Координация команды - это ключ к успеху!</li>
                                                             </ul>
 
-                                                            <h3 className="text-lg font-semibold mb-2">Rules</h3>
+                                                            <h3 className="text-lg font-semibold mb-2">Правила</h3>
                                                             <ul className="list-disc ml-6 mb-4">
-                                                                <li>No cheating! Use only your knowledge and reasoning.</li>
-                                                                <li>Be respectful to other players and enjoy the game.</li>
+                                                                <li>Никакого обмана! Используйте только свои знания и рассуждения.</li>
+                                                                <li>Относитесь с уважением к другим игрокам и получайте удовольствие от игры.</li>
                                                             </ul>
 
-                                                            <p className="text-lg font-semibold">Ready to start? Good luck,
-                                                                and may the best player win!</p>
+                                                            <p className="text-lg font-semibold">Готовы начать? Удачи,
+                                                                и пусть победит лучший игрок!</p>
                                                         </ScrollArea>
                                                     </CardContent>
                                                 }
@@ -557,8 +556,8 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                                 {players.length == 0 ?
                                                                     <div
                                                                         className="h-[170px] flex items-center justify-center">
-                                                                        <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There
-                                                                            are no connected users yet... 😪</h1>
+                                                                        <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight"> Там
+                                                                            подключенных пользователей пока нет... 😪</h1>
                                                                     </div>
                                                                     : <>
                                                                         {players.map((player) => (
@@ -584,8 +583,8 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                             </>
                                                             :
                                                             <div className="h-[170px] flex items-center justify-center">
-                                                                <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">There
-                                                                    are no connected users yet... 😪</h1>
+                                                                <h1 className="scroll-m-20 text-2xl font-semibold tracking-tight">Там
+                                                                    подключенных пользователей пока нет...... 😪</h1>
                                                             </div>
                                                         }
 
@@ -597,10 +596,10 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                             <Button
                                                                 onClick={connect}
                                                                 disabled={players && players.length >= currentGame.maxPlayers}
-                                                            >Connect</Button>
+                                                            >Подключиться</Button>
                                                         ) : (
                                                             <Button variant="destructive"
-                                                                    onClick={disconnect}>Disconnect</Button>
+                                                                    onClick={disconnect}>Отключиться</Button>
                                                         )}
                                                     </CardFooter>
                                                 }
@@ -608,9 +607,9 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                         </div>
                                         <Card className="block lg:hidden">
                                             <CardHeader>
-                                                <CardTitle>Share</CardTitle>
-                                                <CardDescription>You can share the link to the game with other
-                                                    users</CardDescription>
+                                                <CardTitle>Делиться</CardTitle>
+                                                <CardDescription>Вы можете поделиться ссылкой на игру с другими пользователями.
+                                                    пользователи</CardDescription>
                                             </CardHeader>
                                             <CardContent>
                                                 <DialogInviteUser
@@ -625,8 +624,8 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                         <Card>
                                             <CardHeader>
                                                 <CardTitle>{currentGame.gameName}</CardTitle>
-                                                <CardDescription>Lipsum dolor sit amet, consectetur adipiscing
-                                                    elit</CardDescription>
+                                                <CardDescription>Морковь, ящики для помидоров
+                                                    элита</CardDescription>
                                             </CardHeader>
                                             <CardContent>
                                                 {currentGame && user && currentGame.hostId.toString() == user!.id! ?
@@ -648,9 +647,9 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                         </Card>
                                         <Card className="hidden lg:block">
                                             <CardHeader>
-                                                <CardTitle>Share</CardTitle>
-                                                <CardDescription>You can share the link to the game with other
-                                                    users</CardDescription>
+                                                <CardTitle>Делиться</CardTitle>
+                                                <CardDescription>Вы можете поделиться ссылкой на игру с другими пользователями.
+                                                    пользователи</CardDescription>
                                             </CardHeader>
                                             <CardContent>
 
@@ -667,9 +666,9 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                 <div className="flex flex-col lg:flex-row justify-between gap-4 w-full p-4">
                                     <Card className="w-full min-w-[450px] lg:w-1/2">
                                         <CardHeader>
-                                            <CardTitle>Game Chat</CardTitle>
+                                            <CardTitle>Игровой чат</CardTitle>
                                             <CardDescription>
-                                                Here, players can chat beforehand before starting the game.
+                                                Здесь игроки могут заранее пообщаться перед началом игры.
                                             </CardDescription>
                                         </CardHeader>
                                         <CardContent>
@@ -710,7 +709,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                 :
                                                 <Card className="h-[450px] p-4 border rounded-md flex justify-center items-center">
                                                     <h1 className="text-muted-foreground">
-                                                        There are no messages here yet
+                                                        Здесь пока нет сообщений
                                                     </h1>
                                                 </Card>
                                             }
@@ -724,7 +723,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                             className={`w-full ${errors.content ? "border-red-500" : ""}`}
                                                         />
                                                         {errors.content && <p className="text-red-500">{errors.content.message}</p>}
-                                                        <Button type="submit">Send</Button>
+                                                        <Button type="submit">Отправить</Button>
                                                     </form>
                                                 }
                                             </div>
@@ -733,62 +732,61 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                     </Card>
                                     <Card>
                                         <CardContent>
-                                            <ScrollArea className="mt-5 h-[650px] p-4  rounded-md">
-                                                <h2 className="text-xl font-bold mb-4">Welcome to the Game
-                                                    Room!</h2>
-                                                <p className="mb-4">Before we begin, here's a quick guide to
-                                                    help you understand how to play:</p>
+                                            <ScrollArea className="mt-5 h-[650зч] p-4  rounded-md">
+                                                <h2 className="text-xl font-bold mb-4">Добро пожаловать в игровую комнату!</h2>
+                                                <p className="mb-4">Прежде чем мы начнем, вот краткое руководство
+                                                    , которое поможет вам понять, как играть:</p>
 
-                                                <h3 className="text-lg font-semibold mb-2">Objective</h3>
-                                                <p className="mb-4">Answer questions correctly to earn points.
-                                                    The player or team with the highest score at the end
-                                                    wins!</p>
+                                                <h3 className="text-lg font-semibold mb-2">Цель</h3>
+                                                <p className="mb-4">Правильно отвечайте на вопросы, чтобы заработать очки.
+                                                    Игрок или команда, набравшие наибольшее количество очков в конце
+                                                    , выигрывают!</p>
 
-                                                <h3 className="text-lg font-semibold mb-2">Question Format</h3>
+                                                <h3 className="text-lg font-semibold mb-2">Формат вопроса</h3>
                                                 <ul className="list-disc ml-6 mb-4">
-                                                    <li>Each question has 4 answer options.</li>
-                                                    <li>Only one answer is correct.</li>
-                                                    <li>You have a limited time to answer each question, so
-                                                        think fast!
+                                                    <li>На каждый вопрос есть 4 варианта ответа.</li>
+                                                    <li>Правильным является только один ответ.</li>
+                                                    <li>у вас есть ограниченное время, чтобы ответить на каждый вопрос, так
+                                                        что думайте быстро!
                                                     </li>
                                                 </ul>
 
-                                                <h3 className="text-lg font-semibold mb-2">Scoring</h3>
+                                                <h3 className="text-lg font-semibold mb-2">Счет</h3>
                                                 <ul className="list-disc ml-6 mb-4">
-                                                    <li>Correct answers earn points.</li>
-                                                    <li>The faster you answer, the more points you score.</li>
-                                                    <li>No points are awarded for incorrect answers.</li>
+                                                    <li>Правильные ответы приносят очки.</li>
+                                                    <li>Чем быстрее вы ответите, тем больше очков наберете.</li>
+                                                    <li>За неправильные ответы баллы не начисляются.</li>
                                                 </ul>
 
-                                                <h3 className="text-lg font-semibold mb-2">Hints & Lifelines (if
-                                                    available)</h3>
+                                                <h3 className="text-lg font-semibold mb-2">Подсказки и жизненные пути (если
+                                                    таковые имеются)</h3>
                                                 <ul className="list-disc ml-6 mb-4">
-                                                    <li><strong>50/50:</strong> Two incorrect answers will be
-                                                        removed.
+                                                    <li><strong>50/50:</strong> Два неправильных ответа будут
+                                                        удалены.
                                                     </li>
-                                                    <li><strong>Skip:</strong> Skip the question without losing
-                                                        points (limited usage).
+                                                    <li><strong>Пропустите:</strong> Пропустите вопрос, не потеряв при этом ни одного балла
+                                                        (количество баллов ограничено).
                                                     </li>
                                                 </ul>
 
-                                                <h3 className="text-lg font-semibold mb-2">Team Play (if
-                                                    applicable)</h3>
+                                                <h3 className="text-lg font-semibold mb-2">Командная игра (если
+                                                    применимо)</h3>
                                                 <ul className="list-disc ml-6 mb-4">
-                                                    <li>Discuss answers with your team.</li>
-                                                    <li>Only one person needs to submit the answer on behalf of
-                                                        the team.
+                                                    <li>Обсудите ответы со своей командой.</li>
+                                                    <li>Только один человек должен отправить ответ от имени
+                                                        команды.
                                                     </li>
-                                                    <li>Team coordination is key!</li>
+                                                    <li>Координация команды - это ключ к успеху!</li>
                                                 </ul>
 
-                                                <h3 className="text-lg font-semibold mb-2">Rules</h3>
+                                                <h3 className="text-lg font-semibold mb-2">Правила</h3>
                                                 <ul className="list-disc ml-6 mb-4">
-                                                    <li>No cheating! Use only your knowledge and reasoning.</li>
-                                                    <li>Be respectful to other players and enjoy the game.</li>
+                                                    <li>Никакого обмана! Используйте только свои знания и рассуждения.</li>
+                                                    <li>Относитесь с уважением к другим игрокам и получайте удовольствие от игры.</li>
                                                 </ul>
 
-                                                <p className="text-lg font-semibold">Ready to start? Good luck,
-                                                    and may the best player win!</p>
+                                                <p className="text-lg font-semibold">Готовы начать? Удачи,
+                                                    и пусть победит лучший игрок!</p>
                                             </ScrollArea>
                                         </CardContent>
                                     </Card>

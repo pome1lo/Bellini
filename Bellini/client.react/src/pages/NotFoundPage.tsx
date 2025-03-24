@@ -7,12 +7,12 @@ export const NotFoundPage = () => {
         <>
             <div className="flex justify-center items-center h-screen flex-col container">
                 <h1 className="font-black text-9xl text-roboto m-2 mt-3 animate-bounce">404</h1>
-                <h3 className="text-3xl font-medium">We searched the entire site</h3>
+                <h3 className="text-3xl font-medium">Мы обыскали весь сайт</h3>
                 <div className="w-full md:w-12/12">
-                    <p className="m-2 mb-5 text-center">It looks like this page doesn't exist. If you still need help,
-                        contact technical support.</p>
+                    <p className="m-2 mb-5 text-center">Похоже, что этой страницы не существует. Если вам все еще нужна помощь,
+                        обратитесь в службу технической поддержки.</p>
                 </div>
-                <Button className="w-96" onClick={() => navigate('/')}>Return to the main page</Button>
+                <Button className="w-96" onClick={() => navigate('/')}>Вернитесь на главную страницу</Button>
             </div>
         </>
     )

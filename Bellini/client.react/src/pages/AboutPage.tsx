@@ -11,37 +11,37 @@ export const AboutPage = () => {
         <>
             <Breadcrumbs items={breadcrumbItems} />
             <div className="p-4 space-y-6 max-w-xl flex m-auto flex-col items-center">
-                <h1 className="text-2xl font-bold mb-4">🧠 Intellectual Games Platform with Social Network Features (PSSIG)</h1>
+                <h1 className="text-2xl font-bold mb-4">🧠 Платформа для интеллектуальных игр с функциями социальных сетей (PSIG)</h1>
                 <p className="mb-6">
-                    Welcome to <strong>PSSIG</strong> — a web application designed to organize and manage intellectual games with integrated social network elements, offering players engaging
-                    experiences, rich statistics, and dynamic interactions. This platform provides users with the ability to create, participate in, and manage games while fostering a vibrant
-                    community through player profiles, real-time interactions, and game analytics.
+                    Добро пожаловать в <strong>PSSIG</strong> — веб-приложение, предназначенное для организации интеллектуальных игр и управления ими с интегрированными элементами социальных сетей, предлагающее игрокам увлекательные
+                    опыт, богатая статистика и динамичное взаимодействие. Эта платформа предоставляет пользователям возможность создавать игры, участвовать в них и управлять ими, одновременно создавая динамичное сообщество
+                    с помощью профилей игроков, взаимодействий в режиме реального времени и игровой аналитики.
                 </p>
 
 
                 <p className="text-xl font-semibold mt-6">📜 Table of Contents</p>
                 <ul className="list-disc ml-5 space-y-2 text-left">
-                    <li>Features</li>
-                    <li>Architecture</li>
-                    <li>Technologies</li>
-                    <li>Installation</li>
-                    <li>Usage</li>
-                    <li>API Documentation</li>
-                    <li>Future Plans</li>
-                    <li>License</li>
+                    <li>Особенности</li>
+                    <li>Архитектура</li>
+                    <li>Технологии</li>
+                    <li>Установка</li>
+                    <li>Использование</li>
+                    <li>Документация по API</li>
+                    <li>Планы на будущее</li>
+                    <li>Лицензия</li>
                 </ul>
 
                 <Separator className="my-6"/>
 
                 <h2 className="text-xl font-semibold">🚀 Features</h2>
                 <ul className="list-disc ml-5 space-y-2">
-                    <li>User Registration & Authentication: Secure user management system with role-based access.</li>
-                    <li>Profile Management: Customizable user profiles with statistics and activity tracking.</li>
-                    <li>Game Creation & Management: Organize and run intellectual games, invite participants, and manage results.</li>
-                    <li>Real-time Statistics: In-depth analytics of games with personalized reports and performance tracking.</li>
-                    <li>Social Network Features: Comments, discussions, and interaction with other players during and after games.</li>
-                    <li>Game History & Leaderboards: Track user progress and global rankings.</li>
-                    <li>Scalable Microservices: Optimized for high-performance and scalable to support large numbers of users and games.</li>
+                    <li>Регистрация и аутентификация пользователей: Защищенная система управления пользователями с доступом на основе ролей.</li>
+                    <li>Управление профилями: Настраиваемые профили пользователей со статистикой и отслеживанием активности.</li>
+                    <li>Создание игр и управление ими: Организация и проведение интеллектуальных игр, приглашение участников и управление результатами.</li>
+                    <li>Статистика в реальном времени: Подробный анализ игр с персонализированными отчетами и отслеживанием результатов.</li>
+                    <li>Функции социальных сетей: Комментарии, обсуждения и взаимодействие с другими игроками во время и после игр.</li>
+                    <li>История игр и таблицы лидеров: Отслеживание прогресса пользователей и глобальных рейтингов.</li>
+                    <li>Масштабируемые микросервисы: Оптимизированы для обеспечения высокой производительности и масштабируемости для поддержки большого числа пользователей и игр.</li>
                 </ul>
 
                 <Separator className="my-6"/>
@@ -78,7 +78,7 @@ export const AboutPage = () => {
                 <ul className="list-disc ml-5 space-y-2">
                     <li>.NET 7.0 SDK</li>
                     <li>Node.js & npm</li>
-                    <li>MS SQL Server</li>
+                    <li>Сервер MS SQL Server</li>
                     <li>Docker</li>
                 </ul>
 
@@ -106,28 +106,28 @@ export const AboutPage = () => {
 
                 <Separator className="my-6"/>
 
-                <h2 className="text-xl font-semibold">📚 API Documentation</h2>
-                <p>All endpoints are documented using Swagger, accessible at <a href="http://localhost:5000/swagger">http://localhost:5000/swagger</a> once the backend is running.</p>
+                <h2 className="text-xl font-semibold">📚 Документация по API</h2>
+                <p>Все конечные точки документируются с помощью Swagger, доступного по адресу <a href="http://localhost:5000/swagger">http://localhost:5000/swagger </a> как только серверная часть будет запущена.</p>
 
                 <Separator className="my-6"/>
 
                 <h2 className="text-xl font-semibold">🔮 Future Plans</h2>
                 <ul className="list-disc ml-5 space-y-2">
-                    <li>Mobile App: Native mobile application for iOS and Android using Flutter.</li>
-                    <li>Game Variations: Introduce new game types and genres.</li>
-                    <li>Advanced Analytics: Provide deeper insights using machine learning for personalized performance recommendations.</li>
-                    <li>Monetization Features: Integrate premium features for enhanced game experiences.</li>
+                    <li>Мобильное приложение: Нативное мобильное приложение для iOS и Android, использующее Flutter.</li>
+                    <li>Варианты игр: Знакомьте с новыми типами и жанрами игр.</li>
+                    <li>Расширенная аналитика: Предоставляйте более глубокую информацию с помощью машинного обучения для получения персонализированных рекомендаций по производительности.</li>
+                    <li>Возможности монетизации: Интегрируйте премиум-функции для улучшения игрового процесса.</li>
                 </ul>
 
                 <Separator className="my-6"/>
 
-                <h2 className="text-xl font-semibold">📝 License</h2>
-                <p>This project is licensed under the MIT License - see the LICENSE file for details.</p>
+                <h2 className="text-xl font-semibold">📝 Лицензия</h2>
+                <p>Этот проект лицензирован по лицензии MIT - подробности смотрите в файле ЛИЦЕНЗИИ.</p>
 
                 <Separator className="my-6"/>
 
-                <h2 className="text-xl font-bold text-center">Thank you for using PSSIG!</h2>
-                <p className="text-center">Happy gaming and let the intellectual challenges begin! ✨</p>
+                <h2 className="text-xl font-bold text-center">Благодарим вас за использование PSIG!</h2>
+                <p className="text-center">Веселой игры, и пусть начинаются интеллектуальные испытания! ✨</p>
 
 
                 <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A8f2362ce665f890e508197efa70946e31cfd20faff019fefa418995197e9b100&amp;source=constructor" width="544" height="329"></iframe>
