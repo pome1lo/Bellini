@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250320185600_Init")]
+    [Migration("20250324174923_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -24,32 +24,6 @@ namespace DataAccessLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("DataAccessLayer.Models.AnswerOption", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("IsCorrect")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("AnswerOptions", (string)null);
-                });
 
             modelBuilder.Entity("DataAccessLayer.Models.Game", b =>
                 {
@@ -106,7 +80,7 @@ namespace DataAccessLayer.Migrations
                             Id = 1,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/1.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/1.jpg",
                             GameName = "Тайны древнего храма",
                             GameStatusId = 1,
                             HostId = 1,
@@ -120,7 +94,7 @@ namespace DataAccessLayer.Migrations
                             Id = 2,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/2.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/2.jpg",
                             GameName = "Гонка за артефактом",
                             GameStatusId = 1,
                             HostId = 1,
@@ -134,7 +108,7 @@ namespace DataAccessLayer.Migrations
                             Id = 3,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/3.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/3.jpg",
                             GameName = "Побег из подземелья",
                             GameStatusId = 1,
                             HostId = 1,
@@ -148,7 +122,7 @@ namespace DataAccessLayer.Migrations
                             Id = 4,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/4.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/4.jpg",
                             GameName = "Магический поединок",
                             GameStatusId = 1,
                             HostId = 1,
@@ -162,7 +136,7 @@ namespace DataAccessLayer.Migrations
                             Id = 5,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/5.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/5.jpg",
                             GameName = "Королевская битва",
                             GameStatusId = 1,
                             HostId = 1,
@@ -176,7 +150,7 @@ namespace DataAccessLayer.Migrations
                             Id = 6,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/6.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/6.jpg",
                             GameName = "Космическое приключение",
                             GameStatusId = 1,
                             HostId = 1,
@@ -190,7 +164,7 @@ namespace DataAccessLayer.Migrations
                             Id = 7,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/7.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/7.jpg",
                             GameName = "Выживание в пустыне",
                             GameStatusId = 1,
                             HostId = 1,
@@ -204,7 +178,7 @@ namespace DataAccessLayer.Migrations
                             Id = 8,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/8.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/8.jpg",
                             GameName = "Пиратские тайны",
                             GameStatusId = 1,
                             HostId = 1,
@@ -218,7 +192,7 @@ namespace DataAccessLayer.Migrations
                             Id = 9,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/9.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/9.jpg",
                             GameName = "Зомби-апокалипсис",
                             GameStatusId = 1,
                             HostId = 1,
@@ -232,7 +206,7 @@ namespace DataAccessLayer.Migrations
                             Id = 10,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/10.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/10.jpg",
                             GameName = "Миссия на Марс",
                             GameStatusId = 1,
                             HostId = 1,
@@ -246,7 +220,7 @@ namespace DataAccessLayer.Migrations
                             Id = 11,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/11.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/11.jpg",
                             GameName = "Осада замка",
                             GameStatusId = 1,
                             HostId = 1,
@@ -260,7 +234,7 @@ namespace DataAccessLayer.Migrations
                             Id = 12,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/12.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/12.jpg",
                             GameName = "Подводная экспедиция",
                             GameStatusId = 1,
                             HostId = 1,
@@ -274,7 +248,7 @@ namespace DataAccessLayer.Migrations
                             Id = 13,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/13.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/13.jpg",
                             GameName = "Шпионские интриги",
                             GameStatusId = 1,
                             HostId = 1,
@@ -288,7 +262,7 @@ namespace DataAccessLayer.Migrations
                             Id = 14,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/14.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/14.jpg",
                             GameName = "Операция: Побег",
                             GameStatusId = 1,
                             HostId = 1,
@@ -302,7 +276,7 @@ namespace DataAccessLayer.Migrations
                             Id = 15,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/15.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/15.jpg",
                             GameName = "Джунгли Амазонки",
                             GameStatusId = 1,
                             HostId = 1,
@@ -316,7 +290,7 @@ namespace DataAccessLayer.Migrations
                             Id = 16,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/16.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/16.jpg",
                             GameName = "Космический рейнджер",
                             GameStatusId = 1,
                             HostId = 1,
@@ -330,7 +304,7 @@ namespace DataAccessLayer.Migrations
                             Id = 17,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/17.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/17.jpg",
                             GameName = "Дикий Запад",
                             GameStatusId = 1,
                             HostId = 1,
@@ -344,7 +318,7 @@ namespace DataAccessLayer.Migrations
                             Id = 18,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/18.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/18.jpg",
                             GameName = "Средневековые войны",
                             GameStatusId = 1,
                             HostId = 1,
@@ -358,7 +332,7 @@ namespace DataAccessLayer.Migrations
                             Id = 19,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/19.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/19.jpg",
                             GameName = "Рыцарский турнир",
                             GameStatusId = 1,
                             HostId = 1,
@@ -372,7 +346,7 @@ namespace DataAccessLayer.Migrations
                             Id = 20,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/20.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/20.jpg",
                             GameName = "Выживание в Арктике",
                             GameStatusId = 1,
                             HostId = 1,
@@ -386,7 +360,7 @@ namespace DataAccessLayer.Migrations
                             Id = 21,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/21.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/21.jpg",
                             GameName = "Последняя битва",
                             GameStatusId = 3,
                             HostId = 1,
@@ -400,7 +374,7 @@ namespace DataAccessLayer.Migrations
                             Id = 22,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/22.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/22.jpg",
                             GameName = "Финальная миссия",
                             GameStatusId = 3,
                             HostId = 1,
@@ -414,7 +388,7 @@ namespace DataAccessLayer.Migrations
                             Id = 23,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/23.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/23.jpg",
                             GameName = "Освобождение города",
                             GameStatusId = 3,
                             HostId = 1,
@@ -428,7 +402,7 @@ namespace DataAccessLayer.Migrations
                             Id = 24,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/24.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/24.jpg",
                             GameName = "Падение империи",
                             GameStatusId = 3,
                             HostId = 1,
@@ -442,7 +416,7 @@ namespace DataAccessLayer.Migrations
                             Id = 25,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/25.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/25.jpg",
                             GameName = "Затерянные миры",
                             GameStatusId = 3,
                             HostId = 1,
@@ -456,7 +430,7 @@ namespace DataAccessLayer.Migrations
                             Id = 26,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/26.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/26.jpg",
                             GameName = "Код красный",
                             GameStatusId = 3,
                             HostId = 1,
@@ -470,7 +444,7 @@ namespace DataAccessLayer.Migrations
                             Id = 27,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/27.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/27.jpg",
                             GameName = "Тень прошлого",
                             GameStatusId = 3,
                             HostId = 1,
@@ -484,7 +458,7 @@ namespace DataAccessLayer.Migrations
                             Id = 28,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/28.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/28.jpg",
                             GameName = "Битва за будущее",
                             GameStatusId = 3,
                             HostId = 1,
@@ -498,7 +472,7 @@ namespace DataAccessLayer.Migrations
                             Id = 29,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/29.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/29.jpg",
                             GameName = "Последний шанс",
                             GameStatusId = 3,
                             HostId = 1,
@@ -512,7 +486,7 @@ namespace DataAccessLayer.Migrations
                             Id = 30,
                             CreateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/question/default/30.jpg",
+                            GameCoverImageUrl = "/apigateway/questions-cover/default/30.jpg",
                             GameName = "Взрывное противостояние",
                             GameStatusId = 3,
                             HostId = 1,
@@ -521,6 +495,32 @@ namespace DataAccessLayer.Migrations
                             RoomPassword = "",
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.GameAnswerOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsCorrect")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("AnswerOptions", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.GameComment", b =>
@@ -558,6 +558,35 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("GameId");
 
                     b.ToTable("GameComments", (string)null);
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.GameQuestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCustom")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("QuestionImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("Questions", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.GameResults", b =>
@@ -688,35 +717,6 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Players", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.Question", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsCustom")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("QuestionImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId");
-
-                    b.ToTable("Questions", (string)null);
-                });
-
             modelBuilder.Entity("DataAccessLayer.Models.Quiz", b =>
                 {
                     b.Property<int>("Id")
@@ -753,7 +753,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 1,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/covers/quiz_1.jpg",
+                            GameCoverImageUrl = "/apigateway/covers/quiz_1.jpg",
                             GameName = "Мифология Древней Греции",
                             IsDraft = false,
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -762,7 +762,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 2,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/covers/quiz_2.jpg",
+                            GameCoverImageUrl = "/apigateway/covers/quiz_2.jpg",
                             GameName = "Древний Рим",
                             IsDraft = false,
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -771,7 +771,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 3,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/covers/quiz_3.jpg",
+                            GameCoverImageUrl = "/apigateway/covers/quiz_3.jpg",
                             GameName = "Современные технологии",
                             IsDraft = false,
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -780,7 +780,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 4,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/covers/quiz_4.jpg",
+                            GameCoverImageUrl = "/apigateway/covers/quiz_4.jpg",
                             GameName = "Основы программирования",
                             IsDraft = false,
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -789,7 +789,7 @@ namespace DataAccessLayer.Migrations
                         {
                             Id = 5,
                             EndTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GameCoverImageUrl = "https://localhost:7292/covers/quiz_5.jpg",
+                            GameCoverImageUrl = "/apigateway/covers/quiz_5.jpg",
                             GameName = "Продвинутое программирование",
                             IsDraft = false,
                             StartTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -2731,7 +2731,7 @@ namespace DataAccessLayer.Migrations
                             IsEmailVerified = true,
                             LastName = "Admin",
                             Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
-                            ProfileImageUrl = "https://localhost:7292/default/1.jpg",
+                            ProfileImageUrl = "/apigateway/default/1.jpg",
                             Username = "administrator"
                         },
                         new
@@ -2744,7 +2744,7 @@ namespace DataAccessLayer.Migrations
                             IsEmailVerified = true,
                             LastName = "Doe",
                             Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
-                            ProfileImageUrl = "https://localhost:7292/default/1.jpg",
+                            ProfileImageUrl = "/apigateway/default/1.jpg",
                             Username = "user1"
                         },
                         new
@@ -2757,7 +2757,7 @@ namespace DataAccessLayer.Migrations
                             IsEmailVerified = true,
                             LastName = "Smith",
                             Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
-                            ProfileImageUrl = "https://localhost:7292/default/2.jpg",
+                            ProfileImageUrl = "/apigateway/default/2.jpg",
                             Username = "user2"
                         },
                         new
@@ -2770,7 +2770,7 @@ namespace DataAccessLayer.Migrations
                             IsEmailVerified = true,
                             LastName = "Johnson",
                             Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
-                            ProfileImageUrl = "https://localhost:7292/default/3.jpg",
+                            ProfileImageUrl = "/apigateway/default/3.jpg",
                             Username = "user3"
                         },
                         new
@@ -2783,7 +2783,7 @@ namespace DataAccessLayer.Migrations
                             IsEmailVerified = true,
                             LastName = "Brown",
                             Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
-                            ProfileImageUrl = "https://localhost:7292/default/4.jpg",
+                            ProfileImageUrl = "/apigateway/default/4.jpg",
                             Username = "user4"
                         },
                         new
@@ -2796,7 +2796,7 @@ namespace DataAccessLayer.Migrations
                             IsEmailVerified = true,
                             LastName = "Davis",
                             Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
-                            ProfileImageUrl = "https://localhost:7292/default/5.jpg",
+                            ProfileImageUrl = "/apigateway/default/5.jpg",
                             Username = "user5"
                         },
                         new
@@ -2809,7 +2809,7 @@ namespace DataAccessLayer.Migrations
                             IsEmailVerified = true,
                             LastName = "Miller",
                             Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
-                            ProfileImageUrl = "https://localhost:7292/default/6.jpg",
+                            ProfileImageUrl = "/apigateway/default/6.jpg",
                             Username = "user6"
                         },
                         new
@@ -2822,7 +2822,7 @@ namespace DataAccessLayer.Migrations
                             IsEmailVerified = true,
                             LastName = "Wilson",
                             Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
-                            ProfileImageUrl = "https://localhost:7292/default/7.jpg",
+                            ProfileImageUrl = "/apigateway/default/7.jpg",
                             Username = "user7"
                         },
                         new
@@ -2835,7 +2835,7 @@ namespace DataAccessLayer.Migrations
                             IsEmailVerified = true,
                             LastName = "Moore",
                             Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
-                            ProfileImageUrl = "https://localhost:7292/default/8.jpg",
+                            ProfileImageUrl = "/apigateway/default/8.jpg",
                             Username = "user8"
                         },
                         new
@@ -2848,7 +2848,7 @@ namespace DataAccessLayer.Migrations
                             IsEmailVerified = true,
                             LastName = "Taylor",
                             Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
-                            ProfileImageUrl = "https://localhost:7292/default/9.jpg",
+                            ProfileImageUrl = "/apigateway/default/9.jpg",
                             Username = "user9"
                         },
                         new
@@ -2861,7 +2861,7 @@ namespace DataAccessLayer.Migrations
                             IsEmailVerified = true,
                             LastName = "Anderson",
                             Password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6",
-                            ProfileImageUrl = "https://localhost:7292/default/10.jpg",
+                            ProfileImageUrl = "/apigateway/default/10.jpg",
                             Username = "user10"
                         });
                 });
@@ -3096,17 +3096,6 @@ namespace DataAccessLayer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DataAccessLayer.Models.AnswerOption", b =>
-                {
-                    b.HasOne("DataAccessLayer.Models.Question", "Question")
-                        .WithMany("AnswerOptions")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Question");
-                });
-
             modelBuilder.Entity("DataAccessLayer.Models.Game", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.GameStatus", "Status")
@@ -3118,10 +3107,32 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Status");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.GameAnswerOption", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.GameQuestion", "GameQuestion")
+                        .WithMany("AnswerOptions")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GameQuestion");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.GameComment", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.Game", "Game")
                         .WithMany("Comments")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
+            modelBuilder.Entity("DataAccessLayer.Models.GameQuestion", b =>
+                {
+                    b.HasOne("DataAccessLayer.Models.Game", "Game")
+                        .WithMany("Questions")
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -3176,17 +3187,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Game");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.Question", b =>
-                {
-                    b.HasOne("DataAccessLayer.Models.Game", "Game")
-                        .WithMany("Questions")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Game");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.QuizAnswerOption", b =>
@@ -3274,14 +3274,14 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Questions");
                 });
 
+            modelBuilder.Entity("DataAccessLayer.Models.GameQuestion", b =>
+                {
+                    b.Navigation("AnswerOptions");
+                });
+
             modelBuilder.Entity("DataAccessLayer.Models.GameStatus", b =>
                 {
                     b.Navigation("Games");
-                });
-
-            modelBuilder.Entity("DataAccessLayer.Models.Question", b =>
-                {
-                    b.Navigation("AnswerOptions");
                 });
 
             modelBuilder.Entity("DataAccessLayer.Models.Quiz", b =>

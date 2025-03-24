@@ -8,8 +8,8 @@ namespace DataAccessLayer.Data.Seeds
         public static void Seed(ModelBuilder modelBuilder)
         {
             var host =
-            //    "/apigateway"
-                "https://localhost:7292"
+                "/apigateway"
+            //"https://localhost:7292"
             ;
 
             var games = new List<Game>();

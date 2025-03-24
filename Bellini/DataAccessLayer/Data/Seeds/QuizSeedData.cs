@@ -7,9 +7,9 @@ namespace DataAccessLayer.Data.Seeds
     {
         public static void Seed(ModelBuilder modelBuilder)
         {
-            var host =
-            //    "/apigateway"
-            "https://localhost:7292"
+            var host = 
+                "/apigateway" 
+                //"https://localhost:7292"
             ;
 
             var defaultQuizzes = new List<Quiz>

@@ -8,8 +8,8 @@ namespace DataAccessLayer.Data.Seeds
         public static void Seed(ModelBuilder modelBuilder)
         {
             var host =
-            //    "/apigateway"
-                "https://localhost:7292"
+                "/apigateway"
+            //"https://localhost:7292"
             ;
 
             var password = "$2a$11$9Y6i/HQgs1KnlFg6L29sI.SB3/HMIJ.zbZGrBg.8F9xTF6iHQblv6";
