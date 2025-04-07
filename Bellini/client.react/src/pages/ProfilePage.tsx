@@ -86,8 +86,8 @@ export const ProfilePage = () => {
     return (
         <>
             <Breadcrumbs items={[
-                {path: '/', name: 'Home'},
-                {path: '/profile', name: 'Profile'},
+                {path: '/', name: 'Главная'},
+                {path: '/profile', name: 'Профиль'},
             ]}/>
 
             {currentUser ? (
@@ -165,7 +165,7 @@ export const ProfilePage = () => {
                                         {users?.map((item, index) => (
                                             <div key={index} className={`flex items-center w-full justify-between py-2 cursor-pointer hover:bg-secondary`} onClick={() => navigate("/profile/" + item.id)}>
                                                 <div className="flex items-center">
-                                                    <Avatar className="hidden h-9 w-9 sm:flex mx-2">
+                                                    <Avatar className="h-9 w-9 flex mx-2">
                                                         <AvatarImage
                                                             src={item.profileImageUrl}
                                                             alt={`${item.username}'s profile`}
@@ -179,7 +179,7 @@ export const ProfilePage = () => {
                                                     </div>
                                                 </div>
                                                 <div className="pe-3">
-                                                    Просмотреть профиль
+                                                    Перейти
                                                 </div>
                                             </div>
                                         ))}

@@ -422,7 +422,11 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                     <TrendingUp className="h-4 w-4 text-muted-foreground"/>
                                                 </CardHeader>
                                                 <CardContent>
-                                                    <div className="text-2xl font-bold">{currentGame.gameStatus.name}</div>
+                                                    <div className="text-2xl font-bold">
+                                                        {currentGame.gameStatus.name == "Not started" ? "Не начата" :
+                                                            currentGame.gameStatus.name == "In process" ? "В процессе" : "Завершена"
+                                                        }
+                                                    </div>
                                                     <p className="text-xs text-muted-foreground">Игра скоро начнется</p>
                                                 </CardContent>
                                             </Card>
@@ -433,7 +437,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                     <FileType className="h-4 w-4 text-muted-foreground"/>
                                                 </CardHeader>
                                                 <CardContent>
-                                                    <div className="text-2xl font-bold">{currentGame.isPrivate ? "Private" : "Public"}</div>
+                                                    <div className="text-2xl font-bold">{currentGame.isPrivate ? "Приватная" : "Публичная"}</div>
                                                     <p className="text-xs text-muted-foreground">The game will start soon</p>
                                                 </CardContent>
                                             </Card>
@@ -545,8 +549,8 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                             </Card>
                                             <Card className="w-full lg:w-1/2">
                                                 <CardHeader>
-                                                    <CardTitle>Connected Users</CardTitle>
-                                                    <CardDescription>Players connected to this game room</CardDescription>
+                                                    <CardTitle>Подключенные пользователи</CardTitle>
+                                                    <CardDescription>Игроки, подключенные к этой игровой комнате</CardDescription>
                                                 </CardHeader>
                                                 <CardContent className="grid gap-8">
                                                     <ScrollArea
@@ -678,7 +682,7 @@ export const GameRoomPage: React.FC<GameRoomPageProps> = ({onStart, isFinished, 
                                                     {messages.map((item, index) => (
                                                         <div key={index}>
                                                             <div className={`flex w-full ${user?.id == item.UserId ? "flex-row-reverse" : ""} p-2`}> {/* FLEX REVERSE IS YOUR MESSEGE  */}
-                                                                <Avatar className="hidden h-9 w-9 sm:flex mx-2">
+                                                                <Avatar className="h-9 w-9 flex mx-2">
                                                                     <AvatarImage
                                                                         src={item.ProfileImageUrl}
                                                                         alt={`${item.Username}'s profile`}

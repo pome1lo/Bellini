@@ -128,7 +128,7 @@ export const DialogCreateUser: React.FC<DialogCreateUserProps> = ({setIsCreated,
             <DialogTrigger asChild>
                 <Button size="sm" className="h-8 gap-1">
                     <PlusCircle className="h-3.5 w-3.5"/>
-                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Create user</span>
+                    <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">Создать</span>
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[410px]">

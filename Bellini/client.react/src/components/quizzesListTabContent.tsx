@@ -129,15 +129,15 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
                                             <img
                                                 alt={item.gameName + " image"}
                                                 className="min-w-[50px] aspect-square border rounded-md object-cover"
-                                                height="64"
+                                                height="84"
                                                 src={item.gameCoverImageUrl}
-                                                width="64"
+                                                width="84"
                                             />
                                         </TableCell>
-                                        <TableCell className="font-medium cursor-pointer" onClick={() => handleNavigateToQuiz(item.id)} key={item.id}>
+                                        <TableCell className="font-medium cursor-pointer text-lg" onClick={() => handleNavigateToQuiz(item.id)} key={item.id}>
                                             {item.gameName}
                                         </TableCell>
-                                        <TableCell className="font-medium text-center">
+                                        <TableCell className="font-medium text-center ">
                                             {!isAuthenticated || !user ? <></>
                                                 : <>
                                                     {item.hasUserCompleted ?
@@ -156,7 +156,7 @@ export const QuizzesListTabContent: React.FC<QuizzesListTabContentProps> = ({tab
                                                         size="icon"
                                                         variant="ghost"
                                                     >
-                                                        <MoreHorizontal className="h-4 w-4"/>
+                                                        <MoreHorizontal className="h-5 w-5"/>
                                                         <span className="sr-only">Toggle menu</span>
                                                     </Button>
                                                 </DropdownMenuTrigger>

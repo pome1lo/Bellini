@@ -257,7 +257,7 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                                 <TrendingUp className="h-4 w-4 text-muted-foreground"/>
                             </CardHeader>
                             <CardContent>
-                                <div className="text-2xl font-bold">Completed</div>
+                                <div className="text-2xl font-bold">Завершена</div>
                                 <p className="text-xs text-muted-foreground">
                                     Игра скоро начнется
                                 </p>
@@ -273,9 +273,9 @@ export const GameFinishedPage: React.FC<GameFinishedPageProps> = ({currentGame})
                             </CardHeader>
                             <CardContent>
                                 <div
-                                    className="text-2xl font-bold">{currentGame?.isPrivate ? "Private" : "Public"}</div>
+                                    className="text-2xl font-bold">{currentGame?.isPrivate ? "Приватная" : "Публичная"}</div>
                                 <p className="text-xs text-muted-foreground">
-                                    Игра скоро начнется
+                                    Доступность игры
                                 </p>
                             </CardContent>
                         </Card>

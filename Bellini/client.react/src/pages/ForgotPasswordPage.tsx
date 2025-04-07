@@ -59,11 +59,11 @@ export const ForgotPasswordPage = () => {
                 setShowCodeForm(true);
                 setEmailFormValues(values);
             } else {
-                setErrorMessage(data.message || 'An error occurred');
+                setErrorMessage(data.message || 'Произошла ошибка');
             }
         } catch (ex: unknown) {
             console.log((ex as Error).message);
-            setErrorMessage('An unexpected error occurred');
+            setErrorMessage('Произошла ошибка');
         }
     }
 
@@ -80,9 +80,9 @@ export const ForgotPasswordPage = () => {
                 setShowPasswordForm(true);
                 setErrorMessage(null);
             }
-            else setErrorMessage('Invalid or expired verification code');
+            else setErrorMessage('Неверный или просроченный проверочный код');
         } catch {
-            setErrorMessage('An unexpected error occurred');
+            setErrorMessage('Произошла ошибка');
         }
     }
 
@@ -101,10 +101,10 @@ export const ForgotPasswordPage = () => {
             if (response.ok) {
                 navigate("/login");
             } else {
-                setErrorMessage('An error occurred');
+                setErrorMessage('Произошла ошибка');
             }
         } catch {
-            setErrorMessage('An unexpected error occurred');
+            setErrorMessage('Произошла ошибка');
         }
     }
 
@@ -113,8 +113,8 @@ export const ForgotPasswordPage = () => {
             <div className="w-96 m-auto" >
                 {!showCodeForm ? (
                     <Form {...emailForm}>
-                        <p className="font-bold text-2xl text-center">Reset Password</p>
-                        <p className="text-center mb-3">Enter your email address to recover your password</p>
+                        <p className="font-bold text-2xl text-center">Сброс пароля</p>
+                        <p className="text-center mb-3">Введите свой адрес электронной почты, чтобы восстановить пароль</p>
                         <form onSubmit={emailForm.handleSubmit(onSubmitEmailForm)}>
                             <FormField
                                 control={emailForm.control}
@@ -128,13 +128,13 @@ export const ForgotPasswordPage = () => {
                                     </FormItem>
                                 )}
                             />
-                            <Button type="submit" className="w-full mt-3">Send Code</Button>
+                            <Button type="submit" className="w-full mt-3">Отправить код</Button>
                         </form>
                     </Form>
                 ) : showPasswordForm ? (
                     <Form {...resetPasswordForm}>
-                        <p className="font-bold text-2xl text-center">Enter New Password</p>
-                        <p className="text-center mb-3">Enter your new password to log in to your account</p>
+                        <p className="font-bold text-2xl text-center">Введите новый пароль</p>
+                        <p className="text-center mb-3">Введите свой новый пароль для входа в свою учетную запись</p>
                         <form onSubmit={resetPasswordForm.handleSubmit(onSubmitResetPasswordForm)}>
                             <FormField
                                 control={resetPasswordForm.control}
@@ -148,14 +148,14 @@ export const ForgotPasswordPage = () => {
                                     </FormItem>
                                 )}
                             />
-                            <Button type="submit" className="w-full mt-3">Reset Password</Button>
+                            <Button type="submit" className="w-full mt-3">Сброс пароля</Button>
                         </form>
                     </Form>
                 ) : (
                     <Form {...codeForm}>
-                    <p className="font-bold text-2xl text-center">Verify Code</p>
+                    <p className="font-bold text-2xl text-center">Подтверждающий код</p>
                         <p className="text-center mb-3">
-                            The password reset code will be sent to your email
+                            Код для сброса пароля будет отправлен вам на электронную почту
                         </p>
                         <form onSubmit={codeForm.handleSubmit(onSubmitCodeForm)} className="space-y-4 mt-2 text-center">
                             <div className="flex items-center flex-col">
@@ -180,7 +180,7 @@ export const ForgotPasswordPage = () => {
                             />
                                 <FormMessage>{errorMessage}</FormMessage>
                             </div>
-                            <Button type="submit" className="w-full">Verify Code</Button>
+                            <Button type="submit" className="w-full">Подтверждающий код</Button>
                         </form>
                     </Form>
                 )}
@@ -189,16 +189,16 @@ export const ForgotPasswordPage = () => {
                         <div className="absolute inset-0 flex items-center"><span
                             className="w-full border-t"></span></div>
                         <div className="relative flex justify-center text-xs uppercase"><span
-                            className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                            className="bg-background px-2 text-muted-foreground">Или продолжить с</span>
                         </div>
                     </div>
                     <Button onClick={() => navigate('/register')} variant="outline"
-                            className="w-full">Register</Button>
+                            className="w-full">Зарегистрироваться</Button>
                     <p className="px-8 text-center text-sm text-muted-foreground">
-                        By clicking continue, you agree to our
-                        <a className="underline hover:text-primary" href=""> Terms of Service </a>
-                        and
-                        <a className="underline hover:text-primary" href=""> Privacy Policy</a>.
+                        Нажав продолжить, вы соглашаетесь с нашими условиями.
+                        <a className="underline hover:text-primary" href=""> условия обслуживания </a>
+                        и
+                        <a className="underline hover:text-primary" href=""> политика конфиденциальности</a>.
                     </p>
                 </div>
             </div>

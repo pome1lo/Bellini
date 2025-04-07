@@ -19,7 +19,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx
 import {QuizzesListTabContent} from "@/components/quizzesListTabContent.tsx";
 
 const breadcrumbItems = [
-    {path: '/', name: 'Домой'},
+    {path: '/', name: 'Главная'},
     {path: '/quizzes', name: 'Викторины'},
 ];
 

@@ -26,8 +26,8 @@ import {authFetch} from "@/utils/fetchs/authFetch.ts";
 import {useAuth} from "@/utils/context/authContext.tsx";
 
 const breadcrumbItems = [
-    {path: '/', name: 'Home'},
-    {path: '/settings', name: 'Setting'},
+    {path: '/', name: 'Главная'},
+    {path: '/settings', name: 'Настройки'},
 ];
 
 export const SettingsPage = () => {

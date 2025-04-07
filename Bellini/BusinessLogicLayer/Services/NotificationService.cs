@@ -108,8 +108,8 @@ namespace BusinessLogicLayer.Services
                 throw new NotFoundException("User not found.");
             }
             
-            notificationDto.Message = $"✅ The user {userTo.Username} invites you to the game \"{notificationDto.GameName}\". To connect to the game room, follow the link {notificationDto.Link} ";
-            notificationDto.Message += notificationDto.IsPrivateRoom ? $". To connect to the game room, you must enter the password 🗝️ \"{notificationDto.RoomPassword}\"" : "";
+            notificationDto.Message = $"✅ Пользователь {userTo.Username} приглашает вас в игру \"{notificationDto.GameName}\". Чтобы подключиться к игровой комнате, перейдите по ссылке {notificationDto.Link} ";
+            notificationDto.Message += notificationDto.IsPrivateRoom ? $". Чтобы подключиться к игровой комнате, вам необходимо ввести пароль 🗝️ \"{notificationDto.RoomPassword}\"" : "";
 
             var notification = new Notification
             {

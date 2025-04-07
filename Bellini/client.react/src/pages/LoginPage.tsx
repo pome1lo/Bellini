@@ -77,7 +77,7 @@ export const LoginPage = () => {
             <div className="flex align-middle h-[80dvh] rounded-md">
                 <div className="w-96 m-auto">
                     <Form {...form}>
-                        <p className="font-bold text-2xl text-center">Войдите в свою учетную запись</p>
+                        <p className="font-bold text-2xl text-center">Войти в аккаунт</p>
                         <p className="text-center ">Введите свои регистрационные данные в нашей системе</p>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-2">
                             <FormField
@@ -118,7 +118,7 @@ export const LoginPage = () => {
                                     className="bg-background px-2 text-muted-foreground">Или продолжить с</span></div>
                             </div>
                             <Button onClick={() => navigate('/register')} variant="outline"
-                                    className="w-full">Зарегистрировать</Button>
+                                    className="w-full">Зарегистрироваться</Button>
                             <p className="px-8 text-center text-sm text-muted-foreground">
                                 By clicking continue, you agree to our
                                 <a className="underline hover:text-primary" href=""> условия обслуживания </a>

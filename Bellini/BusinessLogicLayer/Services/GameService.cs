@@ -241,8 +241,8 @@ namespace BusinessLogicLayer.Services
 
             await _notificationService.CreateNotificationForUserAsync(new CreateNotificationDto
             {
-                Message = $"Your game {game.GameName} has been successfully launched. The number of players at the start is {startGameDto.Players.Count}.",
-                Title = "Game started",
+                Message = $"Твоя игра {game.GameName} была успешно запущена. Количество игроков на старте составляет {startGameDto.Players.Count}.",
+                Title = "Игра началась",
                 UserId = startGameDto.HostId
             });
 
@@ -329,8 +329,8 @@ namespace BusinessLogicLayer.Services
              
             await _notificationService.CreateNotificationForUserAsync(new CreateNotificationDto
             {
-                Message = $"Your game {game.GameName} has been successfully finished.",
-                Title = "Game finished",
+                Message = $"Твоя игра {game.GameName} была успешна завершена.",
+                Title = "Игра завершена",
                 UserId = game.HostId
             });
         }

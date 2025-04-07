@@ -146,8 +146,8 @@ namespace BusinessLogicLayer.Services
 
             await _notificationService.CreateNotificationForUserAsync(new CreateNotificationDto
             {
-                Message = "Your profile has been successfully updated",
-                Title = "Profile update",
+                Message = "Ваш профиль был успешно обновлен",
+                Title = "Обновление профиля",
                 UserId = profileId
             });
 

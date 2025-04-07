@@ -26,8 +26,8 @@ export const GameListPage = () => {
     return (
         <>
             <Breadcrumbs items={[
-                { path: '/', name: 'Home' },
-                { path: '/games', name: 'Games' },
+                { path: '/', name: 'Главня' },
+                { path: '/games', name: 'Игры' },
             ]}/>
 
             <main className="grid mt-2 flex-1 items-start gap-4 sm:py-0 md:gap-8 max-w-[1440px] w-full mx-auto">

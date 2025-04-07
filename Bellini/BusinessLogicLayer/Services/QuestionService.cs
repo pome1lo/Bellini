@@ -38,7 +38,7 @@ namespace BusinessLogicLayer.Services
         public async Task<int> CreateQuestionAsync(CreateGameQuestionDto createQuestionDto, CancellationToken cancellationToken = default)
         {
             var correctAnswers = createQuestionDto.Answers.Count(a => a.IsCorrect);
-            if (correctAnswers != 1)
+            if (correctAnswers < 1)
             {
                 throw new IncorrectNumberOfAnswersException("Each question must have exactly one correct answer.");
             }
@@ -153,7 +153,7 @@ namespace BusinessLogicLayer.Services
         public async Task<int> CreateQuizQuestionAsync(CreateQuizQuestionDto createQuestionDto, CancellationToken cancellationToken = default)
         {
             var correctAnswers = createQuestionDto.Answers.Count(a => a.IsCorrect);
-            if (correctAnswers != 1)
+            if (correctAnswers < 1)
             {
                 throw new IncorrectNumberOfAnswersException("Each question must have exactly one correct answer.");
             }

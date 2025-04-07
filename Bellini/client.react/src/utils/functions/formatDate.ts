@@ -8,9 +8,9 @@ export function formatDate(date: Date): string {
     const minutes = date.getMinutes().toString().padStart(2, '0');
 
     if (date >= today) {
-        return `Today, ${hours}:${minutes}`;
+        return `Сегодня, ${hours}:${minutes}`;
     } else if (date >= yesterday) {
-        return `Yesterday, ${hours}:${minutes}`;
+        return `Вчера, ${hours}:${minutes}`;
     } else {
         const day = date.getDate().toString().padStart(2, '0');
         const month = (date.getMonth() + 1).toString().padStart(2, '0');

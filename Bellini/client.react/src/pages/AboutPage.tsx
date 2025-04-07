@@ -2,8 +2,8 @@ import { Breadcrumbs } from "@/components/breadcrumbs.tsx";
 import { Separator } from "@/components/ui/separator.tsx";
 
 const breadcrumbItems = [
-    { path: '/', name: 'Home' },
-    { path: '/about', name: 'About' },
+    { path: '/', name: 'Главная' },
+    { path: '/about', name: 'О нас' },
 ];
 
 export const AboutPage = () => {

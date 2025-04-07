@@ -70,8 +70,8 @@ namespace BusinessLogicLayer.Services
 
             await _notificationService.CreateNotificationForUserAsync(new CreateNotificationDto
             {
-                Title = "Account",
-                Message = "Your account has been successfully logged in.",
+                Title = "Учетная запись",
+                Message = "Ваша учетная запись успешно авторизована.",
                 UserId = user.Id
             });
 

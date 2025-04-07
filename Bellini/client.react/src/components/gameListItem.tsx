@@ -54,25 +54,29 @@ export const GameListItem: React.FC<ActiveGame> = ({
                     <img
                         alt={gameName + " image"}
                         className="aspect-square border rounded-md object-cover"
-                        height="64"
+                        height="100"
                         src={gameCoverImageUrl}
-                        width="64"
+                        width="100"
                     />
                 </TableCell>
-                <TableCell className="font-medium">
+                <TableCell className="font-medium text-lg">
                     {gameName}
                 </TableCell>
                 <TableCell>
-                    <Badge variant="outline">{isPrivate ? "Private" : "Public"}</Badge>
+                    <Badge variant="outline" className="text-md">{isPrivate ? "Private" : "Public"}</Badge>
                 </TableCell>
-                <TableCell className="hidden md:table-cell">
+                <TableCell className="hidden md:table-cell text-md">
                     <Badge variant="outline">{status}</Badge>
                 </TableCell>
-                <TableCell className="hidden md:table-cell">
+                <TableCell className="hidden md:table-cell text-lg">
                     {maxPlayers}
                 </TableCell>
-                <TableCell className="hidden md:table-cell">
-                    {new Date(startTime).toDateString()}
+                <TableCell className="hidden md:table-cell text-lg">
+                    {new Date(startTime).toLocaleDateString('ru-RU', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                    })}
                 </TableCell>
                 <TableCell>
                     <DropdownMenu>
@@ -82,7 +86,7 @@ export const GameListItem: React.FC<ActiveGame> = ({
                                 size="icon"
                                 variant="ghost"
                             >
-                                <MoreHorizontal className="h-4 w-4"/>
+                                <MoreHorizontal className="h-5 w-5"/>
                                 <span className="sr-only">Toggle menu</span>
                             </Button>
                         </DropdownMenuTrigger>

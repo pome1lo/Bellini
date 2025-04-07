@@ -126,8 +126,8 @@ namespace BusinessLogicLayer.Services
 
             await _notificationService.CreateNotificationForUserAsync(new CreateNotificationDto
             {
-                Message = "Welcome to Bellini",
-                Title = "Registration notification",
+                Message = "Добро пожаловать в  Bellini",
+                Title = "Уведомление о регистрации",
                 UserId = _userRepository.GetElementsAsync().Result.FirstOrDefault(x => x.Email == user.Email).Id
             });
         }
